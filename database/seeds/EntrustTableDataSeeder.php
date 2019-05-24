@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Permission;
+use App\Role;
 
 class EntrustTableDataSeeder extends Seeder
 {
@@ -48,9 +50,12 @@ class EntrustTableDataSeeder extends Seeder
         		'description' => 'HR Crud Permission'
         	]
         ];
+
         foreach ($permission as $key => $value) {
         	Permission::create($value);
         }
+
+
         $role = [
           [
             'name' => 'superadmin',
@@ -61,10 +66,17 @@ class EntrustTableDataSeeder extends Seeder
             'name' => 'shopowner',
             'display_name' => 'Shop Owner',
             'description' => 'Shop Owner'
+          ],
+          [
+            'name' => 'manager',
+            'display_name' => 'Manager',
+            'description' => 'Manager'
           ]
         ];
+
         foreach ($role as $key => $value) {
           Role::create($value);
         }
+        
     }
 }
