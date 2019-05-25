@@ -10,13 +10,22 @@ window.Vue = require('vue');
 
 // my code started
 // my code started
-import VueRouter from 'vue-router'
+import VueRouter from 'vue-router';
+import { Form, HasError, AlertError } from 'vform';
+import moment from 'moment';
+import VueProgressBar from 'vue-progressbar';
+import Swal from 'sweetalert2';
 
 Vue.use(VueRouter)
+Vue.component(HasError.name, HasError)
+Vue.component(AlertError.name, AlertError)
+
+window.Form = Form;
 
 let routes = [
   { path: '/dashboard', component: require('./components/Dashboard.vue').default },
   { path: '/profile', component: require('./components/Profile.vue').default },
+  { path: '/users', component: require('./components/Users.vue').default },
   { path: '*', component: require('./components/404.vue').default },
 ]
 
@@ -24,6 +33,27 @@ const router = new VueRouter({
   mode: 'history',
   routes // short for `routes: routes`
 })
+
+Vue.filter('date', function(date) {
+	return moment(date).format('MMMM D, YYYY');
+})
+
+Vue.use(VueProgressBar, {
+  color: 'rgb(143, 255, 199)',
+  failedColor: 'red',
+  height: '2px'
+})
+
+window.swal = Swal;
+const Toast = swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000
+});
+window.toast = Toast;
+
+window.Fire = new Vue();
 
 /**
  * The following block of code may be used to automatically register your
@@ -47,6 +77,5 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
-    routes,
-    render: h => h(app)
+    router
 });
