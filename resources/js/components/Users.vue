@@ -1,5 +1,24 @@
 <template>
-    <div class="container">
+    <div class="content">
+       <div class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1 class="m-0 text-dark">ব্যবহারকারীগণ</h1>
+              </div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><router-link to="/dashboard">ড্যাশবোর্ড</router-link></li>
+                  <li class="breadcrumb-item active">ব্যবহারকারীগণ</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+      </div>
+      <!-- Header content -->
+      
+      <!-- /.content-header -->
+      <div class="container-fluid">
         <div class="row">
           <div class="col-12">
             <!-- <img src="images/click_here_2li1.svg" style="max-height: 200px;"> -->
@@ -97,7 +116,7 @@
                               <option v-for="role in roles" v-bind:value="role.id" :selected="role.id == 1">{{ role.display_name }}</option>
                           </select>
                           <has-error :form="form" field="roles"></has-error> -->
-                          <v-select :options="roles" :reduce="id => id" label="display_name" multiple v-model="form.roles"></v-select>
+                          <v-select placeholder="ধরন প্রদান" :options="roles" :reduce="id => id" label="display_name" multiple v-model="form.roles"></v-select>
                         </div>
                         <div class="form-group">
                           <input type="file" v-on:change="uploadImage" name="image" placeholder="Image" 
@@ -124,7 +143,9 @@
             </div>
           </div>
         </div>
+      </div><!-- /.container-fluid -->
     </div>
+    <!-- /.content -->
 </template>
 
 <script>
@@ -149,7 +170,7 @@
             addUserModal() {
                 this.editmode = false;
                 this.form.reset();
-                this.image = 'rifat';
+                // this.image = 'rifat';
                 $('#addUserModal').modal('show');
             },
             editUserModal(user) {

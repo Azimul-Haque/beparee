@@ -44,10 +44,15 @@ class EntrustTableDataSeeder extends Seeder
                 'display_name' => 'Accounting CRUD',
                 'description' => 'Accounting Crud Permission'
             ],
+            [
+                'name' => 'hr-crud',
+                'display_name' => 'HR CRUD',
+                'description' => 'HR Crud Permission'
+            ],
         	[
-        		'name' => 'hr-crud',
-        		'display_name' => 'HR CRUD',
-        		'description' => 'HR Crud Permission'
+        		'name' => 'admin-menu',
+        		'display_name' => 'Admin Menu',
+        		'description' => 'Admin Menu Permission'
         	]
         ];
 

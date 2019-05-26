@@ -70,6 +70,7 @@ class ComposerStaticInitd74bd490cc4c8b8743736c14ad6241e3
         ),
         'R' => 
         array (
+            'Riverskies\\Laravel\\MobileDetect\\' => 32,
             'Ramsey\\Uuid\\' => 12,
         ),
         'P' => 
@@ -242,6 +243,10 @@ class ComposerStaticInitd74bd490cc4c8b8743736c14ad6241e3
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
         ),
+        'Riverskies\\Laravel\\MobileDetect\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/riverskies/laravel-mobile-detect/src',
+        ),
         'Ramsey\\Uuid\\' => 
         array (
             0 => __DIR__ . '/..' . '/ramsey/uuid/src',
@@ -385,6 +390,10 @@ class ComposerStaticInitd74bd490cc4c8b8743736c14ad6241e3
             array (
                 0 => __DIR__ . '/..' . '/doctrine/lexer/lib',
             ),
+            'Detection' => 
+            array (
+                0 => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/namespaced',
+            ),
         ),
     );
 
@@ -481,6 +490,7 @@ class ComposerStaticInitd74bd490cc4c8b8743736c14ad6241e3
         'DeepCopy\\TypeFilter\\Spl\\SplDoublyLinkedListFilter' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/TypeFilter/Spl/SplDoublyLinkedListFilter.php',
         'DeepCopy\\TypeFilter\\TypeFilter' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/TypeFilter/TypeFilter.php',
         'DeepCopy\\TypeMatcher\\TypeMatcher' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/TypeMatcher/TypeMatcher.php',
+        'Detection\\MobileDetect' => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/namespaced/Detection/MobileDetect.php',
         'Doctrine\\Common\\Inflector\\Inflector' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector/Inflector.php',
         'Doctrine\\Common\\Lexer\\AbstractLexer' => __DIR__ . '/..' . '/doctrine/lexer/lib/Doctrine/Common/Lexer/AbstractLexer.php',
         'Doctrine\\Instantiator\\Exception\\ExceptionInterface' => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator/Exception/ExceptionInterface.php',
@@ -2118,6 +2128,7 @@ class ComposerStaticInitd74bd490cc4c8b8743736c14ad6241e3
         'League\\Flysystem\\Util\\ContentListingFormatter' => __DIR__ . '/..' . '/league/flysystem/src/Util/ContentListingFormatter.php',
         'League\\Flysystem\\Util\\MimeType' => __DIR__ . '/..' . '/league/flysystem/src/Util/MimeType.php',
         'League\\Flysystem\\Util\\StreamHasher' => __DIR__ . '/..' . '/league/flysystem/src/Util/StreamHasher.php',
+        'Mobile_Detect' => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/Mobile_Detect.php',
         'Mockery' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery.php',
         'Mockery\\Adapter\\Phpunit\\Legacy\\TestListenerForV5' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/Legacy/TestListenerForV5.php',
         'Mockery\\Adapter\\Phpunit\\Legacy\\TestListenerForV6' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/Legacy/TestListenerForV6.php',
@@ -3277,6 +3288,17 @@ class ComposerStaticInitd74bd490cc4c8b8743736c14ad6241e3
         'Ramsey\\Uuid\\UuidFactory' => __DIR__ . '/..' . '/ramsey/uuid/src/UuidFactory.php',
         'Ramsey\\Uuid\\UuidFactoryInterface' => __DIR__ . '/..' . '/ramsey/uuid/src/UuidFactoryInterface.php',
         'Ramsey\\Uuid\\UuidInterface' => __DIR__ . '/..' . '/ramsey/uuid/src/UuidInterface.php',
+        'Riverskies\\Laravel\\MobileDetect\\Contracts\\BladeDirectiveInterface' => __DIR__ . '/..' . '/riverskies/laravel-mobile-detect/src/Contracts/BladeDirectiveInterface.php',
+        'Riverskies\\Laravel\\MobileDetect\\Directives\\AndroidBladeDirective' => __DIR__ . '/..' . '/riverskies/laravel-mobile-detect/src/Directives/AndroidBladeDirective.php',
+        'Riverskies\\Laravel\\MobileDetect\\Directives\\DesktopBladeDirective' => __DIR__ . '/..' . '/riverskies/laravel-mobile-detect/src/Directives/DesktopBladeDirective.php',
+        'Riverskies\\Laravel\\MobileDetect\\Directives\\HandheldBladeDirective' => __DIR__ . '/..' . '/riverskies/laravel-mobile-detect/src/Directives/HandheldBladeDirective.php',
+        'Riverskies\\Laravel\\MobileDetect\\Directives\\MobileBladeDirective' => __DIR__ . '/..' . '/riverskies/laravel-mobile-detect/src/Directives/MobileBladeDirective.php',
+        'Riverskies\\Laravel\\MobileDetect\\Directives\\NotMobileBladeDirective' => __DIR__ . '/..' . '/riverskies/laravel-mobile-detect/src/Directives/NotMobileBladeDirective.php',
+        'Riverskies\\Laravel\\MobileDetect\\Directives\\NotTabletBladeDirective' => __DIR__ . '/..' . '/riverskies/laravel-mobile-detect/src/Directives/NotTabletBladeDirective.php',
+        'Riverskies\\Laravel\\MobileDetect\\Directives\\TabletBladeDirective' => __DIR__ . '/..' . '/riverskies/laravel-mobile-detect/src/Directives/TabletBladeDirective.php',
+        'Riverskies\\Laravel\\MobileDetect\\Directives\\iOSBladeDirective' => __DIR__ . '/..' . '/riverskies/laravel-mobile-detect/src/Directives/iOSBladeDirective.php',
+        'Riverskies\\Laravel\\MobileDetect\\Facades\\MobileDetect' => __DIR__ . '/..' . '/riverskies/laravel-mobile-detect/src/Facades/MobileDetect.php',
+        'Riverskies\\Laravel\\MobileDetect\\MobileDetectServiceProvider' => __DIR__ . '/..' . '/riverskies/laravel-mobile-detect/src/MobileDetectServiceProvider.php',
         'SebastianBergmann\\CodeCoverage\\CodeCoverage' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage.php',
         'SebastianBergmann\\CodeCoverage\\CoveredCodeNotExecutedException' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Exception/CoveredCodeNotExecutedException.php',
         'SebastianBergmann\\CodeCoverage\\Driver\\Driver' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Driver/Driver.php',

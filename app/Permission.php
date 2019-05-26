@@ -4,5 +4,7 @@ use Zizaco\Entrust\EntrustPermission;
 
 class Permission extends EntrustPermission
 {
-	
+    public function roles() {
+    	return $this->belongsToMany('App\Role'); // amar dorkare korsi, Entrust e chilona
+    }
 }

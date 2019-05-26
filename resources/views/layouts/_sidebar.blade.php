@@ -25,7 +25,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <router-link to="/dashboard" class="nav-link">
+            <router-link to="/dashboard" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
               <i class="nav-icon fa fa-dashboard text-blue"></i>
               <p>
                 ড্যাশবোর্ড
@@ -33,25 +33,37 @@
               </p>
             </router-link>
           </li>
-          <li class="nav-item has-treeview @if(Request::url() == url('/users')) menu-open @endif">
-            <a href="#" class="nav-link {{-- active --}}">
-              <i class="nav-icon fa fa-wrench"></i>
-              <p>
-                অ্যাডমিন কার্যক্রম
-                <i class="right fa fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <router-link to="users" class="nav-link">
-                  <i class="fa fa-users nav-icon"></i>
-                  <p>ব্যবহারকারীগণ</p>
-                </router-link>
-              </li>
-            </ul>
-          </li>
+          @permission('admin-menu')
+            <li class="nav-item has-treeview @if(Request::url() == url('/users') | Request::url() == url('/roles')) menu-open @endif">
+              <a href="#" class="nav-link {{-- active --}}">
+                <i class="nav-icon fa fa-wrench"></i>
+                <p>
+                  অ্যাডমিন কার্যক্রম
+                  <i class="right fa fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                @permission('user-crud')
+                  <li class="nav-item">
+                    <router-link to="users" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                      <i class="fa fa-users nav-icon"></i>
+                      <p>ব্যবহারকারীগণ</p>
+                    </router-link>
+                  </li>
+                @endpermission
+                @permission('role-crud')
+                  <li class="nav-item">
+                    <router-link to="roles" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                      <i class="fa fa-list nav-icon"></i>
+                      <p>ধরন</p>
+                    </router-link>
+                  </li>
+                @endpermission
+              </ul>
+            </li>
+          @endpermission
           <li class="nav-item">
-            <router-link to="/profile" class="nav-link">
+            <router-link to="/profile" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
               <i class="nav-icon fa fa-user"></i>
               <p>
                 Profile
@@ -60,7 +72,7 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
               <i class="nav-icon fa fa-th"></i>
               <p>
                 Simple Link

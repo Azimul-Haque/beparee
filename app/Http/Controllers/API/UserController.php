@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\User;
 use App\Role;
+use App\Permission;
 use Image, File, DB;
 
 use Illuminate\Support\Facades\Hash;
@@ -40,7 +41,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,array(
-            'name'       => 'required|max:255',
+            'name'       => 'required|max:191',
             'email'      => 'required|email|unique:users,email',
             'roles'      => 'required',
             'image'      => 'sometimes',
@@ -75,7 +76,7 @@ class UserController extends Controller
         //     'image'       => $filename,
         //     'password'    => Hash::make($request->password)
         // ]);
-        return ['message' => 'Created successfully! '];   
+        return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];   
     }
 
     /**
@@ -103,7 +104,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         $this->validate($request,array(
-            'name'       => 'required|max:255',
+            'name'       => 'required|max:191',
             'email'      => 'required|email|unique:users,email,'. $user->id,
             'image'      => 'sometimes',
             'password'   => 'sometimes|min:6'
@@ -167,5 +168,79 @@ class UserController extends Controller
     {
         $roles = Role::get();
         return $roles;
+    }
+
+    public function getRolesList()
+    {
+        $roles = Role::paginate(20);
+        $roles->load('permissions');
+
+        return response()->json($roles);
+    }
+
+    public function getPermissions()
+    {
+        $permissions = Permission::get();
+        return $permissions;
+    }
+
+    public function createRole(Request $request)
+    {
+        $this->validate($request,array(
+            'name'              => 'required|max:191',
+            'display_name'      => 'required|max:191',
+            'description'       => 'required|max:191',
+            'permissions'       => 'required',
+        ));        
+
+        $role = new Role;
+        $role->name = $request->name;
+        $role->display_name = $request->display_name;
+        $role->description = $request->description;
+        $role->save();
+
+        foreach ($request->input('permissions') as $key => $value) {
+            $role->attachPermission($value);
+        }
+        
+        return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];   
+    }
+
+    public function updateRole(Request $request, $id)
+    {
+        $role = Role::findOrFail($id);
+
+        $this->validate($request,array(
+            'name'              => 'required|max:191',
+            'display_name'      => 'required|max:191',
+            'description'       => 'required|max:191',
+            'permissions'       => 'required',
+        ));
+
+
+
+        $role->name = $request->name;
+        $role->display_name = $request->display_name;
+        $role->description = $request->description;
+        $role->save();
+
+        DB::table('permission_role')->where('role_id',$id)->delete();
+        foreach ($request->input('permissions') as $key => $value) {
+            $role->attachPermission($value);
+        }
+
+        return ['message' => 'সফলভাবে হালনাগাদ করা হয়েছে!'];
+
+           
+    }
+
+
+    public function deleteRole($id)
+    {
+        $role = Role::findOrFail($id);
+
+        $role->delete();
+
+        return ['message' => 'সফলভাবে ডিলেট করা হয়েছে!'];
     }
 }
