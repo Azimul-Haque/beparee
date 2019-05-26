@@ -15,6 +15,7 @@ import { Form, HasError, AlertError } from 'vform';
 import moment from 'moment';
 import VueProgressBar from 'vue-progressbar';
 import Swal from 'sweetalert2';
+import vSelect from 'vue-select';
 
 Vue.use(VueRouter)
 Vue.component(HasError.name, HasError)
@@ -67,6 +68,8 @@ window.Fire = new Vue();
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('pagination', require('laravel-vue-pagination'));
+Vue.component('v-select', vSelect);
 
 
 /**
@@ -77,5 +80,13 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    data: {
+      search: ''
+    },
+    methods: {
+      searchIt: _.debounce(() => {
+        Fire.$emit('searching');
+      }, 1000) 
+    }
 });

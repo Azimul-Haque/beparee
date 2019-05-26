@@ -21,7 +21,9 @@
                 </div>
               </div>
               <!-- /.card-header -->
+              
               <div class="card-body table-responsive p-0">
+
                 <table class="table table-hover">
                  <thead>
                   <tr>
@@ -29,6 +31,7 @@
                     <th>User</th>
                     <th>Email</th>
                     <th>Photo</th>
+                    <th>Role</th>
                     <th>Created</th>
                     <th>Action</th>
                   </tr>
@@ -39,6 +42,9 @@
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
                     <td><img :src="getUserProfilePhoto(user.image)" class="img-responsive" style="max-height: 50px; width: auto;"></td>
+                    <td>
+                        <span v-for="role in user.roles" :key="role.id" class="badge badge-success" style="margin-left: 5px;">{{ role.display_name }}</span>
+                    </td>
                     <td>{{ user.created_at | date }}</td>
                     <td>
                         <button type="button" class="btn btn-success btn-sm" @click="editUserModal(user)">
@@ -86,6 +92,14 @@
                           <has-error :form="form" field="email"></has-error>
                         </div>
                         <div class="form-group">
+                          <!-- <select v-model="form.roles" name="roles[]" class="form-control" :class="{ 'is-invalid': form.errors.has('roles') }" multiple="multiple" id="roles">
+                              <option value="" selected="" disabled="">ধরণ সিলেক্ট করুন</option>
+                              <option v-for="role in roles" v-bind:value="role.id" :selected="role.id == 1">{{ role.display_name }}</option>
+                          </select>
+                          <has-error :form="form" field="roles"></has-error> -->
+                          <v-select :options="roles" :reduce="id => id" label="display_name" multiple v-model="form.roles"></v-select>
+                        </div>
+                        <div class="form-group">
                           <input type="file" v-on:change="uploadImage" name="image" placeholder="Image" 
                             class="form-control" :class="{ 'is-invalid': form.errors.has('image') }">
                           <has-error :form="form" field="image"></has-error>
@@ -118,12 +132,14 @@
         data () {
             return {
               users: {},
+              roles: [],
               // Create a new form instance
               form: new Form({
                 id: '',
                 name: '',
                 email: '',
                 image: '',
+                roles: [],
                 password: ''
               }),
               editmode: false
@@ -142,6 +158,11 @@
                 this.form.clear(); // clears errors
                 $('#addUserModal').modal('show');
                 this.form.fill(user);
+            },
+            loadRoles() {
+                axios.get('api/roles').then(({ data }) => {
+                    (this.roles = data);
+                });
             },
             loadUsers() {
                 axios.get('api/user').then(({ data }) => (this.users = data));
@@ -266,6 +287,8 @@
         },
         created() {
             this.loadUsers();
+            this.loadRoles();
+            
             Fire.$on('AfterCreated', () => {
                 this.loadUsers();
             });

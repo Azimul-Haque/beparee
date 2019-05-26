@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\User;
+use App\Role;
 use Image, File, DB;
 
 use Illuminate\Support\Facades\Hash;
@@ -24,7 +25,10 @@ class UserController extends Controller
 
     public function index()
     {
-        return User::latest()->paginate(5);
+        $users = User::latest()->paginate(5);
+        $users->load('roles');
+
+        return response()->json($users);
     }
 
     /**
@@ -38,6 +42,7 @@ class UserController extends Controller
         $this->validate($request,array(
             'name'       => 'required|max:255',
             'email'      => 'required|email|unique:users,email',
+            'roles'      => 'required',
             'image'      => 'sometimes',
             'password'   => 'required|min:6'
         ));
@@ -59,6 +64,10 @@ class UserController extends Controller
 
         $user->password = Hash::make($request->password);
         $user->save();
+
+        foreach ($request->input('roles') as $key => $value) {
+            $user->attachRole($value);
+        }
         
         // return User::create([
         //     'name'        => $request->name,
@@ -66,6 +75,7 @@ class UserController extends Controller
         //     'image'       => $filename,
         //     'password'    => Hash::make($request->password)
         // ]);
+        return ['message' => 'Created successfully! '];   
     }
 
     /**
@@ -119,6 +129,11 @@ class UserController extends Controller
         }
         $user->save();
 
+        DB::table('role_user')->where('user_id',$id)->delete();
+        foreach ($request->input('roles') as $key => $value) {
+            $user->attachRole($value);
+        }
+
         return ['message' => 'Updated successfully! '];    
     }
 
@@ -146,5 +161,11 @@ class UserController extends Controller
         
 
         return $users;
+    }
+
+    public function getRoles()
+    {
+        $roles = Role::get();
+        return $roles;
     }
 }

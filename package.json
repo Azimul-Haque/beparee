@@ -26,10 +26,12 @@
     "dependencies": {
         "admin-lte": "^3.0.0-alpha.2",
         "font-awesome": "^4.7.0",
+        "laravel-vue-pagination": "^2.3.0",
         "moment": "^2.24.0",
         "sweetalert2": "^8.11.6",
         "vform": "^1.0.0",
         "vue-progressbar": "^0.7.5",
-        "vue-router": "^3.0.6"
+        "vue-router": "^3.0.6",
+        "vue-select": "^3.1.0"
     }
 }
