@@ -184,6 +184,18 @@ class UserController extends Controller
         return $permissions;
     }
 
+    public function getPermissionsNames($id)
+    {
+        $user = User::findOrFail($id)->roles->load('permissions');
+        $user->load('roles.permissions');
+        $permissions = $user->roles->first()->permissions;
+        $names = [];
+        foreach ($permissions as $permission) {
+            array_push($names, $permission->name);
+        }
+        return $user;
+    }
+
     public function createRole(Request $request)
     {
         $this->validate($request,array(
@@ -233,7 +245,6 @@ class UserController extends Controller
 
            
     }
-
 
     public function deleteRole($id)
     {

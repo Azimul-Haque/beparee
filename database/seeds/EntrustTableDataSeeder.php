@@ -3,6 +3,9 @@
 use Illuminate\Database\Seeder;
 use App\Permission;
 use App\Role;
+use App\Store;
+use App\User;
+use Illuminate\Support\Facades\Hash;
 
 class EntrustTableDataSeeder extends Seeder
 {
@@ -49,10 +52,15 @@ class EntrustTableDataSeeder extends Seeder
                 'display_name' => 'HR CRUD',
                 'description' => 'HR Crud Permission'
             ],
+            [
+                'name' => 'admin-menu',
+                'display_name' => 'Admin Menu',
+                'description' => 'Admin Menu Permission'
+            ],
         	[
-        		'name' => 'admin-menu',
-        		'display_name' => 'Admin Menu',
-        		'description' => 'Admin Menu Permission'
+        		'name' => 'shop-crud',
+        		'display_name' => 'Shop CRUD',
+        		'description' => 'Shop CRUD Permission'
         	]
         ];
 
@@ -82,6 +90,56 @@ class EntrustTableDataSeeder extends Seeder
         foreach ($role as $key => $value) {
           Role::create($value);
         }
+
+        $store = [
+          [
+            'token' => 'assASDASd455465465465465ASDASDASd8aksjdhakjsdASLKdjlkasjdlkJSLKDJLKASd534654SPOiauqwejncxzvbv45457sd',
+            'code' => '6GTYH45A5S',
+            'name' => 'ডেমো স্টোর',
+            'established' => 1992,
+            'address' => 'ধানমন্ডি ১৯, ঢাকা-১২০৭',
+            'activation_status' => 1,
+            'payment_status' => 1,
+            'payment_method' => 0
+          ],
+          [
+            'token' => 'assASDA458lkj465465465ASDASDASd8aksjdhakjsdASLKdjlka547kjySLKDJLKASd534654S4587lkjejncxzvbvacsds47',
+            'code' => '5GLTR20AXI',
+            'name' => 'ডেমো স্টোর ২',
+            'established' => 1993,
+            'address' => 'ধানমন্ডি ১৯, ঢাকা-১২০৭',
+            'activation_status' => 1,
+            'payment_status' => 1,
+            'payment_method' => 0
+          ]
+        ];
+
+        foreach ($store as $key => $value) {
+          Store::create($value);
+        }
+
+        $user = [
+          [
+            'name' => 'আব্দুল মান্নান',
+            'email' => 'mannan@beparee.com',
+            'store_id' => 0,
+            'password' => Hash::make('secret123') 
+          ],
+          [
+            'name' => 'রিফাত',
+            'email' => 'rifat@beparee.com',
+            'store_id' => 0,
+            'password' => Hash::make('secret123') 
+          ]
+        ];
+
+        foreach ($user as $key => $value) {
+          User::create($value);
+        }
         
     }
 }
+
+
+// INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES ('9', '1');
+// INSERT INTO `role_user` (`user_id`, `role_id`) VALUES ('2', '1');

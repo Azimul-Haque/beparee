@@ -53,6 +53,13 @@
 </div>
 <!-- ./wrapper -->
 <!-- Scripts -->
+
+@auth
+<script>
+    window.permissions = @json(auth()->user()->roles->load('permissions')); // for User Permission
+</script>
+@endauth
+
 <script src="{{ asset('js/app.js') }}" defer></script>
 </body>
 </html>

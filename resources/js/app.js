@@ -16,6 +16,8 @@ import moment from 'moment';
 import VueProgressBar from 'vue-progressbar';
 import Swal from 'sweetalert2';
 import vSelect from 'vue-select';
+import Gate from "./Gate";
+Vue.prototype.$gate = new Gate(window.permissions);
 
 Vue.use(VueRouter)
 Vue.component(HasError.name, HasError)
@@ -71,6 +73,7 @@ window.Fire = new Vue();
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('v-select', vSelect);
+Vue.component('forbidden-403', require('./components/403.vue').default);
 
 
 /**
