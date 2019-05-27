@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\User;
 use App\Store;
 use Image, File, DB;
 
@@ -77,5 +78,13 @@ class StoreController extends Controller
         
 
         return $stores;
+    }
+
+    public function getOwners()
+    {
+        $owners = User::whereHas('roles', function ($query) {
+                            $query->where('name', '=', 'shopowner');
+                 })->get();
+        return $owners;
     }
 }

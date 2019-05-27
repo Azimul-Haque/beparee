@@ -29,6 +29,7 @@ Route::get('permissions', 'API\UserController@getPermissions'); // For role Sele
 Route::get('permissions/names/{id}', 'API\UserController@getPermissionsNames'); // For Permission
 
 Route::apiResources(['store' => 'API\StoreController']);
+Route::get('owners', 'API\StoreController@getOwners'); // For store Select Options
 
 Route::get('searchuser/{query}', 'API\UserController@searchUser');
 Route::get('searchrole/{query}', 'API\UserController@searchRole');

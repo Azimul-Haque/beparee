@@ -62,16 +62,16 @@
                     <td>{{ user.email }}</td>
                     <td><img :src="getUserProfilePhoto(user.image)" class="img-responsive" style="max-height: 50px; width: auto;"></td>
                     <td>
-                        <span v-for="role in user.roles" :key="role.id" class="badge badge-success" style="margin-left: 5px;">{{ role.display_name }}</span>
+                      <span v-for="role in user.roles" :key="role.id" class="badge badge-success" style="margin-left: 5px;">{{ role.display_name }}</span>
                     </td>
                     <td>{{ user.created_at | date }}</td>
                     <td>
-                        <button type="button" class="btn btn-success btn-sm" @click="editUserModal(user)">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                        <button @click="deleteUser(user.id)" class="btn btn-danger btn-sm">
-                            <i class="fa fa-trash"></i>
-                        </button>
+                      <button type="button" class="btn btn-success btn-sm" @click="editUserModal(user)">
+                          <i class="fa fa-edit"></i>
+                      </button>
+                      <button @click="deleteUser(user.id)" class="btn btn-danger btn-sm">
+                          <i class="fa fa-trash"></i>
+                      </button>
                     </td>
                   </tr>
                   
@@ -116,7 +116,8 @@
                           <option v-for="role in roles" v-bind:value="role.id" :selected="role.id == 1">{{ role.display_name }}</option>
                       </select>
                       <has-error :form="form" field="roles"></has-error> -->
-                      <v-select placeholder="ধরন প্রদান" :options="roles" :reduce="id => id" label="display_name" multiple v-model="form.roles"></v-select>
+                      <v-select placeholder="ধরন প্রদান" :options="roles" :reduce="id => id" label="display_name" multiple v-model="form.roles" ref="theSelect"></v-select> <!-- v-validate:roles="'required'" -->
+                      <has-error :form="form" field="roles"></has-error>
                     </div>
                     <div class="form-group">
                       <input type="file" v-on:change="uploadImage" name="image" placeholder="Image" 
@@ -174,6 +175,7 @@
                 this.form.reset();
                 this.$refs.imageInput.value = null;
                 $('#addUserModal').modal('show');
+                this.$refs.theSelect.clearSelection();
             },
             editUserModal(user) {
                 this.editmode = true;
@@ -182,6 +184,7 @@
                 this.$refs.imageInput.value = null;
                 $('#addUserModal').modal('show');
                 this.form.fill(user);
+                this.$refs.theSelect.clearSelection();
             },
             loadRoles() {
                 if(this.$gate.isAuthorized('user-crud')){

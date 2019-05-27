@@ -54,16 +54,16 @@
                     <td>{{ role.display_name }}</td>
                     <td>{{ role.description }}</td>
                     <td>
-                        <span v-for="permission in role.permissions" :key="permission.id" class="badge badge-success" style="margin-left: 5px;">{{ permission.display_name }}</span>
+                      <span v-for="permission in role.permissions" :key="permission.id" class="badge badge-success" style="margin-left: 5px;">{{ permission.display_name }}</span>
                     </td>
                     <!-- <td>{{ role.created_at | date }}</td> -->
                     <td>
-                        <button type="button" class="btn btn-success btn-sm" @click="editRole(role)">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                        <button @click="deleteRole(role.id)" class="btn btn-danger btn-sm">
-                            <i class="fa fa-trash"></i>
-                        </button>
+                      <button type="button" class="btn btn-success btn-sm" @click="editRole(role)">
+                          <i class="fa fa-edit"></i>
+                      </button>
+                      <button @click="deleteRole(role.id)" class="btn btn-danger btn-sm">
+                          <i class="fa fa-trash"></i>
+                      </button>
                     </td>
                   </tr>
                   
@@ -148,12 +148,14 @@
             addRole() {
                 this.editmode = false;
                 this.form.reset();
+                this.$refs.theSelect.clearSelection();
             },
             editRole(user) {
                 this.editmode = true;
                 this.form.reset(); // clears fields
                 this.form.clear(); // clears errors
                 this.form.fill(user);
+                this.$refs.theSelect.clearSelection();
             },
             loadPermissions() {
                 axios.get('api/permissions').then(({ data }) => {
@@ -180,7 +182,7 @@
                     })
                     this.$Progress.finish();
                     this.addRole();
-                    this.$refs.theSelect.clearSelection();
+                    // this.$refs.theSelect.clearSelection();
                 })
                 .catch(() => {
                     this.$Progress.fail();
@@ -196,7 +198,7 @@
                     })
                     this.$Progress.finish();
                     this.addRole();
-                    this.$refs.theSelect.clearSelection();
+                    // this.$refs.theSelect.clearSelection();
                 })
                 .catch(() => {
                     this.$Progress.fail();

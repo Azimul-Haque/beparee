@@ -17,6 +17,10 @@ import VueProgressBar from 'vue-progressbar';
 import Swal from 'sweetalert2';
 import vSelect from 'vue-select';
 import Gate from "./Gate";
+import VeeValidate from 'vee-validate';
+
+Vue.use(VeeValidate);
+
 Vue.prototype.$gate = new Gate(window.permissions);
 
 Vue.use(VueRouter)
