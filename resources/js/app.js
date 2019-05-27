@@ -26,11 +26,13 @@ Vue.component(AlertError.name, AlertError)
 window.Form = Form;
 
 let routes = [
-  { path: '/dashboard', component: require('./components/Dashboard.vue').default },
-  { path: '/profile', component: require('./components/Profile.vue').default },
-  { path: '/users', component: require('./components/Users.vue').default },
-  { path: '/roles', component: require('./components/Roles.vue').default },
-  { path: '*', component: require('./components/404.vue').default },
+  { path: '/dashboard', component: require('./components/Dashboard.vue').default, meta: { title: 'ড্যাশবোর্ড'} },
+  { path: '/profile', component: require('./components/Profile.vue').default, meta: { title: 'প্রোফাইল'} },
+  { path: '/users', component: require('./components/Admin/Users.vue').default, meta: { title: 'ব্যবহারকারী তালিকা'}},
+  { path: '/roles', component: require('./components/Admin/Roles.vue').default, meta: { title: 'ব্যবহারকারী ধরন'} },
+
+  { path: '/stores', component: require('./components/Admin/Stores.vue').default, meta: { title: 'দোকানের তালিকা'} },
+  { path: '*', component: require('./components/404.vue').default, meta: { title: '404'} },
 ]
 
 const router = new VueRouter({
@@ -38,8 +40,29 @@ const router = new VueRouter({
   routes // short for `routes: routes`
 })
 
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title
+  next()
+});
+
 Vue.filter('date', function(date) {
 	return moment(date).format('MMMM D, YYYY');
+})
+
+Vue.filter('activation_status', function(activation_status) {
+	if(activation_status == 0) {
+		return 'প্রক্রিয়াধীন';
+	} else {
+		return 'অনুমোদিত';
+	}
+})
+
+Vue.filter('payment_status', function(payment_status) {
+	if(payment_status == 0) {
+		return 'অপরিশোধিত';
+	} else {
+		return 'পরিশোধিত';
+	}
 })
 
 Vue.use(VueProgressBar, {

@@ -26,6 +26,10 @@ Route::put('role/update/{id}', 'API\UserController@updateRole');
 Route::delete('role/delete/{id}', 'API\UserController@deleteRole');
 
 Route::get('permissions', 'API\UserController@getPermissions'); // For role Select Options
-Route::get('permissions/names/{id}', 'API\UserController@getPermissionsNames'); // For Permission 
+Route::get('permissions/names/{id}', 'API\UserController@getPermissionsNames'); // For Permission
+
+Route::apiResources(['store' => 'API\StoreController']);
 
 Route::get('searchuser/{query}', 'API\UserController@searchUser');
+Route::get('searchrole/{query}', 'API\UserController@searchRole');
+Route::get('searchstore/{query}', 'API\StoreController@searchStore');

@@ -10,17 +10,16 @@ use Image, File, DB;
 
 class StoreController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {        
+        // $this->middleware('auth:api'); 
+    }
+
     public function index()
     {
-        public function __construct()
-        {        
-            // $this->middleware('auth:api'); 
-        }
+        $stores = Store::latest()->paginate(5);
+
+        return $stores;
     }
 
     /**
@@ -66,5 +65,17 @@ class StoreController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function searchStore($query)
+    {
+        $stores = Store::where(function($search) use ($query) {
+            $search->where('name', 'LIKE', '%'.$query.'%')
+                   ->orWhere('code', 'LIKE', '%'.$query.'%')
+                   ->orWhere('address', 'LIKE', '%'.$query.'%');
+         })->paginate(5);
+        
+
+        return $stores;
     }
 }

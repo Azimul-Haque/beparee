@@ -34,7 +34,7 @@
             </router-link>
           </li>
           @permission('admin-menu')
-            <li class="nav-item has-treeview @if(Request::url() == url('/users') | Request::url() == url('/roles')) menu-open @endif">
+            <li class="nav-item has-treeview @if(Request::url() == url('/users') | Request::url() == url('/roles') | Request::url() == url('/stores')) menu-open @endif">
               <a href="#" class="nav-link {{-- active --}}">
                 <i class="nav-icon fa fa-wrench"></i>
                 <p>
@@ -59,9 +59,9 @@
                     </router-link>
                   </li>
                 @endpermission
-                @permission('shop-crud')
+                @permission('store-crud')
                   <li class="nav-item">
-                    <router-link to="roles" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                    <router-link to="stores" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
                       <i class="fa fa-list nav-icon"></i>
                       <p>দোকানের তালিকা</p>
                     </router-link>

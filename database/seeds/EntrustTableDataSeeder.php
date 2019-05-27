@@ -58,9 +58,9 @@ class EntrustTableDataSeeder extends Seeder
                 'description' => 'Admin Menu Permission'
             ],
         	[
-        		'name' => 'shop-crud',
-        		'display_name' => 'Shop CRUD',
-        		'description' => 'Shop CRUD Permission'
+        		'name' => 'store-crud',
+        		'display_name' => 'Store CRUD',
+        		'description' => 'Store CRUD Permission'
         	]
         ];
 

@@ -44,7 +44,7 @@
                     <th>ডিসপ্লে নাম</th>
                     <th>বিবরণ</th>
                     <th>অনুমতিসমূহ</th>
-                    <th>Action</th>
+                    <th width="15%">Action</th>
                   </tr>
                  </thead>
                  <tbody>
@@ -248,7 +248,7 @@
             Fire.$on('searching', () => {
                 let query = this.$parent.search;
                 if(query != '') {
-                  axios.get('api/searchuser/' + query)
+                  axios.get('api/searchrole/' + query)
                   .then((data) => {
                     this.roles = data.data;
                   })

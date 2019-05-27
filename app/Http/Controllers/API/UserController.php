@@ -164,6 +164,17 @@ class UserController extends Controller
         return $users;
     }
 
+    public function searchRole($query)
+    {
+        $roles = Role::where(function($search) use ($query) {
+            $search->where('name', 'LIKE', '%'.$query.'%')
+                   ->orWhere('display_name', 'LIKE', '%'.$query.'%');
+         })->paginate(5);
+        
+
+        return $roles;
+    }
+
     public function getRoles()
     {
         $roles = Role::get();
