@@ -45,7 +45,7 @@
               <ul class="nav nav-treeview">
                 @permission('user-crud')
                   <li class="nav-item">
-                    <router-link to="users" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                    <router-link to="/users" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
                       <i class="fa fa-users nav-icon"></i>
                       <p>ব্যবহারকারীগণ</p>
                     </router-link>
@@ -53,7 +53,7 @@
                 @endpermission
                 @permission('role-crud')
                   <li class="nav-item">
-                    <router-link to="roles" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                    <router-link to="/roles" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
                       <i class="fa fa-tags nav-icon"></i>
                       <p>ব্যবহারকারী ধরন</p>
                     </router-link>
@@ -61,7 +61,7 @@
                 @endpermission
                 @permission('store-crud')
                   <li class="nav-item">
-                    <router-link to="stores" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                    <router-link to="/stores" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
                       <i class="fa fa-list nav-icon"></i>
                       <p>দোকানের তালিকা</p>
                     </router-link>

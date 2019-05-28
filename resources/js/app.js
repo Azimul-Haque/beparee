@@ -36,6 +36,7 @@ let routes = [
   { path: '/roles', component: require('./components/Admin/Roles.vue').default, meta: { title: 'ব্যবহারকারী ধরন'} },
 
   { path: '/stores', component: require('./components/Admin/Stores.vue').default, meta: { title: 'দোকানের তালিকা'} },
+  { path: '/store/:token', component: require('./components/Store/Store.vue').default, meta: { title: 'দোকান'}, name: 'singleStore'},
   { path: '*', component: require('./components/404.vue').default, meta: { title: '404'} },
 ]
 
@@ -44,10 +45,13 @@ const router = new VueRouter({
   routes // short for `routes: routes`
 })
 
+
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title
-  next()
+  document.title = to.meta.title;
+  
+  next();
 });
+
 
 Vue.filter('date', function(date) {
 	return moment(date).format('MMMM D, YYYY');

@@ -122,13 +122,26 @@ class EntrustTableDataSeeder extends Seeder
           [
             'name' => 'আব্দুল মান্নান',
             'email' => 'mannan@beparee.com',
-            'store_id' => 0,
             'password' => Hash::make('secret123') 
           ],
           [
             'name' => 'রিফাত',
             'email' => 'rifat@beparee.com',
-            'store_id' => 0,
+            'password' => Hash::make('secret123') 
+          ],
+          [
+            'name' => 'মালিক ১',
+            'email' => 'owner1@beparee.com',
+            'password' => Hash::make('secret123') 
+          ],
+          [
+            'name' => 'মালিক ২',
+            'email' => 'owner2@beparee.com',
+            'password' => Hash::make('secret123') 
+          ],
+          [
+            'name' => 'মালিক ৩',
+            'email' => 'owner3@beparee.com',
             'password' => Hash::make('secret123') 
           ]
         ];
@@ -141,5 +154,15 @@ class EntrustTableDataSeeder extends Seeder
 }
 
 
+// INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES ('1', '1');
+// INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES ('2', '1');
+// INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES ('3', '1');
+// INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES ('4', '1');
+// INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES ('5', '1');
+// INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES ('6', '1');
+// INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES ('7', '1');
+// INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES ('8', '1');
 // INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES ('9', '1');
+
+// INSERT INTO `role_user` (`user_id`, `role_id`) VALUES ('1', '1');
 // INSERT INTO `role_user` (`user_id`, `role_id`) VALUES ('2', '1');

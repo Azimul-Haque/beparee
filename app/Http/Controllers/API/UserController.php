@@ -48,8 +48,6 @@ class UserController extends Controller
             'password'   => 'required|min:6'
         ));
 
-        
-
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
@@ -76,7 +74,7 @@ class UserController extends Controller
         //     'image'       => $filename,
         //     'password'    => Hash::make($request->password)
         // ]);
-        return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];   
+        return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];
     }
 
     /**
@@ -248,7 +246,7 @@ class UserController extends Controller
         $role->description = $request->description;
         $role->save();
 
-        DB::table('permission_role')->where('role_id',$id)->delete();
+        DB::table('permission_role')->where('role_id', $id)->delete();
         foreach ($request->input('permissions') as $key => $value) {
             $role->attachPermission($value);
         }

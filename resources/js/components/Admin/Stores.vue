@@ -53,20 +53,27 @@
                     <th>ঠিকানা</th>
                     <th>এক্টিভেশন স্ট্যাটাস</th>
                     <th>পেমেন্ট স্ট্যাটাস</th>
+                    <th>মনোগ্রাম</th>
                     <th>যোগদান</th>
-                    <th>Action</th>
+                    <th width="15%">Action</th>
                   </tr>
                  </thead>
                  <tbody>
                   <tr v-for="store in stores.data" :key="store.id">
                     <!-- <td>{{ store.id }}</td> -->
-                    <td>{{ store.name }}</td>
-                    <td></td>
+                    <td>
+                      <router-link :to="{ name: 'singleStore', params: { token: store.token }}">
+                        {{ store.name }}
+                      </router-link>
+                    </td>
+                    <td>
+                      <span v-for="user in store.users" :key="user.id" class="badge badge-success" style="margin-left: 5px;">{{ user.name }}</span>
+                    </td>
                     <td>{{ store.code }}</td>
                     <td>{{ store.address }}</td>
                     <td>{{ store.activation_status | activation_status }}</td>
                     <td>{{ store.payment_status | payment_status }}</td>
-                    <!-- <td><img :src="getStoreMonogram(store.monogram)" class="img-responsive" style="max-height: 50px; width: auto;"></td> -->
+                    <td><img :src="getStoreMonogram(store.monogram)" class="img-responsive" style="max-height: 50px; width: auto;"></td>
                     <td>{{ store.created_at | date }}</td>
                     <td>
                         <button type="button" class="btn btn-success btn-sm" @click="editStoreModal(store)">
@@ -113,8 +120,8 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                          <v-select placeholder="মালিক নির্ধারণ করুন" :options="owners" :reduce="id => id" label="name" v-model="form.owner" ref='theSelect'></v-select>
-                          <has-error :form="form" field="owner"></has-error>
+                          <v-select placeholder="মালিক নির্ধারণ করুন" :options="owners" :reduce="id => id" label="name" v-model="form.owners" ref='ownerSelect' multiple></v-select>
+                          <has-error :form="form" field="owners"></has-error>
                         </div>
                       </div>
                     </div>
@@ -128,8 +135,7 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                          <input v-model="form.established" type="text" name="established" placeholder="স্থাপিত" 
-                            class="form-control" :class="{ 'is-invalid': form.errors.has('established') }">
+                          <v-select placeholder="স্থাপিত" :options="years" :reduce="id => id" v-model="form.established" taggable ref='theSelect' :class="{ 'is-invalid': form.errors.has('established') }"></v-select>
                           <has-error :form="form" field="established"></has-error>
                         </div>
                       </div>
@@ -149,7 +155,7 @@
                       <div class="col-md-6">
                         <div class="form-group">
                           <select v-model="form.payment_status" type="text" name="payment_status" placeholder="পেমেন্ট স্ট্যাটাস" 
-                            class="form-control" :class="{ 'is-invalid': form.errors.has('payment_status') }" required="">
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('payment_status') }">
                               <option value="" selected="" disabled="">পেমেন্ট স্ট্যাটাস</option>
                               <option value="0">অপরিশোধিত</option>
                               <option value="1">পরিশোধিত</option>
@@ -198,6 +204,7 @@
             return {
               stores: {},
               owners: [],
+              years: [],
               // Create a new form instance
               form: new Form({
                 id: '',
@@ -208,11 +215,11 @@
                 address: '',
                 activation_status: '',
                 payment_status: '',
-                payment_method: '',
+                // payment_method: '',
                 // smsbalance: '',
                 // smsrate: '',
                 monogram: '',
-                owner: ''
+                owners: ''
               }),
               editmode: false
             }
@@ -223,8 +230,11 @@
                 this.form.reset();
                 this.$refs.monogramInput.value = null;
                 $('#addStoreModal').modal('show');
+                this.$refs.ownerSelect.clearSelection();
+                this.$refs.theSelect.clearSelection();
 
                 this.loadOwners();
+                this.loadYears();
             },
             editStoreModal(store) {
                 this.editmode = true;
@@ -232,16 +242,28 @@
                 this.form.clear(); // clears errors
                 this.$refs.monogramInput.value = null;
                 $('#addStoreModal').modal('show');
-                this.form.fill(store);
+                this.$refs.ownerSelect.clearSelection();
+                this.$refs.theSelect.clearSelection();
 
                 this.loadOwners();
+                this.loadYears();
+
+                this.form.fill(store);
+
+                
             },
             loadOwners() {
-                if(this.$gate.isAuthorized('store-crud')){
-                  axios.get('api/owners').then(({ data }) => {
-                    (this.owners = data);
-                  });  
+                axios.get('api/owners').then(({ data }) => {
+                  (this.owners = data);
+                });
+            },
+            loadYears() {
+                var sub_array = [];
+                var thisyear = new Date();
+                for (var i = 1990; i <= thisyear.getFullYear(); i++) {
+                    this.years.push(i);
                 }
+                console.log(this.years);
             },
             loadStores() {
                 if(this.$gate.isAuthorized('store-crud')){
@@ -255,7 +277,7 @@
                     Fire.$emit('AfterCreated')
                     toast.fire({
                       type: 'success',
-                      title: 'Store created successfully'
+                      title: 'সফলভাবে সংরক্ষণ করা হয়েছে!'
                     })
                     this.$Progress.finish();
                 })
@@ -270,7 +292,7 @@
                     Fire.$emit('AfterCreated')
                     toast.fire({
                       type: 'success',
-                      title: 'Store updated successfully'
+                      title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
                     })
                     this.$Progress.finish();
                 })
@@ -318,19 +340,6 @@
                 this.$refs.monogramInput.value = null;
               } else {
                 reader.onloadend = (file) => {
-                  var img = new Image();
-                  var tempimageerrflag = 0;
-                  img.src = file.target.result;
-
-                  img.onload = function() {
-                      if(((this.height/this.width) < 0.9375) || ((this.height/this.width) > 1.07142)) {
-                        swal.fire(
-                         'Ops!',
-                         'The ratio of height and width should be same',
-                         'warning'
-                        );
-                      }
-                  };
                   this.form.monogram = reader.result;
                 }
                 reader.readAsDataURL(file);
@@ -338,12 +347,12 @@
             },
             getMonogramOnModal() {
               if(this.form.monogram == null) {
-                return '/images/profile.png';
+                return '/images/grocery.png';
               } else {
                 if(this.form.monogram.length > 200) {
                   return this.form.monogram;
                 } else if(this.form.monogram.length == 0) {
-                  return '/images/profile.png';
+                  return '/images/grocery.png';
                 } else {
                   return '/images/stores/' + this.form.monogram;
                 }
