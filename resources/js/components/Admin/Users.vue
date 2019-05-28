@@ -46,20 +46,22 @@
                 <table class="table table-hover">
                  <thead>
                   <tr>
-                    <th>ID</th>
-                    <th>User</th>
-                    <th>Email</th>
-                    <th>Photo</th>
-                    <th>Role</th>
-                    <th>Created</th>
+                    <!-- <th>ID</th> -->
+                    <th>ব্যবহারকারী</th>
+                    <th>যোগাযোগ</th>
+                    <th>ঠিকানা</th>
+                    <th>ভহবি</th>
+                    <th>ধরণ (Role)</th>
+                    <th>যোগদান</th>
                     <th>Action</th>
                   </tr>
                  </thead>
                  <tbody>
                   <tr v-for="user in users.data" :key="user.id">
-                    <td>{{ user.id }}</td>
+                    <!-- <td>{{ user.id }}</td> -->
                     <td>{{ user.name }}</td>
-                    <td>{{ user.email }}</td>
+                    <td><small>{{ user.mobile }}<br/>{{ user.email }}</small></td>
+                    <td>{{ user.address }}</td>
                     <td><img :src="getUserProfilePhoto(user.image)" class="img-responsive" style="max-height: 50px; width: auto;"></td>
                     <td>
                       <span v-for="role in user.roles" :key="role.id" class="badge badge-success" style="margin-left: 5px;">{{ role.display_name }}</span>
@@ -89,7 +91,7 @@
 
         <!-- The Modal -->
         <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
+          <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <!-- Modal Header -->
               <div class="modal-header">
@@ -100,15 +102,37 @@
               <form @submit.prevent="editmode ? updateUser() : createUser()" @keydown="form.onKeydown($event)">
                   <!-- Modal body -->
                   <div class="modal-body">
-                    <div class="form-group">
-                      <input v-model="form.name" type="text" name="name" placeholder="Name" 
-                        class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
-                      <has-error :form="form" field="name"></has-error>
+                    <div class=row>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <input v-model="form.name" type="text" name="name" placeholder="নাম" 
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
+                          <has-error :form="form" field="name"></has-error>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <input v-model="form.mobile" type="text" name="mobile" placeholder="১১ ডিজিট মোবাইল নম্বর" 
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('mobile') }">
+                          <has-error :form="form" field="mobile"></has-error>
+                        </div>
+                      </div>
                     </div>
-                    <div class="form-group">
-                      <input v-model="form.email" type="text" name="email" placeholder="Email" 
-                        class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
-                      <has-error :form="form" field="email"></has-error>
+                    <div class=row>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <input v-model="form.email" type="text" name="email" placeholder="ইমেইল (যদি থাকে)" 
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
+                          <has-error :form="form" field="email"></has-error>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <input v-model="form.address" type="text" name="address" placeholder="ঠিকানা" 
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('address') }">
+                          <has-error :form="form" field="address"></has-error>
+                        </div>
+                      </div>
                     </div>
                     <div class="form-group">
                       <!-- <select v-model="form.roles" name="roles[]" class="form-control" :class="{ 'is-invalid': form.errors.has('roles') }" multiple="multiple" id="roles">
@@ -162,6 +186,8 @@
                 id: '',
                 name: '',
                 email: '',
+                mobile: '',
+                address: '',
                 image: '',
                 roles: [],
                 password: ''

@@ -44,6 +44,6 @@ class User extends Authenticatable
     ];
 
     public function stores(){
-        return $this->hasMany('App\Store');
+        return $this->belongsToMany('App\Store');
     }
 }

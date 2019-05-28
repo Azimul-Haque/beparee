@@ -263,7 +263,7 @@
                 for (var i = 1990; i <= thisyear.getFullYear(); i++) {
                     this.years.push(i);
                 }
-                console.log(this.years);
+                // console.log(this.years);
             },
             loadStores() {
                 if(this.$gate.isAuthorized('store-crud')){

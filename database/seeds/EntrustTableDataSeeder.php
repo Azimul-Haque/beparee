@@ -57,10 +57,15 @@ class EntrustTableDataSeeder extends Seeder
                 'display_name' => 'Admin Menu',
                 'description' => 'Admin Menu Permission'
             ],
+            [
+                'name' => 'store-crud',
+                'display_name' => 'Store CRUD',
+                'description' => 'Store CRUD Permission'
+            ],
         	[
-        		'name' => 'store-crud',
-        		'display_name' => 'Store CRUD',
-        		'description' => 'Store CRUD Permission'
+        		'name' => 'store-profile',
+        		'display_name' => 'Store Profile',
+        		'description' => 'Store Profile Permission'
         	]
         ];
 
@@ -122,26 +127,36 @@ class EntrustTableDataSeeder extends Seeder
           [
             'name' => 'আব্দুল মান্নান',
             'email' => 'mannan@beparee.com',
+            'mobile' => '0111118392',
+            'address' => 'মোহাম্মদপুর, ঢাকা-১২০৭',
             'password' => Hash::make('secret123') 
           ],
           [
             'name' => 'রিফাত',
             'email' => 'rifat@beparee.com',
+            'mobile' => '01750398392',
+            'address' => 'মোহাম্মদপুর, ঢাকা-১২০৭',
             'password' => Hash::make('secret123') 
           ],
           [
             'name' => 'মালিক ১',
             'email' => 'owner1@beparee.com',
+            'mobile' => '01222298392',
+            'address' => 'মোহাম্মদপুর, ঢাকা-১২০৭',
             'password' => Hash::make('secret123') 
           ],
           [
             'name' => 'মালিক ২',
             'email' => 'owner2@beparee.com',
+            'mobile' => '01333398392',
+            'address' => 'মোহাম্মদপুর, ঢাকা-১২০৭',
             'password' => Hash::make('secret123') 
           ],
           [
             'name' => 'মালিক ৩',
             'email' => 'owner3@beparee.com',
+            'mobile' => '01444498392',
+            'address' => 'মোহাম্মদপুর, ঢাকা-১২০৭',
             'password' => Hash::make('secret123') 
           ]
         ];
@@ -166,3 +181,7 @@ class EntrustTableDataSeeder extends Seeder
 
 // INSERT INTO `role_user` (`user_id`, `role_id`) VALUES ('1', '1');
 // INSERT INTO `role_user` (`user_id`, `role_id`) VALUES ('2', '1');
+
+// INSERT INTO `store_user` (`user_id`, `store_id`) VALUES ('3', '1');
+// INSERT INTO `store_user` (`user_id`, `store_id`) VALUES ('3', '2');
+// INSERT INTO `store_user` (`user_id`, `store_id`) VALUES ('4', '2');

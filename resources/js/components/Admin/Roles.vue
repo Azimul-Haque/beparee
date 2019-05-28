@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-       <div class="content-header">
+       <div class="content-header" v-if="$gate.isAuthorized('role-crud')">
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
@@ -18,7 +18,7 @@
       <!-- Header content -->
       
       <!-- /.content-header -->
-      <div class="container-fluid">
+      <div class="container-fluid" v-if="$gate.isAuthorized('role-crud')">
         <div class="row">
           <div class="col-md-8">
             <!-- <img src="images/click_here_2li1.svg" style="max-height: 200px;"> -->
@@ -123,6 +123,10 @@
           </div>
         </div>
       </div><!-- /.container-fluid -->
+
+      <div v-if="!$gate.isAuthorized('role-crud')">
+          <forbidden-403></forbidden-403>
+      </div>
     </div>
     <!-- /.content -->
 </template>
@@ -158,12 +162,16 @@
                 this.$refs.theSelect.clearSelection();
             },
             loadPermissions() {
-                axios.get('api/permissions').then(({ data }) => {
-                    (this.permissions = data);
-                });
+              if(this.$gate.isAuthorized('role-crud')){
+                  axios.get('api/permissions').then(({ data }) => {
+                      (this.permissions = data);
+                  });
+                }
             },
             loadRoles() {
-                axios.get('api/roles/list').then(({ data }) => (this.roles = data));
+                if(this.$gate.isAuthorized('role-crud')){
+                  axios.get('api/roles/list').then(({ data }) => (this.roles = data));
+                }
             },
             createRole() {
                 if(this.form.permissions.length == 0) {

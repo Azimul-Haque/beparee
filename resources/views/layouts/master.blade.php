@@ -8,6 +8,7 @@
 
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="user" content="{{ Auth::user() }}">
 
   <title>@yield('title')</title>
   <!-- Styles -->
@@ -45,10 +46,10 @@
   <footer class="main-footer">
     <!-- To the right -->
     <div class="float-right d-none d-sm-inline">
-      Anything you want
+      Version: <b>1.0.28</b>
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2014-2018 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; {{ date('Y') }} <a href="http://orbachinujbuk.com/">Orbachin Ujbuk</a>.</strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->
@@ -56,7 +57,10 @@
 
 @auth
 <script>
+    window.roles = @json(auth()->user()->roles); // for User Roles
     window.permissions = @json(auth()->user()->roles->load('permissions')); // for User Permission
+    window.stores = @json(auth()->user()->stores); // for User Stores
+    console.log(window.stores);
 </script>
 @endauth
 

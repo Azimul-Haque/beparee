@@ -12,7 +12,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{{ asset('images/profile.png') }}" class="img-circle elevation-2" alt="User Image">
+          <img {{-- :src="getUserProfilePhotoOnNav(1)" --}} {{-- @mounted="getUserProfilePhotoOnNav()" --}} :src="profileNavImageLink"  class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">{{ Auth::user()->name }}</a>
@@ -34,8 +34,8 @@
             </router-link>
           </li>
           @permission('admin-menu')
-            <li class="nav-item has-treeview @if(Request::url() == url('/users') | Request::url() == url('/roles') | Request::url() == url('/stores')) menu-open @endif">
-              <a href="#" class="nav-link {{-- active --}}">
+            <li class="nav-item has-treeview @if(Request::url() == url('/users') | Request::url() == url('/roles') | Request::url() == url('/stores')) menu-open @endif" {{-- :class="{'menu-open':menuselected == 1}" --}}>
+              <a href="#" class="nav-link {{-- active --}}" @click="menuselected = 1">
                 <i class="nav-icon fa fa-wrench"></i>
                 <p>
                   অ্যাডমিন কার্যক্রম
@@ -70,15 +70,25 @@
               </ul>
             </li>
           @endpermission
-          <li class="nav-item">
-            <router-link to="/profile" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+
+          <li class="nav-item has-treeview @if(Request::url() == url('/profile')) menu-open @endif" {{-- :class="{'menu-open':menuselected == 2}" --}}>
+            <a href="#" class="nav-link {{-- active --}}" @click="menuselected = 2">
               <i class="nav-icon fa fa-user"></i>
               <p>
-                Profile
-                {{-- <span class="right badge badge-danger">New</span> --}}
+                ব্যবহারকারী
+                <i class="right fa fa-angle-left"></i>
               </p>
-            </router-link>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <router-link to="/profile" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                  <i class="nav-icon fa fa-user"></i>
+                  <p>প্রোফাইল</p>
+                </router-link>
+              </li>
+            </ul>
           </li>
+
           <li class="nav-item">
             <a href="#" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
               <i class="nav-icon fa fa-th"></i>
@@ -108,3 +118,4 @@
     </div>
     <!-- /.sidebar -->
   </aside>
+  

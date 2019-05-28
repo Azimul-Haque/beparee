@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Role;
 use App\Permission;
+use App\Store;
 use Image, File, DB;
 
 use Illuminate\Support\Facades\Hash;
@@ -42,7 +43,9 @@ class UserController extends Controller
     {
         $this->validate($request,array(
             'name'       => 'required|max:191',
-            'email'      => 'required|email|unique:users,email',
+            'email'      => 'sometimes|unique:users,email', // email type
+            'mobile'     => 'required|min:11|max:11|unique:users,mobile',
+            'address'    => 'required|max:191',
             'roles'      => 'required',
             'image'      => 'sometimes',
             'password'   => 'required|min:6'
@@ -50,7 +53,13 @@ class UserController extends Controller
 
         $user = new User;
         $user->name = $request->name;
-        $user->email = $request->email;
+        if($request->email != '') {
+            $user->email = htmlspecialchars(preg_replace("/\s+/", " ", $request->email));
+        } else {
+            $user->email = htmlspecialchars(preg_replace("/\s+/", " ", $request->mobile)) . '@beparee.com';
+        }
+        $user->mobile = $request->mobile;
+        $user->address = $request->address;
 
         if ($request->image) {
             // $image = time(). '.' . explode('/', explode(':', substr($request->image, 0, strpos($request->image, ':')))[1])[0];
@@ -86,8 +95,9 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
+        $user->load('stores');
 
-        return $user;
+        return response()->json($user);
     }
 
     /**
@@ -104,13 +114,17 @@ class UserController extends Controller
         $this->validate($request,array(
             'name'       => 'required|max:191',
             'email'      => 'required|email|unique:users,email,'. $user->id,
-            'roles'      => 'required',
+            'mobile'     => 'required|min:11|max:11|unique:users,mobile,'. $user->id,
+            'address'    => 'required|max:191',
+            'roles'      => 'sometimes',
             'image'      => 'sometimes',
             'password'   => 'sometimes|min:6'
         ));
 
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->mobile = $request->mobile;
+        $user->address = $request->address;
 
         if ($request->image != $user->image) {
             $image_path = public_path('/images/users/'. $user->image);
@@ -129,12 +143,14 @@ class UserController extends Controller
         }
         $user->save();
 
-        DB::table('role_user')->where('user_id',$id)->delete();
-        foreach ($request->input('roles') as $key => $value) {
-            $user->attachRole($value);
+        if($request->roles) {
+            DB::table('role_user')->where('user_id',$id)->delete();
+            foreach ($request->input('roles') as $key => $value) {
+                $user->attachRole($value);
+            }
         }
 
-        return ['message' => 'Updated successfully! '];    
+        return ['message' => 'Updated successfully!'];    
     }
 
     /**

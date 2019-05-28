@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-      <div class="content-header" v-if="$gate.isAuthorized('store-crud')">
+      <div class="content-header" v-if="$gate.isShopOwnerOrAdmin('store-profile')">
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
@@ -18,7 +18,7 @@
       <!-- Header content -->
       
       <!-- /.content-header -->
-      <div class="container-fluid" v-if="$gate.isAuthorized('store-crud')">
+      <div class="container-fluid" v-if="$gate.isShopOwnerOrAdmin('store-profile')">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
@@ -30,7 +30,7 @@
             </div>
         </div>
       </div>
-      <div v-if="!$gate.isAuthorized('store-crud')">
+      <div v-if="!$gate.isShopOwnerOrAdmin('store-profile')">
           <forbidden-403></forbidden-403>
       </div>
     </div>
@@ -38,14 +38,20 @@
 
 <script>
   export default {
+    data () {
+        return {
+          
+        }
+    },
     methods: {
       loadStore() {
+        if(this.$gate.isShopOwnerOrAdmin('store-profile')){
 
+        }
       }
     },
     created() {
       this.loadStore();
-      console.log(this.$route.params.token);
     }
   }
 </script>

@@ -21,7 +21,9 @@ import VeeValidate from 'vee-validate';
 
 Vue.use(VeeValidate);
 
-Vue.prototype.$gate = new Gate(window.permissions);
+Vue.prototype.$gate = new Gate(window.roles, window.permissions);
+Vue.prototype.$user = document.querySelector("meta[name='user']").getAttribute('content');
+
 
 Vue.use(VueRouter)
 Vue.component(HasError.name, HasError)
@@ -31,11 +33,13 @@ window.Form = Form;
 
 let routes = [
   { path: '/dashboard', component: require('./components/Dashboard.vue').default, meta: { title: 'ড্যাশবোর্ড'} },
-  { path: '/profile', component: require('./components/Profile.vue').default, meta: { title: 'প্রোফাইল'} },
+
+  { path: '/profile', component: require('./components/User/Profile.vue').default, meta: { title: 'প্রোফাইল'} },
+
   { path: '/users', component: require('./components/Admin/Users.vue').default, meta: { title: 'ব্যবহারকারী তালিকা'}},
   { path: '/roles', component: require('./components/Admin/Roles.vue').default, meta: { title: 'ব্যবহারকারী ধরন'} },
-
   { path: '/stores', component: require('./components/Admin/Stores.vue').default, meta: { title: 'দোকানের তালিকা'} },
+
   { path: '/store/:token', component: require('./components/Store/Store.vue').default, meta: { title: 'দোকান'}, name: 'singleStore'},
   { path: '*', component: require('./components/404.vue').default, meta: { title: '404'} },
 ]
@@ -48,7 +52,6 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
-  
   next();
 });
 
@@ -117,11 +120,32 @@ const app = new Vue({
     el: '#app',
     router,
     data: {
-      search: ''
+      search: '',
+      menuselected: undefined,
+      profileNavImageLink: '',
     },
     methods: {
       searchIt: _.debounce(() => {
         Fire.$emit('searching');
-      }, 1000) 
+      }, 1000),
+      toggleTreeMenu() {
+      	
+      },
+      getUserProfilePhotoOnNav() {
+      	var image = JSON.parse(this.$user).image;
+        if(image == null) {
+          return '/images/profile.png';
+        } else {
+          if(image.length > 0) {
+            return '/images/users/' + image;
+          } else {
+            return '/images/profile.png';
+          }
+        }
+      }
+    },
+
+    created() {
+    	this.profileNavImageLink = this.getUserProfilePhotoOnNav();
     }
 });
