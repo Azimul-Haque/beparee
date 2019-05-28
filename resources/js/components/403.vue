@@ -26,7 +26,7 @@
 
                         <div class="card-body">
                             <center>
-                                <img src="images/undraw_cancel_u1it.svg"  class="img-fluid">
+                                <img src="/images/undraw_cancel_u1it.svg"  class="img-fluid">
                             </center>
                         </div>
                     </div>

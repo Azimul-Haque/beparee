@@ -26,7 +26,7 @@
 
                         <div class="card-body">
                             <center>
-                                <img src="images/undraw_page_not_found_su7k.svg"  class="img-fluid">
+                                <img src="/images/undraw_page_not_found_su7k.svg"  class="img-fluid">
                             </center>
                         </div>
                     </div>
