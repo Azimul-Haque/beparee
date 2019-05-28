@@ -23,7 +23,6 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">স্টোর</div>
-
                     <div class="card-body">
                         {{ this.$route.params.token }}
                     </div>
