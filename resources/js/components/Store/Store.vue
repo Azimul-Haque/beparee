@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-      <div class="content-header" v-if="$gate.isShopOwnerOrAdmin('store-profile')">
+      <div class="content-header" v-if="$gate.isShopOwnerOrAdmin('store-profile', this.$route.params.code)">
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
@@ -18,19 +18,20 @@
       <!-- Header content -->
       
       <!-- /.content-header -->
-      <div class="container-fluid" v-if="$gate.isShopOwnerOrAdmin('store-profile')">
+      <div class="container-fluid" v-if="$gate.isShopOwnerOrAdmin('store-profile', this.$route.params.code)">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">স্টোর</div>
                     <div class="card-body">
-                        {{ this.$route.params.token }}
+                        {{ this.$route.params.token }}<br/>
+                        {{ this.$route.params.code }}
                     </div>
                 </div>
             </div>
         </div>
       </div>
-      <div v-if="!$gate.isShopOwnerOrAdmin('store-profile')">
+      <div v-if="!$gate.isShopOwnerOrAdmin('store-profile', this.$route.params.code)">
           <forbidden-403></forbidden-403>
       </div>
     </div>
@@ -45,13 +46,14 @@
     },
     methods: {
       loadStore() {
-        if(this.$gate.isShopOwnerOrAdmin('store-profile')){
-
+        if(this.$gate.isShopOwnerOrAdmin('store-profile', this.$route.params.code)){
+          // console.log('Genius at Work');
         }
       }
     },
     created() {
       this.loadStore();
+      // console.log(this.$route.params.code);
     }
   }
 </script>

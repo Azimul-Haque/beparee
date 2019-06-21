@@ -1,6 +1,6 @@
 export default class Gate{
 
-    constructor(roles, permissions){
+    constructor(roles, permissions, stores){
         
         // ROLE PART
         this.roles = [];
@@ -8,7 +8,7 @@ export default class Gate{
         for(var i=0; i<roles.length; i++) {
             this.roles = this.roles.concat(roles[i]['name']);
         }
-        console.log(this.roles);
+        // console.log(this.roles);
 
         // PERMISSION PART
         this.permissions = [];
@@ -26,10 +26,18 @@ export default class Gate{
         $.each(this.permissionsnames, function(i, el){
             if($.inArray(el, permissionsnames2) === -1) permissionsnames2.push(el);
         });
-        console.log(permissionsnames2);
+        // console.log(permissionsnames2);
 
         // Finally...
         this.permissions = permissionsnames2;
+
+        // STORE PART
+        this.stores = [];
+        // merge if role is more than one!
+        for(var i=0; i<stores.length; i++) {
+            this.stores = this.stores.concat(stores[i]['code']); // to match the code of requested and permitted
+        }
+        // console.log(this.stores);
 
 
     }
@@ -41,15 +49,14 @@ export default class Gate{
         }
     }
 
-    isShopOwnerOrAdmin(permission){
+    isShopOwnerOrAdmin(permission, store){
         // first check permission, then the shop... 
         if(this.permissions.includes(permission)) {
             if(this.roles.includes('superadmin')) {
-                return true;
-            } 
-            // else if() {
-
-            // }
+                return true; // if user is superadmin, then permit the user
+            } else if(this.stores.includes(store)) {0
+                return true; // if user is not superadmin, then check the associated store
+            }
         }
     }
 }

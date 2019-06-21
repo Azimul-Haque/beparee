@@ -3025,8 +3025,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  created: function created() {
-    console.log('Component mounted.');
+  created: function created() {// console.log('Component mounted.')
   }
 });
 
@@ -3132,17 +3131,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
   },
   methods: {
     loadStore: function loadStore() {
-      if (this.$gate.isShopOwnerOrAdmin('store-profile')) {}
+      if (this.$gate.isShopOwnerOrAdmin('store-profile', this.$route.params.code)) {// console.log('Genius at Work');
+      }
     }
   },
   created: function created() {
-    this.loadStore();
+    this.loadStore(); // console.log(this.$route.params.code);
   }
 });
 
@@ -72615,7 +72616,7 @@ var render = function() {
               ),
               _vm._v(" "),
               _c("li", { staticClass: "breadcrumb-item active" }, [
-                _vm._v("404")
+                _vm._v("404 Not Found")
               ])
             ])
           ])
@@ -72628,7 +72629,7 @@ var render = function() {
         _c("div", { staticClass: "col-md-8" }, [
           _c("div", { staticClass: "card" }, [
             _c("div", { staticClass: "card-header" }, [
-              _vm._v("404 Not Found")
+              _vm._v("আপনি যা খুঁজছেন তা পাওয়া যায়নি!")
             ]),
             _vm._v(" "),
             _c(
@@ -72656,7 +72657,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-sm-6" }, [
-      _c("h1", { staticClass: "m-0 text-dark" }, [_vm._v("404")])
+      _c("h1", { staticClass: "m-0 text-dark" }, [_vm._v("404 Not Found")])
     ])
   }
 ]
@@ -73187,7 +73188,10 @@ var render = function() {
                                   attrs: {
                                     to: {
                                       name: "singleStore",
-                                      params: { token: store.token }
+                                      params: {
+                                        token: store.token,
+                                        code: store.code
+                                      }
                                     }
                                   }
                                 },
@@ -74677,11 +74681,11 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "content" }, [
-    _vm.$gate.isShopOwnerOrAdmin("store-profile")
+    _vm.$gate.isShopOwnerOrAdmin("store-profile", this.$route.params.code)
       ? _c("div", { staticClass: "content-header" }, [_vm._m(0)])
       : _vm._e(),
     _vm._v(" "),
-    _vm.$gate.isShopOwnerOrAdmin("store-profile")
+    _vm.$gate.isShopOwnerOrAdmin("store-profile", this.$route.params.code)
       ? _c("div", { staticClass: "container-fluid" }, [
           _c("div", { staticClass: "row justify-content-center" }, [
             _c("div", { staticClass: "col-md-8" }, [
@@ -74690,8 +74694,12 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "card-body" }, [
                   _vm._v(
+                    "\n                    " + _vm._s(this.$route.params.token)
+                  ),
+                  _c("br"),
+                  _vm._v(
                     "\n                    " +
-                      _vm._s(this.$route.params.token) +
+                      _vm._s(this.$route.params.code) +
                       "\n                "
                   )
                 ])
@@ -74701,7 +74709,7 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
-    !_vm.$gate.isShopOwnerOrAdmin("store-profile")
+    !_vm.$gate.isShopOwnerOrAdmin("store-profile", this.$route.params.code)
       ? _c("div", [_c("forbidden-403")], 1)
       : _vm._e()
   ])
@@ -74831,7 +74839,7 @@ var render = function() {
                           attrs: {
                             to: {
                               name: "singleStore",
-                              params: { token: store.token }
+                              params: { token: store.token, code: store.code }
                             }
                           }
                         },
@@ -90020,7 +90028,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var Gate =
 /*#__PURE__*/
 function () {
-  function Gate(roles, permissions) {
+  function Gate(roles, permissions, stores) {
     _classCallCheck(this, Gate);
 
     // ROLE PART
@@ -90028,9 +90036,9 @@ function () {
 
     for (var i = 0; i < roles.length; i++) {
       this.roles = this.roles.concat(roles[i]['name']);
-    }
+    } // console.log(this.roles);
+    // PERMISSION PART
 
-    console.log(this.roles); // PERMISSION PART
 
     this.permissions = []; // merge if role is more than one!
 
@@ -90049,10 +90057,17 @@ function () {
     var permissionsnames2 = [];
     $.each(this.permissionsnames, function (i, el) {
       if ($.inArray(el, permissionsnames2) === -1) permissionsnames2.push(el);
-    });
-    console.log(permissionsnames2); // Finally...
+    }); // console.log(permissionsnames2);
+    // Finally...
 
-    this.permissions = permissionsnames2;
+    this.permissions = permissionsnames2; // STORE PART
+
+    this.stores = []; // merge if role is more than one!
+
+    for (var i = 0; i < stores.length; i++) {
+      this.stores = this.stores.concat(stores[i]['code']); // to match the code of requested and permitted
+    } // console.log(this.stores);
+
   }
 
   _createClass(Gate, [{
@@ -90064,14 +90079,15 @@ function () {
     }
   }, {
     key: "isShopOwnerOrAdmin",
-    value: function isShopOwnerOrAdmin(permission) {
+    value: function isShopOwnerOrAdmin(permission, store) {
       // first check permission, then the shop... 
       if (this.permissions.includes(permission)) {
         if (this.roles.includes('superadmin')) {
-          return true;
-        } // else if() {
-        // }
-
+          return true; // if user is superadmin, then permit the user
+        } else if (this.stores.includes(store)) {
+          0;
+          return true; // if user is not superadmin, then check the associated store
+        }
       }
     }
   }]);
@@ -90124,7 +90140,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 
 Vue.use(vee_validate__WEBPACK_IMPORTED_MODULE_7__["default"]);
-Vue.prototype.$gate = new _Gate__WEBPACK_IMPORTED_MODULE_6__["default"](window.roles, window.permissions);
+Vue.prototype.$gate = new _Gate__WEBPACK_IMPORTED_MODULE_6__["default"](window.roles, window.permissions, window.stores);
 Vue.prototype.$user = document.querySelector("meta[name='user']").getAttribute('content');
 Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]);
 Vue.component(vform__WEBPACK_IMPORTED_MODULE_1__["HasError"].name, vform__WEBPACK_IMPORTED_MODULE_1__["HasError"]);
@@ -90161,7 +90177,7 @@ var routes = [{
     title: 'দোকানের তালিকা'
   }
 }, {
-  path: '/store/:token',
+  path: '/store/:token/:code',
   component: __webpack_require__(/*! ./components/Store/Store.vue */ "./resources/js/components/Store/Store.vue")["default"],
   meta: {
     title: 'দোকান'

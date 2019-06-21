@@ -62,7 +62,7 @@
                   <tr v-for="store in stores.data" :key="store.id">
                     <!-- <td>{{ store.id }}</td> -->
                     <td>
-                      <router-link :to="{ name: 'singleStore', params: { token: store.token }}">
+                      <router-link :to="{ name: 'singleStore', params: { token: store.token, code: store.code }}">
                         {{ store.name }}
                       </router-link>
                     </td>

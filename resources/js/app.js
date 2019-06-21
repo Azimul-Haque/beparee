@@ -21,7 +21,7 @@ import VeeValidate from 'vee-validate';
 
 Vue.use(VeeValidate);
 
-Vue.prototype.$gate = new Gate(window.roles, window.permissions);
+Vue.prototype.$gate = new Gate(window.roles, window.permissions, window.stores);
 Vue.prototype.$user = document.querySelector("meta[name='user']").getAttribute('content');
 
 
@@ -40,7 +40,7 @@ let routes = [
   { path: '/roles', component: require('./components/Admin/Roles.vue').default, meta: { title: 'ব্যবহারকারী ধরন'} },
   { path: '/stores', component: require('./components/Admin/Stores.vue').default, meta: { title: 'দোকানের তালিকা'} },
 
-  { path: '/store/:token', component: require('./components/Store/Store.vue').default, meta: { title: 'দোকান'}, name: 'singleStore'},
+  { path: '/store/:token/:code', component: require('./components/Store/Store.vue').default, meta: { title: 'দোকান'}, name: 'singleStore'},
   { path: '*', component: require('./components/404.vue').default, meta: { title: '404'} },
 ]
 

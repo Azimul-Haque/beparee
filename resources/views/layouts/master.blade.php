@@ -60,7 +60,6 @@
     window.roles = @json(auth()->user()->roles); // for User Roles
     window.permissions = @json(auth()->user()->roles->load('permissions')); // for User Permission
     window.stores = @json(auth()->user()->stores); // for User Stores
-    console.log(window.stores);
 </script>
 @endauth
 

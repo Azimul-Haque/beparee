@@ -37,7 +37,7 @@
 <script>
     export default {
         created() {
-            console.log('Component mounted.')
+            // console.log('Component mounted.')
         }
     }
 </script>

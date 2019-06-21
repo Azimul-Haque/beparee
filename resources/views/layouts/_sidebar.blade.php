@@ -89,7 +89,25 @@
             </ul>
           </li>
 
-          <li class="nav-item">
+          <li class="nav-item has-treeview @if(Request::url() == url('/profile')) menu-open @endif" {{-- :class="{'menu-open':menuselected == 2}" --}}>
+            <a href="#" class="nav-link {{-- active --}}" @click="menuselected = 2">
+              <i class="nav-icon fa fa-shopping-bag"></i>
+              <p>
+                ব্যবহারকারী
+                <i class="right fa fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <router-link to="/profile" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                  <i class="nav-icon fa fa-user"></i>
+                  <p>প্রোফাইল</p>
+                </router-link>
+              </li>
+            </ul>
+          </li>
+
+          {{-- <li class="nav-item">
             <a href="#" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
               <i class="nav-icon fa fa-th"></i>
               <p>
@@ -97,7 +115,7 @@
                 <span class="right badge badge-danger">New</span>
               </p>
             </a>
-          </li>
+          </li> --}}
           <li class="nav-item">
             <a class="nav-link" href="{{ route('logout') }}"
                onclick="event.preventDefault();

@@ -37,7 +37,7 @@
                   </div>
                   <ul class="list-group">
                     <li class="list-group-item" v-for="store in user.stores" :key="store.id">
-                      <router-link :to="{ name: 'singleStore', params: { token: store.token }}">
+                      <router-link :to="{ name: 'singleStore', params: { token: store.token, code: store.code }}">
                         {{ store.name }}
                       </router-link>
                     </li>
