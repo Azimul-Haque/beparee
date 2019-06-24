@@ -172,10 +172,12 @@ class UserController extends Controller
     {
         $users = User::where(function($search) use ($query) {
             $search->where('name', 'LIKE', '%'.$query.'%')
-                   ->orWhere('email', 'LIKE', '%'.$query.'%');
+                   ->orWhere('mobile', 'LIKE', '%'.$query.'%')
+                   ->orWhere('email', 'LIKE', '%'.$query.'%')
+                   ->orWhere('address', 'LIKE', '%'.$query.'%');
          })->paginate(5);
         
-
+        $users->load('roles'); // merge roles with users
         return $users;
     }
 

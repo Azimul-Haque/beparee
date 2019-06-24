@@ -15,7 +15,7 @@
           <img {{-- :src="getUserProfilePhotoOnNav(1)" --}} {{-- @mounted="getUserProfilePhotoOnNav()" --}} :src="profileNavImageLink"  class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+          <a href="#" class="d-block"><span id="profileNavName">{{ Auth::user()->name }}</span></a>
         </div>
       </div>
 
@@ -35,7 +35,7 @@
           </li>
           @permission('admin-menu')
             <li class="nav-item has-treeview @if(Request::url() == url('/users') | Request::url() == url('/roles') | Request::url() == url('/stores')) menu-open @endif" {{-- :class="{'menu-open':menuselected == 1}" --}}>
-              <a href="#" class="nav-link {{-- active --}}" @click="menuselected = 1">
+              <a href="#" class="nav-link {{-- active --}}" {{-- @click="menuselected = 1" --}}>
                 <i class="nav-icon fa fa-wrench"></i>
                 <p>
                   অ্যাডমিন কার্যক্রম
@@ -72,7 +72,7 @@
           @endpermission
 
           <li class="nav-item has-treeview @if(Request::url() == url('/profile')) menu-open @endif" {{-- :class="{'menu-open':menuselected == 2}" --}}>
-            <a href="#" class="nav-link {{-- active --}}" @click="menuselected = 2">
+            <a href="#" class="nav-link {{-- active --}}" {{-- @click="menuselected = 2" --}}>
               <i class="nav-icon fa fa-user"></i>
               <p>
                 ব্যবহারকারী
@@ -89,23 +89,57 @@
             </ul>
           </li>
 
-          <li class="nav-item has-treeview @if(Request::url() == url('/profile')) menu-open @endif" {{-- :class="{'menu-open':menuselected == 2}" --}}>
-            <a href="#" class="nav-link {{-- active --}}" @click="menuselected = 2">
-              <i class="nav-icon fa fa-shopping-bag"></i>
-              <p>
-                ব্যবহারকারী
-                <i class="right fa fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <router-link to="/profile" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
-                  <i class="nav-icon fa fa-user"></i>
-                  <p>প্রোফাইল</p>
-                </router-link>
-              </li>
-            </ul>
-          </li>
+          <li class="nav-item-separator"></li>
+          
+          @foreach(Auth::user()->stores as $stores_for_nav)
+            <li class="nav-item has-treeview @if(Request::url() == url('/store/'.$stores_for_nav->token.'/'.$stores_for_nav->code)) menu-open @endif" {{-- :class="{'menu-open':menuselected == 2}" --}}>
+              <a href="#" class="nav-link {{-- active --}}" {{-- @click="menuselected = 2" --}}>
+                <i class="nav-icon fa fa-shopping-bag"></i>
+                <p>
+                  <span id="changeNavStoreName{{ $stores_for_nav->id }}">{{ $stores_for_nav->name }}</span>
+                  <i class="right fa fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <router-link :to="{ name: 'singleStore', params: { token: '{{ $stores_for_nav->token }}', code: '{{ $stores_for_nav->code }}' }}" class="nav-link" @click.native="changeStoreName" @mobile data-widget="pushmenu" @endmobile>
+                    <i class="nav-icon fa fa-pencil"></i>
+                    <p>দোকানের প্রোফাইল</p>
+                  </router-link> 
+                  {{-- <a href="{{ url('store/'.$stores_for_nav->token.'/'.$stores_for_nav->code) }}" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                    <i class="nav-icon fa fa-pencil"></i>
+                    <p>প্রোফাইল</p>
+                  </a> --}}
+                </li>
+                <li class="nav-item">
+                  <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                    <i class="nav-icon fa fa-plus"></i><p>Puchase</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                    <i class="nav-icon fa fa-plus"></i><p>Sales</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                    <i class="nav-icon fa fa-plus"></i><p>Inventory</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                    <i class="nav-icon fa fa-plus"></i><p>Accounting</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                    <i class="nav-icon fa fa-plus"></i><p>HRM</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item-separator"></li>
+          @endforeach
 
           {{-- <li class="nav-item">
             <a href="#" class="nav-link" @mobile data-widget="pushmenu" @endmobile>

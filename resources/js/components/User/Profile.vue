@@ -23,7 +23,7 @@
             <div class="col-md-6">
               <div class="card card-widget widget-user">
                 <!-- Add the bg color to the header using any of the bg-* classes -->
-                <div class="widget-user-header bg-info-active" style="background: url('images/coverphoto.jpg') center center;">
+                <div class="widget-user-header bg-info-active" style="background: url('/images/coverphoto.jpg') center center;">
                   
                 </div>
                 <div class="widget-user-image">
@@ -47,8 +47,7 @@
             </div>
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header">Profile</div>
-
+                    <div class="card-header"><i class="fa fa-pencil"></i> প্রোফাইল সম্পাদনা</div>
                     <div class="card-body">
                       <form @submit.prevent="updateUser()" @keydown="form.onKeydown($event)">
                         <div class=row>
@@ -127,24 +126,24 @@
             loadUser() {
               var user_parsed = JSON.parse(this.$user);
               var user_id = user_parsed.id;
-              axios.get('api/user/'+user_id).then(
+              axios.get('/api/user/'+user_id).then(
                 ({ data }) => 
                 (
                   this.user = data, 
                   this.form.fill(this.user),
                   this.profileNavImageLink = '/images/users/'+this.user.image
                 ));
-              
             },
             updateUser() {
                 this.$Progress.start();
-                this.form.put('api/user/'+ this.form.id).then(() => {
-                    Fire.$emit('AfterCreated')
-                    toast.fire({
-                      type: 'success',
-                      title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
-                    })
-                    this.$Progress.finish();
+                this.form.put('/api/user/'+ this.form.id).then(() => {
+                  Fire.$emit('AfterCreated');
+                  Fire.$emit('updateuserdpinnav');
+                  toast.fire({
+                    type: 'success',
+                    title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
+                  })
+                  this.$Progress.finish();
                 })
                 .catch(() => {
                     this.$Progress.fail();
@@ -211,10 +210,11 @@
             this.loadUser();
             Fire.$on('AfterCreated', () => {
                 this.loadUser();
-                this.$refs.imageInput.value = null;
-                setTimeout(function(){
-                    location.reload();
-                }, 3000);
+                // this.$refs.imageInput.value = null; // giving an error
+                // setTimeout(function(){
+                //     location.reload();
+                // }, 3000);
+
             });
         }
     }

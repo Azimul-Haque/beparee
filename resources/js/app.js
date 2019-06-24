@@ -77,7 +77,7 @@ Vue.filter('payment_status', function(payment_status) {
 })
 
 Vue.use(VueProgressBar, {
-  color: 'rgb(143, 255, 199)',
+  color: 'rgb(0, 190, 225)',
   failedColor: 'red',
   height: '2px'
 })
@@ -122,30 +122,37 @@ const app = new Vue({
     data: {
       search: '',
       menuselected: undefined,
-      profileNavImageLink: '',
+      profileNavImageLink: '/images/profile.png',
     },
     methods: {
       searchIt: _.debounce(() => {
         Fire.$emit('searching');
       }, 1000),
+      changeStoreName() {
+        Fire.$emit('changingstorename');
+      },
       toggleTreeMenu() {
       	
       },
       getUserProfilePhotoOnNav() {
-      	var image = JSON.parse(this.$user).image;
-        if(image == null) {
-          return '/images/profile.png';
-        } else {
-          if(image.length > 0) {
-            return '/images/users/' + image;
-          } else {
-            return '/images/profile.png';
-          }
-        }
+        var user_parsed = JSON.parse(this.$user);
+        var user_id = user_parsed.id;
+        axios.get('/api/user/'+user_id).then(
+          ({ data }) => 
+          (
+            this.profileNavImageLink = '/images/users/'+data.image,
+            $('#profileNavName').text(data.name )
+          ));
       }
     },
 
     created() {
-    	this.profileNavImageLink = this.getUserProfilePhotoOnNav();
+    	this.getUserProfilePhotoOnNav();
+
+      Fire.$on('updateuserdpinnav', () => {
+        this.getUserProfilePhotoOnNav();
+      });
+
+      
     }
 });

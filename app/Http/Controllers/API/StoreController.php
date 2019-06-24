@@ -46,8 +46,8 @@ class StoreController extends Controller
         $store->name = $request->name;
         $store->established = $request->established;
         $store->address = $request->address;
-        $store->activation_status = $request->activation_status;
-        $store->payment_status = $request->payment_status;
+        $store->activation_status = $request->activation_status; // 0 means প্রক্রিয়াধীন, 1 means অনুমোদিত
+        $store->payment_status = $request->payment_status; // 0 means অপরিশোধিত, 1 means পরিশোধিত
 
         $store->token = generate_token(100);
         $store->code = random_string(10);
@@ -55,10 +55,9 @@ class StoreController extends Controller
         $store->payment_method = 0;  // 0 means manual, 1 means automatic
 
         if ($request->monogram) {
-            // $image = time(). '.' . explode('/', explode(':', substr($request->monogram, 0, strpos($request->monogram, ':')))[1])[0];
+            // $filename = time(). '.' . explode('/', explode(':', substr($request->monogram, 0, strpos($request->monogram, ':')))[1])[0];
             $filename = $store->code . '_' . time(). '.' . explode(';', explode('/', $request->monogram)[1])[0];
             $location   = public_path('/images/stores/'. $filename);
-            // Image::make($request->monogram)->resize(800, null, function ($constraint) { $constraint->aspectRatio(); })->save($location);
             Image::make($request->monogram)->resize(200, null, function ($constraint) { $constraint->aspectRatio(); })->save($location);
             $store->monogram = $filename;
         }
@@ -144,7 +143,7 @@ class StoreController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return 'it works, deleter kaaj baki ache';
     }
 
     public function searchStore($query)
@@ -164,7 +163,46 @@ class StoreController extends Controller
         $owners = User::select('id','name')
                       ->whereHas('roles', function ($query) {
                         $query->where('name', '=', 'shopowner');
+                        $query->orWhere('name', '=', 'superadmin');
                       })->get();
         return $owners;
+    }
+
+    public function loadStore($code)
+    {
+        $store = Store::where('code', $code)->first();
+        $store->load('users');
+
+        return $store;
+    }
+
+    public function updateByUser(Request $request, $id)
+    {
+        $this->validate($request,array(
+            'name'                   => 'required|max:191',
+            'established'            => 'required',
+            'address'                => 'required',
+            'monogram'               => 'sometimes'
+        ));
+
+        $store = Store::findOrFail($id);
+        $store->name = $request->name;
+        $store->established = $request->established;
+        $store->address = $request->address;
+
+        if ($request->monogram != $store->monogram) {
+            $image_path = public_path('/images/stores/'. $store->monogram);
+            if(File::exists($image_path)) {
+                File::delete($image_path);
+            }
+            $filename = $store->code . '_' . time() . '.' . explode(';', explode('/', $request->monogram)[1])[0];
+            $location   = public_path('/images/stores/'. $filename);
+            Image::make($request->monogram)->resize(200, null, function ($constraint) { $constraint->aspectRatio(); })->save($location);
+            $store->monogram = $filename;
+        }
+
+        $store->save();
+        
+        return ['message' => 'সফলভাবে হালনাগাদ করা হয়েছে!'];
     }
 }

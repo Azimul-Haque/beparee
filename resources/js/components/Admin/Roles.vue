@@ -163,14 +163,14 @@
             },
             loadPermissions() {
               if(this.$gate.isAuthorized('role-crud')){
-                  axios.get('api/permissions').then(({ data }) => {
+                  axios.get('/api/permissions').then(({ data }) => {
                       (this.permissions = data);
                   });
                 }
             },
             loadRoles() {
                 if(this.$gate.isAuthorized('role-crud')){
-                  axios.get('api/roles/list').then(({ data }) => (this.roles = data));
+                  axios.get('/api/roles/list').then(({ data }) => (this.roles = data));
                 }
             },
             createRole() {
@@ -198,7 +198,7 @@
             },
             updateRole() {
                 this.$Progress.start();
-                this.form.put('api/role/update/'+ this.form.id).then(() => {
+                this.form.put('/api/role/update/'+ this.form.id).then(() => {
                     Fire.$emit('AfterCreated')
                     toast.fire({
                       type: 'success',
@@ -224,7 +224,7 @@
                   confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
                     if (result.value) {
-                       this.form.delete('api/role/delete/'+ id).then(() => {
+                       this.form.delete('/api/role/delete/'+ id).then(() => {
                          swal.fire(
                           'Deleted!',
                           'সফলভাবে ডিলেট করা হয়েছে!',
@@ -241,7 +241,7 @@
             },
         
             getPaginationResults(page = 1) {
-              axios.get('api/roles/list?page=' + page)
+              axios.get('/api/roles/list?page=' + page)
               .then(response => {
                 this.roles = response.data;
               });
@@ -258,7 +258,7 @@
             Fire.$on('searching', () => {
                 let query = this.$parent.search;
                 if(query != '') {
-                  axios.get('api/searchrole/' + query)
+                  axios.get('/api/searchrole/' + query)
                   .then((data) => {
                     this.roles = data.data;
                   })

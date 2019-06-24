@@ -38,8 +38,6 @@ export default class Gate{
             this.stores = this.stores.concat(stores[i]['code']); // to match the code of requested and permitted
         }
         // console.log(this.stores);
-
-
     }
 
 

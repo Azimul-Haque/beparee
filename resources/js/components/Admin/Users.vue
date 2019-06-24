@@ -214,19 +214,19 @@
             },
             loadRoles() {
                 if(this.$gate.isAuthorized('user-crud')){
-                  axios.get('api/roles').then(({ data }) => {
+                  axios.get('/api/roles').then(({ data }) => {
                     (this.roles = data);
                   });
                 }
             },
             loadUsers() {
                 if(this.$gate.isAuthorized('user-crud')){
-                  axios.get('api/user').then(({ data }) => (this.users = data));  
+                  axios.get('/api/user').then(({ data }) => (this.users = data));  
                 }
             },
             createUser() {
                 this.$Progress.start();
-                this.form.post('api/user').then(() => {
+                this.form.post('/api/user').then(() => {
                     $('#addUserModal').modal('hide')
                     Fire.$emit('AfterCreated')
                     toast.fire({
@@ -241,7 +241,7 @@
             },
             updateUser() {
                 this.$Progress.start();
-                this.form.put('api/user/'+ this.form.id).then(() => {
+                this.form.put('/api/user/'+ this.form.id).then(() => {
                     $('#addUserModal').modal('hide')
                     Fire.$emit('AfterCreated')
                     toast.fire({
@@ -266,7 +266,7 @@
                   confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
                     if (result.value) {
-                       this.form.delete('api/user/'+ id).then(() => {
+                       this.form.delete('/api/user/'+ id).then(() => {
                          swal.fire(
                           'Deleted!',
                           'User has been deleted.',
@@ -336,7 +336,7 @@
               }
             },
             getPaginationResults(page = 1) {
-              axios.get('api/user?page=' + page)
+              axios.get('/api/user?page=' + page)
               .then(response => {
                 this.users = response.data;
               });
@@ -345,7 +345,7 @@
         created() {
             this.loadUsers();
             this.loadRoles();
-            
+            // console.log('loaded');
             Fire.$on('AfterCreated', () => {
                 this.loadUsers();
             });
@@ -353,7 +353,7 @@
             Fire.$on('searching', () => {
                 let query = this.$parent.search;
                 if(query != '') {
-                  axios.get('api/searchuser/' + query)
+                  axios.get('/api/searchuser/' + query)
                   .then((data) => {
                     this.users = data.data;
                   })
@@ -363,7 +363,6 @@
                 } else {
                   this.loadUsers();
                 }
-                
             });
         }
     }

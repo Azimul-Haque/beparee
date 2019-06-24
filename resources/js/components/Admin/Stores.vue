@@ -108,84 +108,84 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
               </div>
               <form @submit.prevent="editmode ? updateStore() : createStore()" @keydown="form.onKeydown($event)">
-                  <!-- Modal body -->
-                  <div class="modal-body">
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <input v-model="form.name" type="text" name="name" placeholder="নাম" 
-                            class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
-                          <has-error :form="form" field="name"></has-error>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <v-select placeholder="মালিক নির্ধারণ করুন" :options="owners" :reduce="id => id" label="name" v-model="form.owners" ref='ownerSelect' multiple></v-select>
-                          <has-error :form="form" field="owners"></has-error>
-                        </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <input v-model="form.name" type="text" name="name" placeholder="নাম" 
+                          class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
+                        <has-error :form="form" field="name"></has-error>
                       </div>
                     </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <input v-model="form.address" type="text" name="address" placeholder="ঠিকানা" 
-                            class="form-control" :class="{ 'is-invalid': form.errors.has('address') }">
-                          <has-error :form="form" field="address"></has-error>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <v-select placeholder="স্থাপিত" :options="years" :reduce="id => id" v-model="form.established" taggable ref='theSelect' :class="{ 'is-invalid': form.errors.has('established') }"></v-select>
-                          <has-error :form="form" field="established"></has-error>
-                        </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <v-select placeholder="মালিক নির্ধারণ করুন" :options="owners" :reduce="id => id" label="name" v-model="form.owners" ref='ownerSelect' multiple></v-select>
+                        <has-error :form="form" field="owners"></has-error>
                       </div>
                     </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <select v-model="form.activation_status" type="text" name="activation_status" placeholder="এক্টিভেশন স্ট্যাটাস" 
-                            class="form-control" :class="{ 'is-invalid': form.errors.has('activation_status') }">
-                              <option value="" selected="" disabled="">এক্টিভেশন স্ট্যাটাস</option>
-                              <option value="0">প্রক্রিয়াধীন</option>
-                              <option value="1">অনুমোদিত</option>
-                            </select>
-                          <has-error :form="form" field="activation_status"></has-error>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <select v-model="form.payment_status" type="text" name="payment_status" placeholder="পেমেন্ট স্ট্যাটাস" 
-                            class="form-control" :class="{ 'is-invalid': form.errors.has('payment_status') }">
-                              <option value="" selected="" disabled="">পেমেন্ট স্ট্যাটাস</option>
-                              <option value="0">অপরিশোধিত</option>
-                              <option value="1">পরিশোধিত</option>
-                            </select>
-                          <has-error :form="form" field="payment_status"></has-error>
-                        </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <input v-model="form.address" type="text" name="address" placeholder="ঠিকানা" 
+                          class="form-control" :class="{ 'is-invalid': form.errors.has('address') }">
+                        <has-error :form="form" field="address"></has-error>
                       </div>
                     </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <v-select placeholder="স্থাপিত" :options="years" :reduce="id => id" v-model="form.established" taggable ref='theSelect' :class="{ 'is-invalid': form.errors.has('established') }"></v-select>
+                        <has-error :form="form" field="established"></has-error>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <select v-model="form.activation_status" type="text" name="activation_status" placeholder="এক্টিভেশন স্ট্যাটাস" 
+                          class="form-control" :class="{ 'is-invalid': form.errors.has('activation_status') }">
+                            <option value="" selected="" disabled="">এক্টিভেশন স্ট্যাটাস</option>
+                            <option value="0">প্রক্রিয়াধীন</option>
+                            <option value="1">অনুমোদিত</option>
+                          </select>
+                        <has-error :form="form" field="activation_status"></has-error>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <select v-model="form.payment_status" type="text" name="payment_status" placeholder="পেমেন্ট স্ট্যাটাস" 
+                          class="form-control" :class="{ 'is-invalid': form.errors.has('payment_status') }">
+                            <option value="" selected="" disabled="">পেমেন্ট স্ট্যাটাস</option>
+                            <option value="0">অপরিশোধিত</option>
+                            <option value="1">পরিশোধিত</option>
+                          </select>
+                        <has-error :form="form" field="payment_status"></has-error>
+                      </div>
+                    </div>
+                  </div>
 
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <input type="file" v-on:change="uploadMonogram" name="monogram" placeholder="মনোগ্রাম" 
-                            class="form-control" :class="{ 'is-invalid': form.errors.has('monogram') }" ref="monogramInput">
-                          <has-error :form="form" field="monogram"></has-error>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <center>
-                          <img :src="getMonogramOnModal()" class="img-responsive" style="max-height: 150px; width: auto;">
-                        </center>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <input type="file" v-on:change="uploadMonogram" name="monogram" placeholder="মনোগ্রাম" 
+                          class="form-control" :class="{ 'is-invalid': form.errors.has('monogram') }" ref="monogramInput">
+                        <has-error :form="form" field="monogram"></has-error>
                       </div>
                     </div>
+                    <div class="col-md-6">
+                      <center>
+                        <img :src="getMonogramOnModal()" class="img-responsive" style="max-height: 150px; width: auto;">
+                      </center>
+                    </div>
                   </div>
-                  <!-- Modal footer -->
-                  <div class="modal-footer">
-                    <button v-show="editmode" type="submit" class="btn btn-success">হালনাগাদ করুন</button>
-                    <button v-show="!editmode" type="submit" class="btn btn-success">দাখিল করুন</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">ফিরে যান</button>
-                  </div>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                  <button v-show="editmode" type="submit" class="btn btn-success">হালনাগাদ করুন</button>
+                  <button v-show="!editmode" type="submit" class="btn btn-success">দাখিল করুন</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">ফিরে যান</button>
+                </div>
               </form>
             </div>
           </div>
@@ -248,12 +248,10 @@
                 this.loadOwners();
                 this.loadYears();
 
-                this.form.fill(store);
-
-                
+                this.form.fill(store);                
             },
             loadOwners() {
-                axios.get('api/owners').then(({ data }) => {
+                axios.get('/api/owners').then(({ data }) => {
                   (this.owners = data);
                 });
             },
@@ -267,19 +265,19 @@
             },
             loadStores() {
                 if(this.$gate.isAuthorized('store-crud')){
-                  axios.get('api/store').then(({ data }) => (this.stores = data));  
+                  axios.get('/api/store').then(({ data }) => (this.stores = data));  
                 }
             },
             createStore() {
                 this.$Progress.start();
-                this.form.post('api/store').then(() => {
-                    $('#addStoreModal').modal('hide')
-                    Fire.$emit('AfterCreated')
-                    toast.fire({
-                      type: 'success',
-                      title: 'সফলভাবে সংরক্ষণ করা হয়েছে!'
-                    })
-                    this.$Progress.finish();
+                this.form.post('/api/store').then(() => {
+                  $('#addStoreModal').modal('hide')
+                  Fire.$emit('AfterCreated')
+                  toast.fire({
+                    type: 'success',
+                    title: 'সফলভাবে সংরক্ষণ করা হয়েছে!'
+                  })
+                  this.$Progress.finish();
                 })
                 .catch(() => {
                     this.$Progress.fail();
@@ -287,14 +285,14 @@
             },
             updateStore() {
                 this.$Progress.start();
-                this.form.put('api/store/'+ this.form.id).then(() => {
-                    $('#addStoreModal').modal('hide')
-                    Fire.$emit('AfterCreated')
-                    toast.fire({
-                      type: 'success',
-                      title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
-                    })
-                    this.$Progress.finish();
+                this.form.put('/api/store/'+ this.form.id).then(() => {
+                  $('#addStoreModal').modal('hide')
+                  Fire.$emit('AfterCreated')
+                  toast.fire({
+                    type: 'success',
+                    title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
+                  })
+                  this.$Progress.finish();
                 })
                 .catch(() => {
                     this.$Progress.fail();
@@ -312,7 +310,7 @@
                   confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
                     if (result.value) {
-                       this.form.delete('api/store/'+ id).then(() => {
+                       this.form.delete('/api/store/'+ id).then(() => {
                          swal.fire(
                           'Deleted!',
                           'Store has been deleted.',
@@ -370,7 +368,7 @@
               }
             },
             getPaginationResults(page = 1) {
-              axios.get('api/store?page=' + page)
+              axios.get('/api/store?page=' + page)
               .then(response => {
                 this.stores = response.data;
               });
@@ -386,7 +384,7 @@
             Fire.$on('searching', () => {
                 let query = this.$parent.search;
                 if(query != '') {
-                  axios.get('api/searchstore/' + query)
+                  axios.get('/api/searchstore/' + query)
                   .then((data) => {
                     this.stores = data.data;
                   })
