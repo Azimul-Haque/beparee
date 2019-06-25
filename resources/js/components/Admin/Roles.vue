@@ -183,7 +183,7 @@
                 }
                 this.$Progress.start();
                 this.form.post('api/role/create').then(() => {
-                    Fire.$emit('AfterCreated')
+                    Fire.$emit('AfterRoleCreatedOrUpdated')
                     toast.fire({
                       type: 'success',
                       title: 'সফলভাবে সংরক্ষণ হয়েছে!'
@@ -199,7 +199,7 @@
             updateRole() {
                 this.$Progress.start();
                 this.form.put('/api/role/update/'+ this.form.id).then(() => {
-                    Fire.$emit('AfterCreated')
+                    Fire.$emit('AfterRoleCreatedOrUpdated')
                     toast.fire({
                       type: 'success',
                       title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
@@ -230,7 +230,7 @@
                           'সফলভাবে ডিলেট করা হয়েছে!',
                           'success'
                           )
-                         Fire.$emit('AfterCreated')
+                         Fire.$emit('AfterRoleCreatedOrUpdated')
                        })
                        .catch(() => {
                          swal('Failed!', 'There was something wrong', 'warning');
@@ -251,7 +251,7 @@
             this.loadRoles();
             this.loadPermissions();
             
-            Fire.$on('AfterCreated', () => {
+            Fire.$on('AfterRoleCreatedOrUpdated', () => {
                 this.loadRoles();
             });
 
@@ -270,6 +270,10 @@
                 }
                 
             });
+        },
+        beforeDestroy() {
+          Fire.$off('AfterRoleCreatedOrUpdated')
+          // Fire.$off('searching')
         }
     }
 </script>

@@ -82,7 +82,7 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <router-link to="/profile" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
-                  <i class="nav-icon fa fa-user"></i>
+                  <i class="nav-icon fa fa-address-book-o"></i>
                   <p>প্রোফাইল</p>
                 </router-link>
               </li>
@@ -94,7 +94,7 @@
           @foreach(Auth::user()->stores as $stores_for_nav)
             <li class="nav-item has-treeview @if(Request::url() == url('/store/'.$stores_for_nav->token.'/'.$stores_for_nav->code)) menu-open @endif" {{-- :class="{'menu-open':menuselected == 2}" --}}>
               <a href="#" class="nav-link {{-- active --}}" {{-- @click="menuselected = 2" --}}>
-                <i class="nav-icon fa fa-shopping-bag"></i>
+                <i class="nav-icon fa fa-university"></i>
                 <p>
                   <span id="changeNavStoreName{{ $stores_for_nav->id }}">{{ $stores_for_nav->name }}</span>
                   <i class="right fa fa-angle-left"></i>
@@ -103,7 +103,7 @@
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <router-link :to="{ name: 'singleStore', params: { token: '{{ $stores_for_nav->token }}', code: '{{ $stores_for_nav->code }}' }}" class="nav-link" @click.native="changeStoreName" @mobile data-widget="pushmenu" @endmobile>
-                    <i class="nav-icon fa fa-pencil"></i>
+                    <i class="nav-icon fa fa-address-card-o"></i>
                     <p>দোকানের প্রোফাইল</p>
                   </router-link> 
                   {{-- <a href="{{ url('store/'.$stores_for_nav->token.'/'.$stores_for_nav->code) }}" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
@@ -113,27 +113,57 @@
                 </li>
                 <li class="nav-item">
                   <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
-                    <i class="nav-icon fa fa-plus"></i><p>Puchase</p>
+                    <i class="nav-icon fa fa-list-ul"></i><p>মালামাল তালিকা</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
-                    <i class="nav-icon fa fa-plus"></i><p>Sales</p>
+                    <i class="nav-icon fa fa-plus"></i><p>ক্রয়ের হিসাব</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
-                    <i class="nav-icon fa fa-plus"></i><p>Inventory</p>
+                    <i class="nav-icon fa fa-plus"></i><p>বিক্রয়ের হিসাব</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
-                    <i class="nav-icon fa fa-plus"></i><p>Accounting</p>
+                    <i class="nav-icon fa fa-plus"></i><p>লেন-দেন হিসাব</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
-                    <i class="nav-icon fa fa-plus"></i><p>HRM</p>
+                    <i class="nav-icon fa fa-plus"></i><p>কাস্টমার তালিকা</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                    <i class="nav-icon fa fa-plus"></i><p>কর্মচারী তালিকা</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                    <i class="nav-icon fa fa-plus"></i><p>খরচের হিসাব</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                    <i class="nav-icon fa fa-plus"></i><p>খরচের হিসাব</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                    <i class="nav-icon fa fa-plus"></i><p>ডিলার/ ভেন্ডরের তালিকা</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                    <i class="nav-icon fa fa-plus"></i><p>বাকির হিসাব</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                    <i class="nav-icon fa fa-plus"></i><p>রিপোর্ট</p>
                   </a>
                 </li>
               </ul>

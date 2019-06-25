@@ -228,7 +228,7 @@
                 this.$Progress.start();
                 this.form.post('/api/user').then(() => {
                     $('#addUserModal').modal('hide')
-                    Fire.$emit('AfterCreated')
+                    Fire.$emit('AfterUserCreatedOrUpdated')
                     toast.fire({
                       type: 'success',
                       title: 'User created successfully'
@@ -243,7 +243,7 @@
                 this.$Progress.start();
                 this.form.put('/api/user/'+ this.form.id).then(() => {
                     $('#addUserModal').modal('hide')
-                    Fire.$emit('AfterCreated')
+                    Fire.$emit('AfterUserCreatedOrUpdated')
                     toast.fire({
                       type: 'success',
                       title: 'User updated successfully'
@@ -272,7 +272,7 @@
                           'User has been deleted.',
                           'success'
                           )
-                         Fire.$emit('AfterCreated')
+                         Fire.$emit('AfterUserCreatedOrUpdated')
                        })
                        .catch(() => {
                          swal('Failed!', 'There was something wrong', 'warning');
@@ -346,7 +346,7 @@
             this.loadUsers();
             this.loadRoles();
             // console.log('loaded');
-            Fire.$on('AfterCreated', () => {
+            Fire.$on('AfterUserCreatedOrUpdated', () => {
                 this.loadUsers();
             });
 
@@ -364,6 +364,10 @@
                   this.loadUsers();
                 }
             });
+        },
+        beforeDestroy() {
+          Fire.$off('AfterUserCreatedOrUpdated')
+          // Fire.$off('searching')
         }
     }
 </script>

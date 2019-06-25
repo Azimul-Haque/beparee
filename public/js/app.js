@@ -2023,7 +2023,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.$Progress.start();
       this.form.post('api/role/create').then(function () {
-        Fire.$emit('AfterCreated');
+        Fire.$emit('AfterRoleCreatedOrUpdated');
         toast.fire({
           type: 'success',
           title: 'সফলভাবে সংরক্ষণ হয়েছে!'
@@ -2042,7 +2042,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.$Progress.start();
       this.form.put('/api/role/update/' + this.form.id).then(function () {
-        Fire.$emit('AfterCreated');
+        Fire.$emit('AfterRoleCreatedOrUpdated');
         toast.fire({
           type: 'success',
           title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
@@ -2072,7 +2072,7 @@ __webpack_require__.r(__webpack_exports__);
         if (result.value) {
           _this5.form["delete"]('/api/role/delete/' + id).then(function () {
             swal.fire('Deleted!', 'সফলভাবে ডিলেট করা হয়েছে!', 'success');
-            Fire.$emit('AfterCreated');
+            Fire.$emit('AfterRoleCreatedOrUpdated');
           })["catch"](function () {
             swal('Failed!', 'There was something wrong', 'warning');
           });
@@ -2093,7 +2093,7 @@ __webpack_require__.r(__webpack_exports__);
 
     this.loadRoles();
     this.loadPermissions();
-    Fire.$on('AfterCreated', function () {
+    Fire.$on('AfterRoleCreatedOrUpdated', function () {
       _this7.loadRoles();
     });
     Fire.$on('searching', function () {
@@ -2107,6 +2107,9 @@ __webpack_require__.r(__webpack_exports__);
         _this7.loadRoles();
       }
     });
+  },
+  beforeDestroy: function beforeDestroy() {
+    Fire.$off('AfterRoleCreatedOrUpdated'); // Fire.$off('searching')
   }
 });
 
@@ -2404,7 +2407,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$Progress.start();
       this.form.post('/api/store').then(function () {
         $('#addStoreModal').modal('hide');
-        Fire.$emit('AfterCreated');
+        Fire.$emit('AfterStoresCreatedOrUpdated');
         toast.fire({
           type: 'success',
           title: 'সফলভাবে সংরক্ষণ করা হয়েছে!'
@@ -2421,7 +2424,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$Progress.start();
       this.form.put('/api/store/' + this.form.id).then(function () {
         $('#addStoreModal').modal('hide');
-        Fire.$emit('AfterCreated');
+        Fire.$emit('AfterStoresCreatedOrUpdated');
         toast.fire({
           type: 'success',
           title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
@@ -2448,7 +2451,7 @@ __webpack_require__.r(__webpack_exports__);
         if (result.value) {
           _this5.form["delete"]('/api/store/' + id).then(function () {
             swal.fire('Deleted!', 'Store has been deleted.', 'success');
-            Fire.$emit('AfterCreated');
+            Fire.$emit('AfterStoresCreatedOrUpdated');
           })["catch"](function () {
             swal('Failed!', 'There was something wrong', 'warning');
           });
@@ -2510,7 +2513,7 @@ __webpack_require__.r(__webpack_exports__);
     var _this8 = this;
 
     this.loadStores();
-    Fire.$on('AfterCreated', function () {
+    Fire.$on('AfterStoresCreatedOrUpdated', function () {
       _this8.loadStores();
     });
     Fire.$on('searching', function () {
@@ -2524,6 +2527,9 @@ __webpack_require__.r(__webpack_exports__);
         _this8.loadStores();
       }
     });
+  },
+  beforeDestroy: function beforeDestroy() {
+    Fire.$off('AfterStoresCreatedOrUpdated'); // Fire.$off('searching')
   }
 });
 
@@ -2779,7 +2785,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$Progress.start();
       this.form.post('/api/user').then(function () {
         $('#addUserModal').modal('hide');
-        Fire.$emit('AfterCreated');
+        Fire.$emit('AfterUserCreatedOrUpdated');
         toast.fire({
           type: 'success',
           title: 'User created successfully'
@@ -2796,7 +2802,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$Progress.start();
       this.form.put('/api/user/' + this.form.id).then(function () {
         $('#addUserModal').modal('hide');
-        Fire.$emit('AfterCreated');
+        Fire.$emit('AfterUserCreatedOrUpdated');
         toast.fire({
           type: 'success',
           title: 'User updated successfully'
@@ -2823,7 +2829,7 @@ __webpack_require__.r(__webpack_exports__);
         if (result.value) {
           _this5.form["delete"]('/api/user/' + id).then(function () {
             swal.fire('Deleted!', 'User has been deleted.', 'success');
-            Fire.$emit('AfterCreated');
+            Fire.$emit('AfterUserCreatedOrUpdated');
           })["catch"](function () {
             swal('Failed!', 'There was something wrong', 'warning');
           });
@@ -2895,7 +2901,7 @@ __webpack_require__.r(__webpack_exports__);
     this.loadUsers();
     this.loadRoles(); // console.log('loaded');
 
-    Fire.$on('AfterCreated', function () {
+    Fire.$on('AfterUserCreatedOrUpdated', function () {
       _this8.loadUsers();
     });
     Fire.$on('searching', function () {
@@ -2909,6 +2915,9 @@ __webpack_require__.r(__webpack_exports__);
         _this8.loadUsers();
       }
     });
+  },
+  beforeDestroy: function beforeDestroy() {
+    Fire.$off('AfterUserCreatedOrUpdated'); // Fire.$off('searching')
   }
 });
 
@@ -3156,7 +3165,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.$Progress.start();
       this.form.put('/api/store/update/by/user/' + this.form.id).then(function () {
-        Fire.$emit('AfterUpdated');
+        Fire.$emit('AfterStoreUpdated');
         toast.fire({
           type: 'success',
           title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
@@ -3227,9 +3236,13 @@ __webpack_require__.r(__webpack_exports__);
     Fire.$on('changingstorename', function () {
       _this4.loadStore();
     });
-    Fire.$on('AfterUpdated', function () {
+    Fire.$on('AfterStoreUpdated', function () {
       _this4.loadStore();
     }); // console.log(this.$route.params.code);
+  },
+  beforeDestroy: function beforeDestroy() {
+    Fire.$off('changingstorename');
+    Fire.$off('AfterStoreUpdated');
   }
 });
 
@@ -3383,7 +3396,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.$Progress.start();
       this.form.put('/api/user/' + this.form.id).then(function () {
-        Fire.$emit('AfterCreated');
+        Fire.$emit('AfterUserProfileUpdated');
         Fire.$emit('updateuserdpinnav');
         toast.fire({
           type: 'success',
@@ -3452,13 +3465,17 @@ __webpack_require__.r(__webpack_exports__);
     var _this4 = this;
 
     this.loadUser();
-    Fire.$on('AfterCreated', function () {
+    Fire.$on('AfterUserProfileUpdated', function () {
       _this4.loadUser(); // this.$refs.imageInput.value = null; // giving an error
       // setTimeout(function(){
       //     location.reload();
       // }, 3000);
 
     });
+  },
+  beforeDestroy: function beforeDestroy() {
+    Fire.$off('AfterUserProfileUpdated');
+    Fire.$off('updateuserdpinnav');
   }
 });
 

@@ -272,7 +272,7 @@
                 this.$Progress.start();
                 this.form.post('/api/store').then(() => {
                   $('#addStoreModal').modal('hide')
-                  Fire.$emit('AfterCreated')
+                  Fire.$emit('AfterStoresCreatedOrUpdated')
                   toast.fire({
                     type: 'success',
                     title: 'সফলভাবে সংরক্ষণ করা হয়েছে!'
@@ -287,7 +287,7 @@
                 this.$Progress.start();
                 this.form.put('/api/store/'+ this.form.id).then(() => {
                   $('#addStoreModal').modal('hide')
-                  Fire.$emit('AfterCreated')
+                  Fire.$emit('AfterStoresCreatedOrUpdated')
                   toast.fire({
                     type: 'success',
                     title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
@@ -316,7 +316,7 @@
                           'Store has been deleted.',
                           'success'
                           )
-                         Fire.$emit('AfterCreated')
+                         Fire.$emit('AfterStoresCreatedOrUpdated')
                        })
                        .catch(() => {
                          swal('Failed!', 'There was something wrong', 'warning');
@@ -377,7 +377,7 @@
         created() {
             this.loadStores();
             
-            Fire.$on('AfterCreated', () => {
+            Fire.$on('AfterStoresCreatedOrUpdated', () => {
                 this.loadStores();
             });
 
@@ -396,6 +396,10 @@
                 }
                 
             });
+        },
+        beforeDestroy() {
+          Fire.$off('AfterStoresCreatedOrUpdated')
+          // Fire.$off('searching')
         }
     }
 </script>

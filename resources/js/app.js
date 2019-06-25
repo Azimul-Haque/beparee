@@ -152,7 +152,5 @@ const app = new Vue({
       Fire.$on('updateuserdpinnav', () => {
         this.getUserProfilePhotoOnNav();
       });
-
-      
     }
 });

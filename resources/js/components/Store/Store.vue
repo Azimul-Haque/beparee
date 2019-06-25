@@ -127,7 +127,7 @@
       updateStore() {
           this.$Progress.start();
           this.form.put('/api/store/update/by/user/'+ this.form.id).then(() => {
-            Fire.$emit('AfterUpdated')
+            Fire.$emit('AfterStoreUpdated')
             toast.fire({
               type: 'success',
               title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
@@ -197,11 +197,15 @@
           this.loadStore();
       });
 
-      Fire.$on('AfterUpdated', () => {
+      Fire.$on('AfterStoreUpdated', () => {
           this.loadStore();
       });
       
       // console.log(this.$route.params.code);
+    },
+    beforeDestroy() {
+      Fire.$off('changingstorename')
+      Fire.$off('AfterStoreUpdated')
     }
   }
 </script>

@@ -137,7 +137,7 @@
             updateUser() {
                 this.$Progress.start();
                 this.form.put('/api/user/'+ this.form.id).then(() => {
-                  Fire.$emit('AfterCreated');
+                  Fire.$emit('AfterUserProfileUpdated');
                   Fire.$emit('updateuserdpinnav');
                   toast.fire({
                     type: 'success',
@@ -208,7 +208,7 @@
         },
         created() {
             this.loadUser();
-            Fire.$on('AfterCreated', () => {
+            Fire.$on('AfterUserProfileUpdated', () => {
                 this.loadUser();
                 // this.$refs.imageInput.value = null; // giving an error
                 // setTimeout(function(){
@@ -216,6 +216,10 @@
                 // }, 3000);
 
             });
+        },
+        beforeDestroy() {
+          Fire.$off('AfterUserProfileUpdated')
+          Fire.$off('updateuserdpinnav')
         }
     }
 </script>
