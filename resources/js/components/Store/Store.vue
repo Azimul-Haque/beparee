@@ -24,7 +24,7 @@
               <div class="card card-widget widget-user">
                 <!-- Add the bg color to the header using any of the bg-* classes -->
                 <div class="widget-user-header bg-info-active" style="background: url('/images/storecover.jpg') center center;">
-                  
+                  <p class="shadow" style="color: #FFFFFF; background: rgba(251, 251, 251, 0.35); padding: 5px;">{{ store.slogan }}</p>
                 </div>
                 <div class="widget-user-image">
                   <img class="img-circle elevation-2" :src="getStoreMonogram(store.monogram)" alt="User Avatar">
@@ -63,6 +63,11 @@
                       <input v-model="form.address" type="text" name="address" placeholder="ঠিকানা" 
                         class="form-control" :class="{ 'is-invalid': form.errors.has('address') }">
                       <has-error :form="form" field="address"></has-error>
+                    </div>
+                    <div class="form-group">
+                      <input v-model="form.slogan" type="text" name="slogan" placeholder="দোকান / ব্যবসা প্রতিষ্ঠানের স্লোগান" 
+                        class="form-control" :class="{ 'is-invalid': form.errors.has('slogan') }">
+                      <has-error :form="form" field="slogan"></has-error>
                     </div>
                     
 
@@ -105,7 +110,8 @@
             name: '',
             established: '',
             address: '',
-            monogram: ''
+            monogram: '',
+            slogan: ''
           }),
         }
     },

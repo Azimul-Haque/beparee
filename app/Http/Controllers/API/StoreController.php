@@ -39,7 +39,8 @@ class StoreController extends Controller
             'activation_status'      => 'required',
             'payment_status'         => 'required',
             'monogram'               => 'sometimes',
-            'owners'                  => 'required'
+            'slogan'                 => 'sometimes',
+            'owners'                 => 'required'
         ));
 
         $store = new Store;
@@ -61,6 +62,7 @@ class StoreController extends Controller
             Image::make($request->monogram)->resize(200, null, function ($constraint) { $constraint->aspectRatio(); })->save($location);
             $store->monogram = $filename;
         }
+        $store->slogan = $request->slogan;
 
         $store->save();
 
@@ -101,7 +103,8 @@ class StoreController extends Controller
             'activation_status'      => 'required',
             'payment_status'         => 'required',
             'monogram'               => 'sometimes',
-            'owners'                  => 'required'
+            'slogan'                 => 'sometimes',
+            'owners'                 => 'required'
         ));
 
         $store = Store::findOrFail($id);
@@ -121,7 +124,8 @@ class StoreController extends Controller
             Image::make($request->monogram)->resize(200, null, function ($constraint) { $constraint->aspectRatio(); })->save($location);
             $store->monogram = $filename;
         }
-
+        $store->slogan = $request->slogan;
+        
         $store->save();
         
         DB::table('store_user')->where('store_id', $id)->delete();

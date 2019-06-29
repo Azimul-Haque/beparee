@@ -164,6 +164,11 @@
                       </div>
                     </div>
                   </div>
+                  <div class="form-group">
+                    <input v-model="form.slogan" type="text" name="slogan" placeholder="দোকান / ব্যবসা প্রতিষ্ঠানের স্লোগান" 
+                      class="form-control" :class="{ 'is-invalid': form.errors.has('slogan') }">
+                    <has-error :form="form" field="slogan"></has-error>
+                  </div>
 
                   <div class="row">
                     <div class="col-md-6">
@@ -219,6 +224,7 @@
                 // smsbalance: '',
                 // smsrate: '',
                 monogram: '',
+                slogan: '',
                 owners: ''
               }),
               editmode: false

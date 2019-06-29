@@ -2324,6 +2324,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2344,6 +2349,7 @@ __webpack_require__.r(__webpack_exports__);
         // smsbalance: '',
         // smsrate: '',
         monogram: '',
+        slogan: '',
         owners: ''
       }),
       editmode: false
@@ -3132,6 +3138,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3143,7 +3154,8 @@ __webpack_require__.r(__webpack_exports__);
         name: '',
         established: '',
         address: '',
-        monogram: ''
+        monogram: '',
+        slogan: ''
       })
     };
   },
@@ -73901,6 +73913,51 @@ var render = function() {
                           ])
                         ]),
                         _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "form-group" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form.slogan,
+                                  expression: "form.slogan"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: {
+                                "is-invalid": _vm.form.errors.has("slogan")
+                              },
+                              attrs: {
+                                type: "text",
+                                name: "slogan",
+                                placeholder:
+                                  "দোকান / ব্যবসা প্রতিষ্ঠানের স্লোগান"
+                              },
+                              domProps: { value: _vm.form.slogan },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.form,
+                                    "slogan",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("has-error", {
+                              attrs: { form: _vm.form, field: "slogan" }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
                         _c("div", { staticClass: "row" }, [
                           _c("div", { staticClass: "col-md-6" }, [
                             _c(
@@ -74877,12 +74934,29 @@ var render = function() {
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-6" }, [
               _c("div", { staticClass: "card card-widget widget-user" }, [
-                _c("div", {
-                  staticClass: "widget-user-header bg-info-active",
-                  staticStyle: {
-                    background: "url('/images/storecover.jpg') center center"
-                  }
-                }),
+                _c(
+                  "div",
+                  {
+                    staticClass: "widget-user-header bg-info-active",
+                    staticStyle: {
+                      background: "url('/images/storecover.jpg') center center"
+                    }
+                  },
+                  [
+                    _c(
+                      "p",
+                      {
+                        staticClass: "shadow",
+                        staticStyle: {
+                          color: "#FFFFFF",
+                          background: "rgba(251, 251, 251, 0.35)",
+                          padding: "5px"
+                        }
+                      },
+                      [_vm._v(_vm._s(_vm.store.slogan))]
+                    )
+                  ]
+                ),
                 _vm._v(" "),
                 _c("div", { staticClass: "widget-user-image" }, [
                   _c("img", {
@@ -75061,6 +75135,50 @@ var render = function() {
                           _vm._v(" "),
                           _c("has-error", {
                             attrs: { form: _vm.form, field: "address" }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "form-group" },
+                        [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.slogan,
+                                expression: "form.slogan"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("slogan")
+                            },
+                            attrs: {
+                              type: "text",
+                              name: "slogan",
+                              placeholder: "দোকান / ব্যবসা প্রতিষ্ঠানের স্লোগান"
+                            },
+                            domProps: { value: _vm.form.slogan },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.form,
+                                  "slogan",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("has-error", {
+                            attrs: { form: _vm.form, field: "slogan" }
                           })
                         ],
                         1
