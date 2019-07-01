@@ -115,7 +115,7 @@
                 @endpermission
                 @permission('product-page')
                 <li class="nav-item">
-                  <router-link :to="{ name: 'productPage', params: { code: '{{ $stores_for_nav->code }}' }}" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                  <router-link :to="{ name: 'productsPage', params: { code: '{{ $stores_for_nav->code }}' }}" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
                     <i class="nav-icon fa fa-list-ul"></i>
                     <p>মালামাল তালিকা</p>
                   </router-link> 
@@ -158,7 +158,7 @@
                 </li>
                 @permission('vendor-page')
                 <li class="nav-item">
-                  <router-link :to="{ name: 'vendorPage', params: { code: '{{ $stores_for_nav->code }}' }}" class="nav-link" @click.native="changeStoreName" @mobile data-widget="pushmenu" @endmobile>
+                  <router-link :to="{ name: 'vendorsPage', params: { code: '{{ $stores_for_nav->code }}' }}" class="nav-link" @click.native="changeStoreName" @mobile data-widget="pushmenu" @endmobile>
                     <i class="nav-icon fa fa-truck"></i>
                     <p>ডিলার/ ভেন্ডরের তালিকা</p>
                   </router-link> 

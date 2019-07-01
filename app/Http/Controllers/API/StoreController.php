@@ -158,7 +158,7 @@ class StoreController extends Controller
                    ->orWhere('address', 'LIKE', '%'.$query.'%');
          })->paginate(5);
         
-
+        $stores->load('users');
         return $stores;
     }
 

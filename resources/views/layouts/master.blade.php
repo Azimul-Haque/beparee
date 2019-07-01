@@ -10,11 +10,23 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="user" content="{{ Auth::user() }}">
 
+
+  {{-- favicon --}}
+  {{-- <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}"> --}}
+  {{-- favicon --}}
+  <meta name="mobile-web-app-capable" content="yes">
+  {{-- <link rel="icon" sizes="192x192" href="{{ asset('images/favicon.png') }}"> --}}
+  <meta name="theme-color" content="#ffffff">
+  <meta name="msapplication-navbutton-color" content="#ffffff">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#ffffff">
+  <meta name="description" content="Code Name: Beparee, Copyright Reserved. Developed By A. H. M. Azimul Haque."/>
+
   <title>@yield('title')</title>
   <!-- Styles -->
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini layout-navbar-fixed layout-fixed">
 <div class="wrapper" id="app">
   
   @include('layouts._navbar')

@@ -43,8 +43,11 @@ let routes = [
   { path: '/stores', component: require('./components/Admin/Stores.vue').default, meta: { title: 'দোকানের তালিকা'} },
 
   { path: '/store/:token/:code', component: require('./components/Store/Store.vue').default, meta: { title: 'দোকান'}, name: 'singleStore'},
-  { path: '/products/:code', component: require('./components/Product/Products.vue').default, meta: { title: 'মালামাল তালিকা'}, name: 'productPage'},
-  { path: '/vendors/:code', component: require('./components/Vendor/Vendors.vue').default, meta: { title: 'ডিলার/ ভেন্ডরের তালিকা'}, name: 'vendorPage'},
+  
+  { path: '/products/:code', component: require('./components/Product/Products.vue').default, meta: { title: 'মালামাল তালিকা'}, name: 'productsPage'},
+  { path: '/product/:id', component: require('./components/Product/Product.vue').default, meta: { title: 'পণ্য'}, name: 'singleProduct'},
+  
+  { path: '/vendors/:code', component: require('./components/Vendor/Vendors.vue').default, meta: { title: 'ডিলার/ ভেন্ডরের তালিকা'}, name: 'vendorsPage'},
   { path: '*', component: require('./components/404.vue').default, meta: { title: '404'} },
 ]
 
@@ -61,7 +64,11 @@ router.beforeEach((to, from, next) => {
 
 
 Vue.filter('date', function(date) {
-	return moment(date).format('MMMM D, YYYY');
+  return moment(date).format('MMMM DD, YYYY');
+})
+
+Vue.filter('datetime', function(date) {
+	return moment(date).format('MMMM DD, YYYY hh:mm A');
 })
 
 Vue.filter('activation_status', function(activation_status) {
@@ -78,6 +85,16 @@ Vue.filter('payment_status', function(payment_status) {
 	} else {
 		return 'পরিশোধিত';
 	}
+})
+
+Vue.filter('totalquantity', function(data) {
+  var totalquantity = 0;
+  if(data) {
+    for(var i=0; i<data.length; i++) {
+      totalquantity = totalquantity + parseInt(data[i].quantity);
+    }
+  }
+  return totalquantity;
 })
 
 Vue.use(VueProgressBar, {
@@ -131,6 +148,7 @@ const app = new Vue({
     methods: {
       searchIt: _.debounce(() => {
         Fire.$emit('searching');
+        console.log('fired');
       }, 1000),
       changeStoreName() {
         Fire.$emit('changingstorename');

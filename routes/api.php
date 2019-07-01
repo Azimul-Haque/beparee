@@ -35,6 +35,8 @@ Route::put('store/update/by/user/{id}', 'API\StoreController@updateByUser');
 
 Route::apiResources(['product' => 'API\ProductController']);
 Route::get('load/product/{code}', 'API\ProductController@loadProducts');
+Route::get('load/single/product/{id}', 'API\ProductController@loadSingleProduct');
+
 Route::get('load/product/vendor/{code}', 'API\ProductController@loadVendors');
 Route::get('product/category/{code}', 'API\ProductController@loadCategories');
 Route::post('product/category/store', 'API\ProductController@storeCategory');
@@ -47,3 +49,4 @@ Route::get('load/vendor/{code}', 'API\VendorController@loadVendors');
 Route::get('searchuser/{query}', 'API\UserController@searchUser'); 
 Route::get('searchrole/{query}', 'API\UserController@searchRole');
 Route::get('searchstore/{query}', 'API\StoreController@searchStore');
+Route::get('searchproduct/{query}', 'API\ProductController@searchProduct');

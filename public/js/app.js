@@ -94,11 +94,11 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
- * AdminLTE v3.0.0-alpha.2 (https://adminlte.io)
- * Copyright 2014-2018 Abdullah Almsaeed <abdullah@almsaeedstudio.com>
+ * AdminLTE v3.0.0-beta.1 (https://adminlte.io)
+ * Copyright 2014-2019 Colorlib <http://colorlib.com>
  * Licensed under MIT (https://github.com/almasaeed2010/AdminLTE/blob/master/LICENSE)
  */
-!function(e,t){ true?t(exports):undefined}(this,function(e){"use strict";var i,t,o,n,r,a,s,c,f,l,u,d,h,p,_,g,y,m,v,C,D,E,A,O,w,b,L,S,j,T,I,Q,R,P,x,B,M,k,H,N,Y,U,V,G,W,X,z,F,q,J,K,Z,$,ee,te,ne="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},ie=function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")},oe=(i=jQuery,t="ControlSidebar",o="lte.control.sidebar",n=i.fn[t],r=".control-sidebar",a='[data-widget="control-sidebar"]',s=".main-header",c="control-sidebar-open",f="control-sidebar-slide-open",l={slide:!0},u=function(){function n(e,t){ie(this,n),this._element=e,this._config=this._getConfig(t)}return n.prototype.show=function(){this._config.slide?i("body").removeClass(f):i("body").removeClass(c)},n.prototype.collapse=function(){this._config.slide?i("body").addClass(f):i("body").addClass(c)},n.prototype.toggle=function(){this._setMargin(),i("body").hasClass(c)||i("body").hasClass(f)?this.show():this.collapse()},n.prototype._getConfig=function(e){return i.extend({},l,e)},n.prototype._setMargin=function(){i(r).css({top:i(s).outerHeight()})},n._jQueryInterface=function(t){return this.each(function(){var e=i(this).data(o);if(e||(e=new n(this,i(this).data()),i(this).data(o,e)),"undefined"===e[t])throw new Error(t+" is not a function");e[t]()})},n}(),i(document).on("click",a,function(e){e.preventDefault(),u._jQueryInterface.call(i(this),"toggle")}),i.fn[t]=u._jQueryInterface,i.fn[t].Constructor=u,i.fn[t].noConflict=function(){return i.fn[t]=n,u._jQueryInterface},u),re=(d=jQuery,h="Layout",p="lte.layout",_=d.fn[h],g=".main-sidebar",y=".main-header",m=".content-wrapper",v=".main-footer",C="hold-transition",D=function(){function n(e){ie(this,n),this._element=e,this._init()}return n.prototype.fixLayoutHeight=function(){var e={window:d(window).height(),header:d(y).outerHeight(),footer:d(v).outerHeight(),sidebar:d(g).height()},t=this._max(e);d(m).css("min-height",t-e.header),d(g).css("min-height",t-e.header)},n.prototype._init=function(){var e=this;d("body").removeClass(C),this.fixLayoutHeight(),d(g).on("collapsed.lte.treeview expanded.lte.treeview collapsed.lte.pushmenu expanded.lte.pushmenu",function(){e.fixLayoutHeight()}),d(window).resize(function(){e.fixLayoutHeight()}),d("body, html").css("height","auto")},n.prototype._max=function(t){var n=0;return Object.keys(t).forEach(function(e){t[e]>n&&(n=t[e])}),n},n._jQueryInterface=function(t){return this.each(function(){var e=d(this).data(p);e||(e=new n(this),d(this).data(p,e)),t&&e[t]()})},n}(),d(window).on("load",function(){D._jQueryInterface.call(d("body"))}),d.fn[h]=D._jQueryInterface,d.fn[h].Constructor=D,d.fn[h].noConflict=function(){return d.fn[h]=_,D._jQueryInterface},D),ae=(E=jQuery,A="PushMenu",w="."+(O="lte.pushmenu"),b=E.fn[A],L={COLLAPSED:"collapsed"+w,SHOWN:"shown"+w},S={screenCollapseSize:768},j={TOGGLE_BUTTON:'[data-widget="pushmenu"]',SIDEBAR_MINI:".sidebar-mini",SIDEBAR_COLLAPSED:".sidebar-collapse",BODY:"body",OVERLAY:"#sidebar-overlay",WRAPPER:".wrapper"},T="sidebar-collapse",I="sidebar-open",Q=function(){function n(e,t){ie(this,n),this._element=e,this._options=E.extend({},S,t),E(j.OVERLAY).length||this._addOverlay()}return n.prototype.show=function(){E(j.BODY).addClass(I).removeClass(T);var e=E.Event(L.SHOWN);E(this._element).trigger(e)},n.prototype.collapse=function(){E(j.BODY).removeClass(I).addClass(T);var e=E.Event(L.COLLAPSED);E(this._element).trigger(e)},n.prototype.toggle=function(){(E(window).width()>=this._options.screenCollapseSize?!E(j.BODY).hasClass(T):E(j.BODY).hasClass(I))?this.collapse():this.show()},n.prototype._addOverlay=function(){var e=this,t=E("<div />",{id:"sidebar-overlay"});t.on("click",function(){e.collapse()}),E(j.WRAPPER).append(t)},n._jQueryInterface=function(t){return this.each(function(){var e=E(this).data(O);e||(e=new n(this),E(this).data(O,e)),t&&e[t]()})},n}(),E(document).on("click",j.TOGGLE_BUTTON,function(e){e.preventDefault();var t=e.currentTarget;"pushmenu"!==E(t).data("widget")&&(t=E(t).closest(j.TOGGLE_BUTTON)),Q._jQueryInterface.call(E(t),"toggle")}),E.fn[A]=Q._jQueryInterface,E.fn[A].Constructor=Q,E.fn[A].noConflict=function(){return E.fn[A]=b,Q._jQueryInterface},Q),se=(R=jQuery,P="Treeview",B="."+(x="lte.treeview"),M=R.fn[P],k={SELECTED:"selected"+B,EXPANDED:"expanded"+B,COLLAPSED:"collapsed"+B,LOAD_DATA_API:"load"+B},H=".nav-item",N=".nav-treeview",Y=".menu-open",V="menu-open",G={trigger:(U='[data-widget="treeview"]')+" "+".nav-link",animationSpeed:300,accordion:!0},W=function(){function i(e,t){ie(this,i),this._config=t,this._element=e}return i.prototype.init=function(){this._setupListeners()},i.prototype.expand=function(e,t){var n=this,i=R.Event(k.EXPANDED);if(this._config.accordion){var o=t.siblings(Y).first(),r=o.find(N).first();this.collapse(r,o)}e.slideDown(this._config.animationSpeed,function(){t.addClass(V),R(n._element).trigger(i)})},i.prototype.collapse=function(e,t){var n=this,i=R.Event(k.COLLAPSED);e.slideUp(this._config.animationSpeed,function(){t.removeClass(V),R(n._element).trigger(i),e.find(Y+" > "+N).slideUp(),e.find(Y).removeClass(V)})},i.prototype.toggle=function(e){var t=R(e.currentTarget),n=t.next();if(n.is(N)){e.preventDefault();var i=t.parents(H).first();i.hasClass(V)?this.collapse(R(n),i):this.expand(R(n),i)}},i.prototype._setupListeners=function(){var t=this;R(document).on("click",this._config.trigger,function(e){t.toggle(e)})},i._jQueryInterface=function(n){return this.each(function(){var e=R(this).data(x),t=R.extend({},G,R(this).data());e||(e=new i(R(this),t),R(this).data(x,e)),"init"===n&&e[n]()})},i}(),R(window).on(k.LOAD_DATA_API,function(){R(U).each(function(){W._jQueryInterface.call(R(this),"init")})}),R.fn[P]=W._jQueryInterface,R.fn[P].Constructor=W,R.fn[P].noConflict=function(){return R.fn[P]=M,W._jQueryInterface},W),ce=(X=jQuery,z="Widget",q="."+(F="lte.widget"),J=X.fn[z],K={EXPANDED:"expanded"+q,COLLAPSED:"collapsed"+q,REMOVED:"removed"+q},$="collapsed-card",ee={animationSpeed:"normal",collapseTrigger:(Z={DATA_REMOVE:'[data-widget="remove"]',DATA_COLLAPSE:'[data-widget="collapse"]',CARD:".card",CARD_HEADER:".card-header",CARD_BODY:".card-body",CARD_FOOTER:".card-footer",COLLAPSED:".collapsed-card"}).DATA_COLLAPSE,removeTrigger:Z.DATA_REMOVE},te=function(){function n(e,t){ie(this,n),this._element=e,this._parent=e.parents(Z.CARD).first(),this._settings=X.extend({},ee,t)}return n.prototype.collapse=function(){var e=this;this._parent.children(Z.CARD_BODY+", "+Z.CARD_FOOTER).slideUp(this._settings.animationSpeed,function(){e._parent.addClass($)});var t=X.Event(K.COLLAPSED);this._element.trigger(t,this._parent)},n.prototype.expand=function(){var e=this;this._parent.children(Z.CARD_BODY+", "+Z.CARD_FOOTER).slideDown(this._settings.animationSpeed,function(){e._parent.removeClass($)});var t=X.Event(K.EXPANDED);this._element.trigger(t,this._parent)},n.prototype.remove=function(){this._parent.slideUp();var e=X.Event(K.REMOVED);this._element.trigger(e,this._parent)},n.prototype.toggle=function(){this._parent.hasClass($)?this.expand():this.collapse()},n.prototype._init=function(e){var t=this;this._parent=e,X(this).find(this._settings.collapseTrigger).click(function(){t.toggle()}),X(this).find(this._settings.removeTrigger).click(function(){t.remove()})},n._jQueryInterface=function(t){return this.each(function(){var e=X(this).data(F);e||(e=new n(X(this),e),X(this).data(F,"string"==typeof t?e:t)),"string"==typeof t&&t.match(/remove|toggle/)?e[t]():"object"===("undefined"==typeof t?"undefined":ne(t))&&e._init(X(this))})},n}(),X(document).on("click",Z.DATA_COLLAPSE,function(e){e&&e.preventDefault(),te._jQueryInterface.call(X(this),"toggle")}),X(document).on("click",Z.DATA_REMOVE,function(e){e&&e.preventDefault(),te._jQueryInterface.call(X(this),"remove")}),X.fn[z]=te._jQueryInterface,X.fn[z].Constructor=te,X.fn[z].noConflict=function(){return X.fn[z]=J,te._jQueryInterface},te);e.ControlSidebar=oe,e.Layout=re,e.PushMenu=ae,e.Treeview=se,e.Widget=ce,Object.defineProperty(e,"__esModule",{value:!0})});
+!function(e,t){ true?t(exports):undefined}(this,function(e){"use strict";var i,t,s,n,a,o,r,l,c,h,d,u,f,g,p,m,_,v,y,C,w,b,x,I,E,D,j,S,Q,A,L,M,O,z,P,T,k,H,N,X,q,U,W,Z,R,V,B,F,G,J,K,Y,$,ee,te,ne,ie,se,ae,oe,re,le,ce,he,de,ue,fe,ge,pe,me,_e,ve,ye,Ce,we,be,xe,Ie,Ee=(i=jQuery,t="ControlSidebar",s="lte.control.sidebar",n=i.fn[t],a=".control-sidebar",o='[data-widget="control-sidebar"]',r=".main-header",l="control-sidebar-open",c="control-sidebar-slide-open",h={slide:!0},d=function(){function n(e,t){this._element=e,this._config=this._getConfig(t)}var e=n.prototype;return e.show=function(){this._config.slide?i("body").removeClass(c):i("body").removeClass(l)},e.collapse=function(){this._config.slide?i("body").addClass(c):i("body").addClass(l)},e.toggle=function(){this._setMargin(),i("body").hasClass(l)||i("body").hasClass(c)?this.show():this.collapse()},e._getConfig=function(e){return i.extend({},h,e)},e._setMargin=function(){i(a).css({top:i(r).innerHeight()})},n._jQueryInterface=function(t){return this.each(function(){var e=i(this).data(s);if(e||(e=new n(this,i(this).data()),i(this).data(s,e)),"undefined"===e[t])throw new Error(t+" is not a function");e[t]()})},n}(),i(document).on("click",o,function(e){e.preventDefault(),d._jQueryInterface.call(i(this),"toggle")}),i.fn[t]=d._jQueryInterface,i.fn[t].Constructor=d,i.fn[t].noConflict=function(){return i.fn[t]=n,d._jQueryInterface},d),De=(u=jQuery,f="Layout",g="lte.layout",p=u.fn[f],m=".main-header",_=".main-sidebar .sidebar",v=".content-wrapper",y=".brand-link",C=".control-sidebar",w=".main-footer",b="hold-transition",x="content-fixed",I="layout-fixed",E="layout-navbar-fixed",D="layout-footer-fixed",j={scrollbarTheme:"os-theme-light",scrollbarAutoHide:"l"},S=function(){function i(e,t){this._config=t,this._element=e,this._init()}var e=i.prototype;return e.fixLayoutHeight=function(){var e={window:u(window).height(),header:u(m).outerHeight(),footer:u(w).outerHeight(),sidebar:u(_).height()},t=this._max(e);u("body").hasClass(I)?(u(v).css("min-height",t-e.header-e.footer),u(C+" .control-sidebar-content").css("height",t-e.header),"undefined"!=typeof u.fn.overlayScrollbars&&(u(_).overlayScrollbars({className:this._config.scrollbarTheme,sizeAutoCapable:!0,scrollbars:{autoHide:this._config.scrollbarAutoHide,clickScrolling:!0}}),u(C+" .control-sidebar-content").overlayScrollbars({className:this._config.scrollbarTheme,sizeAutoCapable:!0,scrollbars:{autoHide:this._config.scrollbarAutoHide,clickScrolling:!0}}))):e.sidebar<e.window?u(v).css("min-height",e.window-e.header-e.footer):u(v).css("min-height",e.sidebar-e.header),u("body").hasClass(E)&&(u(y).css("height",e.header),u(_).css("margin-top",e.header),u(_).css("margin-top",e.header)),u("body").hasClass(D)&&u(v).css("margin-bottom",e.footer),u("body").hasClass(x)&&u(v).css("height",u(v).css("min-height"))},e._init=function(){var e=this;u("body").removeClass(b),this.fixLayoutHeight(),u(_).on("collapsed.lte.treeview expanded.lte.treeview collapsed.lte.pushmenu expanded.lte.pushmenu",function(){e.fixLayoutHeight()}),u(window).resize(function(){e.fixLayoutHeight()}),u("body, html").css("height","auto")},e._max=function(t){var n=0;return Object.keys(t).forEach(function(e){t[e]>n&&(n=t[e])}),n},i._jQueryInterface=function(n){return this.each(function(){var e=u(this).data(g),t=u.extend({},j,u(this).data());e||(e=new i(u(this),t),u(this).data(g,e)),"init"===n&&e[n]()})},i}(),u(window).on("load",function(){S._jQueryInterface.call(u("body"))}),u.fn[f]=S._jQueryInterface,u.fn[f].Constructor=S,u.fn[f].noConflict=function(){return u.fn[f]=p,S._jQueryInterface},S),je=(Q=jQuery,A="PushMenu",M="."+(L="lte.pushmenu"),O=Q.fn[A],P={autoCollapseSize:!(z={COLLAPSED:"collapsed"+M,SHOWN:"shown"+M}),screenCollapseSize:768},T='[data-widget="pushmenu"]',k="body",H="#sidebar-overlay",N=".wrapper",X="sidebar-collapse",q="sidebar-open",U=function(){function i(e,t){this._element=e,this._options=Q.extend({},P,t),this._init(),Q(H).length||this._addOverlay()}var e=i.prototype;return e.show=function(){Q(k).addClass(q).removeClass(X);var e=Q.Event(z.SHOWN);Q(this._element).trigger(e)},e.collapse=function(){Q(k).removeClass(q).addClass(X);var e=Q.Event(z.COLLAPSED);Q(this._element).trigger(e)},e.isShown=function(){return Q(window).width()>=this._options.screenCollapseSize?!Q(k).hasClass(X):Q(k).hasClass(q)},e.toggle=function(){this.isShown()?this.collapse():this.show()},e.autoCollapse=function(){this._options.autoCollapseSize&&(Q(window).width()<=this._options.autoCollapseSize?this.isShown()&&this.toggle():this.isShown()||this.toggle())},e._init=function(){var e=this;this.autoCollapse(),Q(window).resize(function(){e.autoCollapse()})},e._addOverlay=function(){var e=this,t=Q("<div />",{id:"sidebar-overlay"});t.on("click",function(){e.collapse()}),Q(N).append(t)},i._jQueryInterface=function(n){return this.each(function(){var e=Q(this).data(L),t=Q.extend({},P,Q(this).data());e||(e=new i(this,t),Q(this).data(L,e)),"toggle"===n&&e[n]()})},i}(),Q(document).on("click",T,function(e){e.preventDefault();var t=e.currentTarget;"pushmenu"!==Q(t).data("widget")&&(t=Q(t).closest(T)),U._jQueryInterface.call(Q(t),"toggle")}),Q(window).on("load",function(){U._jQueryInterface.call(Q(T))}),Q.fn[A]=U._jQueryInterface,Q.fn[A].Constructor=U,Q.fn[A].noConflict=function(){return Q.fn[A]=O,U._jQueryInterface},U),Se=(W=jQuery,Z="Treeview",V="."+(R="lte.treeview"),B=W.fn[Z],F={SELECTED:"selected"+V,EXPANDED:"expanded"+V,COLLAPSED:"collapsed"+V,LOAD_DATA_API:"load"+V},G=".nav-item",J=".nav-treeview",K=".menu-open",$="menu-open",ee={trigger:(Y='[data-widget="treeview"]')+" "+".nav-link",animationSpeed:300,accordion:!0},te=function(){function i(e,t){this._config=t,this._element=e}var e=i.prototype;return e.init=function(){this._setupListeners()},e.expand=function(e,t){var n=this,i=W.Event(F.EXPANDED);if(this._config.accordion){var s=t.siblings(K).first(),a=s.find(J).first();this.collapse(a,s)}e.slideDown(this._config.animationSpeed,function(){t.addClass($),W(n._element).trigger(i)})},e.collapse=function(e,t){var n=this,i=W.Event(F.COLLAPSED);e.slideUp(this._config.animationSpeed,function(){t.removeClass($),W(n._element).trigger(i),e.find(K+" > "+J).slideUp(),e.find(K).removeClass($)})},e.toggle=function(e){var t=W(e.currentTarget),n=t.next();if(n.is(J)){e.preventDefault();var i=t.parents(G).first();i.hasClass($)?this.collapse(W(n),i):this.expand(W(n),i)}},e._setupListeners=function(){var t=this;W(document).on("click",this._config.trigger,function(e){t.toggle(e)})},i._jQueryInterface=function(n){return this.each(function(){var e=W(this).data(R),t=W.extend({},ee,W(this).data());e||(e=new i(W(this),t),W(this).data(R,e)),"init"===n&&e[n]()})},i}(),W(window).on(F.LOAD_DATA_API,function(){W(Y).each(function(){te._jQueryInterface.call(W(this),"init")})}),W.fn[Z]=te._jQueryInterface,W.fn[Z].Constructor=te,W.fn[Z].noConflict=function(){return W.fn[Z]=B,te._jQueryInterface},te),Qe=(ne=jQuery,ie="Widget",ae="."+(se="lte.widget"),oe=ne.fn[ie],re={EXPANDED:"expanded"+ae,COLLAPSED:"collapsed"+ae,MAXIMIZED:"maximized"+ae,MINIMIZED:"minimized"+ae,REMOVED:"removed"+ae},he='[data-widget="maximize"]',de=".card",ue=".card-body",fe=".card-footer",ge=".fa-minus",pe=".fa-plus",me="collapsed-card",_e="was-collapsed",ve="maximized-card",ye="fa-minus",Ce="fa-plus",we="fa-expand",be="fa-compress",xe={animationSpeed:"normal",collapseTrigger:ce='[data-widget="collapse"]',removeTrigger:le='[data-widget="remove"]'},Ie=function(){function n(e,t){this._element=e,this._parent=e.parents(de).first(),this._settings=ne.extend({},xe,t)}var e=n.prototype;return e.collapse=function(){var e=this;this._parent.children(ue+", "+fe).slideUp(this._settings.animationSpeed,function(){e._parent.addClass(me)}),this._element.children(ge).addClass(Ce).removeClass(ye);var t=ne.Event(re.COLLAPSED);this._element.trigger(t,this._parent)},e.expand=function(){var e=this;this._parent.children(ue+", "+fe).slideDown(this._settings.animationSpeed,function(){e._parent.removeClass(me)}),this._element.children(pe).addClass(ye).removeClass(Ce);var t=ne.Event(re.EXPANDED);this._element.trigger(t,this._parent)},e.remove=function(){this._parent.slideUp();var e=ne.Event(re.REMOVED);this._element.trigger(e,this._parent)},e.toggle=function(){this._parent.hasClass(me)?this.expand():this.collapse()},e.toggleMaximize=function(){var e=this._element.find("i");this._parent.hasClass(ve)?(e.addClass(we).removeClass(be),this._parent.css("cssText","height:"+this._parent[0].style.height+" !important;width:"+this._parent[0].style.width+" !important; transition: all .15s;").delay(100).queue(function(){ne(this).removeClass(ve),ne("html").removeClass(ve),ne(this).trigger(re.MINIMIZED),ne(this).css({height:"inherit",width:"inherit"}),ne(this).hasClass(_e)&&ne(this).removeClass(_e),ne(this).dequeue()})):(e.addClass(be).removeClass(we),this._parent.css({height:this._parent.height(),width:this._parent.width(),transition:"all .15s"}).delay(150).queue(function(){ne(this).addClass(ve),ne("html").addClass(ve),ne(this).trigger(re.MAXIMIZED),ne(this).hasClass(me)&&ne(this).addClass(_e),ne(this).dequeue()}))},e._init=function(e){var t=this;this._parent=e,ne(this).find(this._settings.collapseTrigger).click(function(){t.toggle()}),ne(this).find(this._settings.removeTrigger).click(function(){t.remove()})},n._jQueryInterface=function(t){return this.each(function(){var e=ne(this).data(se);e||(e=new n(ne(this),e),ne(this).data(se,"string"==typeof t?e:t)),"string"==typeof t&&t.match(/remove|toggle/)?e[t]():"object"==typeof t&&e._init(ne(this))})},n}(),ne(document).on("click",ce,function(e){e&&e.preventDefault(),Ie._jQueryInterface.call(ne(this),"toggle")}),ne(document).on("click",le,function(e){e&&e.preventDefault(),Ie._jQueryInterface.call(ne(this),"remove")}),ne(document).on("click",he,function(e){e&&e.preventDefault(),Ie._jQueryInterface.call(ne(this),"toggleMaximize")}),ne.fn[ie]=Ie._jQueryInterface,ne.fn[ie].Constructor=Ie,ne.fn[ie].noConflict=function(){return ne.fn[ie]=oe,Ie._jQueryInterface},Ie);e.ControlSidebar=Ee,e.Layout=De,e.PushMenu=je,e.Treeview=Se,e.Widget=Qe,Object.defineProperty(e,"__esModule",{value:!0})});
 //# sourceMappingURL=adminlte.min.js.map
 
 /***/ }),
@@ -3034,6 +3034,193 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Product/Product.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Product/Product.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      product: {} // Create a new form instance
+      // form: new Form({
+      //   id: '',
+      //   name: '',
+      //   address: '',
+      //   mobile: '',
+      //   code: this.$route.params.id,
+      // }),
+      // editmode: false
+
+    };
+  },
+  methods: {
+    loadProduct: function loadProduct() {
+      var _this = this;
+
+      if (this.$gate.isAuthorized('vendor-page')) {
+        axios.get('/api/load/single/product/' + this.$route.params.id).then(function (_ref) {
+          var data = _ref.data;
+          return _this.product = data;
+        });
+      }
+    },
+    addModal: function addModal() {
+      this.editmode = false;
+      this.form.reset();
+      $('#addModal').modal('show');
+    },
+    editModal: function editModal(vendor) {
+      this.editmode = true;
+      this.form.reset(); // clears fields
+
+      this.form.clear(); // clears errors
+
+      $('#addModal').modal('show');
+      this.form.fill(vendor);
+    }
+  },
+  created: function created() {
+    var _this2 = this;
+
+    this.loadProduct();
+    Fire.$on('AfterProductStockUpdated', function () {
+      _this2.loadProduct();
+    });
+    Fire.$on('changingstorename', function () {
+      _this2.loadProduct();
+    });
+    Fire.$on('searching', function () {
+      var query = _this2.$parent.search;
+
+      if (query != '') {
+        axios.get('/api/searchstore/' + query).then(function (data) {
+          _this2.product = data.data;
+        })["catch"](function () {});
+      } else {
+        _this2.loadVendors();
+      }
+    });
+  },
+  beforeDestroy: function beforeDestroy() {
+    Fire.$off('AfterProductStockUpdated');
+    Fire.$off('changingstorename'); // Fire.$off('searching')
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Product/Products.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Product/Products.vue?vue&type=script&lang=js& ***!
@@ -3043,6 +3230,17 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3472,20 +3670,21 @@ __webpack_require__.r(__webpack_exports__);
       var _this5 = this;
 
       swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: 'আপনি কি নিশ্চিত?',
+        text: "ডিলেট করলে আর ফেরত পাওয়া যাবে না!",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonText: 'নিশ্চিত করছি',
+        cancelButtonText: 'ফিরে যান'
       }).then(function (result) {
         if (result.value) {
           _this5.form["delete"]('/api/product/' + id).then(function () {
-            swal.fire('Deleted!', 'Store has been deleted.', 'success');
+            swal.fire('ডিলেট', 'ডিলেট সফল হয়েছে!', 'success');
             Fire.$emit('AfterProductCreatedOrUpdated');
           })["catch"](function () {
-            swal('Failed!', 'There was something wrong', 'warning');
+            swal('Failed!', 'কিছু সমস্যা হচ্ছে, দুঃখিত!', 'warning');
           });
         }
       });
@@ -3544,6 +3743,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
+  computed: {},
   created: function created() {
     var _this10 = this;
 
@@ -3561,8 +3761,8 @@ __webpack_require__.r(__webpack_exports__);
       var query = _this10.$parent.search;
 
       if (query != '') {
-        axios.get('/api/searchstore/' + query).then(function (data) {
-          _this10.stores = data.data;
+        axios.get('/api/searchproduct/' + query).then(function (data) {
+          _this10.products = data.data;
         })["catch"](function () {});
       } else {
         _this10.loadProducts();
@@ -80125,6 +80325,431 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Product/Product.vue?vue&type=template&id=3b21ac94&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Product/Product.vue?vue&type=template&id=3b21ac94& ***!
+  \******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "content" }, [
+    _vm.$gate.isAuthorized("product-page")
+      ? _c("div", { staticClass: "content-header" }, [_vm._m(0)])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.$gate.isAuthorized("product-page")
+      ? _c("div", { staticClass: "container-fluid" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-3" }, [
+              _c("div", { staticClass: "card" }, [
+                _c(
+                  "div",
+                  {
+                    staticStyle: {
+                      background: "url('/images/storecover.jpg') center center"
+                    }
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "card-body text-light",
+                        staticStyle: { background: "rgba(0, 0, 128, 0.7)" }
+                      },
+                      [
+                        _c(
+                          "h5",
+                          {
+                            staticClass: "card-title",
+                            staticStyle: { "border-bottom": "1px solid #fff" }
+                          },
+                          [_vm._v(_vm._s(_vm.product.name))]
+                        ),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "card-text" }, [
+                          _c("b", [_vm._v("ব্র্যান্ড/ মার্কাঃ")]),
+                          _vm._v(" " + _vm._s(_vm.product.brand) + " "),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("b", [_vm._v("ধরণঃ")]),
+                          _vm._v(" "),
+                          _vm.product.productcategory
+                            ? _c("span", [
+                                _vm._v(_vm._s(_vm.product.productcategory.name))
+                              ])
+                            : _c("span", [_vm._v("loading...")]),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("b", [_vm._v("কোডঃ")]),
+                          _vm._v(" " + _vm._s(_vm.product.sku)),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("b", [_vm._v("এককঃ")]),
+                          _vm._v(" " + _vm._s(_vm.product.unit)),
+                          _c("br")
+                        ])
+                      ]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("ul", { staticClass: "list-group list-group-flush" }, [
+                  _c("li", { staticClass: "list-group-item" }, [
+                    _c("b", [_vm._v("স্টকঃ")]),
+                    _vm._v(
+                      " " +
+                        _vm._s(_vm._f("totalquantity")(_vm.product.stocks)) +
+                        " " +
+                        _vm._s(_vm.product.unit)
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _vm._m(2)
+                ]),
+                _vm._v(" "),
+                _vm._m(3)
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-9" }, [
+              _c("div", { staticClass: "card" }, [
+                _vm._m(4),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "tab-content", attrs: { id: "myTabContent" } },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "tab-pane fade show active p-3",
+                        attrs: {
+                          id: "one",
+                          role: "tabpanel",
+                          "aria-labelledby": "one-tab"
+                        }
+                      },
+                      [
+                        _c("p", { staticClass: "card-text" }),
+                        _vm._l(_vm.product.stocks, function(stock) {
+                          return _c(
+                            "div",
+                            { staticClass: "card bg-light text-dark" },
+                            [
+                              _c("div", { staticClass: "card-body" }, [
+                                _c("div", { staticClass: "row" }, [
+                                  _c("div", { staticClass: "col-md-9" }, [
+                                    _c("div", { staticClass: "row" }, [
+                                      _c(
+                                        "div",
+                                        { staticClass: "col-md-6" },
+                                        [
+                                          _c("i", {
+                                            staticClass:
+                                              "fa fa-industry text-blue"
+                                          }),
+                                          _vm._v(" ডিলার/ ভেন্ডরঃ "),
+                                          _c("b", [
+                                            _vm._v(_vm._s(stock.vendor.name))
+                                          ]),
+                                          _c("br"),
+                                          _vm._v(" "),
+                                          _c("i", {
+                                            staticClass:
+                                              "fa fa-archive text-green"
+                                          }),
+                                          _vm._v(" স্টকের পরিমাণঃ "),
+                                          _c("big", [
+                                            _vm._v(_vm._s(stock.quantity))
+                                          ]),
+                                          _vm._v(
+                                            " " +
+                                              _vm._s(_vm.product.unit) +
+                                              "\n                          "
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "col-md-6" }, [
+                                        _c("i", {
+                                          staticClass: "fa fa-money text-blue"
+                                        }),
+                                        _vm._v(
+                                          " ক্রয়মূল্যঃ " +
+                                            _vm._s(stock.buying_price) +
+                                            " ৳/" +
+                                            _vm._s(_vm.product.unit)
+                                        ),
+                                        _c("br"),
+                                        _vm._v(" "),
+                                        _c("i", {
+                                          staticClass:
+                                            "fa fa-shopping-bag text-orange"
+                                        }),
+                                        _vm._v(
+                                          " বিক্রয়মূল্যঃ " +
+                                            _vm._s(stock.selling_price) +
+                                            " ৳/" +
+                                            _vm._s(_vm.product.unit) +
+                                            "\n                          "
+                                        )
+                                      ])
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-md-3" }, [
+                                    _c(
+                                      "button",
+                                      { staticClass: "btn btn-sm btn-primary" },
+                                      [
+                                        _c("i", {
+                                          directives: [
+                                            {
+                                              name: "tooltip",
+                                              rawName: "v-tooltip",
+                                              value: "স্টকটি সম্পাদনা করুন",
+                                              expression:
+                                                "'স্টকটি সম্পাদনা করুন'"
+                                            }
+                                          ],
+                                          staticClass: "fa fa-edit"
+                                        })
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      { staticClass: "btn btn-sm btn-success" },
+                                      [
+                                        _c("i", {
+                                          directives: [
+                                            {
+                                              name: "tooltip",
+                                              rawName: "v-tooltip",
+                                              value: "স্টকটি ফেরত দিন",
+                                              expression: "'স্টকটি ফেরত দিন'"
+                                            }
+                                          ],
+                                          staticClass: "fa fa-retweet"
+                                        })
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      { staticClass: "btn btn-sm btn-danger" },
+                                      [
+                                        _c("i", {
+                                          directives: [
+                                            {
+                                              name: "tooltip",
+                                              rawName: "v-tooltip",
+                                              value: "স্টকটি ডিলেট করে দিন",
+                                              expression:
+                                                "'স্টকটি ডিলেট করে দিন'"
+                                            }
+                                          ],
+                                          staticClass: "fa fa-trash"
+                                        })
+                                      ]
+                                    )
+                                  ])
+                                ]),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c(
+                                  "small",
+                                  {
+                                    staticClass: "text-muted",
+                                    staticStyle: {
+                                      "border-top": "1px solid #DDD"
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                      সিস্টেমে প্রবেশের তারিখঃ " +
+                                        _vm._s(
+                                          _vm._f("datetime")(stock.created_at)
+                                        ) +
+                                        "\n                    "
+                                    )
+                                  ]
+                                )
+                              ])
+                            ]
+                          )
+                        }),
+                        _vm._v(" "),
+                        _c("p")
+                      ],
+                      2
+                    ),
+                    _vm._v(" "),
+                    _vm._m(5)
+                  ]
+                )
+              ])
+            ])
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.$gate.isAuthorized("product-page")
+      ? _c("div", [_c("forbidden-403")], 1)
+      : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "container-fluid" }, [
+      _c("div", { staticClass: "row mb-2" }, [
+        _c("div", { staticClass: "col-sm-6" }, [
+          _c("h1", { staticClass: "m-0 text-dark" }, [_vm._v("পণ্যের বিবরণ")])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-6" }, [
+          _c("ol", { staticClass: "breadcrumb float-sm-right" }, [
+            _c("li", { staticClass: "breadcrumb-item" }, [
+              _c("a", { attrs: { href: "#!" } }, [_vm._v("স্টোর")])
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "breadcrumb-item" }, [
+              _c("a", { attrs: { href: "#!" } }, [_vm._v("পণ্য")])
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "breadcrumb-item active" }, [
+              _vm._v("পণ্যের বিবরণ")
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "list-group-item" }, [
+      _c("b", [_vm._v("ক্রয়মূল্যঃ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "list-group-item" }, [
+      _c("b", [_vm._v("বিক্রয়যোগ্য মোট মূল্যঃ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-body" }, [
+      _c("a", { staticClass: "card-link", attrs: { href: "#" } }, [
+        _vm._v("Card link")
+      ]),
+      _vm._v(" "),
+      _c("a", { staticClass: "card-link", attrs: { href: "#" } }, [
+        _vm._v("Another link")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header tab-card-header" }, [
+      _c(
+        "ul",
+        {
+          staticClass: "nav nav-tabs card-header-tabs",
+          attrs: { id: "myTab", role: "tablist" }
+        },
+        [
+          _c("li", { staticClass: "nav-item" }, [
+            _c(
+              "a",
+              {
+                staticClass: "nav-link active",
+                attrs: {
+                  id: "one-tab",
+                  "data-toggle": "tab",
+                  href: "#one",
+                  role: "tab",
+                  "aria-controls": "One",
+                  "aria-selected": "true"
+                }
+              },
+              [_vm._v("স্টক তালিকা")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "nav-item" }, [
+            _c(
+              "a",
+              {
+                staticClass: "nav-link",
+                attrs: {
+                  id: "two-tab",
+                  "data-toggle": "tab",
+                  href: "#two",
+                  role: "tab",
+                  "aria-controls": "Two",
+                  "aria-selected": "false"
+                }
+              },
+              [_vm._v("বিক্রয়ের ইতিবৃত্ত")]
+            )
+          ])
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "tab-pane fade p-3",
+        attrs: { id: "two", role: "tabpanel", "aria-labelledby": "two-tab" }
+      },
+      [
+        _c("p", { staticClass: "card-text" }, [
+          _vm._v(
+            " on the card title and make up the bulk of the card's content."
+          )
+        ]),
+        _vm._v(" "),
+        _c("a", { staticClass: "btn btn-primary", attrs: { href: "#" } }, [
+          _vm._v("Go somewhere")
+        ])
+      ]
+    )
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Product/Products.vue?vue&type=template&id=2cbf870f&":
 /*!*******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Product/Products.vue?vue&type=template&id=2cbf870f& ***!
@@ -80207,16 +80832,46 @@ var render = function() {
                       "tbody",
                       _vm._l(_vm.products.data, function(product) {
                         return _c("tr", { key: product.id }, [
-                          _c("td", [
-                            _vm._v(
-                              "\n                  " + _vm._s(product.name)
-                            ),
-                            _c("br"),
-                            _vm._v(" "),
-                            _c("small", { staticClass: "text-muted" }, [
-                              _vm._v(_vm._s(product.brand))
-                            ])
-                          ]),
+                          _c(
+                            "td",
+                            [
+                              _c(
+                                "router-link",
+                                {
+                                  directives: [
+                                    {
+                                      name: "tooltip",
+                                      rawName: "v-tooltip",
+                                      value:
+                                        product.name + "-এর বিস্তারিত দেখুন",
+                                      expression:
+                                        "product.name +'-এর বিস্তারিত দেখুন'"
+                                    }
+                                  ],
+                                  attrs: {
+                                    to: {
+                                      name: "singleProduct",
+                                      params: { id: product.id }
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                    " +
+                                      _vm._s(product.name) +
+                                      "\n                  "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c("small", { staticClass: "text-muted" }, [
+                                _vm._v(_vm._s(product.brand))
+                              ])
+                            ],
+                            1
+                          ),
                           _vm._v(" "),
                           _c("td", [
                             _vm._v(
@@ -80228,67 +80883,115 @@ var render = function() {
                           _vm._v(" "),
                           _c(
                             "td",
+                            _vm._l(product.stocks, function(stock) {
+                              return _c(
+                                "span",
+                                { staticClass: "badge badge-pill badge-info" },
+                                [
+                                  _vm._v(
+                                    "\n                    " +
+                                      _vm._s(stock.vendor.name) +
+                                      "\n                  "
+                                  )
+                                ]
+                              )
+                            }),
+                            0
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "td",
                             [
                               _c("big", [
-                                _c("b", [_vm._v(_vm._s(product.quantity))])
+                                _c("b", [
+                                  _vm._v(
+                                    _vm._s(
+                                      _vm._f("totalquantity")(product.stocks)
+                                    )
+                                  )
+                                ])
                               ]),
-                              _vm._v(" " + _vm._s(product.unit))
+                              _vm._v(
+                                " " +
+                                  _vm._s(product.unit) +
+                                  "\n                "
+                              )
                             ],
                             1
                           ),
                           _vm._v(" "),
-                          _c("td", [
-                            _vm._v("৳ " + _vm._s(product.buying_price))
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v("৳ " + _vm._s(product.selling_price))
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _c(
-                              "button",
-                              {
-                                directives: [
-                                  {
-                                    name: "tooltip",
-                                    rawName: "v-tooltip",
-                                    value: "পণ্য সম্পাদনা করুন",
-                                    expression: "'পণ্য সম্পাদনা করুন'"
+                          _c(
+                            "td",
+                            [
+                              _c(
+                                "router-link",
+                                {
+                                  directives: [
+                                    {
+                                      name: "tooltip",
+                                      rawName: "v-tooltip",
+                                      value:
+                                        product.name + "-এর বিস্তারিত দেখুন",
+                                      expression:
+                                        "product.name +'-এর বিস্তারিত দেখুন'"
+                                    }
+                                  ],
+                                  staticClass: "btn btn-info btn-sm",
+                                  attrs: {
+                                    to: {
+                                      name: "singleProduct",
+                                      params: { id: product.id }
+                                    }
                                   }
-                                ],
-                                staticClass: "btn btn-success btn-sm",
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.editProductModal(product)
+                                },
+                                [_c("i", { staticClass: "fa fa-eye" })]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  directives: [
+                                    {
+                                      name: "tooltip",
+                                      rawName: "v-tooltip",
+                                      value: "পণ্য সম্পাদনা করুন",
+                                      expression: "'পণ্য সম্পাদনা করুন'"
+                                    }
+                                  ],
+                                  staticClass: "btn btn-success btn-sm",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.editProductModal(product)
+                                    }
                                   }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-edit" })]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                directives: [
-                                  {
-                                    name: "tooltip",
-                                    rawName: "v-tooltip",
-                                    value: "পণ্য ডিলেট করুন",
-                                    expression: "'পণ্য ডিলেট করুন'"
+                                },
+                                [_c("i", { staticClass: "fa fa-edit" })]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  directives: [
+                                    {
+                                      name: "tooltip",
+                                      rawName: "v-tooltip",
+                                      value: "পণ্য ডিলেট করুন",
+                                      expression: "'পণ্য ডিলেট করুন'"
+                                    }
+                                  ],
+                                  staticClass: "btn btn-danger btn-sm",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.deleteProduct(product.id)
+                                    }
                                   }
-                                ],
-                                staticClass: "btn btn-danger btn-sm",
-                                on: {
-                                  click: function($event) {
-                                    return _vm.deleteProduct(product.id)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-trash" })]
-                            )
-                          ])
+                                },
+                                [_c("i", { staticClass: "fa fa-trash" })]
+                              )
+                            ],
+                            1
+                          )
                         ])
                       }),
                       0
@@ -80600,46 +81303,6 @@ var render = function() {
                               "div",
                               { staticClass: "form-group" },
                               [
-                                _c("v-select", {
-                                  ref: "vendorSelect",
-                                  class: {
-                                    "is-invalid": _vm.form.errors.has("vendors")
-                                  },
-                                  attrs: {
-                                    placeholder:
-                                      "ডিলার/ভেন্ডর নির্ধারণ (অপশনে না থাকলে লিখুন) *",
-                                    options: _vm.vendors,
-                                    taggable: "",
-                                    reduce: function(id) {
-                                      return id
-                                    },
-                                    label: "name",
-                                    taggable: ""
-                                  },
-                                  model: {
-                                    value: _vm.form.vendor,
-                                    callback: function($$v) {
-                                      _vm.$set(_vm.form, "vendor", $$v)
-                                    },
-                                    expression: "form.vendor"
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("has-error", {
-                                  attrs: { form: _vm.form, field: "vendors" }
-                                })
-                              ],
-                              1
-                            )
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "row" }, [
-                          _c("div", { staticClass: "col-md-6" }, [
-                            _c(
-                              "div",
-                              { staticClass: "form-group" },
-                              [
                                 _c(
                                   "select",
                                   {
@@ -80695,51 +81358,51 @@ var render = function() {
                                       [_vm._v("পণ্যের ইউনিট নির্ধারণ *")]
                                     ),
                                     _vm._v(" "),
-                                    _c("option", { attrs: { value: "KG" } }, [
+                                    _c("option", { attrs: { value: "কেজি" } }, [
                                       _vm._v("কেজি")
                                     ]),
                                     _vm._v(" "),
                                     _c(
                                       "option",
-                                      { attrs: { value: "Litre" } },
+                                      { attrs: { value: "লিটার" } },
                                       [_vm._v("লিটার")]
                                     ),
                                     _vm._v(" "),
-                                    _c(
-                                      "option",
-                                      { attrs: { value: "Piece" } },
-                                      [_vm._v("পিস")]
-                                    ),
+                                    _c("option", { attrs: { value: "পিস" } }, [
+                                      _vm._v("পিস")
+                                    ]),
                                     _vm._v(" "),
                                     _c(
                                       "option",
-                                      { attrs: { value: "Packet" } },
+                                      { attrs: { value: "প্যাকেট" } },
                                       [_vm._v("প্যাকেট")]
                                     ),
                                     _vm._v(" "),
-                                    _c(
-                                      "option",
-                                      { attrs: { value: "Dozen" } },
-                                      [_vm._v("ডজন")]
-                                    ),
+                                    _c("option", { attrs: { value: "ডজন" } }, [
+                                      _vm._v("ডজন")
+                                    ]),
                                     _vm._v(" "),
                                     _c(
                                       "option",
-                                      { attrs: { value: "Carton" } },
+                                      { attrs: { value: "কার্টন" } },
                                       [_vm._v("কার্টন")]
                                     ),
                                     _vm._v(" "),
-                                    _c("option", { attrs: { value: "Roll" } }, [
+                                    _c("option", { attrs: { value: "রোল" } }, [
                                       _vm._v("রোল")
                                     ]),
                                     _vm._v(" "),
-                                    _c("option", { attrs: { value: "Sack" } }, [
-                                      _vm._v("বস্তা")
-                                    ]),
+                                    _c(
+                                      "option",
+                                      { attrs: { value: "বস্তা" } },
+                                      [_vm._v("বস্তা")]
+                                    ),
                                     _vm._v(" "),
-                                    _c("option", { attrs: { value: "N/A" } }, [
-                                      _vm._v("প্রযোজ্য নয়")
-                                    ])
+                                    _c(
+                                      "option",
+                                      { attrs: { value: "প্রযোজ্য নয়" } },
+                                      [_vm._v("প্রযোজ্য নয়")]
+                                    )
                                   ]
                                 ),
                                 _vm._v(" "),
@@ -80749,8 +81412,10 @@ var render = function() {
                               ],
                               1
                             )
-                          ]),
-                          _vm._v(" "),
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "row" }, [
                           _c(
                             "div",
                             { staticClass: "col-md-6" },
@@ -80793,58 +81458,7 @@ var render = function() {
                               })
                             ],
                             1
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "row" }, [
-                          _c("div", { staticClass: "col-md-6" }, [
-                            _c(
-                              "div",
-                              { staticClass: "form-group" },
-                              [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.form.quantity,
-                                      expression: "form.quantity"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  class: {
-                                    "is-invalid": _vm.form.errors.has(
-                                      "quantity"
-                                    )
-                                  },
-                                  attrs: {
-                                    type: "number",
-                                    step: "any",
-                                    name: "quantity",
-                                    placeholder: "নতুন স্টকের পরিমাণ *"
-                                  },
-                                  domProps: { value: _vm.form.quantity },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.form,
-                                        "quantity",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("has-error", {
-                                  attrs: { form: _vm.form, field: "quantity" }
-                                })
-                              ],
-                              1
-                            )
-                          ]),
+                          ),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-6" }, [
                             _c(
@@ -80900,115 +81514,233 @@ var render = function() {
                           ])
                         ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "row" }, [
-                          _c("div", { staticClass: "col-md-6" }, [
-                            _c(
-                              "div",
-                              { staticClass: "input-group mb-3" },
-                              [
-                                _vm._m(3),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.form.buying_price,
-                                      expression: "form.buying_price"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  class: {
-                                    "is-invalid": _vm.form.errors.has(
-                                      "buying_price"
-                                    )
-                                  },
-                                  attrs: {
-                                    type: "number",
-                                    step: "any",
-                                    name: "buying_price",
-                                    placeholder: "ইউনিট প্রতি ক্রয়মূল্য *"
-                                  },
-                                  domProps: { value: _vm.form.buying_price },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
+                        _c(
+                          "div",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: !_vm.editmode,
+                                expression: "!editmode"
+                              }
+                            ]
+                          },
+                          [
+                            _c("hr"),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "row" }, [
+                              _c("div", { staticClass: "col-md-6" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "form-group" },
+                                  [
+                                    _c("v-select", {
+                                      ref: "vendorSelect",
+                                      class: {
+                                        "is-invalid": _vm.form.errors.has(
+                                          "vendors"
+                                        )
+                                      },
+                                      attrs: {
+                                        placeholder:
+                                          "ডিলার/ভেন্ডর নির্ধারণ (অপশনে না থাকলে লিখুন)",
+                                        options: _vm.vendors,
+                                        taggable: "",
+                                        reduce: function(id) {
+                                          return id
+                                        },
+                                        label: "name",
+                                        taggable: ""
+                                      },
+                                      model: {
+                                        value: _vm.form.vendor,
+                                        callback: function($$v) {
+                                          _vm.$set(_vm.form, "vendor", $$v)
+                                        },
+                                        expression: "form.vendor"
                                       }
-                                      _vm.$set(
-                                        _vm.form,
-                                        "buying_price",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("has-error", {
-                                  attrs: {
-                                    form: _vm.form,
-                                    field: "buying_price"
-                                  }
-                                })
-                              ],
-                              1
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-6" }, [
-                            _c(
-                              "div",
-                              { staticClass: "input-group mb-3" },
-                              [
-                                _vm._m(4),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.form.selling_price,
-                                      expression: "form.selling_price"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  class: {
-                                    "is-invalid": _vm.form.errors.has(
-                                      "selling_price"
-                                    )
-                                  },
-                                  attrs: {
-                                    type: "number",
-                                    step: "any",
-                                    name: "selling_price",
-                                    placeholder: "ইউনিট প্রতি বিক্রয়মূল্য *"
-                                  },
-                                  domProps: { value: _vm.form.selling_price },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
+                                    }),
+                                    _vm._v(" "),
+                                    _c("has-error", {
+                                      attrs: {
+                                        form: _vm.form,
+                                        field: "vendors"
                                       }
-                                      _vm.$set(
-                                        _vm.form,
-                                        "selling_price",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("has-error", {
-                                  attrs: {
-                                    form: _vm.form,
-                                    field: "selling_price"
-                                  }
-                                })
-                              ],
-                              1
-                            )
-                          ])
-                        ])
+                                    })
+                                  ],
+                                  1
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-md-6" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "form-group" },
+                                  [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.form.quantity,
+                                          expression: "form.quantity"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      class: {
+                                        "is-invalid": _vm.form.errors.has(
+                                          "quantity"
+                                        )
+                                      },
+                                      attrs: {
+                                        type: "number",
+                                        step: "any",
+                                        name: "quantity",
+                                        placeholder: "নতুন স্টকের পরিমাণ"
+                                      },
+                                      domProps: { value: _vm.form.quantity },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.form,
+                                            "quantity",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("has-error", {
+                                      attrs: {
+                                        form: _vm.form,
+                                        field: "quantity"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "row" }, [
+                              _c("div", { staticClass: "col-md-6" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "input-group mb-3" },
+                                  [
+                                    _vm._m(3),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.form.buying_price,
+                                          expression: "form.buying_price"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      class: {
+                                        "is-invalid": _vm.form.errors.has(
+                                          "buying_price"
+                                        )
+                                      },
+                                      attrs: {
+                                        type: "number",
+                                        step: "any",
+                                        name: "buying_price",
+                                        placeholder: "ইউনিট প্রতি ক্রয়মূল্য"
+                                      },
+                                      domProps: {
+                                        value: _vm.form.buying_price
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.form,
+                                            "buying_price",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("has-error", {
+                                      attrs: {
+                                        form: _vm.form,
+                                        field: "buying_price"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-md-6" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "input-group mb-3" },
+                                  [
+                                    _vm._m(4),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.form.selling_price,
+                                          expression: "form.selling_price"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      class: {
+                                        "is-invalid": _vm.form.errors.has(
+                                          "selling_price"
+                                        )
+                                      },
+                                      attrs: {
+                                        type: "number",
+                                        step: "any",
+                                        name: "selling_price",
+                                        placeholder: "ইউনিট প্রতি বিক্রয়মূল্য"
+                                      },
+                                      domProps: {
+                                        value: _vm.form.selling_price
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.form,
+                                            "selling_price",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("has-error", {
+                                      attrs: {
+                                        form: _vm.form,
+                                        field: "selling_price"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                              ])
+                            ])
+                          ]
+                        )
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "modal-footer" }, [
@@ -81288,13 +82020,11 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("ধরণ")]),
         _vm._v(" "),
+        _c("th", [_vm._v("ডিলার/ ভেন্ডর")]),
+        _vm._v(" "),
         _c("th", [_vm._v("বর্তমান স্টক")]),
         _vm._v(" "),
-        _c("th", [_vm._v("ক্রয়মূল্য")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("বিক্রয়মূল্য")]),
-        _vm._v(" "),
-        _c("th", { attrs: { width: "15%" } }, [_vm._v("ক্রিয়াকলাপ")])
+        _c("th", { attrs: { width: "20%" } }, [_vm._v("ক্রিয়াকলাপ")])
       ])
     ])
   },
@@ -97781,14 +98511,21 @@ var routes = [{
   meta: {
     title: 'মালামাল তালিকা'
   },
-  name: 'productPage'
+  name: 'productsPage'
+}, {
+  path: '/product/:id',
+  component: __webpack_require__(/*! ./components/Product/Product.vue */ "./resources/js/components/Product/Product.vue")["default"],
+  meta: {
+    title: 'পণ্য'
+  },
+  name: 'singleProduct'
 }, {
   path: '/vendors/:code',
   component: __webpack_require__(/*! ./components/Vendor/Vendors.vue */ "./resources/js/components/Vendor/Vendors.vue")["default"],
   meta: {
     title: 'ডিলার/ ভেন্ডরের তালিকা'
   },
-  name: 'vendorPage'
+  name: 'vendorsPage'
 }, {
   path: '*',
   component: __webpack_require__(/*! ./components/404.vue */ "./resources/js/components/404.vue")["default"],
@@ -97806,7 +98543,10 @@ router.beforeEach(function (to, from, next) {
   next();
 });
 Vue.filter('date', function (date) {
-  return moment__WEBPACK_IMPORTED_MODULE_2___default()(date).format('MMMM D, YYYY');
+  return moment__WEBPACK_IMPORTED_MODULE_2___default()(date).format('MMMM DD, YYYY');
+});
+Vue.filter('datetime', function (date) {
+  return moment__WEBPACK_IMPORTED_MODULE_2___default()(date).format('MMMM DD, YYYY hh:mm A');
 });
 Vue.filter('activation_status', function (activation_status) {
   if (activation_status == 0) {
@@ -97821,6 +98561,17 @@ Vue.filter('payment_status', function (payment_status) {
   } else {
     return 'পরিশোধিত';
   }
+});
+Vue.filter('totalquantity', function (data) {
+  var totalquantity = 0;
+
+  if (data) {
+    for (var i = 0; i < data.length; i++) {
+      totalquantity = totalquantity + parseInt(data[i].quantity);
+    }
+  }
+
+  return totalquantity;
 });
 Vue.use(vue_progressbar__WEBPACK_IMPORTED_MODULE_3___default.a, {
   color: 'rgb(0, 190, 225)',
@@ -97867,6 +98618,7 @@ var app = new Vue({
   methods: {
     searchIt: _.debounce(function () {
       Fire.$emit('searching');
+      console.log('fired');
     }, 1000),
     changeStoreName: function changeStoreName() {
       Fire.$emit('changingstorename');
@@ -98433,6 +99185,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Product/Product.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/components/Product/Product.vue ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Product_vue_vue_type_template_id_3b21ac94___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Product.vue?vue&type=template&id=3b21ac94& */ "./resources/js/components/Product/Product.vue?vue&type=template&id=3b21ac94&");
+/* harmony import */ var _Product_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Product.vue?vue&type=script&lang=js& */ "./resources/js/components/Product/Product.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Product_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Product_vue_vue_type_template_id_3b21ac94___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Product_vue_vue_type_template_id_3b21ac94___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Product/Product.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Product/Product.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/Product/Product.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Product_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Product.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Product/Product.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Product_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Product/Product.vue?vue&type=template&id=3b21ac94&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/Product/Product.vue?vue&type=template&id=3b21ac94& ***!
+  \************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Product_vue_vue_type_template_id_3b21ac94___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Product.vue?vue&type=template&id=3b21ac94& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Product/Product.vue?vue&type=template&id=3b21ac94&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Product_vue_vue_type_template_id_3b21ac94___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Product_vue_vue_type_template_id_3b21ac94___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

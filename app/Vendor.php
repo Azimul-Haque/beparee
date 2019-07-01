@@ -10,7 +10,7 @@ class Vendor extends Model
         return $this->belongsTo('App\Store');
     }
 
-    public function products(){
-        return $this->hasMany('App\Product');
+    public function stocks(){
+        return $this->hasMany('App\Stock');
     }
 }

@@ -95,6 +95,10 @@ class VendorController extends Controller
      */
     public function destroy($id)
     {
+        // $vendor = Vendor::findOrFail($id);
+        // associated data should be deleted too...
+        // $vendor->delete();
+        // return ['message' => 'সফলভাবে ডিলেট করা হয়েছে!'];
         return ['message' => 'এই মুহূর্তে ডিলেট বন্ধ আছে!'];
     }
 }

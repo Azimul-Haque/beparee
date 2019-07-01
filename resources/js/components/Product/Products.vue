@@ -49,29 +49,36 @@
                     <!-- <th>ID</th> -->
                     <th>পণ্য</th>
                     <th>ধরণ</th>
+                    <th>ডিলার/ ভেন্ডর</th>
                     <th>বর্তমান স্টক</th>
-                    <th>ক্রয়মূল্য</th>
-                    <th>বিক্রয়মূল্য</th>
-                    <th width="15%">ক্রিয়াকলাপ</th>
+                    <th width="20%">ক্রিয়াকলাপ</th>
                   </tr>
                  </thead>
                  <tbody>
                   <tr v-for="product in products.data" :key="product.id">
                     <!-- <td>{{ product.id }}</td> -->
                     <td>
-                      <!-- <router-link :to="{ name: 'singleProduct', params: { store_id: product.store_id }}">
+                      <router-link :to="{ name: 'singleProduct', params: { id: product.id }}" v-tooltip="product.name +'-এর বিস্তারিত দেখুন'">
                         {{ product.name }}
-                      </router-link> -->
-                      {{ product.name }}<br/>
+                      </router-link> 
+                      <br/>
                       <small class="text-muted">{{ product.brand }}</small>
                     </td>
                     <td>
                       {{ product.productcategory.name }}
                     </td>
-                    <td><big><b>{{ product.quantity }}</b></big> {{ product.unit }}</td>
-                    <td>৳ {{ product.buying_price }}</td>
-                    <td>৳ {{ product.selling_price }}</td>
                     <td>
+                      <span class="badge badge-pill badge-info" v-for="stock in product.stocks">
+                        {{ stock.vendor.name }}
+                      </span>
+                    </td>
+                    <td>
+                      <big><b>{{ product.stocks | totalquantity }}</b></big> {{ product.unit }}
+                    </td>
+                    <td>
+                        <router-link :to="{ name: 'singleProduct', params: { id: product.id }}" class="btn btn-info btn-sm" v-tooltip="product.name +'-এর বিস্তারিত দেখুন'">
+                          <i class="fa fa-eye"></i>
+                        </router-link> 
                         <button type="button" class="btn btn-success btn-sm" @click="editProductModal(product)" v-tooltip="'পণ্য সম্পাদনা করুন'">
                             <i class="fa fa-edit"></i>
                         </button>
@@ -180,43 +187,28 @@
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <v-select placeholder="ডিলার/ভেন্ডর নির্ধারণ (অপশনে না থাকলে লিখুন) *" :options="vendors" taggable :reduce="id => id" label="name" v-model="form.vendor" taggable ref='vendorSelect' :class="{ 'is-invalid': form.errors.has('vendors') }"></v-select>
-                        <has-error :form="form" field="vendors"></has-error>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
                         <select v-model="form.unit" name="unit" placeholder="ইউনিট *" 
                           class="form-control" :class="{ 'is-invalid': form.errors.has('unit') }">
                           <option value="" selected="" disabled="">পণ্যের ইউনিট নির্ধারণ *</option>
-                          <option value="KG">কেজি</option>
-                          <option value="Litre">লিটার</option>
-                          <option value="Piece">পিস</option>
-                          <option value="Packet">প্যাকেট</option>
-                          <option value="Dozen">ডজন</option>
-                          <option value="Carton">কার্টন</option>
-                          <option value="Roll">রোল</option>
-                          <option value="Sack">বস্তা</option>
-                          <option value="N/A">প্রযোজ্য নয়</option>
+                          <option value="কেজি">কেজি</option>
+                          <option value="লিটার">লিটার</option>
+                          <option value="পিস">পিস</option>
+                          <option value="প্যাকেট">প্যাকেট</option>
+                          <option value="ডজন">ডজন</option>
+                          <option value="কার্টন">কার্টন</option>
+                          <option value="রোল">রোল</option>
+                          <option value="বস্তা">বস্তা</option>
+                          <option value="প্রযোজ্য নয়">প্রযোজ্য নয়</option>
                         </select>
                         <has-error :form="form" field="unit"></has-error>
                       </div>
                     </div>
+                  </div>
+                  <div class="row">
                     <div class="col-md-6">
                       <input v-model="form.sku" type="text" name="sku" placeholder="পণ্যের কোড" 
                         class="form-control" :class="{ 'is-invalid': form.errors.has('sku') }">
                       <has-error :form="form" field="sku"></has-error>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <input v-model="form.quantity" type="number" step="any" name="quantity" placeholder="নতুন স্টকের পরিমাণ *" 
-                          class="form-control" :class="{ 'is-invalid': form.errors.has('quantity') }">
-                        <has-error :form="form" field="quantity"></has-error>
-                      </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
@@ -226,25 +218,44 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">৳</span>
+
+                  <div v-show="!editmode">
+                    <hr/>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <v-select placeholder="ডিলার/ভেন্ডর নির্ধারণ (অপশনে না থাকলে লিখুন)" :options="vendors" taggable :reduce="id => id" label="name" v-model="form.vendor" taggable ref='vendorSelect' :class="{ 'is-invalid': form.errors.has('vendors') }"></v-select>
+                          <has-error :form="form" field="vendors"></has-error>
                         </div>
-                        <input v-model="form.buying_price" type="number" step="any" name="buying_price" placeholder="ইউনিট প্রতি ক্রয়মূল্য *" 
-                          class="form-control" :class="{ 'is-invalid': form.errors.has('buying_price') }">
-                        <has-error :form="form" field="buying_price"></has-error>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <input v-model="form.quantity" type="number" step="any" name="quantity" placeholder="নতুন স্টকের পরিমাণ" 
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('quantity') }">
+                          <has-error :form="form" field="quantity"></has-error>
+                        </div>
                       </div>
                     </div>
-                    <div class="col-md-6">
-                      <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">৳</span>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">৳</span>
+                          </div>
+                          <input v-model="form.buying_price" type="number" step="any" name="buying_price" placeholder="ইউনিট প্রতি ক্রয়মূল্য" 
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('buying_price') }">
+                          <has-error :form="form" field="buying_price"></has-error>
                         </div>
-                        <input v-model="form.selling_price" type="number" step="any" name="selling_price" placeholder="ইউনিট প্রতি বিক্রয়মূল্য *" 
-                          class="form-control" :class="{ 'is-invalid': form.errors.has('selling_price') }">
-                        <has-error :form="form" field="selling_price"></has-error>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">৳</span>
+                          </div>
+                          <input v-model="form.selling_price" type="number" step="any" name="selling_price" placeholder="ইউনিট প্রতি বিক্রয়মূল্য"
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('selling_price') }">
+                          <has-error :form="form" field="selling_price"></has-error>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -354,7 +365,7 @@
                 this.loadCategories();
                 this.loadVendors();
 
-                this.form.fill(product);                
+                this.form.fill(product);                             
             },
             addCategoryModal() {
                 this.categoryeditmode = false;
@@ -412,25 +423,26 @@
             },
             deleteProduct(id) {
                 swal.fire({
-                  title: 'Are you sure?',
-                  text: "You won't be able to revert this!",
+                  title: 'আপনি কি নিশ্চিত?',
+                  text: "ডিলেট করলে আর ফেরত পাওয়া যাবে না!",
                   type: 'warning',
                   showCancelButton: true,
                   confirmButtonColor: '#3085d6',
                   cancelButtonColor: '#d33',
-                  confirmButtonText: 'Yes, delete it!'
+                  confirmButtonText: 'নিশ্চিত করছি',
+                  cancelButtonText: 'ফিরে যান'
                 }).then((result) => {
                     if (result.value) {
                        this.form.delete('/api/product/'+ id).then(() => {
                          swal.fire(
-                          'Deleted!',
-                          'Store has been deleted.',
+                          'ডিলেট',
+                          'ডিলেট সফল হয়েছে!',
                           'success'
                           )
                          Fire.$emit('AfterProductCreatedOrUpdated')
                        })
                        .catch(() => {
-                         swal('Failed!', 'There was something wrong', 'warning');
+                         swal('Failed!', 'কিছু সমস্যা হচ্ছে, দুঃখিত!', 'warning');
                        }) 
                     }
 
@@ -479,6 +491,9 @@
                 })
             },
         },
+        computed: {
+          
+        },
         created() {
             this.loadProducts();
             this.loadCategories()
@@ -494,9 +509,9 @@
             Fire.$on('searching', () => {
                 let query = this.$parent.search;
                 if(query != '') {
-                  axios.get('/api/searchstore/' + query)
+                  axios.get('/api/searchproduct/' + query)
                   .then((data) => {
-                    this.stores = data.data;
+                    this.products = data.data;
                   })
                   .catch(() => {
 

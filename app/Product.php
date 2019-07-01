@@ -10,7 +10,7 @@ class Product extends Model
         return $this->belongsTo('App\Productcategory');
     }
 
-    public function vendor(){
-        return $this->belongsTo('App\Vendor');
+    public function stocks(){
+        return $this->hasMany('App\Stock');
     }
 }

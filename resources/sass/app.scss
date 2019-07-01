@@ -7,8 +7,11 @@
 // Bootstrap
 /*@import '~bootstrap/scss/bootstrap';*/
 @import '~admin-lte/dist/css/adminlte.min.css';
+@import '~admin-lte/dist/css/font.css';
 @import '~font-awesome/scss/font-awesome.scss';
 @import "vue-select/src/scss/vue-select.scss";
+
+
 
 .navbar-light {
 	background-color: #fff;
@@ -43,6 +46,46 @@ input[type=number]{
     -moz-appearance:textfield; /* Firefox */
 } 
 
+.badge {
+  margin: 5px;
+}
+
+// tab css
+.tab-card {
+  border:1px solid #eee;
+}
+
+.tab-card-header {
+  background:none;
+}
+/* Default mode */
+.tab-card-header > .nav-tabs {
+  border: none;
+  margin: 0px;
+}
+.tab-card-header > .nav-tabs > li {
+  margin-right: 2px;
+}
+.tab-card-header > .nav-tabs > li > a {
+  border: 0;
+  border-bottom:2px solid transparent;
+  margin-right: 0;
+  color: #737373;
+  padding: 2px 15px;
+}
+
+.tab-card-header > .nav-tabs > li > a.active {
+    border-bottom:2px solid #007bff;
+    color: #007bff;
+}
+.tab-card-header > .nav-tabs > li > a:hover {
+    color: #007bff;
+}
+
+.tab-card-header > .tab-content {
+  padding-bottom: 0;
+}
+// tab css
 
 
 
