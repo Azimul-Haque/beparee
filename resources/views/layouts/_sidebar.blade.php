@@ -33,7 +33,7 @@
               </p>
             </router-link>
           </li>
-          @permission('admin-menu')
+          @permission('product-page')
             <li class="nav-item has-treeview @if(Request::url() == url('/users') | Request::url() == url('/roles') | Request::url() == url('/stores')) menu-open @endif" {{-- :class="{'menu-open':menuselected == 1}" --}}>
               <a href="#" class="nav-link {{-- active --}}" {{-- @click="menuselected = 1" --}}>
                 <i class="nav-icon fa fa-wrench"></i>
@@ -92,7 +92,7 @@
           <li class="nav-item-separator"></li>
           
           @foreach(Auth::user()->stores as $stores_for_nav)
-            <li class="nav-item has-treeview @if(Request::url() == url('/store/'.$stores_for_nav->token.'/'.$stores_for_nav->code)) menu-open @endif" {{-- :class="{'menu-open':menuselected == 2}" --}}>
+            <li class="nav-item has-treeview @if(Request::url() == url('/store/'.$stores_for_nav->token.'/'.$stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/products/'.$stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/vendors/'.$stores_for_nav->code)) menu-open @endif" {{-- :class="{'menu-open':menuselected == 2}" --}}>
               <a href="#" class="nav-link {{-- active --}}" {{-- @click="menuselected = 2" --}}>
                 <i class="nav-icon fa fa-university"></i>
                 <p>
@@ -101,6 +101,7 @@
                 </p>
               </a>
               <ul class="nav nav-treeview">
+                @permission('store-crud')
                 <li class="nav-item">
                   <router-link :to="{ name: 'singleStore', params: { token: '{{ $stores_for_nav->token }}', code: '{{ $stores_for_nav->code }}' }}" class="nav-link" @click.native="changeStoreName" @mobile data-widget="pushmenu" @endmobile>
                     <i class="nav-icon fa fa-address-card-o"></i>
@@ -111,11 +112,15 @@
                     <p>প্রোফাইল</p>
                   </a> --}}
                 </li>
+                @endpermission
+                @permission('product-page')
                 <li class="nav-item">
-                  <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
-                    <i class="nav-icon fa fa-list-ul"></i><p>মালামাল তালিকা</p>
-                  </a>
+                  <router-link :to="{ name: 'productPage', params: { code: '{{ $stores_for_nav->code }}' }}" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                    <i class="nav-icon fa fa-list-ul"></i>
+                    <p>মালামাল তালিকা</p>
+                  </router-link> 
                 </li>
+                @endpermission
                 <li class="nav-item">
                   <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
                     <i class="nav-icon fa fa-plus"></i><p>ক্রয়ের হিসাব</p>
@@ -151,11 +156,14 @@
                     <i class="nav-icon fa fa-plus"></i><p>খরচের হিসাব</p>
                   </a>
                 </li>
+                @permission('vendor-page')
                 <li class="nav-item">
-                  <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
-                    <i class="nav-icon fa fa-plus"></i><p>ডিলার/ ভেন্ডরের তালিকা</p>
-                  </a>
+                  <router-link :to="{ name: 'vendorPage', params: { code: '{{ $stores_for_nav->code }}' }}" class="nav-link" @click.native="changeStoreName" @mobile data-widget="pushmenu" @endmobile>
+                    <i class="nav-icon fa fa-truck"></i>
+                    <p>ডিলার/ ভেন্ডরের তালিকা</p>
+                  </router-link> 
                 </li>
+                @endpermission
                 <li class="nav-item">
                   <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
                     <i class="nav-icon fa fa-plus"></i><p>বাকির হিসাব</p>

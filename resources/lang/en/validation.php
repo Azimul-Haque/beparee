@@ -148,6 +148,20 @@ return [
         'address' => [
             'required' => 'অনুগ্রহ করে ঠিকানা লিখুন'
         ],
+        'unit' => [
+            'required' => 'অনুগ্রহ করে ইউনিট নির্ধারণ করুনর'
+        ],
+        'quantity' => [
+            'required' => 'অনুগ্রহ করে পরিমাণ লিখুন'
+        ],
+        'buying_price' => [
+            'required' => 'অনুগ্রহ করে ক্রয়মূল্য লিখুন'
+        ],
+        'selling_price' => [
+            'required' => 'অনুগ্রহ করে বিক্রয়মূল্য লিখুন'
+        ],
+
+
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],

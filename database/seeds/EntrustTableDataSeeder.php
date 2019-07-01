@@ -62,10 +62,22 @@ class EntrustTableDataSeeder extends Seeder
                 'display_name' => 'Store CRUD',
                 'description' => 'Store CRUD Permission'
             ],
+
+
+            [
+                'name' => 'store-profile',
+                'display_name' => 'Store Profile',
+                'description' => 'Store Profile Permission'
+            ],
+            [
+                'name' => 'product-page',
+                'display_name' => 'Product Page',
+                'description' => 'Product Page'
+            ],
         	[
-        		'name' => 'store-profile',
-        		'display_name' => 'Store Profile',
-        		'description' => 'Store Profile Permission'
+        		'name' => 'vendor-page',
+        		'display_name' => 'Vendor Page',
+        		'description' => 'Vendor Page'
         	]
         ];
 

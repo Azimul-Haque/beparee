@@ -33,6 +33,17 @@ Route::get('load/store/{code}', 'API\StoreController@loadStore');
 Route::get('owners', 'API\StoreController@getOwners'); // For store Select Options
 Route::put('store/update/by/user/{id}', 'API\StoreController@updateByUser');
 
+Route::apiResources(['product' => 'API\ProductController']);
+Route::get('load/product/{code}', 'API\ProductController@loadProducts');
+Route::get('load/product/vendor/{code}', 'API\ProductController@loadVendors');
+Route::get('product/category/{code}', 'API\ProductController@loadCategories');
+Route::post('product/category/store', 'API\ProductController@storeCategory');
+Route::put('product/category/update/{code}', 'API\ProductController@updateCategory');
+
+
+Route::apiResources(['vendor' => 'API\VendorController']);
+Route::get('load/vendor/{code}', 'API\VendorController@loadVendors');
+
 Route::get('searchuser/{query}', 'API\UserController@searchUser'); 
 Route::get('searchrole/{query}', 'API\UserController@searchRole');
 Route::get('searchstore/{query}', 'API\StoreController@searchStore');

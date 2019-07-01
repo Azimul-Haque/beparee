@@ -18,8 +18,10 @@ import Swal from 'sweetalert2';
 import vSelect from 'vue-select';
 import Gate from "./Gate";
 import VeeValidate from 'vee-validate';
+import VTooltip from 'v-tooltip';
 
 Vue.use(VeeValidate);
+Vue.use(VTooltip);
 
 Vue.prototype.$gate = new Gate(window.roles, window.permissions, window.stores);
 Vue.prototype.$user = document.querySelector("meta[name='user']").getAttribute('content');
@@ -41,6 +43,8 @@ let routes = [
   { path: '/stores', component: require('./components/Admin/Stores.vue').default, meta: { title: 'দোকানের তালিকা'} },
 
   { path: '/store/:token/:code', component: require('./components/Store/Store.vue').default, meta: { title: 'দোকান'}, name: 'singleStore'},
+  { path: '/products/:code', component: require('./components/Product/Products.vue').default, meta: { title: 'মালামাল তালিকা'}, name: 'productPage'},
+  { path: '/vendors/:code', component: require('./components/Vendor/Vendors.vue').default, meta: { title: 'ডিলার/ ভেন্ডরের তালিকা'}, name: 'vendorPage'},
   { path: '*', component: require('./components/404.vue').default, meta: { title: '404'} },
 ]
 

@@ -125,7 +125,7 @@ class StoreController extends Controller
             $store->monogram = $filename;
         }
         $store->slogan = $request->slogan;
-        
+
         $store->save();
         
         DB::table('store_user')->where('store_id', $id)->delete();
@@ -186,7 +186,8 @@ class StoreController extends Controller
             'name'                   => 'required|max:191',
             'established'            => 'required',
             'address'                => 'required',
-            'monogram'               => 'sometimes'
+            'monogram'               => 'sometimes',
+            'slogan'                 => 'sometimes'
         ));
 
         $store = Store::findOrFail($id);
@@ -204,7 +205,8 @@ class StoreController extends Controller
             Image::make($request->monogram)->resize(200, null, function ($constraint) { $constraint->aspectRatio(); })->save($location);
             $store->monogram = $filename;
         }
-
+        $store->slogan = $request->slogan;
+        
         $store->save();
         
         return ['message' => 'সফলভাবে হালনাগাদ করা হয়েছে!'];
