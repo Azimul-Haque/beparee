@@ -110,8 +110,8 @@
                     <has-error :form="form" field="address"></has-error>
                   </div>
                   <div class="form-group">
-                    <input v-model="form.mobile" type="text" name="mobile" placeholder="যোগাযোগের নম্বর" 
-                      class="form-control" :class="{ 'is-invalid': form.errors.has('mobile') }">
+                    <input v-model="form.mobile" type="number" name="mobile" placeholder="যোগাযোগের নম্বর" 
+                      class="form-control" :class="{ 'is-invalid': form.errors.has('mobile') }" onkeypress="if(this.value.length==11) return false;">
                     <has-error :form="form" field="mobile"></has-error>
                   </div>
                   <input type="hidden" v-model="form.code" name="code">

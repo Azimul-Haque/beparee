@@ -78,9 +78,9 @@
                             </div>
                           </div>
                           <div class="col-md-3">
-                            <button class="btn btn-sm btn-primary"><i class="fa fa-edit" v-tooltip="'স্টকটি সম্পাদনা করুন'"></i></button>
+                            <button @click="editModal(stock)" class="btn btn-sm btn-primary"><i class="fa fa-edit" v-tooltip="'স্টকটি সম্পাদনা করুন'"></i></button>
                             <button class="btn btn-sm btn-success"><i class="fa fa-retweet"  v-tooltip="'স্টকটি ফেরত দিন'"></i></button>
-                            <button class="btn btn-sm btn-danger"><i class="fa fa-trash"  v-tooltip="'স্টকটি ডিলেট করে দিন'"></i></button>
+                            <button @click="deleteStock(stock.id)" class="btn btn-sm btn-danger"><i class="fa fa-trash"  v-tooltip="'স্টকটি ডিলেট করে দিন'"></i></button>
                           </div>
                         </div><br/>
                         <small class="text-muted" style="border-top: 1px solid #DDD;">
@@ -99,6 +99,40 @@
           </div>
         </div>
       </div>
+
+      <!-- The Modal -->
+      <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog"> <!-- modal-lg -->
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title" id="addModalLabel">স্টক সম্পাদনা করুন</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form @submit.prevent="updateStock()" @keydown="form.onKeydown($event)">
+              <!-- Modal body -->
+              <div class="modal-body">
+                <div class="form-group">
+                  <label class="form-label semibold">বিক্রয়মূল্য/ {{ product.unit }}</label>
+                  <input v-model="form.selling_price" type="text" name="selling_price" placeholder="ঠিকানা" 
+                    class="form-control" :class="{ 'is-invalid': form.errors.has('selling_price') }">
+                  <has-error :form="form" field="selling_price"></has-error>
+                </div>
+                <!-- <div class="form-group">
+                  <input v-model="form.expiry_date" type="number" name="expiry_date" placeholder="যোগাযোগের নম্বর" 
+                    class="form-control" :class="{ 'is-invalid': form.errors.has('expiry_date') }" onkeypress="if(this.value.length==11) return false;">
+                  <has-error :form="form" field="expiry_date"></has-error>
+                </div> -->
+              </div>
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-success">হালনাগাদ করুন</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">ফিরে যান</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
       <div v-if="!$gate.isAuthorized('product-page')">
           <forbidden-403></forbidden-403>
       </div>
@@ -111,95 +145,70 @@
             return {
               product: {},
               // Create a new form instance
-              // form: new Form({
-              //   id: '',
-              //   name: '',
-              //   address: '',
-              //   mobile: '',
-              //   code: this.$route.params.id,
-              // }),
+              form: new Form({
+                id: '',
+                expiry_date: '',
+                selling_price: ''
+              }),
               // editmode: false
             }
         },
         methods: {
             loadProduct() {
-                if(this.$gate.isAuthorized('vendor-page')){
+                if(this.$gate.isAuthorized('product-page')){
                   axios.get('/api/load/single/product/' + this.$route.params.id).then(({ data }) => (this.product = data));  
                 }
             },
-
-            addModal() {
-                this.editmode = false;
-                this.form.reset();
-                $('#addModal').modal('show');
-            },
-            editModal(vendor) {
-                this.editmode = true;
+            editModal(stock) {
                 this.form.reset(); // clears fields
                 this.form.clear(); // clears errors
                 $('#addModal').modal('show');
 
-                this.form.fill(vendor);                
+                this.form.fill(stock);                
             },
-            
-            
-            // createVendor() {
-            //     this.$Progress.start();
-            //     this.form.post('/api/vendor').then(() => {
-            //       $('#addModal').modal('hide')
-            //       Fire.$emit('AfterProductStockUpdated')
-            //       toast.fire({
-            //         type: 'success',
-            //         title: 'সফলভাবে সংরক্ষণ করা হয়েছে!'
-            //       })
-            //       this.$Progress.finish();
-            //     })
-            //     .catch(() => {
-            //         this.$Progress.fail();
-            //     })
-            // },
-            // updateVendor() {
-            //     this.$Progress.start();
-            //     this.form.put('/api/vendor/'+ this.form.id).then(() => {
-            //       $('#addModal').modal('hide')
-            //       Fire.$emit('AfterProductStockUpdated')
-            //       toast.fire({
-            //         type: 'success',
-            //         title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
-            //       })
-            //       this.$Progress.finish();
-            //     })
-            //     .catch(() => {
-            //         this.$Progress.fail();
-            //         // swal('Failed!', 'There was something wrong', 'warning');
-            //     })
-            // },
-            // deleteVendor(id) {
-            //     swal.fire({
-            //       title: 'Are you sure?',
-            //       text: "You won't be able to revert this!",
-            //       type: 'warning',
-            //       showCancelButton: true,
-            //       confirmButtonColor: '#3085d6',
-            //       cancelButtonColor: '#d33',
-            //       confirmButtonText: 'Yes, delete it!'
-            //     }).then((result) => {
-            //         if (result.value) {
-            //            this.form.delete('/api/vendor/'+ id).then(() => {
-            //              swal.fire(
-            //               'Wait...!',
-            //               'এই মুহূর্তে ডিলেট বন্ধ আছে!',
-            //               'success'
-            //               )
-            //              Fire.$emit('AfterProductStockUpdated')
-            //            })
-            //            .catch(() => {
-            //              swal('Failed!', 'There was something wrong', 'warning');
-            //            }) 
-            //         }
+            updateStock() {
+                this.$Progress.start();
+                this.form.put('/api/single/product/stock/update/'+ this.form.id).then(() => {
+                  $('#addModal').modal('hide')
+                  Fire.$emit('AfterProductStockUpdated')
+                  toast.fire({
+                    type: 'success',
+                    title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
+                  })
+                  this.$Progress.finish();
+                })
+                .catch(() => {
+                    this.$Progress.fail();
+                    // swal('Failed!', 'There was something wrong', 'warning');
+                })
+            },
+            deleteStock(id) {
+                swal.fire({
+                  title: 'নিশ্চিত ভাবে স্টক ডিলেট করতে চান?',
+                  text: "ডিলেট নিশ্চিতকরণ",
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'হ্যাঁ, নিশ্চিত করছি',
+                  cancelButtonText: 'ফিরে যান'
+                }).then((result) => {
+                    if (result.value) {
+                       this.form.delete('/api/single/product/stock/delete/'+ id).then(() => {
+                         swal.fire(
+                          'সফল!',
+                          'সফলভাবে ডিলেট করা হয়েছে!',
+                          'success'
+                          )
+                         Fire.$emit('AfterProductStockUpdated')
+                       })
+                       .catch(() => {
+                         swal('Failed!', 'কিছু সমস্যা হয়েছে, দুঃখিত!', 'warning');
+                       }) 
+                    }
 
-            //     })
-            // },
+                })
+            },
             // getPaginationResults(page = 1) {
             //   axios.get('/api/vendor?page=' + page)
             //   .then(response => {

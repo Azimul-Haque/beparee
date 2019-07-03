@@ -17,7 +17,7 @@ class CreateStocksTable extends Migration
             $table->bigIncrements('id');
             $table->integer('product_id')->unsigned();
             $table->integer('vendor_id')->unsigned();
-            $table->string('expire_date')->nullable();
+            $table->string('expiry_date')->nullable();
             $table->string('quantity');
             $table->string('buying_price');
             $table->string('selling_price');

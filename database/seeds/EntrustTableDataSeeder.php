@@ -27,11 +27,6 @@ class EntrustTableDataSeeder extends Seeder
         		'display_name' => 'Role CRUD',
         		'description' => 'Create New Role'
         	],
-        	[
-        		'name' => 'purchase-crud',
-        		'display_name' => 'Purchase CRUD',
-        		'description' => 'Purchase Crud Permission'
-        	],
             [
                 'name' => 'sales-crud',
                 'display_name' => 'Sales CRUD',
@@ -74,11 +69,16 @@ class EntrustTableDataSeeder extends Seeder
                 'display_name' => 'Product Page',
                 'description' => 'Product Page'
             ],
-        	[
-        		'name' => 'vendor-page',
-        		'display_name' => 'Vendor Page',
-        		'description' => 'Vendor Page'
-        	]
+            [
+                'name' => 'vendor-page',
+                'display_name' => 'Vendor Page',
+                'description' => 'Vendor Page'
+            ],
+            [
+                'name' => 'purchase-page',
+                'display_name' => 'Purchase CRUD',
+                'description' => 'Purchase Crud Permission'
+            ],
         ];
 
         foreach ($permission as $key => $value) {

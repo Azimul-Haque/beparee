@@ -3150,18 +3150,50 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      product: {} // Create a new form instance
-      // form: new Form({
-      //   id: '',
-      //   name: '',
-      //   address: '',
-      //   mobile: '',
-      //   code: this.$route.params.id,
-      // }),
-      // editmode: false
+      product: {},
+      // Create a new form instance
+      form: new Form({
+        id: '',
+        expiry_date: '',
+        selling_price: ''
+      }) // editmode: false
 
     };
   },
@@ -3169,47 +3201,82 @@ __webpack_require__.r(__webpack_exports__);
     loadProduct: function loadProduct() {
       var _this = this;
 
-      if (this.$gate.isAuthorized('vendor-page')) {
+      if (this.$gate.isAuthorized('product-page')) {
         axios.get('/api/load/single/product/' + this.$route.params.id).then(function (_ref) {
           var data = _ref.data;
           return _this.product = data;
         });
       }
     },
-    addModal: function addModal() {
-      this.editmode = false;
-      this.form.reset();
-      $('#addModal').modal('show');
-    },
-    editModal: function editModal(vendor) {
-      this.editmode = true;
+    editModal: function editModal(stock) {
       this.form.reset(); // clears fields
 
       this.form.clear(); // clears errors
 
       $('#addModal').modal('show');
-      this.form.fill(vendor);
+      this.form.fill(stock);
+    },
+    updateStock: function updateStock() {
+      var _this2 = this;
+
+      this.$Progress.start();
+      this.form.put('/api/single/product/stock/update/' + this.form.id).then(function () {
+        $('#addModal').modal('hide');
+        Fire.$emit('AfterProductStockUpdated');
+        toast.fire({
+          type: 'success',
+          title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
+        });
+
+        _this2.$Progress.finish();
+      })["catch"](function () {
+        _this2.$Progress.fail(); // swal('Failed!', 'There was something wrong', 'warning');
+
+      });
+    },
+    deleteStock: function deleteStock(id) {
+      var _this3 = this;
+
+      swal.fire({
+        title: 'নিশ্চিত ভাবে স্টক ডিলেট করতে চান?',
+        text: "ডিলেট নিশ্চিতকরণ",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'হ্যাঁ, নিশ্চিত করছি',
+        cancelButtonText: 'ফিরে যান'
+      }).then(function (result) {
+        if (result.value) {
+          _this3.form["delete"]('/api/single/product/stock/delete/' + id).then(function () {
+            swal.fire('সফল!', 'সফলভাবে ডিলেট করা হয়েছে!', 'success');
+            Fire.$emit('AfterProductStockUpdated');
+          })["catch"](function () {
+            swal('Failed!', 'কিছু সমস্যা হয়েছে, দুঃখিত!', 'warning');
+          });
+        }
+      });
     }
   },
   created: function created() {
-    var _this2 = this;
+    var _this4 = this;
 
     this.loadProduct();
     Fire.$on('AfterProductStockUpdated', function () {
-      _this2.loadProduct();
+      _this4.loadProduct();
     });
     Fire.$on('changingstorename', function () {
-      _this2.loadProduct();
+      _this4.loadProduct();
     });
     Fire.$on('searching', function () {
-      var query = _this2.$parent.search;
+      var query = _this4.$parent.search;
 
       if (query != '') {
         axios.get('/api/searchstore/' + query).then(function (data) {
-          _this2.product = data.data;
+          _this4.product = data.data;
         })["catch"](function () {});
       } else {
-        _this2.loadVendors();
+        _this4.loadVendors();
       }
     });
   },
@@ -3772,6 +3839,447 @@ __webpack_require__.r(__webpack_exports__);
   beforeDestroy: function beforeDestroy() {
     Fire.$off('AfterProductCreatedOrUpdated');
     Fire.$off('AfterCategoryCreatedOrUpdated'); // Fire.$off('searching')
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Purchase/Purchases.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Purchase/Purchases.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      purchases: {},
+      products: [],
+      vendors: [],
+      // Create a new form instance
+      form: new Form({
+        id: '',
+        code: this.$route.params.code,
+        product: '',
+        vendor: '',
+        expire_date: '',
+        quantity: '',
+        buying_price: '',
+        selling_price: '',
+        total: '',
+        discount_unit: '%',
+        discount: '',
+        payable: '',
+        paid: '',
+        due: ''
+      })
+    };
+  },
+  methods: {
+    addModal: function addModal() {
+      this.form.reset();
+      $('#addModal').modal('show');
+      this.$refs.productSelect.clearSelection();
+      this.$refs.vendorSelect.clearSelection();
+      this.loadProducts();
+      this.loadVendors();
+    },
+    loadProducts: function loadProducts() {
+      var _this = this;
+
+      if (this.$gate.isAuthorized('purchase-page')) {
+        axios.get('/api/load/purchase/product/' + this.$route.params.code).then(function (_ref) {
+          var data = _ref.data;
+          return _this.products = data;
+        });
+      }
+    },
+    loadVendors: function loadVendors() {
+      var _this2 = this;
+
+      if (this.$gate.isAuthorized('purchase-page')) {
+        axios.get('/api/load/product/vendor/' + this.$route.params.code).then(function (_ref2) {
+          var data = _ref2.data;
+          return _this2.vendors = data;
+        });
+      }
+    },
+    loadPurchases: function loadPurchases() {
+      var _this3 = this;
+
+      if (this.$gate.isAuthorized('purchase-page')) {
+        axios.get('/api/load/purchase/' + this.$route.params.code).then(function (_ref3) {
+          var data = _ref3.data;
+          return _this3.purchases = data;
+        });
+      }
+    },
+    createPurchase: function createPurchase() {
+      var _this4 = this;
+
+      this.$Progress.start();
+      this.form.post('/api/purchase').then(function () {
+        $('#addModal').modal('hide');
+        Fire.$emit('AfterPurchaseCreatedOrUpdated');
+        toast.fire({
+          type: 'success',
+          title: 'সফলভাবে সংরক্ষণ করা হয়েছে!'
+        });
+
+        _this4.$Progress.finish();
+      })["catch"](function () {
+        _this4.$Progress.fail();
+      });
+    },
+    calculatePurchase: function calculatePurchase() {
+      var total = parseFloat(0.00);
+      var discounted_total = parseFloat(0.00);
+      var quantity = parseFloat(this.form.quantity) || 0;
+      var buying_price = parseFloat(this.form.buying_price) || 0;
+      var discount_unit = this.form.discount_unit;
+      var discount = parseFloat(this.form.discount) || 0;
+      var per_total = quantity * buying_price;
+      total = parseFloat(total) + parseFloat(per_total);
+      var discount_amount = parseFloat(0);
+
+      if (discount > 0) {
+        if (discount_unit == '%') {
+          discount_amount = discount * total / 100;
+        } else if (discount_unit == '৳') {
+          discount_amount = discount;
+        }
+      }
+
+      discounted_total = total - discount_amount;
+
+      if (total > 0) {
+        this.form.total = total.toFixed(2);
+        this.form.payable = discounted_total.toFixed(2);
+      } else {
+        this.form.total = 0;
+        this.form.payable = 0;
+      }
+    },
+    calculatePayable: function calculatePayable() {
+      var total = parseFloat(this.form.total) || 0;
+      var paid = parseFloat(this.form.paid) || 0;
+      var discount_unit = this.form.discount_unit;
+      var discount = parseFloat(this.form.discount) || 0;
+      var discount_amount = parseFloat(0);
+      var discounted_total = total;
+
+      if (discount > 0) {
+        if (discount_unit == '%') {
+          discount_amount = discount * total / 100;
+        } else if (discount_unit == '৳') {
+          discount_amount = discount;
+        }
+      }
+
+      discounted_total = total - discount_amount;
+      this.form.payable = discounted_total.toFixed(2);
+      var due = parseFloat(discounted_total) - parseFloat(paid);
+
+      if (due < 0) {
+        due = 0;
+      }
+
+      this.form.due = due.toFixed(2);
+    },
+    deletePurchase: function deletePurchase(id) {
+      var _this5 = this;
+
+      swal.fire({
+        title: 'আপনি কি নিশ্চিত?',
+        text: "ডিলেট করলে আর ফেরত পাওয়া যাবে না!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'নিশ্চিত করছি',
+        cancelButtonText: 'ফিরে যান'
+      }).then(function (result) {
+        if (result.value) {
+          _this5.form["delete"]('/api/product/' + id).then(function () {
+            swal.fire('ডিলেট', 'ডিলেট সফল হয়েছে!', 'success');
+            Fire.$emit('AfterPurchaseCreatedOrUpdated');
+          })["catch"](function () {
+            swal('Failed!', 'কিছু সমস্যা হচ্ছে, দুঃখিত!', 'warning');
+          });
+        }
+      });
+    },
+    getPaginationResults: function getPaginationResults() {
+      var _this6 = this;
+
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      axios.get('/api/load/purchase/' + this.$route.params.code + '?page=' + page).then(function (response) {
+        _this6.purchases = response.data;
+      });
+    }
+  },
+  computed: {},
+  created: function created() {
+    var _this7 = this;
+
+    this.loadPurchases();
+    Fire.$on('AfterPurchaseCreatedOrUpdated', function () {
+      _this7.loadPurchases();
+    });
+    Fire.$on('searching', function () {
+      var query = _this7.$parent.search;
+
+      if (query != '') {
+        axios.get('/api/searchproduct/' + query).then(function (data) {
+          _this7.purchases = data.data;
+        })["catch"](function () {});
+      } else {
+        _this7.loadPurchases();
+      }
+    });
+  },
+  beforeDestroy: function beforeDestroy() {
+    Fire.$off('AfterPurchaseCreatedOrUpdated'); // Fire.$off('searching')
   }
 });
 
@@ -80511,7 +81019,14 @@ var render = function() {
                                   _c("div", { staticClass: "col-md-3" }, [
                                     _c(
                                       "button",
-                                      { staticClass: "btn btn-sm btn-primary" },
+                                      {
+                                        staticClass: "btn btn-sm btn-primary",
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.editModal(stock)
+                                          }
+                                        }
+                                      },
                                       [
                                         _c("i", {
                                           directives: [
@@ -80548,7 +81063,14 @@ var render = function() {
                                     _vm._v(" "),
                                     _c(
                                       "button",
-                                      { staticClass: "btn btn-sm btn-danger" },
+                                      {
+                                        staticClass: "btn btn-sm btn-danger",
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.deleteStock(stock.id)
+                                          }
+                                        }
+                                      },
                                       [
                                         _c("i", {
                                           directives: [
@@ -80604,6 +81126,95 @@ var render = function() {
           ])
         ])
       : _vm._e(),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "addModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "addModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(6),
+            _vm._v(" "),
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.updateStock()
+                  },
+                  keydown: function($event) {
+                    return _vm.form.onKeydown($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "modal-body" }, [
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c("label", { staticClass: "form-label semibold" }, [
+                        _vm._v("বিক্রয়মূল্য/ " + _vm._s(_vm.product.unit))
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.selling_price,
+                            expression: "form.selling_price"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        class: {
+                          "is-invalid": _vm.form.errors.has("selling_price")
+                        },
+                        attrs: {
+                          type: "text",
+                          name: "selling_price",
+                          placeholder: "ঠিকানা"
+                        },
+                        domProps: { value: _vm.form.selling_price },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "selling_price",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "selling_price" }
+                      })
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _vm._m(7)
+              ]
+            )
+          ])
+        ])
+      ]
+    ),
     _vm._v(" "),
     !_vm.$gate.isAuthorized("product-page")
       ? _c("div", [_c("forbidden-403")], 1)
@@ -80742,6 +81353,46 @@ var staticRenderFns = [
         ])
       ]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h4", { staticClass: "modal-title", attrs: { id: "addModalLabel" } }, [
+        _vm._v("স্টক সম্পাদনা করুন")
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("×")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-success", attrs: { type: "submit" } },
+        [_vm._v("হালনাগাদ করুন")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-danger",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("ফিরে যান")]
+      )
+    ])
   }
 ]
 render._withStripped = true
@@ -82063,6 +82714,945 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Purchase/Purchases.vue?vue&type=template&id=67ae4f8f&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Purchase/Purchases.vue?vue&type=template&id=67ae4f8f& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "content" }, [
+    _vm.$gate.isAuthorized("purchase-page")
+      ? _c("div", { staticClass: "content-header" }, [
+          _c("div", { staticClass: "container-fluid" }, [
+            _c("div", { staticClass: "row mb-2" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-6" }, [
+                _c("ol", { staticClass: "breadcrumb float-sm-right" }, [
+                  _c(
+                    "li",
+                    { staticClass: "breadcrumb-item" },
+                    [
+                      _c("router-link", { attrs: { to: "/dashboard" } }, [
+                        _vm._v("স্টোর")
+                      ])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "breadcrumb-item active" }, [
+                    _vm._v("ক্রয়ের তালিকা")
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.$gate.isAuthorized("purchase-page")
+      ? _c("div", { staticClass: "container-fluid" }, [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _c("h3", { staticClass: "card-title" }, [_vm._v("ক্রয়সমূহ")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-tools" }, [
+                _c(
+                  "button",
+                  {
+                    directives: [
+                      {
+                        name: "tooltip",
+                        rawName: "v-tooltip",
+                        value: "নতুন পণ্য ক্রয় করুন",
+                        expression: "'নতুন পণ্য ক্রয় করুন'"
+                      }
+                    ],
+                    staticClass: "btn btn-primary btn-sm",
+                    attrs: { type: "button" },
+                    on: { click: _vm.addModal }
+                  },
+                  [_c("i", { staticClass: "fa fa-cart-plus" })]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body table-responsive p-0" }, [
+              _c("table", { staticClass: "table table-hover" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.purchases.data, function(purchase) {
+                    return _c("tr", { key: purchase.id }, [
+                      _c("td", [
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("small", { staticClass: "text-muted" }, [
+                          _vm._v(_vm._s(purchase.brand))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "\n              " +
+                            _vm._s(purchase.purchasecategory.name) +
+                            "\n            "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        _vm._l(purchase.stocks, function(stock) {
+                          return _c(
+                            "span",
+                            { staticClass: "badge badge-pill badge-info" },
+                            [
+                              _vm._v(
+                                "\n                " +
+                                  _vm._s(stock.vendor.name) +
+                                  "\n              "
+                              )
+                            ]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        [
+                          _c("big", [
+                            _c("b", [
+                              _vm._v(
+                                _vm._s(_vm._f("totalquantity")(purchase.stocks))
+                              )
+                            ])
+                          ]),
+                          _vm._v(" " + _vm._s(purchase.unit) + "\n            ")
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "button",
+                          {
+                            directives: [
+                              {
+                                name: "tooltip",
+                                rawName: "v-tooltip",
+                                value: "পণ্য সম্পাদনা করুন",
+                                expression: "'পণ্য সম্পাদনা করুন'"
+                              }
+                            ],
+                            staticClass: "btn btn-success btn-sm",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.editModal(purchase)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-edit" })]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            directives: [
+                              {
+                                name: "tooltip",
+                                rawName: "v-tooltip",
+                                value: "পণ্য ডিলেট করুন",
+                                expression: "'পণ্য ডিলেট করুন'"
+                              }
+                            ],
+                            staticClass: "btn btn-danger btn-sm",
+                            on: {
+                              click: function($event) {
+                                return _vm.deletePurchase(purchase.id)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-trash" })]
+                        )
+                      ])
+                    ])
+                  }),
+                  0
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "card-footer" },
+              [
+                _c("pagination", {
+                  attrs: { data: _vm.purchases },
+                  on: { "pagination-change-page": _vm.getPaginationResults }
+                })
+              ],
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "modal fade",
+              attrs: {
+                id: "addModal",
+                tabindex: "-1",
+                role: "dialog",
+                "aria-labelledby": "addModalLabel",
+                "aria-hidden": "true"
+              }
+            },
+            [
+              _c("div", { staticClass: "modal-dialog modal-lg" }, [
+                _c("div", { staticClass: "modal-content" }, [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c(
+                    "form",
+                    {
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.createPurchase()
+                        },
+                        keydown: function($event) {
+                          return _vm.form.onKeydown($event)
+                        }
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "modal-body" }, [
+                        _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c(
+                              "div",
+                              { staticClass: "form-group" },
+                              [
+                                _c("label", [_vm._v("পণ্য নির্ধারণ করুন")]),
+                                _vm._v(" "),
+                                _c("v-select", {
+                                  ref: "productSelect",
+                                  class: {
+                                    "is-invalid": _vm.form.errors.has(
+                                      "products"
+                                    )
+                                  },
+                                  attrs: {
+                                    placeholder: "পণ্য নির্ধারণ করুন",
+                                    options: _vm.products,
+                                    taggable: "",
+                                    reduce: function(id) {
+                                      return id
+                                    },
+                                    label: "name",
+                                    taggable: ""
+                                  },
+                                  model: {
+                                    value: _vm.form.product,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.form, "product", $$v)
+                                    },
+                                    expression: "form.product"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("has-error", {
+                                  attrs: { form: _vm.form, field: "products" }
+                                })
+                              ],
+                              1
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c(
+                              "div",
+                              { staticClass: "form-group" },
+                              [
+                                _c("label", [_vm._v("ডিলার/ভেন্ডর নির্ধারণ")]),
+                                _vm._v(" "),
+                                _c("v-select", {
+                                  ref: "vendorSelect",
+                                  class: {
+                                    "is-invalid": _vm.form.errors.has("vendors")
+                                  },
+                                  attrs: {
+                                    placeholder:
+                                      "ডিলার/ভেন্ডর নির্ধারণ (অপশনে না থাকলে লিখুন)",
+                                    options: _vm.vendors,
+                                    taggable: "",
+                                    reduce: function(id) {
+                                      return id
+                                    },
+                                    label: "name",
+                                    taggable: ""
+                                  },
+                                  model: {
+                                    value: _vm.form.vendor,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.form, "vendor", $$v)
+                                    },
+                                    expression: "form.vendor"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("has-error", {
+                                  attrs: { form: _vm.form, field: "vendors" }
+                                })
+                              ],
+                              1
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "col-md-4" }, [
+                            _c(
+                              "div",
+                              { staticClass: "form-group" },
+                              [
+                                _c("label", [_vm._v("নতুন স্টকের পরিমাণ")]),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.form.quantity,
+                                      expression: "form.quantity"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  class: {
+                                    "is-invalid": _vm.form.errors.has(
+                                      "quantity"
+                                    )
+                                  },
+                                  attrs: {
+                                    type: "number",
+                                    step: "any",
+                                    name: "quantity",
+                                    placeholder: "নতুন স্টকের পরিমাণ"
+                                  },
+                                  domProps: { value: _vm.form.quantity },
+                                  on: {
+                                    change: _vm.calculatePurchase,
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.form,
+                                        "quantity",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("has-error", {
+                                  attrs: { form: _vm.form, field: "quantity" }
+                                })
+                              ],
+                              1
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-4" }, [
+                            _c("label", [_vm._v("ইউনিট প্রতি ক্রয়মূল্য")]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "input-group mb-3" },
+                              [
+                                _vm._m(3),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.form.buying_price,
+                                      expression: "form.buying_price"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  class: {
+                                    "is-invalid": _vm.form.errors.has(
+                                      "buying_price"
+                                    )
+                                  },
+                                  attrs: {
+                                    type: "number",
+                                    step: "any",
+                                    name: "buying_price",
+                                    placeholder: "ইউনিট প্রতি ক্রয়মূল্য"
+                                  },
+                                  domProps: { value: _vm.form.buying_price },
+                                  on: {
+                                    change: _vm.calculatePurchase,
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.form,
+                                        "buying_price",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("has-error", {
+                                  attrs: {
+                                    form: _vm.form,
+                                    field: "buying_price"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-4" }, [
+                            _c("label", [_vm._v("ইউনিট প্রতি বিক্রয়মূল্য")]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "input-group mb-3" },
+                              [
+                                _vm._m(4),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.form.selling_price,
+                                      expression: "form.selling_price"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  class: {
+                                    "is-invalid": _vm.form.errors.has(
+                                      "selling_price"
+                                    )
+                                  },
+                                  attrs: {
+                                    type: "number",
+                                    step: "any",
+                                    name: "selling_price",
+                                    placeholder: "ইউনিট প্রতি বিক্রয়মূল্য"
+                                  },
+                                  domProps: { value: _vm.form.selling_price },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.form,
+                                        "selling_price",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("has-error", {
+                                  attrs: {
+                                    form: _vm.form,
+                                    field: "selling_price"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("hr"),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c("label", [_vm._v("সর্বমোট মূল্য")]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "input-group mb-3" },
+                              [
+                                _vm._m(5),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.form.total,
+                                      expression: "form.total"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  class: {
+                                    "is-invalid": _vm.form.errors.has("total")
+                                  },
+                                  attrs: {
+                                    type: "number",
+                                    step: "any",
+                                    name: "total",
+                                    placeholder: "সর্বমোট মূল্য"
+                                  },
+                                  domProps: { value: _vm.form.total },
+                                  on: {
+                                    change: _vm.calculatePayable,
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.form,
+                                        "total",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("has-error", {
+                                  attrs: { form: _vm.form, field: "total" }
+                                })
+                              ],
+                              1
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c("label", [_vm._v("ডিসকাউন্ট")]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "input-group mb-3" },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.form.discount,
+                                      expression: "form.discount"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  class: {
+                                    "is-invalid": _vm.form.errors.has(
+                                      "discount"
+                                    )
+                                  },
+                                  staticStyle: { width: "60%" },
+                                  attrs: {
+                                    type: "number",
+                                    step: "any",
+                                    name: "discount",
+                                    placeholder: "ডিসকাউন্ট",
+                                    autocomplete: "off"
+                                  },
+                                  domProps: { value: _vm.form.discount },
+                                  on: {
+                                    change: _vm.calculatePayable,
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.form,
+                                        "discount",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "select",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.form.discount_unit,
+                                        expression: "form.discount_unit"
+                                      }
+                                    ],
+                                    staticClass:
+                                      "form-control input-group-append",
+                                    attrs: { name: "discount_unit" },
+                                    on: {
+                                      change: [
+                                        function($event) {
+                                          var $$selectedVal = Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function(o) {
+                                                return o.selected
+                                              }
+                                            )
+                                            .map(function(o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                          _vm.$set(
+                                            _vm.form,
+                                            "discount_unit",
+                                            $event.target.multiple
+                                              ? $$selectedVal
+                                              : $$selectedVal[0]
+                                          )
+                                        },
+                                        _vm.calculatePayable
+                                      ]
+                                    }
+                                  },
+                                  [
+                                    _c("option", { attrs: { value: "%" } }, [
+                                      _vm._v("%")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("option", { attrs: { value: "৳" } }, [
+                                      _vm._v("৳")
+                                    ])
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("has-error", {
+                                  attrs: { form: _vm.form, field: "discount" }
+                                })
+                              ],
+                              1
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "col-md-4" }, [
+                            _c("label", [_vm._v("পরিশোধনীয় মূল্য")]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "input-group mb-3" },
+                              [
+                                _vm._m(6),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.form.payable,
+                                      expression: "form.payable"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  class: {
+                                    "is-invalid": _vm.form.errors.has("payable")
+                                  },
+                                  attrs: {
+                                    type: "number",
+                                    step: "any",
+                                    name: "payable",
+                                    placeholder: "পরিশোধনীয় মূল্য",
+                                    readonly: ""
+                                  },
+                                  domProps: { value: _vm.form.payable },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.form,
+                                        "payable",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("has-error", {
+                                  attrs: { form: _vm.form, field: "payable" }
+                                })
+                              ],
+                              1
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-4" }, [
+                            _c("label", [_vm._v("পরিশোধ")]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "input-group mb-3" },
+                              [
+                                _vm._m(7),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.form.paid,
+                                      expression: "form.paid"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  class: {
+                                    "is-invalid": _vm.form.errors.has("paid")
+                                  },
+                                  attrs: {
+                                    type: "number",
+                                    step: "any",
+                                    name: "paid",
+                                    placeholder: "পরিশোধ"
+                                  },
+                                  domProps: { value: _vm.form.paid },
+                                  on: {
+                                    change: _vm.calculatePayable,
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.form,
+                                        "paid",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("has-error", {
+                                  attrs: { form: _vm.form, field: "paid" }
+                                })
+                              ],
+                              1
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-4" }, [
+                            _c("label", [_vm._v("দেনা/ পরিশোধনীয়")]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "input-group mb-3" },
+                              [
+                                _vm._m(8),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.form.due,
+                                      expression: "form.due"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  class: {
+                                    "is-invalid": _vm.form.errors.has("due")
+                                  },
+                                  attrs: {
+                                    type: "number",
+                                    step: "any",
+                                    name: "due",
+                                    placeholder: "দেনা/ পরিশোধনীয়",
+                                    readonly: ""
+                                  },
+                                  domProps: { value: _vm.form.due },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.form,
+                                        "due",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("has-error", {
+                                  attrs: { form: _vm.form, field: "due" }
+                                })
+                              ],
+                              1
+                            )
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(9)
+                    ]
+                  )
+                ])
+              ])
+            ]
+          )
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.$gate.isAuthorized("purchase-page")
+      ? _c("div", [_c("forbidden-403")], 1)
+      : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-sm-6" }, [
+      _c("h1", { staticClass: "m-0 text-dark" }, [_vm._v("ক্রয়ের তালিকা")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("পণ্য")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("ডিলার/ ভেন্ডর")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("পরিমাণ")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("প্রদেয়")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("পরিশোধিত")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("দেনা")]),
+        _vm._v(" "),
+        _c("th", { attrs: { width: "20%" } }, [_vm._v("ক্রিয়াকলাপ")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h4", { staticClass: "modal-title", attrs: { id: "addModalLabel" } }, [
+        _vm._v("পণ্য ক্রয়")
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("×")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [_vm._v("৳")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [_vm._v("৳")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [_vm._v("৳")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [_vm._v("৳")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [_vm._v("৳")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [_vm._v("৳")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-success", attrs: { type: "submit" } },
+        [_vm._v("দাখিল করুন")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-danger",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("ফিরে যান")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Store/Store.vue?vue&type=template&id=26ced910&":
 /*!**************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Store/Store.vue?vue&type=template&id=26ced910& ***!
@@ -82224,6 +83814,14 @@ var render = function() {
                             { staticClass: "form-group" },
                             [
                               _c("v-select", {
+                                directives: [
+                                  {
+                                    name: "validate",
+                                    rawName: "v-validate",
+                                    value: "required",
+                                    expression: "'required'"
+                                  }
+                                ],
                                 ref: "theSelect",
                                 class: {
                                   "is-invalid": _vm.form.errors.has(
@@ -82236,7 +83834,10 @@ var render = function() {
                                   reduce: function(id) {
                                     return id
                                   },
+                                  label: "year",
                                   taggable: "",
+                                  "error-messages": _vm.errors.collect("type"),
+                                  "data-vv-name": "type",
                                   rules: [
                                     function(v) {
                                       return !!v || "সাল নির্ধারণ করুন"
@@ -82430,7 +84031,9 @@ var staticRenderFns = [
           _c("a", { attrs: { href: "#!" } }, [_vm._v("স্টোর")])
         ]),
         _vm._v(" "),
-        _c("li", { staticClass: "breadcrumb-item active" }, [_vm._v("স্টোর")])
+        _c("li", { staticClass: "breadcrumb-item active" }, [
+          _vm._v("প্রোফাইল")
+        ])
       ])
     ])
   },
@@ -83213,9 +84816,11 @@ var render = function() {
                                 "is-invalid": _vm.form.errors.has("mobile")
                               },
                               attrs: {
-                                type: "text",
+                                type: "number",
                                 name: "mobile",
-                                placeholder: "যোগাযোগের নম্বর"
+                                placeholder: "যোগাযোগের নম্বর",
+                                onkeypress:
+                                  "if(this.value.length==11) return false;"
                               },
                               domProps: { value: _vm.form.mobile },
                               on: {
@@ -98520,6 +100125,13 @@ var routes = [{
   },
   name: 'singleProduct'
 }, {
+  path: '/purchases/:code',
+  component: __webpack_require__(/*! ./components/Purchase/Purchases.vue */ "./resources/js/components/Purchase/Purchases.vue")["default"],
+  meta: {
+    title: 'ক্রয়ের তালিকা'
+  },
+  name: 'purchasesPage'
+}, {
   path: '/vendors/:code',
   component: __webpack_require__(/*! ./components/Vendor/Vendors.vue */ "./resources/js/components/Vendor/Vendors.vue")["default"],
   meta: {
@@ -99323,6 +100935,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Products_vue_vue_type_template_id_2cbf870f___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Products_vue_vue_type_template_id_2cbf870f___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Purchase/Purchases.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/components/Purchase/Purchases.vue ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Purchases_vue_vue_type_template_id_67ae4f8f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Purchases.vue?vue&type=template&id=67ae4f8f& */ "./resources/js/components/Purchase/Purchases.vue?vue&type=template&id=67ae4f8f&");
+/* harmony import */ var _Purchases_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Purchases.vue?vue&type=script&lang=js& */ "./resources/js/components/Purchase/Purchases.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Purchases_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Purchases_vue_vue_type_template_id_67ae4f8f___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Purchases_vue_vue_type_template_id_67ae4f8f___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Purchase/Purchases.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Purchase/Purchases.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/Purchase/Purchases.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Purchases_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Purchases.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Purchase/Purchases.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Purchases_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Purchase/Purchases.vue?vue&type=template&id=67ae4f8f&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/Purchase/Purchases.vue?vue&type=template&id=67ae4f8f& ***!
+  \***************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Purchases_vue_vue_type_template_id_67ae4f8f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Purchases.vue?vue&type=template&id=67ae4f8f& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Purchase/Purchases.vue?vue&type=template&id=67ae4f8f&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Purchases_vue_vue_type_template_id_67ae4f8f___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Purchases_vue_vue_type_template_id_67ae4f8f___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

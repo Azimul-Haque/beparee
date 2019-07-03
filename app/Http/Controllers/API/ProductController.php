@@ -95,7 +95,7 @@ class ProductController extends Controller
             'stock_alert'          => 'sometimes|max:191',
 
             'vendor'               => 'sometimes',
-            'expire_date'          => 'sometimes|max:191',
+            'expiry_date'          => 'sometimes|max:191',
             'quantity'             => 'sometimes|max:191',
             'buying_price'         => 'sometimes|max:191',
             'selling_price'        => 'sometimes|max:191',
@@ -131,7 +131,7 @@ class ProductController extends Controller
         // save the stock
         $stock = new Stock;
         $stock->product_id = $product->id;
-        $stock->expire_date = $request->expire_date;
+        $stock->expiry_date = $request->expiry_date;
         $stock->quantity = $request->quantity;
         $stock->buying_price = number_format($request->buying_price, 2, '.', '');
         $stock->selling_price = number_format($request->selling_price, 2, '.', '');
@@ -233,5 +233,29 @@ class ProductController extends Controller
         $product->load('stocks')->load('stocks.vendor');
 
         return response()->json($product);
+    }
+    
+    public function updateSingleProductStock(Request $request, $id)
+    {
+        $this->validate($request,array(
+            'selling_price'      => 'required',
+            'expiry_date'        => 'sometimes'
+        ));
+
+        $stock = Stock::findOrFail($id);
+        $stock->expiry_date = $request->expiry_date;
+        $stock->selling_price = $request->selling_price;
+        
+        $stock->save();
+
+        return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];
+    }
+
+    public function deleteSingleProductStock($id)
+    {
+        $stock = Stock::findOrFail($id);
+        $stock->delete();
+
+        return ['message' => 'সফলভাবে ডিলেট করা হয়েছে!'];
     }
 }

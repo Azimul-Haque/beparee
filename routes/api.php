@@ -36,6 +36,8 @@ Route::put('store/update/by/user/{id}', 'API\StoreController@updateByUser');
 Route::apiResources(['product' => 'API\ProductController']);
 Route::get('load/product/{code}', 'API\ProductController@loadProducts');
 Route::get('load/single/product/{id}', 'API\ProductController@loadSingleProduct');
+Route::put('single/product/stock/update/{id}', 'API\ProductController@updateSingleProductStock');
+Route::delete('single/product/stock/delete/{id}', 'API\ProductController@deleteSingleProductStock');
 
 Route::get('load/product/vendor/{code}', 'API\ProductController@loadVendors');
 Route::get('product/category/{code}', 'API\ProductController@loadCategories');
@@ -45,6 +47,10 @@ Route::put('product/category/update/{code}', 'API\ProductController@updateCatego
 
 Route::apiResources(['vendor' => 'API\VendorController']);
 Route::get('load/vendor/{code}', 'API\VendorController@loadVendors');
+
+Route::apiResources(['purchase' => 'API\PurchaseController']);
+Route::get('load/purchase/{code}', 'API\PurchaseController@loadPurchases');
+Route::get('load/purchase/product/{code}', 'API\PurchaseController@loadProducts');
 
 Route::get('searchuser/{query}', 'API\UserController@searchUser'); 
 Route::get('searchrole/{query}', 'API\UserController@searchRole');

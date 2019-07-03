@@ -14,4 +14,8 @@ class Stock extends Model
         return $this->belongsTo('App\Vendor');
     }
 
+    public function purchase(){
+        return $this->hasOne('App\Purchase');
+    }
+
 }

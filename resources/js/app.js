@@ -47,6 +47,8 @@ let routes = [
   { path: '/products/:code', component: require('./components/Product/Products.vue').default, meta: { title: 'মালামাল তালিকা'}, name: 'productsPage'},
   { path: '/product/:id', component: require('./components/Product/Product.vue').default, meta: { title: 'পণ্য'}, name: 'singleProduct'},
   
+  { path: '/purchases/:code', component: require('./components/Purchase/Purchases.vue').default, meta: { title: 'ক্রয়ের তালিকা'}, name: 'purchasesPage'},
+  
   { path: '/vendors/:code', component: require('./components/Vendor/Vendors.vue').default, meta: { title: 'ডিলার/ ভেন্ডরের তালিকা'}, name: 'vendorsPage'},
   { path: '*', component: require('./components/404.vue').default, meta: { title: '404'} },
 ]

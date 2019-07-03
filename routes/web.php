@@ -11,9 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/clear', ['as'=>'clear','uses'=>'IndexController@clear']);
+Route::get('/', ['as'=>'index','uses'=>'IndexController@index']);
 
 Auth::routes();
 

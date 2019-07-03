@@ -9,7 +9,7 @@
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                   <li class="breadcrumb-item"><a href="#!">স্টোর</a></li>
-                  <li class="breadcrumb-item active">স্টোর</li>
+                  <li class="breadcrumb-item active">প্রোফাইল</li>
                 </ol>
               </div>
             </div>
@@ -54,7 +54,7 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                          <v-select placeholder="স্থাপিত" :options="years" :reduce="id => id" v-model="form.established" taggable ref='theSelect' :class="{ 'is-invalid': form.errors.has('established') }" :rules="[(v) => !!v || 'সাল নির্ধারণ করুন']" required></v-select>
+                          <v-select placeholder="স্থাপিত" :options="years" :reduce="id => id" label="year" v-model="form.established" taggable ref='theSelect' :class="{ 'is-invalid': form.errors.has('established') }" :error-messages="errors.collect('type')" v-validate="'required'" data-vv-name="type" :rules="[(v) => !!v || 'সাল নির্ধারণ করুন']" required></v-select>
                           <has-error :form="form" field="established"></has-error>
                         </div>
                       </div>

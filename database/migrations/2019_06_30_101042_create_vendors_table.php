@@ -17,8 +17,8 @@ class CreateVendorsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('store_id')->unsigned();
             $table->string('name');
-            $table->string('address');
-            $table->string('mobile');
+            $table->string('address')->nullable();
+            $table->string('mobile')->nullable();
             $table->timestamps();
 
             $table->foreign('store_id')->references('id')->on('stores')
