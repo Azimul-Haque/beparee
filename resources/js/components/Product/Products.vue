@@ -224,7 +224,7 @@
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
-                          <v-select placeholder="ডিলার/ভেন্ডর নির্ধারণ (অপশনে না থাকলে লিখুন)" :options="vendors" taggable :reduce="id => id" label="name" v-model="form.vendor" taggable ref='vendorSelect' :class="{ 'is-invalid': form.errors.has('vendors') }"></v-select>
+                          <v-select placeholder="ডিলার/ভেন্ডর নির্ধারণ (অপশনে না থাকলে লিখুন)" :options="vendors" :reduce="id => id" label="name" v-model="form.vendor" taggable ref='vendorSelect' :class="{ 'is-invalid': form.errors.has('vendors') }"></v-select>
                           <has-error :form="form" field="vendors"></has-error>
                         </div>
                       </div>
@@ -347,7 +347,7 @@
             addProductModal() {
                 this.editmode = false;
                 this.form.reset();
-                $('#addProductModal').modal('show');
+                $('#addProductModal').modal({ show: true, backdrop: 'static', keyboard: false });
                 this.$refs.categorySelect.clearSelection();
                 this.$refs.vendorSelect.clearSelection();
 
@@ -358,7 +358,7 @@
                 this.editmode = true;
                 this.form.reset(); // clears fields
                 this.form.clear(); // clears errors
-                $('#addProductModal').modal('show');
+                $('#addProductModal').modal({ show: true, backdrop: 'static', keyboard: false });
                 this.$refs.categorySelect.clearSelection();
                 this.$refs.vendorSelect.clearSelection();
 
@@ -370,13 +370,13 @@
             addCategoryModal() {
                 this.categoryeditmode = false;
                 this.categoryform.reset();
-                $('#addCategoryModal').modal('show');
+                $('#addCategoryModal').modal({ show: true, backdrop: 'static', keyboard: false });
             },
             editCategoryModal(category) {
                 this.categoryeditmode = true;
                 this.categoryform.reset(); // clears fields
                 this.categoryform.clear(); // clears errors
-                $('#addCategoryModal').modal('show');
+                $('#addCategoryModal').modal({ show: true, backdrop: 'static', keyboard: false });
 
                 this.categoryform.fill(category);                
             },

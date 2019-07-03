@@ -105,7 +105,7 @@ class ProductController extends Controller
 
         $store = Store::where('code', $request->code)->first();
         
-        $product->store_id = $store->id;        
+        $product->store_id = $store->id;
         $product->name = $request->name;
         $product->brand = $request->brand;
         $product->unit = $request->unit;
@@ -254,6 +254,7 @@ class ProductController extends Controller
     public function deleteSingleProductStock($id)
     {
         $stock = Stock::findOrFail($id);
+        $stock->purchase()->delete();
         $stock->delete();
 
         return ['message' => 'সফলভাবে ডিলেট করা হয়েছে!'];

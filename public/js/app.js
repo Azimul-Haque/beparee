@@ -2360,7 +2360,11 @@ __webpack_require__.r(__webpack_exports__);
       this.editmode = false;
       this.form.reset();
       this.$refs.monogramInput.value = null;
-      $('#addStoreModal').modal('show');
+      $('#addStoreModal').modal({
+        show: true,
+        backdrop: 'static',
+        keyboard: false
+      });
       this.$refs.ownerSelect.clearSelection();
       this.$refs.theSelect.clearSelection();
       this.loadOwners();
@@ -2373,7 +2377,11 @@ __webpack_require__.r(__webpack_exports__);
       this.form.clear(); // clears errors
 
       this.$refs.monogramInput.value = null;
-      $('#addStoreModal').modal('show');
+      $('#addStoreModal').modal({
+        show: true,
+        backdrop: 'static',
+        keyboard: false
+      });
       this.$refs.ownerSelect.clearSelection();
       this.$refs.theSelect.clearSelection();
       this.loadOwners();
@@ -2751,7 +2759,11 @@ __webpack_require__.r(__webpack_exports__);
       this.editmode = false;
       this.form.reset();
       this.$refs.imageInput.value = null;
-      $('#addUserModal').modal('show');
+      $('#addUserModal').modal({
+        show: true,
+        backdrop: 'static',
+        keyboard: false
+      });
       this.$refs.theSelect.clearSelection();
     },
     editUserModal: function editUserModal(user) {
@@ -2761,7 +2773,11 @@ __webpack_require__.r(__webpack_exports__);
       this.form.clear(); // clears errors
 
       this.$refs.imageInput.value = null;
-      $('#addUserModal').modal('show');
+      $('#addUserModal').modal({
+        show: true,
+        backdrop: 'static',
+        keyboard: false
+      });
       this.form.fill(user);
       this.$refs.theSelect.clearSelection();
     },
@@ -3645,7 +3661,11 @@ __webpack_require__.r(__webpack_exports__);
     addProductModal: function addProductModal() {
       this.editmode = false;
       this.form.reset();
-      $('#addProductModal').modal('show');
+      $('#addProductModal').modal({
+        show: true,
+        backdrop: 'static',
+        keyboard: false
+      });
       this.$refs.categorySelect.clearSelection();
       this.$refs.vendorSelect.clearSelection();
       this.loadCategories();
@@ -3657,7 +3677,11 @@ __webpack_require__.r(__webpack_exports__);
 
       this.form.clear(); // clears errors
 
-      $('#addProductModal').modal('show');
+      $('#addProductModal').modal({
+        show: true,
+        backdrop: 'static',
+        keyboard: false
+      });
       this.$refs.categorySelect.clearSelection();
       this.$refs.vendorSelect.clearSelection();
       this.loadCategories();
@@ -3667,7 +3691,11 @@ __webpack_require__.r(__webpack_exports__);
     addCategoryModal: function addCategoryModal() {
       this.categoryeditmode = false;
       this.categoryform.reset();
-      $('#addCategoryModal').modal('show');
+      $('#addCategoryModal').modal({
+        show: true,
+        backdrop: 'static',
+        keyboard: false
+      });
     },
     editCategoryModal: function editCategoryModal(category) {
       this.categoryeditmode = true;
@@ -3675,7 +3703,11 @@ __webpack_require__.r(__webpack_exports__);
 
       this.categoryform.clear(); // clears errors
 
-      $('#addCategoryModal').modal('show');
+      $('#addCategoryModal').modal({
+        show: true,
+        backdrop: 'static',
+        keyboard: false
+      });
       this.categoryform.fill(category);
     },
     loadVendors: function loadVendors() {
@@ -4090,6 +4122,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4118,7 +4162,11 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     addModal: function addModal() {
       this.form.reset();
-      $('#addModal').modal('show');
+      $('#addModal').modal({
+        show: true,
+        backdrop: 'static',
+        keyboard: false
+      });
       this.$refs.productSelect.clearSelection();
       this.$refs.vendorSelect.clearSelection();
       this.loadProducts();
@@ -4240,7 +4288,7 @@ __webpack_require__.r(__webpack_exports__);
         cancelButtonText: 'ফিরে যান'
       }).then(function (result) {
         if (result.value) {
-          _this5.form["delete"]('/api/product/' + id).then(function () {
+          _this5.form["delete"]('/api/purchase/' + id).then(function () {
             swal.fire('ডিলেট', 'ডিলেট সফল হয়েছে!', 'success');
             Fire.$emit('AfterPurchaseCreatedOrUpdated');
           })["catch"](function () {
@@ -4248,6 +4296,18 @@ __webpack_require__.r(__webpack_exports__);
           });
         }
       });
+    },
+    printPurchase: function printPurchase(id, code) {// axios({
+      //   method: 'get',
+      //   url: '/api/pdf/purchase/' + id,
+      //   responseType: 'arraybuffer'
+      // }).then(function(response) {
+      //   let blob = new Blob([response.data], { type: 'application/pdf' })
+      //   let link = document.createElement('b')
+      //   link.href = window.URL.createObjectURL(blob)
+      //   link.download = 'Purchase_Receipt_'+ code +'.pdf'
+      //   link.click()
+      // })
     },
     getPaginationResults: function getPaginationResults() {
       var _this6 = this;
@@ -4270,7 +4330,7 @@ __webpack_require__.r(__webpack_exports__);
       var query = _this7.$parent.search;
 
       if (query != '') {
-        axios.get('/api/searchproduct/' + query).then(function (data) {
+        axios.get('/api/searchpurchase/' + query).then(function (data) {
           _this7.purchases = data.data;
         })["catch"](function () {});
       } else {
@@ -82197,7 +82257,6 @@ var render = function() {
                                         placeholder:
                                           "ডিলার/ভেন্ডর নির্ধারণ (অপশনে না থাকলে লিখুন)",
                                         options: _vm.vendors,
-                                        taggable: "",
                                         reduce: function(id) {
                                           return id
                                         },
@@ -82795,55 +82854,99 @@ var render = function() {
                   _vm._l(_vm.purchases.data, function(purchase) {
                     return _c("tr", { key: purchase.id }, [
                       _c("td", [
+                        _vm._v(
+                          "\n              " +
+                            _vm._s(purchase.stock.product.name) +
+                            "\n              "
+                        ),
                         _c("br"),
                         _vm._v(" "),
                         _c("small", { staticClass: "text-muted" }, [
-                          _vm._v(_vm._s(purchase.brand))
+                          _vm._v("ক্রয় কোডঃ " + _vm._s(purchase.code))
                         ])
                       ]),
                       _vm._v(" "),
                       _c("td", [
                         _vm._v(
                           "\n              " +
-                            _vm._s(purchase.purchasecategory.name) +
+                            _vm._s(purchase.stock.vendor.name) +
                             "\n            "
                         )
                       ]),
                       _vm._v(" "),
-                      _c(
-                        "td",
-                        _vm._l(purchase.stocks, function(stock) {
-                          return _c(
-                            "span",
-                            { staticClass: "badge badge-pill badge-info" },
-                            [
-                              _vm._v(
-                                "\n                " +
-                                  _vm._s(stock.vendor.name) +
-                                  "\n              "
-                              )
-                            ]
-                          )
-                        }),
-                        0
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        [
-                          _c("big", [
-                            _c("b", [
-                              _vm._v(
-                                _vm._s(_vm._f("totalquantity")(purchase.stocks))
-                              )
-                            ])
-                          ]),
-                          _vm._v(" " + _vm._s(purchase.unit) + "\n            ")
-                        ],
-                        1
-                      ),
+                      _c("td", [
+                        _vm._v(
+                          "\n              " +
+                            _vm._s(purchase.stock.quantity) +
+                            "\n            "
+                        )
+                      ]),
                       _vm._v(" "),
                       _c("td", [
+                        _c("small", [
+                          _vm._v(
+                            "\n                মোটঃ " +
+                              _vm._s(purchase.total) +
+                              " ৳ "
+                          ),
+                          _c("br"),
+                          _vm._v(
+                            "\n                ডিসকাউন্ট " +
+                              _vm._s(purchase.discount) +
+                              " " +
+                              _vm._s(purchase.discount_unit)
+                          ),
+                          _c("br"),
+                          _vm._v(
+                            "\n                পরিশোধনীয় মূল্যঃ " +
+                              _vm._s(purchase.payable) +
+                              " ৳\n              "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "\n              " +
+                            _vm._s(purchase.paid) +
+                            " ৳\n            "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "\n              " +
+                            _vm._s(purchase.due) +
+                            " ৳\n            "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("small", [
+                          _vm._v(
+                            _vm._s(_vm._f("datetime")(purchase.created_at))
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "a",
+                          {
+                            directives: [
+                              {
+                                name: "tooltip",
+                                rawName: "v-tooltip",
+                                value: "ক্রয়ের রসিদ ডাউনলোড (PDF) করুন",
+                                expression: "'ক্রয়ের রসিদ ডাউনলোড (PDF) করুন'"
+                              }
+                            ],
+                            staticClass: "btn btn-primary btn-sm",
+                            attrs: { href: "/pdf/purchase/" + purchase.id }
+                          },
+                          [_c("i", { staticClass: "fa fa-download" })]
+                        ),
+                        _vm._v(" "),
                         _c(
                           "button",
                           {
@@ -82851,19 +82954,21 @@ var render = function() {
                               {
                                 name: "tooltip",
                                 rawName: "v-tooltip",
-                                value: "পণ্য সম্পাদনা করুন",
-                                expression: "'পণ্য সম্পাদনা করুন'"
+                                value: "ক্রয়ের রসিদ প্রিন্ট করুন",
+                                expression: "'ক্রয়ের রসিদ প্রিন্ট করুন'"
                               }
                             ],
                             staticClass: "btn btn-success btn-sm",
-                            attrs: { type: "button" },
                             on: {
                               click: function($event) {
-                                return _vm.editModal(purchase)
+                                return _vm.printPurchase(
+                                  purchase.id,
+                                  purchase.code
+                                )
                               }
                             }
                           },
-                          [_c("i", { staticClass: "fa fa-edit" })]
+                          [_c("i", { staticClass: "fa fa-print" })]
                         ),
                         _vm._v(" "),
                         _c(
@@ -82957,12 +83062,10 @@ var render = function() {
                                   attrs: {
                                     placeholder: "পণ্য নির্ধারণ করুন",
                                     options: _vm.products,
-                                    taggable: "",
                                     reduce: function(id) {
                                       return id
                                     },
-                                    label: "name",
-                                    taggable: ""
+                                    label: "name"
                                   },
                                   model: {
                                     value: _vm.form.product,
@@ -82997,7 +83100,6 @@ var render = function() {
                                     placeholder:
                                       "ডিলার/ভেন্ডর নির্ধারণ (অপশনে না থাকলে লিখুন)",
                                     options: _vm.vendors,
-                                    taggable: "",
                                     reduce: function(id) {
                                       return id
                                     },
@@ -83552,7 +83654,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("পরিশোধিত")]),
         _vm._v(" "),
-        _c("th", [_vm._v("দেনা")]),
+        _c("th", [_vm._v("দেনা/ পরিশোধনীয়")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("সময় / তারিখ")]),
         _vm._v(" "),
         _c("th", { attrs: { width: "20%" } }, [_vm._v("ক্রিয়াকলাপ")])
       ])

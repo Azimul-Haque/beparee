@@ -56,3 +56,4 @@ Route::get('searchuser/{query}', 'API\UserController@searchUser');
 Route::get('searchrole/{query}', 'API\UserController@searchRole');
 Route::get('searchstore/{query}', 'API\StoreController@searchStore');
 Route::get('searchproduct/{query}', 'API\ProductController@searchProduct');
+Route::get('searchpurchase/{query}', 'API\PurchaseController@searchPurchase');

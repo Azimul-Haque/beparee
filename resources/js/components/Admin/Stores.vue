@@ -235,7 +235,7 @@
                 this.editmode = false;
                 this.form.reset();
                 this.$refs.monogramInput.value = null;
-                $('#addStoreModal').modal('show');
+                $('#addStoreModal').modal({ show: true, backdrop: 'static', keyboard: false });
                 this.$refs.ownerSelect.clearSelection();
                 this.$refs.theSelect.clearSelection();
 
@@ -247,7 +247,7 @@
                 this.form.reset(); // clears fields
                 this.form.clear(); // clears errors
                 this.$refs.monogramInput.value = null;
-                $('#addStoreModal').modal('show');
+                $('#addStoreModal').modal({ show: true, backdrop: 'static', keyboard: false });
                 this.$refs.ownerSelect.clearSelection();
                 this.$refs.theSelect.clearSelection();
 

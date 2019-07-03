@@ -200,7 +200,7 @@
                 this.editmode = false;
                 this.form.reset();
                 this.$refs.imageInput.value = null;
-                $('#addUserModal').modal('show');
+                $('#addUserModal').modal({ show: true, backdrop: 'static', keyboard: false });
                 this.$refs.theSelect.clearSelection();
             },
             editUserModal(user) {
@@ -208,7 +208,7 @@
                 this.form.reset(); // clears fields
                 this.form.clear(); // clears errors
                 this.$refs.imageInput.value = null;
-                $('#addUserModal').modal('show');
+                $('#addUserModal').modal({ show: true, backdrop: 'static', keyboard: false });
                 this.form.fill(user);
                 this.$refs.theSelect.clearSelection();
             },

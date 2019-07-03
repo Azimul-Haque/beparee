@@ -45,7 +45,8 @@
                 <th>পরিমাণ</th>
                 <th>প্রদেয়</th>
                 <th>পরিশোধিত</th>
-                <th>দেনা</th>
+                <th>দেনা/ পরিশোধনীয়</th>
+                <th>সময় / তারিখ</th>
                 <th width="20%">ক্রিয়াকলাপ</th>
               </tr>
              </thead>
@@ -56,33 +57,44 @@
                   <!-- <router-link :to="{ name: 'singlePurchase', params: { id: purchase.id }}" v-tooltip="purchase.name +'-এর বিস্তারিত দেখুন'">
                     {{ purchase.name }}
                   </router-link>  -->
+                  {{ purchase.stock.product.name }}
                   <br/>
-                  <small class="text-muted">{{ purchase.brand }}</small>
+                  <small class="text-muted">ক্রয় কোডঃ {{ purchase.code }}</small>
                 </td>
                 <td>
-                  {{ purchase.purchasecategory.name }}
+                  {{ purchase.stock.vendor.name }}
                 </td>
                 <td>
-                  <span class="badge badge-pill badge-info" v-for="stock in purchase.stocks">
-                    {{ stock.vendor.name }}
-                  </span>
+                  {{ purchase.stock.quantity }}
                 </td>
                 <td>
-                  <big><b>{{ purchase.stocks | totalquantity }}</b></big> {{ purchase.unit }}
+                  <small>
+                    মোটঃ {{ purchase.total }} ৳ <br/>
+                    ডিসকাউন্ট {{ purchase.discount }} {{ purchase.discount_unit }}<br/>
+                    পরিশোধনীয় মূল্যঃ {{ purchase.payable }} ৳
+                  </small>
                 </td>
                 <td>
-                    <!-- <router-link :to="{ name: 'singlePurchase', params: { id: purchase.id }}" class="btn btn-info btn-sm" v-tooltip="purchase.name +'-এর বিস্তারিত দেখুন'">
-                      <i class="fa fa-eye"></i>
-                    </router-link>  -->
-                    <button type="button" class="btn btn-success btn-sm" @click="editModal(purchase)" v-tooltip="'পণ্য সম্পাদনা করুন'">
-                        <i class="fa fa-edit"></i>
+                  {{ purchase.paid }} ৳
+                </td>
+                <td>
+                  {{ purchase.due }} ৳
+                </td>
+                <td>
+                  <small>{{ purchase.created_at | datetime }}</small>
+                </td>
+                <td>
+                    <a :href="'/pdf/purchase/' + purchase.id" class="btn btn-primary btn-sm" v-tooltip="'ক্রয়ের রসিদ ডাউনলোড (PDF) করুন'">
+                        <i class="fa fa-download"></i>
+                    </a>
+                    <button @click="printPurchase(purchase.id, purchase.code)" class="btn btn-success btn-sm" v-tooltip="'ক্রয়ের রসিদ প্রিন্ট করুন'">
+                        <i class="fa fa-print"></i>
                     </button>
                     <button @click="deletePurchase(purchase.id)" class="btn btn-danger btn-sm" v-tooltip="'পণ্য ডিলেট করুন'">
                         <i class="fa fa-trash"></i>
                     </button>
                 </td>
               </tr>
-              
              </tbody>
             </table>
           </div>
@@ -109,14 +121,14 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>পণ্য নির্ধারণ করুন</label>
-                        <v-select placeholder="পণ্য নির্ধারণ করুন" :options="products" taggable :reduce="id => id" label="name" v-model="form.product" taggable ref='productSelect' :class="{ 'is-invalid': form.errors.has('products') }"></v-select>
+                        <v-select placeholder="পণ্য নির্ধারণ করুন" :options="products" :reduce="id => id" label="name" v-model="form.product" ref='productSelect' :class="{ 'is-invalid': form.errors.has('products') }"></v-select>
                         <has-error :form="form" field="products"></has-error>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>ডিলার/ভেন্ডর নির্ধারণ</label>
-                        <v-select placeholder="ডিলার/ভেন্ডর নির্ধারণ (অপশনে না থাকলে লিখুন)" :options="vendors" taggable :reduce="id => id" label="name" v-model="form.vendor" taggable ref='vendorSelect' :class="{ 'is-invalid': form.errors.has('vendors') }"></v-select>
+                        <v-select placeholder="ডিলার/ভেন্ডর নির্ধারণ (অপশনে না থাকলে লিখুন)" :options="vendors" :reduce="id => id" label="name" v-model="form.vendor" taggable ref='vendorSelect' :class="{ 'is-invalid': form.errors.has('vendors') }"></v-select>
                         <has-error :form="form" field="vendors"></has-error>
                       </div>
                     </div>
@@ -264,7 +276,7 @@
         methods: {
             addModal() {
               this.form.reset();
-              $('#addModal').modal('show');
+              $('#addModal').modal({ show: true, backdrop: 'static', keyboard: false });
               this.$refs.productSelect.clearSelection();
               this.$refs.vendorSelect.clearSelection();
 
@@ -370,7 +382,7 @@
                 cancelButtonText: 'ফিরে যান'
               }).then((result) => {
                   if (result.value) {
-                     this.form.delete('/api/product/'+ id).then(() => {
+                     this.form.delete('/api/purchase/'+ id).then(() => {
                        swal.fire(
                         'ডিলেট',
                         'ডিলেট সফল হয়েছে!',
@@ -384,6 +396,20 @@
                   }
 
               })
+            },
+            printPurchase(id, code) {
+              
+              // axios({
+              //   method: 'get',
+              //   url: '/api/pdf/purchase/' + id,
+              //   responseType: 'arraybuffer'
+              // }).then(function(response) {
+              //   let blob = new Blob([response.data], { type: 'application/pdf' })
+              //   let link = document.createElement('b')
+              //   link.href = window.URL.createObjectURL(blob)
+              //   link.download = 'Purchase_Receipt_'+ code +'.pdf'
+              //   link.click()
+              // })
             },
             getPaginationResults(page = 1) {
               axios.get('/api/load/purchase/'+ this.$route.params.code +'?page=' + page)
@@ -405,7 +431,7 @@
             Fire.$on('searching', () => {
                 let query = this.$parent.search;
                 if(query != '') {
-                  axios.get('/api/searchproduct/' + query)
+                  axios.get('/api/searchpurchase/' + query)
                   .then((data) => {
                     this.purchases = data.data;
                   })
