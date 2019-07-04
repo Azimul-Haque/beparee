@@ -69,7 +69,7 @@
                     </td>
                     <td>
                       <span class="badge badge-pill badge-info" v-for="stock in product.stocks">
-                        {{ stock.vendor.name }}
+                        {{ stock.vendor.name }} <!-- duplicate vendor filter korte hobe -->
                       </span>
                     </td>
                     <td>
@@ -221,6 +221,7 @@
 
                   <div v-show="!editmode">
                     <hr/>
+                    <p>বিদ্যমান স্টক প্রবেশ করাতে চাইলে</p>
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">

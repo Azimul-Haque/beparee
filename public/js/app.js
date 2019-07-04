@@ -3625,6 +3625,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4134,6 +4135,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4144,19 +4162,20 @@ __webpack_require__.r(__webpack_exports__);
       form: new Form({
         id: '',
         code: this.$route.params.code,
-        product: '',
+        product: [],
         vendor: '',
-        expire_date: '',
-        quantity: '',
-        buying_price: '',
-        selling_price: '',
+        expire_date: [],
+        quantity: [],
+        buying_price: [],
+        selling_price: [],
         total: '',
         discount_unit: '%',
         discount: '',
         payable: '',
         paid: '',
         due: ''
-      })
+      }),
+      addformrange: [0]
     };
   },
   methods: {
@@ -4167,8 +4186,10 @@ __webpack_require__.r(__webpack_exports__);
         backdrop: 'static',
         keyboard: false
       });
-      this.$refs.productSelect.clearSelection();
+      this.$refs.productSelect[0].clearSelection();
       this.$refs.vendorSelect.clearSelection();
+      this.addformrange.splice(0, this.addformrange.length);
+      this.addformrange.push(0);
       this.loadProducts();
       this.loadVendors();
     },
@@ -4202,6 +4223,20 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
     },
+    appendProduct: function appendProduct() {
+      this.addformrange.push(parseInt(this.addformrange[this.addformrange.length - 1] || 0) + 1);
+      console.log(this.addformrange);
+    },
+    removeProduct: function removeProduct(index, range) {
+      $('#' + range).remove(); // this.addformrange.splice(index, 1); // splice deletes from the last...
+      // this.$delete(this.addformrange, index);
+
+      this.form.quantity[index] = 0;
+      this.form.buying_price[index] = 0;
+      this.form.selling_price[index] = 0;
+      this.calculatePurchase();
+      console.log(this.addformrange);
+    },
     createPurchase: function createPurchase() {
       var _this4 = this;
 
@@ -4222,12 +4257,18 @@ __webpack_require__.r(__webpack_exports__);
     calculatePurchase: function calculatePurchase() {
       var total = parseFloat(0.00);
       var discounted_total = parseFloat(0.00);
-      var quantity = parseFloat(this.form.quantity) || 0;
-      var buying_price = parseFloat(this.form.buying_price) || 0;
+      var quantity = parseFloat(0.00);
+      var buying_price = parseFloat(0.00);
+
+      for (var i = 0; i < this.addformrange.length; i++) {
+        quantity = parseFloat(this.form.quantity[i]) || 0;
+        buying_price = parseFloat(this.form.buying_price[i]) || 0;
+        var per_total = quantity * buying_price;
+        total = parseFloat(total) + parseFloat(per_total);
+      }
+
       var discount_unit = this.form.discount_unit;
       var discount = parseFloat(this.form.discount) || 0;
-      var per_total = quantity * buying_price;
-      total = parseFloat(total) + parseFloat(per_total);
       var discount_amount = parseFloat(0);
 
       if (discount > 0) {
@@ -4246,7 +4287,10 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         this.form.total = 0;
         this.form.payable = 0;
-      }
+      } // call the below function to change the value of payable and due...
+
+
+      this.calculatePayable();
     },
     calculatePayable: function calculatePayable() {
       var total = parseFloat(this.form.total) || 0;
@@ -81602,7 +81646,7 @@ var render = function() {
                                   _vm._v(
                                     "\n                    " +
                                       _vm._s(stock.vendor.name) +
-                                      "\n                  "
+                                      " "
                                   )
                                 ]
                               )
@@ -82240,6 +82284,10 @@ var render = function() {
                           [
                             _c("hr"),
                             _vm._v(" "),
+                            _c("p", [
+                              _vm._v("বিদ্যমান স্টক প্রবেশ করাতে চাইলে")
+                            ]),
+                            _vm._v(" "),
                             _c("div", { staticClass: "row" }, [
                               _c("div", { staticClass: "col-md-6" }, [
                                 _c(
@@ -82820,196 +82868,201 @@ var render = function() {
     _vm._v(" "),
     _vm.$gate.isAuthorized("purchase-page")
       ? _c("div", { staticClass: "container-fluid" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _c("h3", { staticClass: "card-title" }, [_vm._v("ক্রয়সমূহ")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-tools" }, [
-                _c(
-                  "button",
-                  {
-                    directives: [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-12" }, [
+              _c("div", { staticClass: "card" }, [
+                _c("div", { staticClass: "card-header" }, [
+                  _c("h3", { staticClass: "card-title" }, [_vm._v("ক্রয়সমূহ")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card-tools" }, [
+                    _c(
+                      "button",
                       {
-                        name: "tooltip",
-                        rawName: "v-tooltip",
-                        value: "নতুন পণ্য ক্রয় করুন",
-                        expression: "'নতুন পণ্য ক্রয় করুন'"
-                      }
-                    ],
-                    staticClass: "btn btn-primary btn-sm",
-                    attrs: { type: "button" },
-                    on: { click: _vm.addModal }
-                  },
-                  [_c("i", { staticClass: "fa fa-cart-plus" })]
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body table-responsive p-0" }, [
-              _c("table", { staticClass: "table table-hover" }, [
-                _vm._m(1),
+                        directives: [
+                          {
+                            name: "tooltip",
+                            rawName: "v-tooltip",
+                            value: "নতুন পণ্য ক্রয় করুন",
+                            expression: "'নতুন পণ্য ক্রয় করুন'"
+                          }
+                        ],
+                        staticClass: "btn btn-primary btn-sm",
+                        attrs: { type: "button" },
+                        on: { click: _vm.addModal }
+                      },
+                      [_c("i", { staticClass: "fa fa-cart-plus" })]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-body table-responsive p-0" }, [
+                  _c("table", { staticClass: "table table-hover" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.purchases.data, function(purchase) {
+                        return _c("tr", { key: purchase.id }, [
+                          _c("td", [
+                            _vm._v(
+                              "\n                  " +
+                                _vm._s(purchase.stock.product.name) +
+                                "\n                  "
+                            ),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("small", { staticClass: "text-muted" }, [
+                              _vm._v("ক্রয় রশিদঃ " + _vm._s(purchase.code))
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              "\n                  " +
+                                _vm._s(purchase.stock.vendor.name) +
+                                "\n                "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              "\n                  " +
+                                _vm._s(purchase.stock.quantity) +
+                                "\n                "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("small", [
+                              _vm._v(
+                                "\n                    মোটঃ " +
+                                  _vm._s(purchase.total) +
+                                  " ৳ "
+                              ),
+                              _c("br"),
+                              _vm._v(
+                                "\n                    ডিসকাউন্ট " +
+                                  _vm._s(purchase.discount) +
+                                  " " +
+                                  _vm._s(purchase.discount_unit)
+                              ),
+                              _c("br"),
+                              _vm._v(
+                                "\n                    পরিশোধনীয় মূল্যঃ " +
+                                  _vm._s(purchase.payable) +
+                                  " ৳\n                  "
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              "\n                  " +
+                                _vm._s(purchase.paid) +
+                                " ৳\n                "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              "\n                  " +
+                                _vm._s(purchase.due) +
+                                " ৳\n                "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("small", [
+                              _vm._v(
+                                _vm._s(_vm._f("datetime")(purchase.created_at))
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "a",
+                              {
+                                directives: [
+                                  {
+                                    name: "tooltip",
+                                    rawName: "v-tooltip",
+                                    value: "ক্রয়ের রসিদ ডাউনলোড (PDF) করুন",
+                                    expression:
+                                      "'ক্রয়ের রসিদ ডাউনলোড (PDF) করুন'"
+                                  }
+                                ],
+                                staticClass: "btn btn-primary btn-sm",
+                                attrs: { href: "/pdf/purchase/" + purchase.id }
+                              },
+                              [_c("i", { staticClass: "fa fa-download" })]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                directives: [
+                                  {
+                                    name: "tooltip",
+                                    rawName: "v-tooltip",
+                                    value: "ক্রয়ের রসিদ প্রিন্ট করুন",
+                                    expression: "'ক্রয়ের রসিদ প্রিন্ট করুন'"
+                                  }
+                                ],
+                                staticClass: "btn btn-success btn-sm",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.printPurchase(
+                                      purchase.id,
+                                      purchase.code
+                                    )
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-print" })]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                directives: [
+                                  {
+                                    name: "tooltip",
+                                    rawName: "v-tooltip",
+                                    value: "পণ্য ডিলেট করুন",
+                                    expression: "'পণ্য ডিলেট করুন'"
+                                  }
+                                ],
+                                staticClass: "btn btn-danger btn-sm",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.deletePurchase(purchase.id)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-trash" })]
+                            )
+                          ])
+                        ])
+                      }),
+                      0
+                    )
+                  ])
+                ]),
                 _vm._v(" "),
                 _c(
-                  "tbody",
-                  _vm._l(_vm.purchases.data, function(purchase) {
-                    return _c("tr", { key: purchase.id }, [
-                      _c("td", [
-                        _vm._v(
-                          "\n              " +
-                            _vm._s(purchase.stock.product.name) +
-                            "\n              "
-                        ),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("small", { staticClass: "text-muted" }, [
-                          _vm._v("ক্রয় কোডঃ " + _vm._s(purchase.code))
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(
-                          "\n              " +
-                            _vm._s(purchase.stock.vendor.name) +
-                            "\n            "
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(
-                          "\n              " +
-                            _vm._s(purchase.stock.quantity) +
-                            "\n            "
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("small", [
-                          _vm._v(
-                            "\n                মোটঃ " +
-                              _vm._s(purchase.total) +
-                              " ৳ "
-                          ),
-                          _c("br"),
-                          _vm._v(
-                            "\n                ডিসকাউন্ট " +
-                              _vm._s(purchase.discount) +
-                              " " +
-                              _vm._s(purchase.discount_unit)
-                          ),
-                          _c("br"),
-                          _vm._v(
-                            "\n                পরিশোধনীয় মূল্যঃ " +
-                              _vm._s(purchase.payable) +
-                              " ৳\n              "
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(
-                          "\n              " +
-                            _vm._s(purchase.paid) +
-                            " ৳\n            "
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(
-                          "\n              " +
-                            _vm._s(purchase.due) +
-                            " ৳\n            "
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("small", [
-                          _vm._v(
-                            _vm._s(_vm._f("datetime")(purchase.created_at))
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "a",
-                          {
-                            directives: [
-                              {
-                                name: "tooltip",
-                                rawName: "v-tooltip",
-                                value: "ক্রয়ের রসিদ ডাউনলোড (PDF) করুন",
-                                expression: "'ক্রয়ের রসিদ ডাউনলোড (PDF) করুন'"
-                              }
-                            ],
-                            staticClass: "btn btn-primary btn-sm",
-                            attrs: { href: "/pdf/purchase/" + purchase.id }
-                          },
-                          [_c("i", { staticClass: "fa fa-download" })]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            directives: [
-                              {
-                                name: "tooltip",
-                                rawName: "v-tooltip",
-                                value: "ক্রয়ের রসিদ প্রিন্ট করুন",
-                                expression: "'ক্রয়ের রসিদ প্রিন্ট করুন'"
-                              }
-                            ],
-                            staticClass: "btn btn-success btn-sm",
-                            on: {
-                              click: function($event) {
-                                return _vm.printPurchase(
-                                  purchase.id,
-                                  purchase.code
-                                )
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fa fa-print" })]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            directives: [
-                              {
-                                name: "tooltip",
-                                rawName: "v-tooltip",
-                                value: "পণ্য ডিলেট করুন",
-                                expression: "'পণ্য ডিলেট করুন'"
-                              }
-                            ],
-                            staticClass: "btn btn-danger btn-sm",
-                            on: {
-                              click: function($event) {
-                                return _vm.deletePurchase(purchase.id)
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fa fa-trash" })]
-                        )
-                      ])
-                    ])
-                  }),
-                  0
+                  "div",
+                  { staticClass: "card-footer" },
+                  [
+                    _c("pagination", {
+                      attrs: { data: _vm.purchases },
+                      on: { "pagination-change-page": _vm.getPaginationResults }
+                    })
+                  ],
+                  1
                 )
               ])
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "card-footer" },
-              [
-                _c("pagination", {
-                  attrs: { data: _vm.purchases },
-                  on: { "pagination-change-page": _vm.getPaginationResults }
-                })
-              ],
-              1
-            )
+            ])
           ]),
           _vm._v(" "),
           _c(
@@ -83025,7 +83078,7 @@ var render = function() {
               }
             },
             [
-              _c("div", { staticClass: "modal-dialog modal-lg" }, [
+              _c("div", { staticClass: "modal-dialog modal-xl" }, [
                 _c("div", { staticClass: "modal-content" }, [
                   _vm._m(2),
                   _vm._v(" "),
@@ -83043,576 +83096,702 @@ var render = function() {
                       }
                     },
                     [
-                      _c("div", { staticClass: "modal-body" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _c("div", { staticClass: "col-md-6" }, [
-                            _c(
-                              "div",
-                              { staticClass: "form-group" },
-                              [
-                                _c("label", [_vm._v("পণ্য নির্ধারণ করুন")]),
-                                _vm._v(" "),
-                                _c("v-select", {
-                                  ref: "productSelect",
-                                  class: {
-                                    "is-invalid": _vm.form.errors.has(
-                                      "products"
+                      _c(
+                        "div",
+                        { staticClass: "modal-body" },
+                        [
+                          _vm._l(_vm.addformrange, function(range, index) {
+                            return _c("div", [
+                              _c(
+                                "div",
+                                { staticClass: "row", attrs: { id: range } },
+                                [
+                                  _c("div", { staticClass: "col-md-3" }, [
+                                    _c(
+                                      "div",
+                                      { staticClass: "form-group" },
+                                      [
+                                        _c("label", [
+                                          _vm._v(
+                                            "পণ্য নির্ধারণ করুন " +
+                                              _vm._s(range) +
+                                              " " +
+                                              _vm._s(index)
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("v-select", {
+                                          ref: "productSelect",
+                                          refInFor: true,
+                                          class: {
+                                            "is-invalid": _vm.form.errors.has(
+                                              "products"
+                                            )
+                                          },
+                                          attrs: {
+                                            placeholder: "পণ্য নির্ধারণ করুন",
+                                            options: _vm.products,
+                                            reduce: function(id) {
+                                              return id
+                                            },
+                                            label: "name"
+                                          },
+                                          model: {
+                                            value: _vm.form.product[index],
+                                            callback: function($$v) {
+                                              _vm.$set(
+                                                _vm.form.product,
+                                                index,
+                                                $$v
+                                              )
+                                            },
+                                            expression: "form.product[index]"
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c("has-error", {
+                                          attrs: {
+                                            form: _vm.form,
+                                            field: "products"
+                                          }
+                                        })
+                                      ],
+                                      1
                                     )
-                                  },
-                                  attrs: {
-                                    placeholder: "পণ্য নির্ধারণ করুন",
-                                    options: _vm.products,
-                                    reduce: function(id) {
-                                      return id
-                                    },
-                                    label: "name"
-                                  },
-                                  model: {
-                                    value: _vm.form.product,
-                                    callback: function($$v) {
-                                      _vm.$set(_vm.form, "product", $$v)
-                                    },
-                                    expression: "form.product"
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("has-error", {
-                                  attrs: { form: _vm.form, field: "products" }
-                                })
-                              ],
-                              1
-                            )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-md-2" }, [
+                                    _c(
+                                      "div",
+                                      { staticClass: "form-group" },
+                                      [
+                                        _c("label", [_vm._v("পরিমাণ")]),
+                                        _vm._v(" "),
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.form.quantity[index],
+                                              expression: "form.quantity[index]"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          class: {
+                                            "is-invalid": _vm.form.errors.has(
+                                              "quantity"
+                                            )
+                                          },
+                                          attrs: {
+                                            type: "number",
+                                            step: "any",
+                                            name: "quantity",
+                                            placeholder: "স্টকের পরিমাণ",
+                                            required: "",
+                                            oninvalid:
+                                              "this.setCustomValidity('স্টকের পরিমাণ লিখুন')",
+                                            oninput: "setCustomValidity('')"
+                                          },
+                                          domProps: {
+                                            value: _vm.form.quantity[index]
+                                          },
+                                          on: {
+                                            change: _vm.calculatePurchase,
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                _vm.form.quantity,
+                                                index,
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c("has-error", {
+                                          attrs: {
+                                            form: _vm.form,
+                                            field: "quantity"
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-md-3" }, [
+                                    _c("label", [_vm._v("ক্রয়মূল্য/ ইউনিট")]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "input-group mb-3" },
+                                      [
+                                        _vm._m(3, true),
+                                        _vm._v(" "),
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value:
+                                                _vm.form.buying_price[index],
+                                              expression:
+                                                "form.buying_price[index]"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          class: {
+                                            "is-invalid": _vm.form.errors.has(
+                                              "buying_price"
+                                            )
+                                          },
+                                          attrs: {
+                                            type: "number",
+                                            step: "any",
+                                            name: "buying_price",
+                                            placeholder: "ক্রয়মূল্য/ ইউনিট",
+                                            required: "",
+                                            oninvalid:
+                                              "this.setCustomValidity('ক্রয়মূল্য/ ইউনিট লিখুন')",
+                                            oninput: "setCustomValidity('')"
+                                          },
+                                          domProps: {
+                                            value: _vm.form.buying_price[index]
+                                          },
+                                          on: {
+                                            change: _vm.calculatePurchase,
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                _vm.form.buying_price,
+                                                index,
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c("has-error", {
+                                          attrs: {
+                                            form: _vm.form,
+                                            field: "buying_price"
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-md-3" }, [
+                                    _c("label", [_vm._v("বিক্রয়মূল্য/ ইউনিট")]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "input-group mb-3" },
+                                      [
+                                        _vm._m(4, true),
+                                        _vm._v(" "),
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value:
+                                                _vm.form.selling_price[index],
+                                              expression:
+                                                "form.selling_price[index]"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          class: {
+                                            "is-invalid": _vm.form.errors.has(
+                                              "selling_price"
+                                            )
+                                          },
+                                          attrs: {
+                                            type: "number",
+                                            step: "any",
+                                            name: "selling_price",
+                                            placeholder: "বিক্রয়মূল্য/ ইউনিট",
+                                            required: "",
+                                            oninvalid:
+                                              "this.setCustomValidity('বিক্রয়মূল্য/ ইউনিট লিখুন')",
+                                            oninput: "setCustomValidity('')"
+                                          },
+                                          domProps: {
+                                            value: _vm.form.selling_price[index]
+                                          },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                _vm.form.selling_price,
+                                                index,
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c("has-error", {
+                                          attrs: {
+                                            form: _vm.form,
+                                            field: "selling_price"
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-md-1" }, [
+                                    _c("div", { staticClass: "form-group" }, [
+                                      _c(
+                                        "label",
+                                        { staticStyle: { color: "#fff" } },
+                                        [_vm._v(".")]
+                                      ),
+                                      _c("br"),
+                                      _vm._v(" "),
+                                      index != 0
+                                        ? _c(
+                                            "button",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "tooltip",
+                                                  rawName: "v-tooltip",
+                                                  value: "মুছে দিন",
+                                                  expression: "'মুছে দিন'"
+                                                }
+                                              ],
+                                              staticClass:
+                                                "btn btn-danger btn-sm",
+                                              attrs: { type: "button" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.removeProduct(
+                                                    index,
+                                                    range
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("i", {
+                                                staticClass: "fa fa-trash"
+                                              })
+                                            ]
+                                          )
+                                        : _vm._e()
+                                    ])
+                                  ])
+                                ]
+                              )
+                            ])
+                          }),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col-md-11" }),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-1" }, [
+                              _c(
+                                "button",
+                                {
+                                  directives: [
+                                    {
+                                      name: "tooltip",
+                                      rawName: "v-tooltip",
+                                      value: "আরও পণ্য যোগ করুন",
+                                      expression: "'আরও পণ্য যোগ করুন'"
+                                    }
+                                  ],
+                                  staticClass: "btn btn-success btn-sm",
+                                  attrs: { type: "button" },
+                                  on: { click: _vm.appendProduct }
+                                },
+                                [_c("i", { staticClass: "fa fa-plus" })]
+                              ),
+                              _c("br"),
+                              _c("br")
+                            ])
                           ]),
                           _vm._v(" "),
-                          _c("div", { staticClass: "col-md-6" }, [
-                            _c(
-                              "div",
-                              { staticClass: "form-group" },
-                              [
-                                _c("label", [_vm._v("ডিলার/ভেন্ডর নির্ধারণ")]),
-                                _vm._v(" "),
-                                _c("v-select", {
-                                  ref: "vendorSelect",
-                                  class: {
-                                    "is-invalid": _vm.form.errors.has("vendors")
-                                  },
-                                  attrs: {
-                                    placeholder:
-                                      "ডিলার/ভেন্ডর নির্ধারণ (অপশনে না থাকলে লিখুন)",
-                                    options: _vm.vendors,
-                                    reduce: function(id) {
-                                      return id
+                          _c("hr"),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col-md-4" }, [
+                              _c(
+                                "div",
+                                { staticClass: "form-group" },
+                                [
+                                  _c("label", [
+                                    _vm._v("ডিলার/ভেন্ডর নির্ধারণ")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-select", {
+                                    ref: "vendorSelect",
+                                    class: {
+                                      "is-invalid": _vm.form.errors.has(
+                                        "vendors"
+                                      )
                                     },
-                                    label: "name",
-                                    taggable: ""
-                                  },
-                                  model: {
-                                    value: _vm.form.vendor,
-                                    callback: function($$v) {
-                                      _vm.$set(_vm.form, "vendor", $$v)
+                                    attrs: {
+                                      placeholder:
+                                        "ডিলার/ভেন্ডর (অপশনে না থাকলে লিখুন)",
+                                      options: _vm.vendors,
+                                      reduce: function(id) {
+                                        return id
+                                      },
+                                      label: "name",
+                                      taggable: ""
                                     },
-                                    expression: "form.vendor"
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("has-error", {
-                                  attrs: { form: _vm.form, field: "vendors" }
-                                })
-                              ],
-                              1
-                            )
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "row" }, [
-                          _c("div", { staticClass: "col-md-4" }, [
-                            _c(
-                              "div",
-                              { staticClass: "form-group" },
-                              [
-                                _c("label", [_vm._v("নতুন স্টকের পরিমাণ")]),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.form.quantity,
-                                      expression: "form.quantity"
+                                    model: {
+                                      value: _vm.form.vendor,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.form, "vendor", $$v)
+                                      },
+                                      expression: "form.vendor"
                                     }
-                                  ],
-                                  staticClass: "form-control",
-                                  class: {
-                                    "is-invalid": _vm.form.errors.has(
-                                      "quantity"
-                                    )
-                                  },
-                                  attrs: {
-                                    type: "number",
-                                    step: "any",
-                                    name: "quantity",
-                                    placeholder: "নতুন স্টকের পরিমাণ"
-                                  },
-                                  domProps: { value: _vm.form.quantity },
-                                  on: {
-                                    change: _vm.calculatePurchase,
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.form,
-                                        "quantity",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("has-error", {
-                                  attrs: { form: _vm.form, field: "quantity" }
-                                })
-                              ],
-                              1
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-4" }, [
-                            _c("label", [_vm._v("ইউনিট প্রতি ক্রয়মূল্য")]),
+                                  }),
+                                  _vm._v(" "),
+                                  _c("has-error", {
+                                    attrs: { form: _vm.form, field: "vendors" }
+                                  })
+                                ],
+                                1
+                              )
+                            ]),
                             _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "input-group mb-3" },
-                              [
-                                _vm._m(3),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.form.buying_price,
-                                      expression: "form.buying_price"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  class: {
-                                    "is-invalid": _vm.form.errors.has(
-                                      "buying_price"
-                                    )
-                                  },
-                                  attrs: {
-                                    type: "number",
-                                    step: "any",
-                                    name: "buying_price",
-                                    placeholder: "ইউনিট প্রতি ক্রয়মূল্য"
-                                  },
-                                  domProps: { value: _vm.form.buying_price },
-                                  on: {
-                                    change: _vm.calculatePurchase,
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.form,
-                                        "buying_price",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("has-error", {
-                                  attrs: {
-                                    form: _vm.form,
-                                    field: "buying_price"
-                                  }
-                                })
-                              ],
-                              1
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-4" }, [
-                            _c("label", [_vm._v("ইউনিট প্রতি বিক্রয়মূল্য")]),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "input-group mb-3" },
-                              [
-                                _vm._m(4),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.form.selling_price,
-                                      expression: "form.selling_price"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  class: {
-                                    "is-invalid": _vm.form.errors.has(
-                                      "selling_price"
-                                    )
-                                  },
-                                  attrs: {
-                                    type: "number",
-                                    step: "any",
-                                    name: "selling_price",
-                                    placeholder: "ইউনিট প্রতি বিক্রয়মূল্য"
-                                  },
-                                  domProps: { value: _vm.form.selling_price },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.form,
-                                        "selling_price",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("has-error", {
-                                  attrs: {
-                                    form: _vm.form,
-                                    field: "selling_price"
-                                  }
-                                })
-                              ],
-                              1
-                            )
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("hr"),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "row" }, [
-                          _c("div", { staticClass: "col-md-6" }, [
-                            _c("label", [_vm._v("সর্বমোট মূল্য")]),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "input-group mb-3" },
-                              [
-                                _vm._m(5),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.form.total,
-                                      expression: "form.total"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  class: {
-                                    "is-invalid": _vm.form.errors.has("total")
-                                  },
-                                  attrs: {
-                                    type: "number",
-                                    step: "any",
-                                    name: "total",
-                                    placeholder: "সর্বমোট মূল্য"
-                                  },
-                                  domProps: { value: _vm.form.total },
-                                  on: {
-                                    change: _vm.calculatePayable,
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.form,
-                                        "total",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("has-error", {
-                                  attrs: { form: _vm.form, field: "total" }
-                                })
-                              ],
-                              1
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-6" }, [
-                            _c("label", [_vm._v("ডিসকাউন্ট")]),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "input-group mb-3" },
-                              [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.form.discount,
-                                      expression: "form.discount"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  class: {
-                                    "is-invalid": _vm.form.errors.has(
-                                      "discount"
-                                    )
-                                  },
-                                  staticStyle: { width: "60%" },
-                                  attrs: {
-                                    type: "number",
-                                    step: "any",
-                                    name: "discount",
-                                    placeholder: "ডিসকাউন্ট",
-                                    autocomplete: "off"
-                                  },
-                                  domProps: { value: _vm.form.discount },
-                                  on: {
-                                    change: _vm.calculatePayable,
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.form,
-                                        "discount",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "select",
-                                  {
+                            _c("div", { staticClass: "col-md-4" }, [
+                              _c("label", [_vm._v("সর্বমোট মূল্য")]),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "input-group mb-3" },
+                                [
+                                  _vm._m(5),
+                                  _vm._v(" "),
+                                  _c("input", {
                                     directives: [
                                       {
                                         name: "model",
                                         rawName: "v-model",
-                                        value: _vm.form.discount_unit,
-                                        expression: "form.discount_unit"
+                                        value: _vm.form.total,
+                                        expression: "form.total"
                                       }
                                     ],
-                                    staticClass:
-                                      "form-control input-group-append",
-                                    attrs: { name: "discount_unit" },
+                                    staticClass: "form-control",
+                                    class: {
+                                      "is-invalid": _vm.form.errors.has("total")
+                                    },
+                                    attrs: {
+                                      type: "number",
+                                      step: "any",
+                                      name: "total",
+                                      placeholder: "সর্বমোট মূল্য"
+                                    },
+                                    domProps: { value: _vm.form.total },
                                     on: {
-                                      change: [
-                                        function($event) {
-                                          var $$selectedVal = Array.prototype.filter
-                                            .call(
-                                              $event.target.options,
-                                              function(o) {
-                                                return o.selected
-                                              }
+                                      change: _vm.calculatePayable,
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.form,
+                                          "total",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("has-error", {
+                                    attrs: { form: _vm.form, field: "total" }
+                                  })
+                                ],
+                                1
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-4" }, [
+                              _c("label", [_vm._v("ডিসকাউন্ট")]),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "input-group mb-3" },
+                                [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.form.discount,
+                                        expression: "form.discount"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    class: {
+                                      "is-invalid": _vm.form.errors.has(
+                                        "discount"
+                                      )
+                                    },
+                                    staticStyle: { width: "60%" },
+                                    attrs: {
+                                      type: "number",
+                                      step: "any",
+                                      name: "discount",
+                                      placeholder: "ডিসকাউন্ট",
+                                      autocomplete: "off"
+                                    },
+                                    domProps: { value: _vm.form.discount },
+                                    on: {
+                                      change: _vm.calculatePayable,
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.form,
+                                          "discount",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "select",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.form.discount_unit,
+                                          expression: "form.discount_unit"
+                                        }
+                                      ],
+                                      staticClass:
+                                        "form-control input-group-append",
+                                      attrs: { name: "discount_unit" },
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            var $$selectedVal = Array.prototype.filter
+                                              .call(
+                                                $event.target.options,
+                                                function(o) {
+                                                  return o.selected
+                                                }
+                                              )
+                                              .map(function(o) {
+                                                var val =
+                                                  "_value" in o
+                                                    ? o._value
+                                                    : o.value
+                                                return val
+                                              })
+                                            _vm.$set(
+                                              _vm.form,
+                                              "discount_unit",
+                                              $event.target.multiple
+                                                ? $$selectedVal
+                                                : $$selectedVal[0]
                                             )
-                                            .map(function(o) {
-                                              var val =
-                                                "_value" in o
-                                                  ? o._value
-                                                  : o.value
-                                              return val
-                                            })
-                                          _vm.$set(
-                                            _vm.form,
-                                            "discount_unit",
-                                            $event.target.multiple
-                                              ? $$selectedVal
-                                              : $$selectedVal[0]
-                                          )
-                                        },
-                                        _vm.calculatePayable
-                                      ]
-                                    }
-                                  },
-                                  [
-                                    _c("option", { attrs: { value: "%" } }, [
-                                      _vm._v("%")
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("option", { attrs: { value: "৳" } }, [
-                                      _vm._v("৳")
-                                    ])
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c("has-error", {
-                                  attrs: { form: _vm.form, field: "discount" }
-                                })
-                              ],
-                              1
-                            )
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "row" }, [
-                          _c("div", { staticClass: "col-md-4" }, [
-                            _c("label", [_vm._v("পরিশোধনীয় মূল্য")]),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "input-group mb-3" },
-                              [
-                                _vm._m(6),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.form.payable,
-                                      expression: "form.payable"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  class: {
-                                    "is-invalid": _vm.form.errors.has("payable")
-                                  },
-                                  attrs: {
-                                    type: "number",
-                                    step: "any",
-                                    name: "payable",
-                                    placeholder: "পরিশোধনীয় মূল্য",
-                                    readonly: ""
-                                  },
-                                  domProps: { value: _vm.form.payable },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
+                                          },
+                                          _vm.calculatePayable
+                                        ]
                                       }
-                                      _vm.$set(
-                                        _vm.form,
-                                        "payable",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("has-error", {
-                                  attrs: { form: _vm.form, field: "payable" }
-                                })
-                              ],
-                              1
-                            )
+                                    },
+                                    [
+                                      _c("option", { attrs: { value: "%" } }, [
+                                        _vm._v("%")
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("option", { attrs: { value: "৳" } }, [
+                                        _vm._v("৳")
+                                      ])
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("has-error", {
+                                    attrs: { form: _vm.form, field: "discount" }
+                                  })
+                                ],
+                                1
+                              )
+                            ])
                           ]),
                           _vm._v(" "),
-                          _c("div", { staticClass: "col-md-4" }, [
-                            _c("label", [_vm._v("পরিশোধ")]),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "input-group mb-3" },
-                              [
-                                _vm._m(7),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.form.paid,
-                                      expression: "form.paid"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  class: {
-                                    "is-invalid": _vm.form.errors.has("paid")
-                                  },
-                                  attrs: {
-                                    type: "number",
-                                    step: "any",
-                                    name: "paid",
-                                    placeholder: "পরিশোধ"
-                                  },
-                                  domProps: { value: _vm.form.paid },
-                                  on: {
-                                    change: _vm.calculatePayable,
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col-md-4" }, [
+                              _c("label", [_vm._v("পরিশোধনীয় মূল্য")]),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "input-group mb-3" },
+                                [
+                                  _vm._m(6),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.form.payable,
+                                        expression: "form.payable"
                                       }
-                                      _vm.$set(
-                                        _vm.form,
-                                        "paid",
-                                        $event.target.value
+                                    ],
+                                    staticClass: "form-control",
+                                    class: {
+                                      "is-invalid": _vm.form.errors.has(
+                                        "payable"
                                       )
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("has-error", {
-                                  attrs: { form: _vm.form, field: "paid" }
-                                })
-                              ],
-                              1
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-4" }, [
-                            _c("label", [_vm._v("দেনা/ পরিশোধনীয়")]),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "input-group mb-3" },
-                              [
-                                _vm._m(8),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.form.due,
-                                      expression: "form.due"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  class: {
-                                    "is-invalid": _vm.form.errors.has("due")
-                                  },
-                                  attrs: {
-                                    type: "number",
-                                    step: "any",
-                                    name: "due",
-                                    placeholder: "দেনা/ পরিশোধনীয়",
-                                    readonly: ""
-                                  },
-                                  domProps: { value: _vm.form.due },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
+                                    },
+                                    attrs: {
+                                      type: "number",
+                                      step: "any",
+                                      name: "payable",
+                                      placeholder: "পরিশোধনীয় মূল্য",
+                                      readonly: ""
+                                    },
+                                    domProps: { value: _vm.form.payable },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.form,
+                                          "payable",
+                                          $event.target.value
+                                        )
                                       }
-                                      _vm.$set(
-                                        _vm.form,
-                                        "due",
-                                        $event.target.value
-                                      )
                                     }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("has-error", {
-                                  attrs: { form: _vm.form, field: "due" }
-                                })
-                              ],
-                              1
-                            )
+                                  }),
+                                  _vm._v(" "),
+                                  _c("has-error", {
+                                    attrs: { form: _vm.form, field: "payable" }
+                                  })
+                                ],
+                                1
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-4" }, [
+                              _c("label", [_vm._v("পরিশোধ")]),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "input-group mb-3" },
+                                [
+                                  _vm._m(7),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.form.paid,
+                                        expression: "form.paid"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    class: {
+                                      "is-invalid": _vm.form.errors.has("paid")
+                                    },
+                                    attrs: {
+                                      type: "number",
+                                      step: "any",
+                                      name: "paid",
+                                      placeholder: "পরিশোধ"
+                                    },
+                                    domProps: { value: _vm.form.paid },
+                                    on: {
+                                      change: _vm.calculatePayable,
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.form,
+                                          "paid",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("has-error", {
+                                    attrs: { form: _vm.form, field: "paid" }
+                                  })
+                                ],
+                                1
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-4" }, [
+                              _c("label", [_vm._v("দেনা/ পরিশোধনীয়")]),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "input-group mb-3" },
+                                [
+                                  _vm._m(8),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.form.due,
+                                        expression: "form.due"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    class: {
+                                      "is-invalid": _vm.form.errors.has("due")
+                                    },
+                                    attrs: {
+                                      type: "number",
+                                      step: "any",
+                                      name: "due",
+                                      placeholder: "দেনা/ পরিশোধনীয়",
+                                      readonly: ""
+                                    },
+                                    domProps: { value: _vm.form.due },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.form,
+                                          "due",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("has-error", {
+                                    attrs: { form: _vm.form, field: "due" }
+                                  })
+                                ],
+                                1
+                              )
+                            ])
                           ])
-                        ])
-                      ]),
+                        ],
+                        2
+                      ),
                       _vm._v(" "),
                       _vm._m(9)
                     ]

@@ -129,25 +129,26 @@ class ProductController extends Controller
         $product->save();
 
         // save the stock
-        $stock = new Stock;
-        $stock->product_id = $product->id;
-        $stock->expiry_date = $request->expiry_date;
-        $stock->quantity = $request->quantity;
-        $stock->buying_price = number_format($request->buying_price, 2, '.', '');
-        $stock->selling_price = number_format($request->selling_price, 2, '.', '');
 
-        $checkvendor = Vendor::where('name', $request->vendor['name'])->first();
-        if($checkvendor) {
-            $stock->vendor_id = $request->vendor['id'];
-        } else {
-            $newvendor = new Vendor;
-            $newvendor->store_id = $store->id;
-            $newvendor->name = $request->vendor['name'];
-            $newvendor->save();
-            $stock->vendor_id = $newvendor->id;
+        if($request->vendor) {
+            $stock = new Stock;
+            $stock->product_id = $product->id;
+            $stock->expiry_date = $request->expiry_date;
+            $stock->quantity = $request->quantity;
+            $stock->buying_price = number_format($request->buying_price, 2, '.', '');
+            $stock->selling_price = number_format($request->selling_price, 2, '.', '');
+            $checkvendor = Vendor::where('name', $request->vendor['name'])->first();
+            if($checkvendor) {
+                $stock->vendor_id = $request->vendor['id'];
+            } else {
+                $newvendor = new Vendor;
+                $newvendor->store_id = $store->id;
+                $newvendor->name = $request->vendor['name'];
+                $newvendor->save();
+                $stock->vendor_id = $newvendor->id;
+            }
+            $stock->save();
         }
-        
-        $stock->save();
 
         return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];
     }

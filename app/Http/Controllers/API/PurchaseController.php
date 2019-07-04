@@ -86,12 +86,12 @@ class PurchaseController extends Controller
         $purchase->store_id = $store->id;
         $purchase->stock_id = $stock->id; // just saved stock id
         $purchase->code = random_string(8);
-        $purchase->total = $request->total;
+        $purchase->total = number_format($request->total, 2, '.', '');
         $purchase->discount_unit = $request->discount_unit;
-        $purchase->discount = $request->discount;
-        $purchase->payable = $request->payable;
-        $purchase->paid = $request->paid;
-        $purchase->due = $request->due;
+        $purchase->discount = number_format($request->discount, 2, '.', '');
+        $purchase->payable = number_format($request->payable, 2, '.', '');
+        $purchase->paid = number_format($request->paid, 2, '.', '');
+        $purchase->due = number_format($request->due, 2, '.', '');
 
         $purchase->save();
 

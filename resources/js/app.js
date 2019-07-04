@@ -26,7 +26,6 @@ Vue.use(VTooltip);
 Vue.prototype.$gate = new Gate(window.roles, window.permissions, window.stores);
 Vue.prototype.$user = document.querySelector("meta[name='user']").getAttribute('content');
 
-
 Vue.use(VueRouter)
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
@@ -145,7 +144,7 @@ const app = new Vue({
     data: {
       search: '',
       menuselected: undefined,
-      profileNavImageLink: '/images/profile.png',
+      profileNavImageLink: '/images/profile.png'
     },
     methods: {
       searchIt: _.debounce(() => {
@@ -167,7 +166,7 @@ const app = new Vue({
             this.profileNavImageLink = '/images/users/'+data.image,
             $('#profileNavName').text(data.name )
           ));
-      }
+      },
     },
 
     created() {
