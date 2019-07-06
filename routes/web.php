@@ -23,3 +23,5 @@ Auth::routes();
 Route::get('{path}', 'HomeController@index')->where( ['path', '([A-z\d\-\/_.]+)?', 'path']);
 Route::get('{path}/{path2}', 'HomeController@index')->where( ['path', '([A-z\d\-\/_.]+)?', 'path']);
 Route::get('{path}/{path2}/{path3}', 'HomeController@index')->where( ['path', '([A-z\d\-\/_.]+)?', 'path']);
+Route::get('{path}/{path2}/{path3}/{path4}', 'HomeController@index')->where( ['path', '([A-z\d\-\/_.]+)?', 'path']);
+Route::get('{path}/{path2}/{path3}/{path4}/{path5}', 'HomeController@index')->where( ['path', '([A-z\d\-\/_.]+)?', 'path']);

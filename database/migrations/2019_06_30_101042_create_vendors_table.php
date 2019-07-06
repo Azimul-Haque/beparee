@@ -19,6 +19,11 @@ class CreateVendorsTable extends Migration
             $table->string('name');
             $table->string('address')->nullable();
             $table->string('mobile')->nullable();
+
+            $table->string('total_purchase')->default('0');
+            $table->string('current_due')->default('0');
+            $table->string('total_due')->default('0');
+            $table->string('total_due_paid')->default('0');
             $table->timestamps();
 
             $table->foreign('store_id')->references('id')->on('stores')

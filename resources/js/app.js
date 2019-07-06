@@ -12,13 +12,14 @@ window.Vue = require('vue');
 // my code started
 import VueRouter from 'vue-router';
 import { Form, HasError, AlertError } from 'vform';
-import moment from 'moment';
 import VueProgressBar from 'vue-progressbar';
 import Swal from 'sweetalert2';
 import vSelect from 'vue-select';
 import Gate from "./Gate";
 import VeeValidate from 'vee-validate';
 import VTooltip from 'v-tooltip';
+import {filters} from './filters'
+import {routes} from './routes'
 
 Vue.use(VeeValidate);
 Vue.use(VTooltip);
@@ -32,71 +33,16 @@ Vue.component(AlertError.name, AlertError)
 
 window.Form = Form;
 
-let routes = [
-  { path: '/dashboard', component: require('./components/Dashboard.vue').default, meta: { title: 'ড্যাশবোর্ড'} },
-
-  { path: '/profile', component: require('./components/User/Profile.vue').default, meta: { title: 'প্রোফাইল'} },
-
-  { path: '/users', component: require('./components/Admin/Users.vue').default, meta: { title: 'ব্যবহারকারী তালিকা'}},
-  { path: '/roles', component: require('./components/Admin/Roles.vue').default, meta: { title: 'ব্যবহারকারী ধরন'} },
-  { path: '/stores', component: require('./components/Admin/Stores.vue').default, meta: { title: 'দোকানের তালিকা'} },
-
-  { path: '/store/:token/:code', component: require('./components/Store/Store.vue').default, meta: { title: 'দোকান'}, name: 'singleStore'},
-  
-  { path: '/products/:code', component: require('./components/Product/Products.vue').default, meta: { title: 'মালামাল তালিকা'}, name: 'productsPage'},
-  { path: '/product/:id', component: require('./components/Product/Product.vue').default, meta: { title: 'পণ্য'}, name: 'singleProduct'},
-  
-  { path: '/purchases/:code', component: require('./components/Purchase/Purchases.vue').default, meta: { title: 'ক্রয়ের তালিকা'}, name: 'purchasesPage'},
-  
-  { path: '/vendors/:code', component: require('./components/Vendor/Vendors.vue').default, meta: { title: 'ডিলার/ ভেন্ডরের তালিকা'}, name: 'vendorsPage'},
-  { path: '*', component: require('./components/404.vue').default, meta: { title: '404'} },
-]
-
 const router = new VueRouter({
   mode: 'history',
   routes // short for `routes: routes`
 })
-
 
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
   next();
 });
 
-
-Vue.filter('date', function(date) {
-  return moment(date).format('MMMM DD, YYYY');
-})
-
-Vue.filter('datetime', function(date) {
-	return moment(date).format('MMMM DD, YYYY hh:mm A');
-})
-
-Vue.filter('activation_status', function(activation_status) {
-	if(activation_status == 0) {
-		return 'প্রক্রিয়াধীন';
-	} else {
-		return 'অনুমোদিত';
-	}
-})
-
-Vue.filter('payment_status', function(payment_status) {
-	if(payment_status == 0) {
-		return 'অপরিশোধিত';
-	} else {
-		return 'পরিশোধিত';
-	}
-})
-
-Vue.filter('totalquantity', function(data) {
-  var totalquantity = 0;
-  if(data) {
-    for(var i=0; i<data.length; i++) {
-      totalquantity = totalquantity + parseInt(data[i].quantity);
-    }
-  }
-  return totalquantity;
-})
 
 Vue.use(VueProgressBar, {
   color: 'rgb(0, 190, 225)',
@@ -115,21 +61,14 @@ window.toast = Toast;
 
 window.Fire = new Vue();
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-
-// const files = require.context('./', true, /\.vue$/i);
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('v-select', vSelect);
 Vue.component('forbidden-403', require('./components/403.vue').default);
+
+Vue.component('public-main', require('./components/Public/PublicMaster.vue').default);
+Vue.component('admin-main', require('./components/Auth/AdminMaster.vue').default);
 
 
 /**
@@ -158,14 +97,16 @@ const app = new Vue({
       	
       },
       getUserProfilePhotoOnNav() {
-        var user_parsed = JSON.parse(this.$user);
-        var user_id = user_parsed.id;
-        axios.get('/api/user/'+user_id).then(
-          ({ data }) => 
-          (
-            this.profileNavImageLink = '/images/users/'+data.image,
-            $('#profileNavName').text(data.name )
-          ));
+        if(this.$user) {
+          var user_parsed = JSON.parse(this.$user);
+          var user_id = user_parsed.id;
+          axios.get('/api/user/'+user_id).then(
+            ({ data }) => 
+            (
+              this.profileNavImageLink = '/images/users/'+data.image,
+              $('#profileNavName').text(data.name )
+            ));
+        }
       },
     },
 

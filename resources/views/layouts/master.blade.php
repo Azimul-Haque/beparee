@@ -37,7 +37,7 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <router-view></router-view>
+    <admin-main></admin-main>
     <vue-progress-bar></vue-progress-bar>
   </div>
   <!-- /.content-wrapper -->

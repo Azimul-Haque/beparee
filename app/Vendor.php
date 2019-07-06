@@ -13,4 +13,8 @@ class Vendor extends Model
     public function stocks(){
         return $this->hasMany('App\Stock');
     }
+
+    public function duehistories(){
+        return $this->hasMany('App\Duehistory');
+    }
 }

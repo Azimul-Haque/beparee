@@ -10,6 +10,7 @@ use App\Productcategory;
 use App\Product;
 use App\Stock;
 use App\Vendor;
+use Auth;
 
 class ProductController extends Controller
 {
@@ -135,6 +136,7 @@ class ProductController extends Controller
             $stock->product_id = $product->id;
             $stock->expiry_date = $request->expiry_date;
             $stock->quantity = $request->quantity;
+            $stock->current_quantity = $request->quantity;
             $stock->buying_price = number_format($request->buying_price, 2, '.', '');
             $stock->selling_price = number_format($request->selling_price, 2, '.', '');
             $checkvendor = Vendor::where('name', $request->vendor['name'])->first();
@@ -227,12 +229,16 @@ class ProductController extends Controller
         return $products;
     }
 
-    public function loadSingleProduct($id)
+    public function loadSingleProduct($id, $code)
     {
         $product = Product::findOrFail($id);
         $product->load('productcategory');
         $product->load('stocks')->load('stocks.vendor');
 
+        $store = Store::where('code', $code)->first();
+        if($store->id != $product->store_id) {
+            $product = null;
+        }
         return response()->json($product);
     }
     
@@ -245,7 +251,7 @@ class ProductController extends Controller
 
         $stock = Stock::findOrFail($id);
         $stock->expiry_date = $request->expiry_date;
-        $stock->selling_price = $request->selling_price;
+        $stock->selling_price = number_format($request->selling_price, 2, '.', '');
         
         $stock->save();
 
@@ -255,7 +261,6 @@ class ProductController extends Controller
     public function deleteSingleProductStock($id)
     {
         $stock = Stock::findOrFail($id);
-        $stock->purchase()->delete();
         $stock->delete();
 
         return ['message' => 'সফলভাবে ডিলেট করা হয়েছে!'];

@@ -412,6 +412,7 @@ class ComposerStaticInitd74bd490cc4c8b8743736c14ad6241e3
 
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
+        'App\\Duehistory' => __DIR__ . '/../..' . '/app/Duehistory.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\API\\ProductController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/ProductController.php',
         'App\\Http\\Controllers\\API\\PurchaseController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/PurchaseController.php',
@@ -426,6 +427,7 @@ class ComposerStaticInitd74bd490cc4c8b8743736c14ad6241e3
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\IndexController' => __DIR__ . '/../..' . '/app/Http/Controllers/IndexController.php',
+        'App\\Http\\Controllers\\PDFController' => __DIR__ . '/../..' . '/app/Http/Controllers/PDFController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\CheckForMaintenanceMode' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckForMaintenanceMode.php',

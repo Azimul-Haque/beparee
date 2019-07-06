@@ -5,10 +5,6 @@
   <style>
   body {
     font-family: 'kalpurush', sans-serif;
-    background-image: url({{ public_path('images/background_demo.png') }});
-    background-size: cover;              
-    background-repeat: no-repeat;
-    background-position: center center;
   }
 
   table {
@@ -26,14 +22,27 @@
   @page {
     header: page-header;
     footer: page-footer;
+    background: url({{ public_path('images/background_demo.png') }});
+    background-size: cover;              
+    background-repeat: no-repeat;
+    background-position: center center;
   }
   </style>
 </head>
 <body>
   <h2 align="center">
-    {{-- <img src="{{ public_path('images/logo.png') }}" style="height: 100px; width: auto;"><br/> --}}
-    {{ $purchase->stock->product->store->name }}<br/>
-    <small>{{ $purchase->stock->product->store->address }}</small>
+    @if($anysinglestock->product->store->monogram != null)
+      @if(file_exists( public_path() . '/images/stores/' . $anysinglestock->product->store->monogram))
+        <img src="{{ public_path('images/stores/'. $anysinglestock->product->store->monogram) }}" style="height: 80px; width: auto;">
+      @else
+        <img src="{{ public_path('images/default_store.png') }}" style="height: 80px; width: auto;">
+      @endif
+    @else
+      <img src="{{ public_path('images/default_store.png') }}" style="height: 80px; width: auto;">
+    @endif
+    <br/>
+    {{ $anysinglestock->product->store->name }}<br/>
+    <small>{{ $anysinglestock->product->store->address }}</small>
   </h2>
   <h1 align="center" style="color: #397736; border-bottom: 1px solid #397736;">
     ক্রয় রশিদ
@@ -42,8 +51,8 @@
   <table>
     <tr>
       <td>
-        ডিলার/ ভেন্ডরঃ {{ $purchase->stock->vendor->name }} <br/>
-        যোগাযোগঃ {{ $purchase->stock->vendor->mobile }}
+        ডিলার/ ভেন্ডরঃ {{ $anysinglestock->vendor->name }} <br/>
+        যোগাযোগঃ {{ $anysinglestock->vendor->mobile }}
       </td>
       <td align="right">
         <big>ক্রয় রশিদ নম্বরঃ {{ $purchase->code }}</big> <br/>
@@ -62,12 +71,14 @@
       </tr>
     </thead>
     <tbody>
+      @foreach($purchase->stocks as $stock)
       <tr>
-        <td>{{ $purchase->stock->product->name }}</td>
-        <td align="right">{{ $purchase->stock->quantity }}</td>
-        <td align="right">{{ $purchase->stock->buying_price }} ৳</td>
-        <td align="right">{{ $purchase->total }} ৳</td>
+        <td>{{ $stock->product->name }}</td>
+        <td align="right">{{ $stock->quantity }}</td>
+        <td align="right">{{ $stock->buying_price }} ৳</td>
+        <td align="right">{{ number_format(($stock->quantity * $stock->buying_price), 2, '.', '') }} ৳</td>
       </tr>
+      @endforeach
       <tr>
         <td colspan="3"></td>
         <td align="right">
@@ -83,7 +94,7 @@
 
 
   <htmlpagefooter name="page-footer">
-    Powered by: beparee
+    <span style="color: #3f51b5;">Powered by: beparee</span>
   </htmlpagefooter>
 </body>
 </html>

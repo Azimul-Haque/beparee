@@ -11,6 +11,7 @@ use App\Vendor;
 use App\Product;
 use App\Stock;
 use App\Purchase;
+use App\Duehistory;
 
 class PurchaseController extends Controller
 {
@@ -23,8 +24,8 @@ class PurchaseController extends Controller
     {
         $store = Store::where('code', $code)->first();
         $purchases = Purchase::where('store_id', $store->id)->orderBy('id', 'desc')->paginate(5);
-        $purchases->load('stock');
-        $purchases->load('stock')->load('stock.product', 'stock.vendor');
+        $purchases->load('stocks');
+        $purchases->load('stocks')->load('stocks.product', 'stocks.vendor');
 
         return response()->json($purchases);
     }
@@ -42,13 +43,13 @@ class PurchaseController extends Controller
         $this->validate($request,array(
             'code'                 => 'required',
             
-            'product'              => 'required',
+            // 'product'              => 'required',
             'vendor'               => 'required|max:191',
 
-            'expiry_date'          => 'sometimes|max:191',
-            'quantity'             => 'required|max:191',
-            'buying_price'         => 'required|max:191',
-            'selling_price'        => 'required|max:191',
+            // 'expiry_date'          => 'sometimes|max:191',
+            // 'quantity'             => 'required|max:191',
+            // 'buying_price'         => 'required|max:191',
+            // 'selling_price'        => 'required|max:191',
 
             'total'                => 'required|max:191',
             'discount_unit'        => 'required|max:191',
@@ -58,33 +59,11 @@ class PurchaseController extends Controller
             'due'                  => 'sometimes|max:191'            
         ));
 
-        $store = Store::where('code', $request->code)->first();
-
-        $stock = new Stock;
-        $stock->product_id = $request->product['id'];
-        $stock->expiry_date = $request->expiry_date;
-        $stock->quantity = $request->quantity;
-        $stock->buying_price = number_format($request->buying_price, 2, '.', '');
-        $stock->selling_price = number_format($request->selling_price, 2, '.', '');
-
-        $checkvendor = Vendor::where('name', $request->vendor['name'])->first();
-        if($checkvendor) {
-            $stock->vendor_id = $request->vendor['id'];
-        } else {
-            $newvendor = new Vendor;
-            $newvendor->store_id = $store->id;
-            $newvendor->name = $request->vendor['name'];
-            $newvendor->save();
-            $stock->vendor_id = $newvendor->id;
-        }
-        
-        $stock->save();
-
-        // save the purchase...
         $purchase = new Purchase;
 
+        $store = Store::where('code', $request->code)->first();
+
         $purchase->store_id = $store->id;
-        $purchase->stock_id = $stock->id; // just saved stock id
         $purchase->code = random_string(8);
         $purchase->total = number_format($request->total, 2, '.', '');
         $purchase->discount_unit = $request->discount_unit;
@@ -95,6 +74,47 @@ class PurchaseController extends Controller
 
         $purchase->save();
 
+        // save the dues and others...
+        $vendor = Vendor::findOrFail($request->vendor['id']);
+        $vendor->total_purchase = $vendor->total_purchase + 1;
+        if($request->due > 0) {
+            $vendor->current_due = number_format(($vendor->current_due + $request->due), 2, '.', '');
+            $vendor->total_due = number_format(($vendor->total_due + $request->due), 2, '.', '');
+        }
+        $vendor->save();
+
+        // save the dues HISTORY if due is greater than 0
+        if($request->due > 0) {
+            $duehistory = new Duehistory;
+            $duehistory->vendor_id = $request->vendor['id'];
+            $duehistory->transaction_type = 0; // 0 is due, 1 is due_paid
+            $duehistory->amount = $request->due;
+            $duehistory->save();
+        }
+
+        // save the stocks...
+        $product_array = [];
+        foreach ($request->product as $key => $value) {
+            if($request->product[$key]['id'] != null) {
+                $product_array[$key]['product_id'] = $request->product[$key]['id'];
+                // $product_array[$key]['expiry_date'] = $request->expiry_date[$key];
+                $product_array[$key]['quantity'] = $request->quantity[$key];
+                $product_array[$key]['buying_price'] = $request->buying_price[$key];
+                $product_array[$key]['selling_price'] = $request->selling_price[$key];
+                
+                $stock = new Stock;
+                $stock->product_id = $product_array[$key]['product_id'];
+                $stock->vendor_id = $request->vendor['id'];
+                $stock->purchase_id = $purchase->id;
+                // $stock->expiry_date = $request->expiry_date;
+                $stock->quantity = $product_array[$key]['quantity'];
+                $stock->current_quantity = $product_array[$key]['quantity'];
+                $stock->buying_price = number_format($product_array[$key]['buying_price'], 2, '.', '');
+                $stock->selling_price = number_format($product_array[$key]['selling_price'], 2, '.', '');
+                $stock->save();
+            }
+            
+        }
         return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];
     }
 
@@ -109,8 +129,8 @@ class PurchaseController extends Controller
 			            $search->where('code', 'LIKE', '%'.$query.'%')
 			                   ->orWhere('total', 'LIKE', '%'.$query.'%');
 			         })->paginate(5);
-        $purchases->load('stock');
-        $purchases->load('stock')->load('stock.product', 'stock.vendor');
+        $purchases->load('stocks');
+        $purchases->load('stocks')->load('stocks.vendor');
 
         return response()->json($purchases);
     }

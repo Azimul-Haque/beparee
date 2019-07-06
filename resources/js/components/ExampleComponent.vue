@@ -4,7 +4,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Profile</h1>
+                <h1 class="m-0 text-dark">Test</h1>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -22,10 +22,10 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Profile</div>
+                    <div class="card-header">Test</div>
 
                     <div class="card-body">
-                        I'm an profile component.
+                        Bingo...
                     </div>
                 </div>
             </div>

@@ -1,0 +1,252 @@
+<template>
+    <div class="content">
+      <div class="content-header" v-if="$gate.isAuthorized('vendor-page')">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1 class="m-0 text-dark">ডিলার/ ভেন্ডর বিবরণ</h1>
+              </div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="#!">স্টোর</a></li>
+                  <li class="breadcrumb-item"><a href="#!">ডিলার/ ভেন্ডর</a></li>
+                  <li class="breadcrumb-item active">বিবরণ</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+      </div>
+      <!-- Header content -->
+      
+      <!-- /.content-header -->
+      <div class="container-fluid" v-if="$gate.isAuthorized('vendor-page')">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="card">
+              <div style="background: url('/images/storecover.jpg') center center;">
+                <div class="card-body text-light" style="background: rgba(0, 0, 128, 0.7);">
+                  <h5 class="card-title" style="border-bottom: 1px solid #fff;">{{ product.name }}</h5>
+                  <p class="card-text">
+                    <b>ব্র্যান্ড/ মার্কাঃ</b> {{ product.brand }} <br/>
+                    <b>ধরণঃ</b> <span v-if="product.productcategory">{{ product.productcategory.name }}</span>
+                          <span v-else>loading...</span><br/>
+                    <b>কোডঃ</b> {{ product.sku }}<br/>
+                    <b>এককঃ</b> {{ product.unit }}<br/>
+                  </p>
+                </div>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item"><b>স্টকঃ</b> {{ product.stocks | totalquantity }} {{ product.unit }}</li>
+                <li class="list-group-item"><b>ক্রয়মূল্যঃ</b> </li>
+                <li class="list-group-item"><b>বিক্রয়যোগ্য মোট মূল্যঃ</b> </li>
+              </ul>
+              <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-9">
+            <div class="card">
+              <div class="card-header tab-card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                  <li class="nav-item">
+                      <a class="nav-link active" id="one-tab" data-toggle="tab" href="#one" role="tab" aria-controls="One" aria-selected="true">দেনা তালিকা</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" id="two-tab" data-toggle="tab" href="#two" role="tab" aria-controls="Two" aria-selected="false">ক্রয় তালিকা</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" id="three-tab" data-toggle="tab" href="#three" role="tab" aria-controls="Two" aria-selected="false">ফেরত তালিকা</a>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active p-3" id="one" role="tabpanel" aria-labelledby="one-tab">
+                  <p class="card-text">
+                    <div class="card bg-light text-dark" v-for="stock in product.stocks">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-9">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <i class="fa fa-industry text-blue"></i> ডিলার/ ভেন্ডরঃ <b>{{ stock.vendor.name }}</b><br/>
+                                <i class="fa fa-archive text-green"></i> স্টকের পরিমাণঃ <big>{{ stock.current_quantity }}</big> {{ product.unit }}
+                              </div>
+                              <div class="col-md-6">
+                                <i class="fa fa-money text-blue"></i> ক্রয়মূল্যঃ {{ stock.buying_price }} ৳/{{ product.unit }}<br/>
+                                <i class="fa fa-shopping-bag text-orange"></i> বিক্রয়মূল্যঃ {{ stock.selling_price }} ৳/{{ product.unit }}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <button @click="editModal(stock)" class="btn btn-sm btn-primary"><i class="fa fa-edit" v-tooltip="'স্টকটি সম্পাদনা করুন'"></i></button>
+                            <button class="btn btn-sm btn-success"><i class="fa fa-retweet"  v-tooltip="'স্টকটি ফেরত দিন'"></i></button>
+                            <button @click="deleteStock(stock.id)" class="btn btn-sm btn-danger"><i class="fa fa-trash"  v-tooltip="'স্টকটি ডিলেট করে দিন'"></i></button>
+                          </div>
+                        </div><br/>
+                        <small class="text-muted" style="border-top: 1px solid #DDD;">
+                          সিস্টেমে প্রবেশের তারিখঃ {{ stock.created_at | datetime }}
+                        </small>
+                      </div>
+                    </div>
+                  </p>         
+                </div>
+                <div class="tab-pane fade p-3" id="two" role="tabpanel" aria-labelledby="two-tab">
+                  <p class="card-text"> on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>              
+                </div>
+                <div class="tab-pane fade p-3" id="three" role="tabpanel" aria-labelledby="three-tab">
+                  <p class="card-text"> on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>              
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- The Modal -->
+      <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog"> <!-- modal-lg -->
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title" id="addModalLabel">স্টক সম্পাদনা করুন</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form @submit.prevent="updateStock()" @keydown="form.onKeydown($event)">
+              <!-- Modal body -->
+              <div class="modal-body">
+                <div class="form-group">
+                  <label class="form-label semibold">বিক্রয়মূল্য/ {{ product.unit }}</label>
+                  <input v-model="form.selling_price" type="text" name="selling_price" placeholder="ঠিকানা" 
+                    class="form-control" :class="{ 'is-invalid': form.errors.has('selling_price') }">
+                  <has-error :form="form" field="selling_price"></has-error>
+                </div>
+                <!-- <div class="form-group">
+                  <input v-model="form.expiry_date" type="number" name="expiry_date" placeholder="যোগাযোগের নম্বর" 
+                    class="form-control" :class="{ 'is-invalid': form.errors.has('expiry_date') }" onkeypress="if(this.value.length==11) return false;">
+                  <has-error :form="form" field="expiry_date"></has-error>
+                </div> -->
+              </div>
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-success">হালনাগাদ করুন</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">ফিরে যান</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div v-if="!$gate.isAuthorized('vendor-page')">
+          <forbidden-403></forbidden-403>
+      </div>
+    </div>
+</template>
+
+<script>
+    export default {
+        data () {
+            return {
+              product: {},
+              // Create a new form instance
+              form: new Form({
+                id: '',
+                expiry_date: '',
+                selling_price: ''
+              }),
+              // editmode: false
+            }
+        },
+        methods: {
+            loadProduct() {
+                if(this.$gate.isAuthorized('vendor-page')){
+                  axios.get('/api/load/single/product/' + this.$route.params.id + '/' + this.$route.params.code).then(({ data }) => (this.product = data));  
+                }
+            },
+            editModal(stock) {
+                this.form.reset(); // clears fields
+                this.form.clear(); // clears errors
+                $('#addModal').modal('show');
+
+                this.form.fill(stock);                
+            },
+            updateStock() {
+                this.$Progress.start();
+                this.form.put('/api/single/product/stock/update/'+ this.form.id).then(() => {
+                  $('#addModal').modal('hide')
+                  Fire.$emit('AfterProductStockUpdated')
+                  toast.fire({
+                    type: 'success',
+                    title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
+                  })
+                  this.$Progress.finish();
+                })
+                .catch(() => {
+                    this.$Progress.fail();
+                    // swal('Failed!', 'There was something wrong', 'warning');
+                })
+            },
+            deleteStock(id) {
+                swal.fire({
+                  title: 'নিশ্চিত ভাবে স্টক ডিলেট করতে চান?',
+                  text: "ডিলেট নিশ্চিতকরণ",
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'হ্যাঁ, নিশ্চিত করছি',
+                  cancelButtonText: 'ফিরে যান'
+                }).then((result) => {
+                    if (result.value) {
+                       this.form.delete('/api/single/product/stock/delete/'+ id).then(() => {
+                         swal.fire(
+                          'সফল!',
+                          'সফলভাবে ডিলেট করা হয়েছে!',
+                          'success'
+                          )
+                         Fire.$emit('AfterProductStockUpdated')
+                       })
+                       .catch(() => {
+                         swal('Failed!', 'কিছু সমস্যা হয়েছে, দুঃখিত!', 'warning');
+                       }) 
+                    }
+
+                })
+            },
+        },
+        created() {
+            this.loadProduct();
+            
+            Fire.$on('AfterProductStockUpdated', () => {
+                this.loadProduct();
+            });
+            Fire.$on('changingstorename', () => {
+                this.loadProduct();
+            });
+
+            Fire.$on('searching', () => {
+                let query = this.$parent.search;
+                if(query != '') {
+                  axios.get('/api/searchstore/' + query)
+                  .then((data) => {
+                    this.product = data.data;
+                  })
+                  .catch(() => {
+
+                  })
+                } else {
+                  this.loadVendors();
+                }
+                
+            });
+        },
+        beforeDestroy() {
+          Fire.$off('AfterProductStockUpdated')
+          Fire.$off('changingstorename')
+          // Fire.$off('searching')
+        }
+    }
+</script>

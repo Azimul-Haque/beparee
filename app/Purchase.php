@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Purchase extends Model
 {
-    public function stock(){
-        return $this->belongsTo('App\Stock');
+    public function stocks(){
+        return $this->hasMany('App\Stock');
     }
 }

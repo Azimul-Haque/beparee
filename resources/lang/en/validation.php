@@ -172,6 +172,9 @@ return [
         'paid' => [
             'required' => 'অনুগ্রহ করে পরিশোধ পরিমাণ লিখুন'
         ],
+        'amount_paying' => [
+            'required' => 'অনুগ্রহ করে পরিশোধ পরিমাণ লিখুন'
+        ],
 
 
         'attribute-name' => [

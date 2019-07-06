@@ -5,16 +5,20 @@ export default class Gate{
         // ROLE PART
         this.roles = [];
         // merge if role is more than one!
-        for(var i=0; i<roles.length; i++) {
-            this.roles = this.roles.concat(roles[i]['name']);
+        if(roles) {
+            for(var i=0; i<roles.length; i++) {
+                this.roles = this.roles.concat(roles[i]['name']);
+            }
         }
         // console.log(this.roles);
 
         // PERMISSION PART
         this.permissions = [];
         // merge if role is more than one!
-        for(var i=0; i<permissions.length; i++) {
-            this.permissions = this.permissions.concat(permissions[i]['permissions']);
+        if(permissions) {
+            for(var i=0; i<permissions.length; i++) {
+                this.permissions = this.permissions.concat(permissions[i]['permissions']);
+            }
         }
         // make an array of names only!
         this.permissionsnames = [];
@@ -34,8 +38,10 @@ export default class Gate{
         // STORE PART
         this.stores = [];
         // merge if role is more than one!
-        for(var i=0; i<stores.length; i++) {
-            this.stores = this.stores.concat(stores[i]['code']); // to match the code of requested and permitted
+        if(stores) {
+            for(var i=0; i<stores.length; i++) {
+                this.stores = this.stores.concat(stores[i]['code']); // to match the code of requested and permitted
+            }
         }
         // console.log(this.stores);
     }

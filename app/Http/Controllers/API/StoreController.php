@@ -40,7 +40,7 @@ class StoreController extends Controller
             'payment_status'         => 'required',
             'monogram'               => 'sometimes',
             'slogan'                 => 'sometimes',
-            'owners'                 => 'required'
+            'users'                 => 'required'
         ));
 
         $store = new Store;
@@ -66,10 +66,10 @@ class StoreController extends Controller
 
         $store->save();
 
-        foreach ($request->owners as $owner) {
+        foreach ($request->users as $user) {
             DB::table('store_user')->insert([
                 'store_id' => $store->id,
-                'user_id' => $owner['id'],
+                'user_id' => $user['id'],
             ]);
         }
 
@@ -104,7 +104,7 @@ class StoreController extends Controller
             'payment_status'         => 'required',
             'monogram'               => 'sometimes',
             'slogan'                 => 'sometimes',
-            'owners'                 => 'required'
+            'users'                 => 'required'
         ));
 
         $store = Store::findOrFail($id);
@@ -129,10 +129,10 @@ class StoreController extends Controller
         $store->save();
         
         DB::table('store_user')->where('store_id', $id)->delete();
-        foreach ($request->owners as $owner) {
+        foreach ($request->users as $user) {
             DB::table('store_user')->insert([
                 'store_id' => $store->id,
-                'user_id' => $owner['id'],
+                'user_id' => $user['id'],
             ]);
         }
 
@@ -164,12 +164,12 @@ class StoreController extends Controller
 
     public function getOwners()
     {
-        $owners = User::select('id','name')
+        $users = User::select('id','name')
                       ->whereHas('roles', function ($query) {
                         $query->where('name', '=', 'shopowner');
                         $query->orWhere('name', '=', 'superadmin');
                       })->get();
-        return $owners;
+        return $users;
     }
 
     public function loadStore($code)

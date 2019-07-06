@@ -35,7 +35,7 @@ Route::put('store/update/by/user/{id}', 'API\StoreController@updateByUser');
 
 Route::apiResources(['product' => 'API\ProductController']);
 Route::get('load/product/{code}', 'API\ProductController@loadProducts');
-Route::get('load/single/product/{id}', 'API\ProductController@loadSingleProduct');
+Route::get('load/single/product/{id}/{code}', 'API\ProductController@loadSingleProduct');
 Route::put('single/product/stock/update/{id}', 'API\ProductController@updateSingleProductStock');
 Route::delete('single/product/stock/delete/{id}', 'API\ProductController@deleteSingleProductStock');
 
@@ -47,13 +47,21 @@ Route::put('product/category/update/{code}', 'API\ProductController@updateCatego
 
 Route::apiResources(['vendor' => 'API\VendorController']);
 Route::get('load/vendor/{code}', 'API\VendorController@loadVendors');
+Route::get('load/vendor/due/{code}', 'API\VendorController@loadDues');
+Route::put('load/vendor/pay/due/{id}', 'API\VendorController@payDue');
+Route::get('load/duehistory/{code}', 'API\VendorController@loadDuehistories');
 
 Route::apiResources(['purchase' => 'API\PurchaseController']);
 Route::get('load/purchase/{code}', 'API\PurchaseController@loadPurchases');
 Route::get('load/purchase/product/{code}', 'API\PurchaseController@loadProducts');
 
+// each search function has a big bug, it does not filters user's stores!!!
+// each search function has a big bug, it does not filters user's stores!!!
+// each search function has a big bug, it does not filters user's stores!!!
+// each search function has a big bug, it does not filters user's stores!!!
 Route::get('searchuser/{query}', 'API\UserController@searchUser'); 
 Route::get('searchrole/{query}', 'API\UserController@searchRole');
 Route::get('searchstore/{query}', 'API\StoreController@searchStore');
 Route::get('searchproduct/{query}', 'API\ProductController@searchProduct');
 Route::get('searchpurchase/{query}', 'API\PurchaseController@searchPurchase');
+Route::get('searchvendor/{query}', 'API\VendorController@searchVendor');

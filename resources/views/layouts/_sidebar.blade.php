@@ -92,7 +92,7 @@
           <li class="nav-item-separator"></li>
           
           @foreach(Auth::user()->stores as $stores_for_nav)
-            <li class="nav-item has-treeview @if(Request::url() == url('/store/'.$stores_for_nav->token.'/'.$stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/products/'.$stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/purchases/'.$stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/vendors/'.$stores_for_nav->code)) menu-open @endif" {{-- :class="{'menu-open':menuselected == 2}" --}}>
+            <li class="nav-item has-treeview @if(Request::url() == url('/store/'.$stores_for_nav->token.'/'.$stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/products/'.$stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/purchases/'.$stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/dues/'.$stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/vendors/'.$stores_for_nav->code)) menu-open @endif" {{-- :class="{'menu-open':menuselected == 2}" --}}>
               <a href="#" class="nav-link {{-- active --}}" {{-- @click="menuselected = 2" --}}>
                 <i class="nav-icon fa fa-university"></i>
                 <p>
@@ -128,7 +128,15 @@
                     <p>ক্রয়ের হিসাব</p>
                   </router-link> 
                 </li>
-                @endpermission                
+                @endpermission 
+                @permission('due-page')
+                <li class="nav-item">
+                  <router-link :to="{ name: 'duesPage', params: { code: '{{ $stores_for_nav->code }}' }}" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                    <i class="nav-icon fa fa-hourglass-start"></i>
+                    <p>দেনার হিসাব</p>
+                  </router-link> 
+                </li>
+                @endpermission        
                 <li class="nav-item">
                   <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
                     <i class="nav-icon fa fa-line-chart"></i><p>বিক্রয়ের হিসাব</p>
@@ -169,7 +177,7 @@
                 @endpermission
                 <li class="nav-item">
                   <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
-                    <i class="nav-icon fa fa-plus"></i><p>বাকির হিসাব</p>
+                    <i class="nav-icon fa fa-plus"></i><p>বকেয়ার হিসাব</p>
                   </a>
                 </li>
                 <li class="nav-item">

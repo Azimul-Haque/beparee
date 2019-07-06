@@ -17,10 +17,10 @@ class PDFController extends Controller
     public function singlePurchaseReceiptPDF($id)
     {
         $purchase = Purchase::findOrFail($id);
-        $purchase->load('stock');
-        $purchase->load('stock')->load('stock.product', 'stock.vendor');
 
-        $pdf = PDF::loadView('dashboard.purchase.pdf.receipt', ['purchase' => $purchase]);
+        $anysinglestock = Stock::where('purchase_id', $purchase->id)->first();
+
+        $pdf = PDF::loadView('dashboard.purchase.pdf.receipt', ['purchase' => $purchase, 'anysinglestock' => $anysinglestock]);
         $fileName = 'Purchase_Receipt_' . $purchase->code . '.pdf';
         return $pdf->stream($fileName);
     }

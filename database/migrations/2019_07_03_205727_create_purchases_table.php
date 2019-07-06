@@ -16,7 +16,6 @@ class CreatePurchasesTable extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('store_id')->unsigned();
-            $table->integer('stock_id')->unsigned();
             $table->string('code');
             $table->string('total');
             $table->string('discount_unit');
@@ -27,8 +26,6 @@ class CreatePurchasesTable extends Migration
             $table->timestamps();
 
             $table->foreign('store_id')->references('id')->on('stores')
-                ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('stock_id')->references('id')->on('stocks')
                 ->onUpdate('cascade')->onDelete('cascade');
         });
     }

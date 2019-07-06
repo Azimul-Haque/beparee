@@ -79,6 +79,11 @@ class EntrustTableDataSeeder extends Seeder
                 'display_name' => 'Purchase CRUD',
                 'description' => 'Purchase Crud Permission'
             ],
+            [
+                'name' => 'due-page',
+                'display_name' => 'Due CRUD',
+                'description' => 'Due Crud Permission'
+            ],
         ];
 
         foreach ($permission as $key => $value) {
