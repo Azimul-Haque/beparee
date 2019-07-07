@@ -28,73 +28,58 @@ class EntrustTableDataSeeder extends Seeder
         		'display_name' => 'Role CRUD',
         		'description' => 'Create New Role'
         	],
-            [
-                'name' => 'sales-crud',
-                'display_name' => 'Sales CRUD',
-                'description' => 'Sales Crud Permission'
-            ],
-            [
-                'name' => 'inventory-crud',
-                'display_name' => 'Inventory CRUD',
-                'description' => 'Inventory Crud Permission'
-            ],
-            [
-                'name' => 'accounting-crud',
-                'display_name' => 'Accounting CRUD',
-                'description' => 'Accounting Crud Permission'
-            ],
-            [
-                'name' => 'hr-crud',
-                'display_name' => 'HR CRUD',
-                'description' => 'HR Crud Permission'
-            ],
-            [
-                'name' => 'admin-menu',
-                'display_name' => 'Admin Menu',
-                'description' => 'Admin Menu Permission'
-            ],
-            [
-                'name' => 'store-crud',
-                'display_name' => 'Store CRUD',
-                'description' => 'Store CRUD Permission'
-            ],
+          [
+              'name' => 'admin-menu',
+              'display_name' => 'Admin Menu',
+              'description' => 'Admin Menu Permission'
+          ],
+          [
+              'name' => 'store-crud',
+              'display_name' => 'Store CRUD',
+              'description' => 'Store CRUD Permission'
+          ],
 
 
-            [
-                'name' => 'store-profile',
-                'display_name' => 'Store Profile',
-                'description' => 'Store Profile Permission'
-            ],
-            [
-                'name' => 'product-page',
-                'display_name' => 'Product Page',
-                'description' => 'Product Page'
-            ],
-            [
-                'name' => 'vendor-page',
-                'display_name' => 'Vendor Page',
-                'description' => 'Vendor Page'
-            ],
-            [
-                'name' => 'purchase-page',
-                'display_name' => 'Purchase CRUD',
-                'description' => 'Purchase Crud Permission'
-            ],
-            [
-                'name' => 'due-page',
-                'display_name' => 'Due CRUD',
-                'description' => 'Due Crud Permission'
-            ],
-            [
-                'name' => 'staff-page',
-                'display_name' => 'Staff CRUD',
-                'description' => 'Staff Crud Permission'
-            ],
-            [
-                'name' => 'customer-page',
-                'display_name' => 'Customer CRUD',
-                'description' => 'Customer Crud Permission'
-            ],
+          [
+              'name' => 'store-profile',
+              'display_name' => 'Store Profile',
+              'description' => 'Store Profile Permission'
+          ],
+          [
+              'name' => 'product-page',
+              'display_name' => 'Product Page',
+              'description' => 'Product Page'
+          ],
+          [
+              'name' => 'vendor-page',
+              'display_name' => 'Vendor Page',
+              'description' => 'Vendor Page'
+          ],
+          [
+              'name' => 'purchase-page',
+              'display_name' => 'Purchase CRUD',
+              'description' => 'Purchase Crud Permission'
+          ],
+          [
+              'name' => 'due-page',
+              'display_name' => 'Due CRUD',
+              'description' => 'Due Crud Permission'
+          ],
+          [
+              'name' => 'staff-page',
+              'display_name' => 'Staff CRUD',
+              'description' => 'Staff Crud Permission'
+          ],
+          [
+              'name' => 'customer-page',
+              'display_name' => 'Customer CRUD',
+              'description' => 'Customer Crud Permission'
+          ],
+          [
+              'name' => 'expense-page',
+              'display_name' => 'Expense CRUD',
+              'description' => 'Expense Crud Permission'
+          ],
         ];
 
         foreach ($permission as $key => $value) {

@@ -116,6 +116,8 @@ class VendorController extends Controller
         // $vendors = Vendor::where('store_id', $store->id)->paginate(5);
         // $vendors->load('duehistories');
 
+        // dd($vendors);
+
         $duehistories = Duehistory::whereHas("vendor", function($q) use ($store) {
                        $q->where("store_id", $store->id);
                       })->orderBy('id', 'desc')->paginate(5);

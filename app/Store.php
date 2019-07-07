@@ -25,4 +25,12 @@ class Store extends Model
     public function customers(){
         return $this->hasMany('App\Customer');
     }
+
+    public function staff(){
+        return $this->hasMany('App\Staff');
+    }
+
+    public function exprenses(){
+        return $this->hasMany('App\Exprense');
+    }
 }

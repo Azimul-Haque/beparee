@@ -4,12 +4,12 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0 text-dark">দেনার হিসাব</h1>
+                <h1 class="m-0 text-dark">খরচের হিসাব</h1>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                   <li class="breadcrumb-item"><router-link to="/dashboard">স্টোর</router-link></li>
-                  <li class="breadcrumb-item active">দেনার হিসাব</li>
+                  <li class="breadcrumb-item active">খরচের হিসাব</li>
                 </ol>
               </div>
             </div>
@@ -24,12 +24,13 @@
             <!-- <img src="images/click_here_2li1.svg" style="max-height: 200px;"> -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">দেনা তালিকা</h3>
+                <h3 class="card-title">খরচ তালিকা</h3>
 
                 <div class="card-tools">
-                  <!-- <button type="button" class="btn btn-primary btn-sm" @click="addModal" v-tooltip="'নতুন ডিলার / ভেন্ডর যোগ করুন'">
+                  <button type="button" class="btn btn-primary btn-sm" @click="addModal" v-tooltip="'নতুন খরচ যোগ করুন'">
                       <i class="fa fa-user-plus"></i>
-                  </button> --> <!-- data-toggle="modal" data-target="#addModal" -->
+                  </button>
+                  <!-- data-toggle="modal" data-target="#addModal" -->
                   <!-- <div class="input-group input-group-sm" style="width: 150px;">
                     <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
 
@@ -46,35 +47,29 @@
                  <thead>
                   <tr>
                     <!-- <th>ID</th> -->
-                    <th>ডিলার/ ভেন্ডরের নাম</th>
-                    <th>মোট ক্রয়</th>
-                    <th>চলতি দেনা</th>
-                    <th>সর্বমোট দেনা</th>
-                    <th>সর্বমোট দেনা পরিশোধ</th>
+                    <th>খাতের নাম</th>
+                    <th>মোট খরচের পরিমাণ</th>
+                    <th>সর্বমোট খরচ</th>
                     <th width="10%">ক্রিয়াকলাপ</th>
                   </tr>
                  </thead>
                  <tbody>
-                  <tr v-for="vendor in vendors.data" :key="vendor.id">
+                  <tr v-for="expense in expenses.data" :key="expense.id">
                     <!-- <td>{{ store.id }}</td> -->
                     <td>
                       <!-- <router-link :to="{ name: 'singleStore', params: { token: store.token, code: store.code }}">
                         {{ store.name }}
                       </router-link> -->
-                      <router-link :to="{ name: 'singleVendor', params: { id: vendor.id, code: code }}" v-tooltip="'বিস্তারিত দেখুন'">
-                        {{ vendor.name }}
+                      <router-link :to="{ name: 'singleVendor', params: { id: expense.id, code: code }}" v-tooltip="'বিস্তারিত দেখুন'">
+                        {{ expense.expensecategory.name }}
                       </router-link>
-                      <br/>
-                      <small class="text-muted">{{ vendor.address }}</small>
                     </td>
-                    <td>{{ vendor.total_purchase }}</td>
-                    <td><span class="badge badge-danger">{{ vendor.current_due }} ৳</span></td>
-                    <td><span class="badge badge-warning">{{ vendor.total_due }} ৳</span></td>
-                    <td><span class="badge badge-primary">{{ vendor.total_due_paid }} ৳</span></td>
+                    <td><span class="badge badge-warning">{{ expense.totalamount.toFixed(2) }} ৳</span></td>
+                    <td>{{ expense.count }} বার</td>
                     <td>
-                      <button type="button" class="btn btn-success btn-sm" @click="editModal(vendor)" v-tooltip="'পরিশোধ করুন'">
-                          <i class="fa fa-handshake-o"></i>
-                      </button>
+                      <router-link :to="{ name: 'singleVendor', params: { id: expense.id, code: code }}" class="btn btn-success btn-sm" v-tooltip="'বিস্তারিত দেখুন'">
+                        <i class="fa fa-eye"></i>
+                      </router-link>
                     </td>
                   </tr>
                   
@@ -83,7 +78,7 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                <pagination :data="vendors" @pagination-change-page="getPaginationResults"></pagination>
+                <pagination :data="expenses" @pagination-change-page="getPaginationResults"></pagination>
               </div>
             </div>
             <!-- /.card -->
@@ -92,7 +87,7 @@
             <!-- <img src="images/click_here_2li1.svg" style="max-height: 200px;"> -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">দেনা সময়রেখা</h3>
+                <h3 class="card-title">খরচ সময়রেখা</h3>
 
                 <div class="card-tools">
                   <!-- <button type="button" class="btn btn-primary btn-sm" @click="addModal" v-tooltip="'নতুন ডিলার / ভেন্ডর যোগ করুন'">
@@ -111,27 +106,40 @@
               
               <div class="card-body p-2">
                 <div class="timeline-centered">
-                  <article class="timeline-entry" v-for="duehistory in duehistories.data" :key="duehistory.id">
+                  <article class="timeline-entry" v-for="expense in expensehistories.data" :key="expense.id">
                       <div class="timeline-entry-inner">
-                          <div v-if="duehistory.transaction_type == 0" class="timeline-icon bg-danger" v-tooltip="'দেনা'">
-                              <i class="fa fa-hourglass-o"></i>
+                          <div v-if="expense.expensecategory_id == 1" class="timeline-icon bg-success" v-tooltip="expense.expensecategory.name">
+                              <i class="fa fa-user-o"></i>
                           </div>
-                          <div v-else class="timeline-icon bg-primary" v-tooltip="'পরিশোধ'">
-                              <i class="fa fa-handshake-o"></i>
+                          <div v-else-if="expense.expensecategory_id == 2" class="timeline-icon bg-primary" v-tooltip="expense.expensecategory.name">
+                              <i class="fa fa-plug"></i>
+                          </div>
+                          <div v-else-if="expense.expensecategory_id == 3" class="timeline-icon bg-info" v-tooltip="expense.expensecategory.name">
+                              <i class="fa fa-fire"></i>
+                          </div>
+                          <div v-else-if="expense.expensecategory_id == 4" class="timeline-icon bg-warning" v-tooltip="expense.expensecategory.name">
+                              <i class="fa fa-truck"></i>
+                          </div>
+                          <div v-else-if="expense.expensecategory_id == 5" class="timeline-icon bg-danger" v-tooltip="expense.expensecategory.name">
+                              <i class="fa fa-home"></i>
+                          </div>
+                          <div v-else-if="expense.expensecategory_id == 6" class="timeline-icon bg-secondary" v-tooltip="expense.expensecategory.name">
+                              <i class="fa fa-motorcycle"></i>
+                          </div>
+                          <div v-else-if="expense.expensecategory_id == 7" class="timeline-icon bg-dark" v-tooltip="expense.expensecategory.name">
+                              <i class="fa fa-coffee"></i>
+                          </div>
+                          <div v-else class="timeline-icon bg-primary" v-tooltip="expense.expensecategory.name">
+                              <i class="fa fa-star"></i>
                           </div>
 
                           <div class="timeline-label shadow">
-                              <h2>
-                                <router-link :to="{ name: 'singleVendor', params: { id: duehistory.vendor.id, code: code }}" v-tooltip="duehistory.vendor.name +'-এর বিস্তারিত দেখুন'">
-                                  <b>{{ duehistory.vendor.name }}</b>
-                                </router-link>
-                                <span></span>
-                              </h2>
-                              <span>
-                                <big v-if="duehistory.transaction_type == 0" class="text-red"><b>দেনা</b></big> 
-                                <big v-else class="text-green"><b>পরিশোধ</b></big> 
-                              | পরিমাণঃ {{ duehistory.amount }} ৳</span><br/>
-                              <span class="text-muted"><i class="fa fa-calendar"></i> {{ duehistory.created_at | datetime }}</span>
+                              <span v-if="expense.expensecategory_id == 1">
+                                <big class="text-secondary">{{ expense.expensecategory.name }}</big> |
+                                <span class="text-green"><b>{{ expense.staff.name }}</b></span>
+                                | পরিমাণঃ <b>{{ expense.amount }}</b> ৳</span>
+                              <span v-else><big class="text-secondary">{{ expense.expensecategory.name }}</big> | পরিমাণঃ <b>{{ expense.amount }}</b> ৳</span><br/>
+                              <span class="text-muted"><i class="fa fa-calendar"></i> {{ expense.created_at | datetime }}</span>
                           </div>
                       </div>
                   </article>
@@ -139,7 +147,7 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                <pagination :data="duehistories" @pagination-change-page="getPaginationDuehistories"></pagination>
+                <pagination :data="expensehistories" @pagination-change-page="getPaginationExpensehistories"></pagination>
               </div>
             </div>
             <!-- /.card -->
@@ -215,8 +223,8 @@
     export default {
         data () {
             return {
-              vendors: {},
-              duehistories: {},
+              expenses: {},
+              expensehistories: {},
               maxpayable: 0,
               code: this.$route.params.code,
               // Create a new form instance
@@ -232,6 +240,13 @@
             }
         },
         methods: {
+            addModal() {
+                this.form.reset();
+                $('#addModal').modal({ show: true, backdrop: 'static', keyboard: false });
+
+                // this.loadCategories();
+                // this.loadStaff();
+            },
             editModal(vendor) {
                 this.form.reset(); // clears fields
                 this.form.clear(); // clears errors
@@ -241,16 +256,16 @@
                 this.maxpayable = vendor.current_due;             
             },
             
-            loadDues() {
+            loadExpenses() {
                 if(this.$gate.isAdminOrAssociated('due-page', this.$route.params.code)){
-                  axios.get('/api/load/vendor/due/' + this.$route.params.code).then(({ data }) => (this.vendors = data));  
+                  axios.get('/api/load/expense/' + this.$route.params.code).then(({ data }) => (this.expenses = data));  
                 }
             },
             updateVendor() {
                 this.$Progress.start();
                 this.form.put('/api/load/vendor/pay/due/'+ this.form.id).then(() => {
                   $('#addModal').modal('hide')
-                  Fire.$emit('AfterVendorsUpdated')
+                  Fire.$emit('AfterExpensesCreatedOrUpdated')
                   toast.fire({
                     type: 'success',
                     title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
@@ -279,7 +294,7 @@
                           'এই মুহূর্তে ডিলেট বন্ধ আছে!',
                           'success'
                           )
-                         Fire.$emit('AfterVendorsUpdated')
+                         Fire.$emit('AfterExpensesCreatedOrUpdated')
                        })
                        .catch(() => {
                          swal('Failed!', 'There was something wrong', 'warning');
@@ -289,34 +304,34 @@
                 })
             },
             getPaginationResults(page = 1) {
-              axios.get('/api/load/vendor/due/' + this.$route.params.code + '?page=' + page)
+              axios.get('/api/load/expense/' + this.$route.params.code + '?page=' + page)
               .then(response => {
-                this.vendors = response.data;
+                this.expenses = response.data;
               });
             },
-            loadDuehistories() {
+            loadExpensehistories() {
               if(this.$gate.isAdminOrAssociated('due-page', this.$route.params.code)){
-                axios.get('/api/load/duehistory/' + this.$route.params.code).then(({ data }) => (this.duehistories = data));  
+                axios.get('/api/load/expense/history/' + this.$route.params.code).then(({ data }) => (this.expensehistories = data));  
               }
             },
-            getPaginationDuehistories(page = 1) {
-              axios.get('/api/load/duehistory/' + this.$route.params.code + '?page=' + page)
+            getPaginationExpensehistories(page = 1) {
+              axios.get('/api/load/expense/history/' + this.$route.params.code + '?page=' + page)
               .then(response => {
-                this.duehistories = response.data;
+                this.expensehistories = response.data;
               });
             },
         },
         created() {
-            this.loadDues();
-            this.loadDuehistories();
+            this.loadExpenses();
+            this.loadExpensehistories();
             
-            Fire.$on('AfterVendorsUpdated', () => {
-                this.loadDues();
-                this.loadDuehistories();
+            Fire.$on('AfterExpensesCreatedOrUpdated', () => {
+                this.loadExpenses();
+                this.loadExpensehistories();
             });
             Fire.$on('changingstorename', () => {
-                this.loadDues();
-                this.loadDuehistories();
+                this.loadExpenses();
+                this.loadExpensehistories();
             });
 
             Fire.$on('searching', () => {
@@ -324,19 +339,19 @@
                 if(query != '') {
                   axios.get('/api/searchvendor/' + query)
                   .then((data) => {
-                    this.vendors = data.data;
+                    this.expenses = data;
                   })
                   .catch(() => {
 
                   })
                 } else {
-                  this.loadDues();
+                  this.loadExpenses();
                 }
                 
             });
         },
         beforeDestroy() {
-          Fire.$off('AfterVendorsUpdated')
+          Fire.$off('AfterExpensesCreatedOrUpdated')
           Fire.$off('changingstorename')
           // Fire.$off('searching')
         }

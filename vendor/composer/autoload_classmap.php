@@ -10,6 +10,7 @@ return array(
     'App\\Customer' => $baseDir . '/app/Customer.php',
     'App\\Duehistory' => $baseDir . '/app/Duehistory.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
+    'App\\Expense' => $baseDir . '/app/Expense.php',
     'App\\Expensecategory' => $baseDir . '/app/Expensecategory.php',
     'App\\Http\\Controllers\\API\\CustomerController' => $baseDir . '/app/Http/Controllers/API/CustomerController.php',
     'App\\Http\\Controllers\\API\\ProductController' => $baseDir . '/app/Http/Controllers/API/ProductController.php',
