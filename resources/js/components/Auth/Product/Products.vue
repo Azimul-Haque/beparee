@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-       <div class="content-header" v-if="$gate.isAuthorized('store-crud')">
+       <div class="content-header" v-if="$gate.isAdminOrAssociated('product-page', this.$route.params.code)">
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
@@ -18,7 +18,7 @@
       <!-- Header content -->
       
       <!-- /.content-header -->
-      <div class="container-fluid" v-if="$gate.isAuthorized('product-page')">
+      <div class="container-fluid" v-if="$gate.isAdminOrAssociated('product-page', this.$route.params.code)">
         <div class="row">
           <div class="col-md-9">
             <!-- <img src="images/click_here_2li1.svg" style="max-height: 200px;"> -->
@@ -58,7 +58,7 @@
                   <tr v-for="product in products.data" :key="product.id">
                     <!-- <td>{{ product.id }}</td> -->
                     <td>
-                      <router-link :to="{ name: 'singleProduct', params: { id: product.id, code: code }}" v-tooltip="product.name +'-এর বিস্তারিত দেখুন'">
+                      <router-link :to="{ name: 'singleProduct', params: { id: product.id, code: code }}" v-tooltip="'বিস্তারিত দেখুন'">
                         {{ product.name }}
                       </router-link>
                       <br/>
@@ -74,7 +74,7 @@
                       <big><b>{{ product.stocks | totalquantity }}</b></big> {{ product.unit }}
                     </td>
                     <td>
-                        <router-link :to="{ name: 'singleProduct', params: { id: product.id, code: code }}" class="btn btn-info btn-sm" v-tooltip="product.name +'-এর বিস্তারিত দেখুন'">
+                        <router-link :to="{ name: 'singleProduct', params: { id: product.id, code: code }}" class="btn btn-info btn-sm" v-tooltip="'বিস্তারিত দেখুন'">
                           <i class="fa fa-eye"></i>
                         </router-link>
                         <button type="button" class="btn btn-success btn-sm" @click="editProductModal(product)" v-tooltip="'পণ্য সম্পাদনা করুন'">
@@ -302,7 +302,7 @@
           </div>
         </div>
       </div><!-- /.container-fluid -->
-      <div v-if="!$gate.isAuthorized('product-page')">
+      <div v-if="!$gate.isAdminOrAssociated('product-page', this.$route.params.code)">
           <forbidden-403></forbidden-403>
       </div>
     </div>
@@ -381,12 +381,12 @@
                 this.categoryform.fill(category);                
             },
             loadVendors() {
-                if(this.$gate.isAuthorized('product-page')){
+                if(this.$gate.isAdminOrAssociated('product-page', this.$route.params.code)){
                   axios.get('/api/load/product/vendor/' + this.$route.params.code).then(({ data }) => (this.vendors = data));  
                 }
             },
             loadProducts() {
-                if(this.$gate.isAuthorized('product-page')){
+                if(this.$gate.isAdminOrAssociated('product-page', this.$route.params.code)){
                   axios.get('/api/load/product/' + this.$route.params.code).then(({ data }) => (this.products = data));
                 }
             },
@@ -469,7 +469,7 @@
               });
             },
             loadCategories() {
-                if(this.$gate.isAuthorized('product-page')){
+                if(this.$gate.isAdminOrAssociated('product-page', this.$route.params.code)){
                   axios.get('/api/product/category/' + this.$route.params.code).then(({ data }) => (this.categories = data));  
                 }
             },

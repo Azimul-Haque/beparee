@@ -5,6 +5,7 @@ use App\Permission;
 use App\Role;
 use App\Store;
 use App\User;
+use App\Expensecategory;
 use Illuminate\Support\Facades\Hash;
 
 class EntrustTableDataSeeder extends Seeder
@@ -83,11 +84,16 @@ class EntrustTableDataSeeder extends Seeder
                 'name' => 'due-page',
                 'display_name' => 'Due CRUD',
                 'description' => 'Due Crud Permission'
-            ],,
+            ],
             [
                 'name' => 'staff-page',
                 'display_name' => 'Staff CRUD',
                 'description' => 'Staff Crud Permission'
+            ],
+            [
+                'name' => 'customer-page',
+                'display_name' => 'Customer CRUD',
+                'description' => 'Customer Crud Permission'
             ],
         ];
 
@@ -185,6 +191,53 @@ class EntrustTableDataSeeder extends Seeder
 
         foreach ($user as $key => $value) {
           User::create($value);
+        }
+
+        $expensecategory = [
+          [
+            'store_id' => null,
+            'type' => 0,
+            'name' => 'বেতন'
+          ],
+          [
+            'store_id' => null,
+            'type' => 0,
+            'name' => 'বিদ্যুৎ বিল'
+          ],
+          [
+            'store_id' => null,
+            'type' => 0,
+            'name' => 'গ্যাস বিল'
+          ],
+          [
+            'store_id' => null,
+            'type' => 0,
+            'name' => 'পণ্য পরিবহন খরচ'
+          ],
+          [
+            'store_id' => null,
+            'type' => 0,
+            'name' => 'দোকান ভাড়া'
+          ],
+          [
+            'store_id' => null,
+            'type' => 0,
+            'name' => 'পরিবহন'
+          ],
+          [
+            'store_id' => null,
+            'type' => 0,
+            'name' => 'আপ্যায়ন'
+          ],
+          [
+            'store_id' => null,
+            'type' => 0,
+            'name' => 'অন্যান্য'
+          ]
+        ];
+
+        foreach ($expensecategory as $key => $value) {
+          Expensecategory::create($value);
         }
         
     }

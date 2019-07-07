@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-      <div class="content-header" v-if="$gate.isAuthorized('vendor-page')">
+      <div class="content-header" v-if="$gate.isAdminOrAssociated('vendor-page', this.$route.params.code)">
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
@@ -19,7 +19,7 @@
       <!-- Header content -->
       
       <!-- /.content-header -->
-      <div class="container-fluid" v-if="$gate.isAuthorized('vendor-page')">
+      <div class="container-fluid" v-if="$gate.isAdminOrAssociated('vendor-page', this.$route.params.code)">
         <div class="row">
           <div class="col-md-3">
             <div class="card">
@@ -170,7 +170,7 @@
           </div>
         </div>
       </div>
-      <div v-if="!$gate.isAuthorized('vendor-page')">
+      <div v-if="!$gate.isAdminOrAssociated('vendor-page', this.$route.params.code)">
           <forbidden-403></forbidden-403>
       </div>
     </div>
@@ -199,7 +199,7 @@
         },
         methods: {
             loadVendor() {
-                if(this.$gate.isAuthorized('vendor-page')){
+                if(this.$gate.isAdminOrAssociated('vendor-page', this.$route.params.code)){
                   axios.get('/api/load/single/vendor/' + this.$route.params.id + '/' + this.$route.params.code).then(({ data }) => (
                     this.vendor = data,
                     this.duehistories = _.orderBy(data.duehistories, 'id', 'desc')
@@ -235,7 +235,10 @@
                         var markup = '';
                         if(stocks) {
                           for(var i=0; i<stocks.length; i++) {
-                            purchases.push(stocks[i].purchase);
+                            // if the purchase_id is null (default product stocked), then ignore
+                            if(stocks[i].purchase_id != null) {
+                              purchases.push(stocks[i].purchase);
+                            }
                           }
                         }
                         // uniquify array of OBJECTS, then orders it, it's lodash!

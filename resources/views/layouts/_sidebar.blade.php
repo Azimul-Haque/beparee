@@ -33,7 +33,7 @@
               </p>
             </router-link>
           </li>
-          @permission('product-page')
+          @permission('user-crud') {{-- eta pore admin section name e ekta permiossion korte hobe --}}
             <li class="nav-item has-treeview @if(Request::url() == url('/users') | Request::url() == url('/roles') | Request::url() == url('/stores')) menu-open @endif" {{-- :class="{'menu-open':menuselected == 1}" --}}>
               <a href="#" class="nav-link {{-- active --}}" {{-- @click="menuselected = 1" --}}>
                 <i class="nav-icon fa fa-wrench"></i>
@@ -92,7 +92,7 @@
           <li class="nav-item-separator"></li>
           
           @foreach(Auth::user()->stores as $stores_for_nav)
-            <li class="nav-item has-treeview @if(Request::url() == url('/store/'.$stores_for_nav->token.'/'.$stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/products/'.$stores_for_nav->code)) menu-open @endif @if(Request::is('product/*/' . $stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/purchases/'.$stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/dues/'.$stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/vendors/'.$stores_for_nav->code)) menu-open @endif @if(Request::is('vendor/*/' . $stores_for_nav->code)) menu-open @endif @if(Request::is('staffs/' . $stores_for_nav->code)) menu-open @endif" {{-- :class="{'menu-open':menuselected == 2}" --}}>
+            <li class="nav-item has-treeview @if(Request::url() == url('/store/'.$stores_for_nav->token.'/'.$stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/products/'.$stores_for_nav->code)) menu-open @endif @if(Request::is('product/*/' . $stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/purchases/'.$stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/dues/'.$stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/vendors/'.$stores_for_nav->code)) menu-open @endif @if(Request::is('vendor/*/' . $stores_for_nav->code)) menu-open @endif @if(Request::is('customers/' . $stores_for_nav->code)) menu-open @endif @if(Request::is('customer/*/' . $stores_for_nav->code)) menu-open @endif @if(Request::is('staffs/' . $stores_for_nav->code)) menu-open @endif" {{-- :class="{'menu-open':menuselected == 2}" --}}>
               <a href="#" class="nav-link {{-- active --}}" {{-- @click="menuselected = 2" --}}>
                 <i class="nav-icon fa fa-university"></i>
                 <p>
@@ -101,7 +101,7 @@
                 </p>
               </a>
               <ul class="nav nav-treeview">
-                @permission('store-crud')
+                @permission('store-profile')
                 <li class="nav-item">
                   <router-link :to="{ name: 'singleStore', params: { token: '{{ $stores_for_nav->token }}', code: '{{ $stores_for_nav->code }}' }}" class="nav-link" @click.native="changeStoreName" @mobile data-widget="pushmenu" @endmobile>
                     <i class="nav-icon fa fa-address-card-o"></i>
@@ -115,7 +115,7 @@
                 @endpermission
                 @permission('product-page')
                 <li class="nav-item">
-                  <router-link :to="{ name: 'productsPage', params: { code: '{{ $stores_for_nav->code }}' }}" class="nav-link @if(Request::is('product/*/' . $stores_for_nav->code)) router-link-exact-active router-link-active @endif" @mobile data-widget="pushmenu" @endmobile>
+                  <router-link :to="{ name: 'productsPage', params: { code: '{{ $stores_for_nav->code }}' }}" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
                     <i class="nav-icon fa fa-cubes"></i>
                     <p>মালামাল তালিকা</p>
                   </router-link> 
@@ -147,11 +147,14 @@
                     <i class="nav-icon fa fa-plus"></i><p>লেন-দেন হিসাব</p>
                   </a>
                 </li>
+                @permission('customer-page')
                 <li class="nav-item">
-                  <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
-                    <i class="nav-icon fa fa-plus"></i><p>কাস্টমার তালিকা</p>
-                  </a>
+                  <router-link :to="{ name: 'customersPage', params: { code: '{{ $stores_for_nav->code }}' }}" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                    <i class="nav-icon fa fa-users"></i>
+                    <p>কাস্টমার তালিকা</p>
+                  </router-link> 
                 </li>
+                @endpermission
                 @permission('staff-page')
                 <li class="nav-item">
                   <router-link :to="{ name: 'staffsPage', params: { code: '{{ $stores_for_nav->code }}' }}" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
@@ -167,7 +170,7 @@
                 </li>
                 @permission('vendor-page')
                 <li class="nav-item">
-                  <router-link :to="{ name: 'vendorsPage', params: { code: '{{ $stores_for_nav->code }}' }}" class="nav-link @if(Request::is('vendor/*/' . $stores_for_nav->code)) router-link-exact-active router-link-active @endif" @click.native="changeStoreName" @mobile data-widget="pushmenu" @endmobile>
+                  <router-link :to="{ name: 'vendorsPage', params: { code: '{{ $stores_for_nav->code }}' }}" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
                     <i class="nav-icon fa fa-truck"></i>
                     <p>ডিলার/ ভেন্ডরের তালিকা</p>
                   </router-link> 

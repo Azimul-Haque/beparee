@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-       <div class="content-header" v-if="$gate.isAuthorized('purchase-page')">
+       <div class="content-header" v-if="$gate.isAdminOrAssociated('purchase-page', this.$route.params.code)">
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
@@ -18,7 +18,7 @@
       <!-- Header content -->
       
       <!-- /.content-header -->
-      <div class="container-fluid" v-if="$gate.isAuthorized('purchase-page')">
+      <div class="container-fluid" v-if="$gate.isAdminOrAssociated('purchase-page', this.$route.params.code)">
         <div class="row">
           <div class="col-md-12">
             <div class="card">
@@ -248,7 +248,7 @@
           </div>
         </div>
       </div><!-- /.container-fluid -->
-      <div v-if="!$gate.isAuthorized('purchase-page')">
+      <div v-if="!$gate.isAdminOrAssociated('purchase-page', this.$route.params.code)">
           <forbidden-403></forbidden-403>
       </div>
     </div>
@@ -296,17 +296,17 @@
             this.loadVendors();
           },
           loadProducts() {
-            if(this.$gate.isAuthorized('purchase-page')){
+            if(this.$gate.isAdminOrAssociated('purchase-page', this.$route.params.code)){
               axios.get('/api/load/purchase/product/' + this.$route.params.code).then(({ data }) => (this.products = data));
             }
           },
           loadVendors() {
-            if(this.$gate.isAuthorized('purchase-page')){
+            if(this.$gate.isAdminOrAssociated('purchase-page', this.$route.params.code)){
               axios.get('/api/load/product/vendor/' + this.$route.params.code).then(({ data }) => (this.vendors = data));  
             }
           },
           loadPurchases() {
-            if(this.$gate.isAuthorized('purchase-page')){
+            if(this.$gate.isAdminOrAssociated('purchase-page', this.$route.params.code)){
               axios.get('/api/load/purchase/' + this.$route.params.code).then(({ data }) => (this.purchases = data));
             }
           },

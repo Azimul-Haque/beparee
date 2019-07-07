@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-       <div class="content-header" v-if="$gate.isAuthorized('vendor-page')">
+       <div class="content-header" v-if="$gate.isAdminOrAssociated('vendor-page', this.$route.params.code)">
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
@@ -18,7 +18,7 @@
       <!-- Header content -->
       
       <!-- /.content-header -->
-      <div class="container-fluid" v-if="$gate.isAuthorized('vendor-page')">
+      <div class="container-fluid" v-if="$gate.isAdminOrAssociated('vendor-page', this.$route.params.code)">
         <div class="row">
           <div class="col-md-12">
             <!-- <img src="images/click_here_2li1.svg" style="max-height: 200px;"> -->
@@ -57,17 +57,17 @@
                   <tr v-for="vendor in vendors.data" :key="vendor.id">
                     <!-- <td>{{ store.id }}</td> -->
                     <td>
-                      <router-link :to="{ name: 'singleVendor', params: { id: vendor.id, code: code }}" v-tooltip="vendor.name +'-এর বিস্তারিত দেখুন'">
+                      <router-link :to="{ name: 'singleVendor', params: { id: vendor.id, code: code }}" v-tooltip="'বিস্তারিত দেখুন'">
                         {{ vendor.name }}
                       </router-link>
                     </td>
                     <td>{{ vendor.address }}</td>
                     <td>{{ vendor.mobile }}</td>
                     <td>
-                        <router-link :to="{ name: 'singleVendor', params: { id: vendor.id, code: code }}" class="btn btn-info btn-sm" v-tooltip="vendor.name +'-এর বিস্তারিত দেখুন'">
+                        <router-link :to="{ name: 'singleVendor', params: { id: vendor.id, code: code }}" class="btn btn-info btn-sm" v-tooltip="'বিস্তারিত দেখুন'">
                           <i class="fa fa-eye"></i>
                         </router-link>
-                        <button type="button" class="btn btn-success btn-sm" @click="editModal(vendor)" v-tooltip="'ডিলার/ ভেন্ডর সম্পাদনা করুন'">
+                        <button type="button" class="btn btn-success btn-sm" @click="editModal(vendor)" v-tooltip="'সম্পাদনা করুন'">
                             <i class="fa fa-edit"></i>
                         </button><!-- 
                         <button @click="deleteVendor(vendor.id)" class="btn btn-danger btn-sm">
@@ -107,14 +107,14 @@
                     <has-error :form="form" field="name"></has-error>
                   </div>
                   <div class="form-group">
-                    <input v-model="form.address" type="text" name="address" placeholder="ঠিকানা" 
-                      class="form-control" :class="{ 'is-invalid': form.errors.has('address') }">
-                    <has-error :form="form" field="address"></has-error>
-                  </div>
-                  <div class="form-group">
                     <input v-model="form.mobile" type="number" name="mobile" placeholder="যোগাযোগের নম্বর" 
                       class="form-control" :class="{ 'is-invalid': form.errors.has('mobile') }" onkeypress="if(this.value.length==11) return false;">
                     <has-error :form="form" field="mobile"></has-error>
+                  </div>
+                  <div class="form-group">
+                    <input v-model="form.address" type="text" name="address" placeholder="ঠিকানা" 
+                      class="form-control" :class="{ 'is-invalid': form.errors.has('address') }">
+                    <has-error :form="form" field="address"></has-error>
                   </div>
                   <input type="hidden" v-model="form.code" name="code">
                 </div>
@@ -129,7 +129,7 @@
           </div>
         </div>
       </div><!-- /.container-fluid -->
-      <div v-if="!$gate.isAuthorized('vendor-page')">
+      <div v-if="!$gate.isAdminOrAssociated('vendor-page', this.$route.params.code)">
           <forbidden-403></forbidden-403>
       </div>
     </div>
@@ -169,7 +169,7 @@
             },
             
             loadVendors() {
-                if(this.$gate.isAuthorized('vendor-page')){
+                if(this.$gate.isAdminOrAssociated('vendor-page', this.$route.params.code)){
                   axios.get('/api/load/vendor/' + this.$route.params.code).then(({ data }) => (this.vendors = data));  
                 }
             },

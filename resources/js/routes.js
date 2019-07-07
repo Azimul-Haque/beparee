@@ -26,6 +26,9 @@ export const routes = [
 
   { path: '/staffs/:code', component: require('./components/Auth/Staff/Staffs.vue').default, meta: { title: 'কর্মচারী তালিকা'}, name: 'staffsPage'},
 
+  { path: '/customers/:code', component: require('./components/Auth/Customer/Customers.vue').default, meta: { title: 'কাস্টমার তালিকা'}, name: 'customersPage'},
+  { path: '/customer/:id/:code', component: require('./components/Auth/Customer/Customer.vue').default, meta: { title: 'কাস্টমার'}, name: 'singleCustomer'},
+
   { path: '*', component: require('./components/404.vue').default, meta: { title: '404 Not Found'} },
 
 ];

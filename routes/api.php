@@ -59,6 +59,10 @@ Route::get('load/purchase/product/{code}', 'API\PurchaseController@loadProducts'
 Route::apiResources(['staff' => 'API\StaffController']);
 Route::get('load/staff/{code}', 'API\StaffController@loadStaffs');
 
+Route::apiResources(['customer' => 'API\CustomerController']);
+Route::get('load/customer/{code}', 'API\CustomerController@loadCustomers');
+Route::get('load/single/customer/{id}/{code}', 'API\CustomerController@loadSingleCustomer');
+
 // each search function has a big bug, it does not filters user's stores!!!
 // each search function has a big bug, it does not filters user's stores!!!
 // each search function has a big bug, it does not filters user's stores!!!
@@ -70,3 +74,4 @@ Route::get('searchproduct/{query}', 'API\ProductController@searchProduct');
 Route::get('searchpurchase/{query}', 'API\PurchaseController@searchPurchase');
 Route::get('searchvendor/{query}', 'API\VendorController@searchVendor');
 Route::get('searchstaff/{query}', 'API\StaffController@searchStaff');
+Route::get('searchcustomer/{query}', 'API\CustomerController@searchCustomer');

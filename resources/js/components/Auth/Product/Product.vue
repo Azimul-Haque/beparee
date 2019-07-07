@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-      <div class="content-header" v-if="$gate.isAuthorized('product-page')">
+      <div class="content-header" v-if="$gate.isAdminOrAssociated('product-page', this.$route.params.code)">
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
@@ -19,7 +19,7 @@
       <!-- Header content -->
       
       <!-- /.content-header -->
-      <div class="container-fluid" v-if="$gate.isAuthorized('product-page')">
+      <div class="container-fluid" v-if="$gate.isAdminOrAssociated('product-page', this.$route.params.code)">
         <div class="row">
           <div class="col-md-3">
             <div class="card">
@@ -134,7 +134,7 @@
           </div>
         </div>
       </div>
-      <div v-if="!$gate.isAuthorized('product-page')">
+      <div v-if="!$gate.isAdminOrAssociated('product-page', this.$route.params.code)">
           <forbidden-403></forbidden-403>
       </div>
     </div>
@@ -156,7 +156,7 @@
         },
         methods: {
             loadProduct() {
-                if(this.$gate.isAuthorized('product-page')){
+                if(this.$gate.isAdminOrAssociated('product-page', this.$route.params.code)){
                   axios.get('/api/load/single/product/' + this.$route.params.id + '/' + this.$route.params.code).then(({ data }) => (this.product = data));  
                 }
             },

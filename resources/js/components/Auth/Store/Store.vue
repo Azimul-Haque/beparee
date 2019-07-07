@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-      <div class="content-header" v-if="$gate.isShopOwnerOrAdmin('store-profile', this.$route.params.code)">
+      <div class="content-header" v-if="$gate.isAdminOrAssociated('store-profile', this.$route.params.code)">
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
@@ -18,13 +18,13 @@
       <!-- Header content -->
       
       <!-- /.content-header -->
-      <div class="container-fluid" v-if="$gate.isShopOwnerOrAdmin('store-profile', this.$route.params.code)">
+      <div class="container-fluid" v-if="$gate.isAdminOrAssociated('store-profile', this.$route.params.code)">
         <div class="row">
             <div class="col-md-6">
               <div class="card card-widget widget-user">
                 <!-- Add the bg color to the header using any of the bg-* classes -->
                 <div class="widget-user-header bg-info-active" style="background: url('/images/storecover.jpg') center center;">
-                  <p class="shadow" style="color: #FFFFFF; background: rgba(251, 251, 251, 0.35); padding: 5px;">{{ store.slogan }}</p>
+                  <p class="shadow text-light" style="background: rgba(251, 251, 251, 0.35); padding: 5px;">{{ store.slogan }}</p>
                 </div>
                 <div class="widget-user-image">
                   <img class="img-circle elevation-2" :src="getStoreMonogram(store.monogram)" alt="User Avatar">
@@ -96,7 +96,7 @@
             </div>
         </div>
       </div>
-      <div v-if="!$gate.isShopOwnerOrAdmin('store-profile', this.$route.params.code)">
+      <div v-if="!$gate.isAdminOrAssociated('store-profile', this.$route.params.code)">
           <forbidden-403></forbidden-403>
       </div>
     </div>
@@ -122,7 +122,7 @@
     },
     methods: {
       loadStore() {
-        if(this.$gate.isShopOwnerOrAdmin('store-profile', this.$route.params.code)){
+        if(this.$gate.isAdminOrAssociated('store-profile', this.$route.params.code)){
           axios.get('/api/load/store/'+ this.$route.params.code).then(({ data }) => (
             this.store = data,
 
@@ -153,12 +153,12 @@
       },
       getStoreMonogram(monogram) {
         if(monogram == null) {
-          return '/images/grocery.png';
+          return '/images/default_store.png';
         } else {
           if(monogram.length > 0) {
             return '/images/stores/' + monogram;
           } else {
-            return '/images/grocery.png';
+            return '/images/default_store.png';
           }
         }
       },
@@ -183,12 +183,12 @@
       },
       getMonogramOnEditCard() {
         if(this.form.monogram == null) {
-          return '/images/grocery.png';
+          return '/images/default_store.png';
         } else {
           if(this.form.monogram.length > 200) {
             return this.form.monogram;
           } else if(this.form.monogram.length == 0) {
-            return '/images/grocery.png';
+            return '/images/default_store.png';
           } else {
             return '/images/stores/' + this.form.monogram;
           }

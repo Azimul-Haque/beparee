@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-       <div class="content-header" v-if="$gate.isAuthorized('staff-page')">
+       <div class="content-header" v-if="$gate.isAdminOrAssociated('staff-page', this.$route.params.code)">
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
@@ -18,7 +18,7 @@
       <!-- Header content -->
       
       <!-- /.content-header -->
-      <div class="container-fluid" v-if="$gate.isAuthorized('staff-page')">
+      <div class="container-fluid" v-if="$gate.isAdminOrAssociated('staff-page', this.$route.params.code)">
         <div class="row">
           <div class="col-md-12">
             <!-- <img src="images/click_here_2li1.svg" style="max-height: 200px;"> -->
@@ -27,7 +27,7 @@
                 <h3 class="card-title">কর্মচারীগণ</h3>
 
                 <div class="card-tools">
-                  <button type="button" class="btn btn-primary btn-sm" @click="addModal">
+                  <button type="button" class="btn btn-primary btn-sm" @click="addModal" v-tooltip="'নতুন কর্মচারী যোগ করুন'">
                       <i class="fa fa-user-plus"></i>
                   </button> <!-- data-toggle="modal" data-target="#addModal" -->
                   <!-- <div class="input-group input-group-sm" style="width: 150px;">
@@ -62,7 +62,7 @@
                     <td><img :src="getStaffProfilePhoto(staff.image)" class="img-responsive" style="max-height: 50px; width: auto;"></td>
                     <td>{{ staff.created_at | date }}</td>
                     <td>
-                      <button type="button" class="btn btn-success btn-sm" @click="editModal(staff)">
+                      <button type="button" class="btn btn-success btn-sm" @click="editModal(staff)" v-tooltip="'সম্পাদনা করুন'">
                           <i class="fa fa-edit"></i>
                       </button>
                       <!-- <button @click="deleteStaff(staff.id)" class="btn btn-danger btn-sm">
@@ -132,7 +132,7 @@
           </div>
         </div>
       </div><!-- /.container-fluid -->
-      <div v-if="!$gate.isAuthorized('staff-page')">
+      <div v-if="!$gate.isAdminOrAssociated('staff-page', this.$route.params.code)">
           <forbidden-403></forbidden-403>
       </div>
     </div>
@@ -172,7 +172,7 @@
                 this.form.fill(staff);
             },
             loadStaffs() {
-                if(this.$gate.isAuthorized('staff-page')){
+                if(this.$gate.isAdminOrAssociated('staff-page', this.$route.params.code)){
                   axios.get('/api/load/staff/' + this.$route.params.code).then(({ data }) => (this.staffs = data));  
                 }
             },

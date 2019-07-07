@@ -27,7 +27,7 @@
                 <h3 class="card-title">Responsive Hover Table</h3>
 
                 <div class="card-tools">
-                  <button type="button" class="btn btn-primary btn-sm" @click="addStoreModal">
+                  <button type="button" class="btn btn-primary btn-sm" @click="addStoreModal" v-tooltip="'নতুন স্টোর যোগ করুন'">
                       <i class="fa fa-user-plus"></i>
                   </button> <!-- data-toggle="modal" data-target="#addStoreModal" -->
                   <!-- <div class="input-group input-group-sm" style="width: 150px;">
@@ -76,10 +76,10 @@
                     <td><img :src="getStoreMonogram(store.monogram)" class="img-responsive" style="max-height: 50px; width: auto;"></td>
                     <td>{{ store.created_at | date }}</td>
                     <td>
-                        <button type="button" class="btn btn-success btn-sm" @click="editStoreModal(store)">
+                        <button type="button" class="btn btn-success btn-sm" @click="editStoreModal(store)" v-tooltip="'সম্পাদনা করুন'">
                             <i class="fa fa-edit"></i>
                         </button>
-                        <button @click="deleteStore(store.id)" class="btn btn-danger btn-sm">
+                        <button @click="deleteStore(store.id)" class="btn btn-danger btn-sm" v-tooltip="'ডিলেট করুন'">
                             <i class="fa fa-trash"></i>
                         </button>
                     </td>
@@ -350,12 +350,12 @@
             },
             getMonogramOnModal() {
               if(this.form.monogram == null) {
-                return '/images/grocery.png';
+                return '/images/default_store.png';
               } else {
                 if(this.form.monogram.length > 200) {
                   return this.form.monogram;
                 } else if(this.form.monogram.length == 0) {
-                  return '/images/grocery.png';
+                  return '/images/default_store.png';
                 } else {
                   return '/images/stores/' + this.form.monogram;
                 }
@@ -363,12 +363,12 @@
             },
             getStoreMonogram(monogram) {
               if(monogram == null) {
-                return '/images/grocery.png';
+                return '/images/default_store.png';
               } else {
                 if(monogram.length > 0) {
                   return '/images/stores/' + monogram;
                 } else {
-                  return '/images/grocery.png';
+                  return '/images/default_store.png';
                 }
               }
             },

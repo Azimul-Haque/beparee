@@ -27,7 +27,7 @@
                 <h3 class="card-title">ব্যবহারকারীগণ</h3>
 
                 <div class="card-tools">
-                  <button type="button" class="btn btn-primary btn-sm" @click="addUserModal">
+                  <button type="button" class="btn btn-primary btn-sm" @click="addUserModal" v-tooltip="'নতুন ব্যবহারকারী যোগ করুন'">
                       <i class="fa fa-user-plus"></i>
                   </button> <!-- data-toggle="modal" data-target="#addUserModal" -->
                   <!-- <div class="input-group input-group-sm" style="width: 150px;">
@@ -68,10 +68,10 @@
                     </td>
                     <td>{{ user.created_at | date }}</td>
                     <td>
-                      <button type="button" class="btn btn-success btn-sm" @click="editUserModal(user)">
+                      <button type="button" class="btn btn-success btn-sm" @click="editUserModal(user)" v-tooltip="'সম্পাদনা করুন'">
                           <i class="fa fa-edit"></i>
                       </button>
-                      <button @click="deleteUser(user.id)" class="btn btn-danger btn-sm">
+                      <button @click="deleteUser(user.id)" class="btn btn-danger btn-sm" v-tooltip="'ডিলেট করুন'">
                           <i class="fa fa-trash"></i>
                       </button>
                     </td>

@@ -27,7 +27,7 @@
                 <h3 class="card-title">ধরন তালিকা</h3>
 
                 <div class="card-tools">
-                  <button type="button" class="btn btn-primary btn-sm" @click="addRole">
+                  <button type="button" class="btn btn-primary btn-sm" @click="addRole" v-tooltip="'নতুন ধরন যোগ করুন'">
                       <i class="fa fa-user-plus"></i>
                   </button> 
                 </div>
@@ -58,10 +58,10 @@
                     </td>
                     <!-- <td>{{ role.created_at | date }}</td> -->
                     <td>
-                      <button type="button" class="btn btn-success btn-sm" @click="editRole(role, role.permissions)">
+                      <button type="button" class="btn btn-success btn-sm" @click="editRole(role, role.permissions)" v-tooltip="'সম্পাদনা করুন'">
                           <i class="fa fa-edit"></i>
                       </button>
-                      <button @click="deleteRole(role.id)" class="btn btn-danger btn-sm">
+                      <button @click="deleteRole(role.id)" class="btn btn-danger btn-sm" v-tooltip="'ডিলেট করুন'">
                           <i class="fa fa-trash"></i>
                       </button>
                     </td>

@@ -7,10 +7,14 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
+    'App\\Customer' => $baseDir . '/app/Customer.php',
     'App\\Duehistory' => $baseDir . '/app/Duehistory.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
+    'App\\Expensecategory' => $baseDir . '/app/Expensecategory.php',
+    'App\\Http\\Controllers\\API\\CustomerController' => $baseDir . '/app/Http/Controllers/API/CustomerController.php',
     'App\\Http\\Controllers\\API\\ProductController' => $baseDir . '/app/Http/Controllers/API/ProductController.php',
     'App\\Http\\Controllers\\API\\PurchaseController' => $baseDir . '/app/Http/Controllers/API/PurchaseController.php',
+    'App\\Http\\Controllers\\API\\StaffController' => $baseDir . '/app/Http/Controllers/API/StaffController.php',
     'App\\Http\\Controllers\\API\\StoreController' => $baseDir . '/app/Http/Controllers/API/StoreController.php',
     'App\\Http\\Controllers\\API\\UserController' => $baseDir . '/app/Http/Controllers/API/UserController.php',
     'App\\Http\\Controllers\\API\\VendorController' => $baseDir . '/app/Http/Controllers/API/VendorController.php',

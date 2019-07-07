@@ -21,4 +21,8 @@ class Store extends Model
     public function products(){
         return $this->hasMany('App\Vendor');
     }
+
+    public function customers(){
+        return $this->hasMany('App\Customer');
+    }
 }

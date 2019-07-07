@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-       <div class="content-header" v-if="$gate.isAuthorized('due-page')">
+       <div class="content-header" v-if="$gate.isAdminOrAssociated('due-page', this.$route.params.code)">
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
@@ -18,7 +18,7 @@
       <!-- Header content -->
       
       <!-- /.content-header -->
-      <div class="container-fluid" v-if="$gate.isAuthorized('due-page')">
+      <div class="container-fluid" v-if="$gate.isAdminOrAssociated('due-page', this.$route.params.code)">
         <div class="row">
           <div class="col-md-8">
             <!-- <img src="images/click_here_2li1.svg" style="max-height: 200px;"> -->
@@ -61,7 +61,7 @@
                       <!-- <router-link :to="{ name: 'singleStore', params: { token: store.token, code: store.code }}">
                         {{ store.name }}
                       </router-link> -->
-                      <router-link :to="{ name: 'singleVendor', params: { id: vendor.id, code: code }}" v-tooltip="vendor.name +'-এর বিস্তারিত দেখুন'">
+                      <router-link :to="{ name: 'singleVendor', params: { id: vendor.id, code: code }}" v-tooltip="'বিস্তারিত দেখুন'">
                         {{ vendor.name }}
                       </router-link>
                       <br/>
@@ -72,7 +72,7 @@
                     <td><span class="badge badge-warning">{{ vendor.total_due }} ৳</span></td>
                     <td><span class="badge badge-primary">{{ vendor.total_due_paid }} ৳</span></td>
                     <td>
-                      <button type="button" class="btn btn-success btn-sm" @click="editModal(vendor)" v-tooltip="vendor.name+'-কে পরিশোধ করুন'">
+                      <button type="button" class="btn btn-success btn-sm" @click="editModal(vendor)" v-tooltip="'পরিশোধ করুন'">
                           <i class="fa fa-handshake-o"></i>
                       </button>
                     </td>
@@ -204,7 +204,7 @@
           </div>
         </div>
       </div><!-- /.container-fluid -->
-      <div v-if="!$gate.isAuthorized('due-page')">
+      <div v-if="!$gate.isAdminOrAssociated('due-page', this.$route.params.code)">
           <forbidden-403></forbidden-403>
       </div>
     </div>
@@ -242,7 +242,7 @@
             },
             
             loadDues() {
-                if(this.$gate.isAuthorized('due-page')){
+                if(this.$gate.isAdminOrAssociated('due-page', this.$route.params.code)){
                   axios.get('/api/load/vendor/due/' + this.$route.params.code).then(({ data }) => (this.vendors = data));  
                 }
             },
@@ -295,7 +295,7 @@
               });
             },
             loadDuehistories() {
-              if(this.$gate.isAuthorized('due-page')){
+              if(this.$gate.isAdminOrAssociated('due-page', this.$route.params.code)){
                 axios.get('/api/load/duehistory/' + this.$route.params.code).then(({ data }) => (this.duehistories = data));  
               }
             },

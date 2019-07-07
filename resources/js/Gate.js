@@ -53,7 +53,7 @@ export default class Gate{
         }
     }
 
-    isShopOwnerOrAdmin(permission, store){
+    isAdminOrAssociated(permission, store){
         // first check permission, then the shop... 
         if(this.permissions.includes(permission)) {
             if(this.roles.includes('superadmin')) {
