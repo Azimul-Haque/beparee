@@ -50,7 +50,7 @@
                     <th>ডিলার/ ভেন্ডরের নাম</th>
                     <th>ঠিকানা</th>
                     <th>যোগাযোগের নম্বর</th>
-                    <th width="15%">Action</th>
+                    <th width="15%">ক্রিয়াকলাপ</th>
                   </tr>
                  </thead>
                  <tbody>
@@ -157,13 +157,13 @@
             addModal() {
                 this.editmode = false;
                 this.form.reset();
-                $('#addModal').modal('show');
+                $('#addModal').modal({ show: true, backdrop: 'static', keyboard: false });
             },
             editModal(vendor) {
                 this.editmode = true;
                 this.form.reset(); // clears fields
                 this.form.clear(); // clears errors
-                $('#addModal').modal('show');
+                $('#addModal').modal({ show: true, backdrop: 'static', keyboard: false });
 
                 this.form.fill(vendor);                
             },

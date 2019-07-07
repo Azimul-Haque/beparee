@@ -24,7 +24,7 @@
             <!-- <img src="images/click_here_2li1.svg" style="max-height: 200px;"> -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Responsive Hover Table</h3>
+                <h3 class="card-title">ব্যবহারকারীগণ</h3>
 
                 <div class="card-tools">
                   <button type="button" class="btn btn-primary btn-sm" @click="addUserModal">
@@ -50,10 +50,10 @@
                     <th>ব্যবহারকারী</th>
                     <th>যোগাযোগ</th>
                     <th>ঠিকানা</th>
-                    <th>ভহবি</th>
+                    <th>ছবি</th>
                     <th>ধরণ (Role)</th>
                     <th>যোগদান</th>
-                    <th>Action</th>
+                    <th>ক্রিয়াকলাপ</th>
                   </tr>
                  </thead>
                  <tbody>
@@ -95,8 +95,8 @@
             <div class="modal-content">
               <!-- Modal Header -->
               <div class="modal-header">
-                <h4 v-show="editmode" class="modal-title" id="addUserModalLabel">Update User</h4>
-                <h4 v-show="!editmode" class="modal-title" id="addUserModalLabel">Add New User</h4>
+                <h4 v-show="editmode" class="modal-title" id="addUserModalLabel">ব্যবহারকারী হালনাগাদ করুন</h4>
+                <h4 v-show="!editmode" class="modal-title" id="addUserModalLabel">নতুন ব্যবহারকারী যোগ করুন</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
               </div>
               <form @submit.prevent="editmode ? updateUser() : createUser()" @keydown="form.onKeydown($event)">
@@ -113,7 +113,7 @@
                       <div class="col-md-6">
                         <div class="form-group">
                           <input v-model="form.mobile" type="text" name="mobile" placeholder="১১ ডিজিট মোবাইল নম্বর" 
-                            class="form-control" :class="{ 'is-invalid': form.errors.has('mobile') }">
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('mobile') }" onkeypress="if(this.value.length==11) return false;">
                           <has-error :form="form" field="mobile"></has-error>
                         </div>
                       </div>
@@ -159,9 +159,9 @@
                   </div>
                   <!-- Modal footer -->
                   <div class="modal-footer">
-                    <button v-show="editmode" type="submit" class="btn btn-success">Update</button>
-                    <button v-show="!editmode" type="submit" class="btn btn-success">Submit</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button v-show="editmode" type="submit" class="btn btn-success">হালনাগাদ করুন</button>
+                    <button v-show="!editmode" type="submit" class="btn btn-success">দাখিল করুন</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">ফিরে যান</button>
                   </div>
               </form>
             </div>

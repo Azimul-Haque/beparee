@@ -61,7 +61,10 @@
                       <!-- <router-link :to="{ name: 'singleStore', params: { token: store.token, code: store.code }}">
                         {{ store.name }}
                       </router-link> -->
-                      {{ vendor.name }} <br/>
+                      <router-link :to="{ name: 'singleVendor', params: { id: vendor.id, code: code }}" v-tooltip="vendor.name +'-এর বিস্তারিত দেখুন'">
+                        {{ vendor.name }}
+                      </router-link>
+                      <br/>
                       <small class="text-muted">{{ vendor.address }}</small>
                     </td>
                     <td>{{ vendor.total_purchase }}</td>
@@ -69,9 +72,9 @@
                     <td><span class="badge badge-warning">{{ vendor.total_due }} ৳</span></td>
                     <td><span class="badge badge-primary">{{ vendor.total_due_paid }} ৳</span></td>
                     <td>
-                        <button type="button" class="btn btn-success btn-sm" @click="editModal(vendor)" v-tooltip="vendor.name+'-কে পরিশোধ করুন'">
-                            <i class="fa fa-handshake-o"></i>
-                        </button>
+                      <button type="button" class="btn btn-success btn-sm" @click="editModal(vendor)" v-tooltip="vendor.name+'-কে পরিশোধ করুন'">
+                          <i class="fa fa-handshake-o"></i>
+                      </button>
                     </td>
                   </tr>
                   
@@ -108,29 +111,31 @@
               
               <div class="card-body p-2">
                 <div class="timeline-centered">
-                        <article class="timeline-entry" v-for="duehistory in duehistories.data" :key="duehistory.id">
-                            <div class="timeline-entry-inner">
-                                <div v-if="duehistory.transaction_type == 0" class="timeline-icon bg-danger" v-tooltip="'দেনা'">
-                                    <i class="fa fa-hourglass-o"></i>
-                                </div>
-                                <div v-else class="timeline-icon bg-primary" v-tooltip="'পরিশোধ'">
-                                    <i class="fa fa-handshake-o"></i>
-                                </div>
+                  <article class="timeline-entry" v-for="duehistory in duehistories.data" :key="duehistory.id">
+                      <div class="timeline-entry-inner">
+                          <div v-if="duehistory.transaction_type == 0" class="timeline-icon bg-danger" v-tooltip="'দেনা'">
+                              <i class="fa fa-hourglass-o"></i>
+                          </div>
+                          <div v-else class="timeline-icon bg-primary" v-tooltip="'পরিশোধ'">
+                              <i class="fa fa-handshake-o"></i>
+                          </div>
 
-                                <div class="timeline-label shadow">
-                                    <h2>
-                                      <a href="#"><b>{{ duehistory.vendor.name }}</b></a> 
-                                      <span></span>
-                                    </h2>
-                                    <span>
-                                      <big v-if="duehistory.transaction_type == 0" class="text-red"><b>দেনা</b></big> 
-                                      <big v-else class="text-green"><b>পরিশোধ</b></big> 
-                                    | পরিমাণঃ {{ duehistory.amount }} ৳</span><br/>
-                                    <span class="text-muted">{{ duehistory.created_at | datetime }}</span>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
+                          <div class="timeline-label shadow">
+                              <h2>
+                                <router-link :to="{ name: 'singleVendor', params: { id: duehistory.vendor.id, code: code }}" v-tooltip="duehistory.vendor.name +'-এর বিস্তারিত দেখুন'">
+                                  <b>{{ duehistory.vendor.name }}</b>
+                                </router-link>
+                                <span></span>
+                              </h2>
+                              <span>
+                                <big v-if="duehistory.transaction_type == 0" class="text-red"><b>দেনা</b></big> 
+                                <big v-else class="text-green"><b>পরিশোধ</b></big> 
+                              | পরিমাণঃ {{ duehistory.amount }} ৳</span><br/>
+                              <span class="text-muted">{{ duehistory.created_at | datetime }}</span>
+                          </div>
+                      </div>
+                  </article>
+                </div>
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
@@ -147,8 +152,7 @@
             <div class="modal-content">
               <!-- Modal Header -->
               <div class="modal-header">
-                <h4 v-show="editmode" class="modal-title" id="addModalLabel">বকেয়া পরিশোধ করুন</h4>
-                <h4 v-show="!editmode" class="modal-title" id="addModalLabel">নতুন ডিলার/ ভেন্ডর যোগ করুন</h4>
+                <h4 class="modal-title" id="addModalLabel">বকেয়া পরিশোধ করুন</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
               </div>
               <form @submit.prevent="updateVendor()" @keydown="form.onKeydown($event)">
@@ -192,8 +196,7 @@
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                  <button v-show="editmode" type="submit" class="btn btn-success">হালনাগাদ করুন</button>
-                  <button v-show="!editmode" type="submit" class="btn btn-success">দাখিল করুন</button>
+                  <button type="submit" class="btn btn-success">দাখিল করুন</button>
                   <button type="button" class="btn btn-danger" data-dismiss="modal">ফিরে যান</button>
                 </div>
               </form>
@@ -215,6 +218,7 @@
               vendors: {},
               duehistories: {},
               maxpayable: 0,
+              code: this.$route.params.code,
               // Create a new form instance
               form: new Form({
                 id: '',
@@ -224,20 +228,14 @@
                 remark: '',
                 code: this.$route.params.code,
               }),
-              editmode: false
+              // editmode: false
             }
         },
         methods: {
-            addModal() {
-                this.editmode = false;
-                this.form.reset();
-                $('#addModal').modal('show');
-            },
             editModal(vendor) {
-                this.editmode = true;
                 this.form.reset(); // clears fields
                 this.form.clear(); // clears errors
-                $('#addModal').modal('show');
+                $('#addModal').modal({ show: true, backdrop: 'static', keyboard: false });
 
                 this.form.fill(vendor); 
                 this.maxpayable = vendor.current_due;             

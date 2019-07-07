@@ -169,4 +169,22 @@ class VendorController extends Controller
 
         return response()->json($vendors);
     }
+
+    public function loadSingleVendor($id, $code)
+    {
+        $vendor = Vendor::findOrFail($id);
+        $vendor->load('duehistories');
+        $vendor->load('stocks')->load('stocks.product', 'stocks.purchase');
+
+        $store = Store::where('code', $code)->first();
+        if($store) {
+           if($store->id != $vendor->store_id) {
+               $vendor = null;
+           } 
+        } else {
+            $vendor = null;
+        }
+
+        return response()->json($vendor);
+    }
 }

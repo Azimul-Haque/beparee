@@ -320,7 +320,7 @@
             }
             let unique = [...new Set(vendors)];
             unique.map(function(value, key) {
-              markup += '<span class="badge badge-pill badge-info"> '+ value +' </span>'
+              markup += '<span class="badge badge-pill badge-info"> '+ value +'</span>'
             });
             return markup;
           },

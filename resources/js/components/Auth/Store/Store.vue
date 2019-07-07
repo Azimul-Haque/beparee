@@ -165,7 +165,6 @@
       uploadMonogram(e) {
         let file = e.target.files[0];
         this.imgfiletext = file.name;
-        console.log(this.imgfiletext);
         let reader = new FileReader();
         if((file['size'] / 1024) > 250) {
           swal.fire(

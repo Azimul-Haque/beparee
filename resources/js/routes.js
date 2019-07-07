@@ -23,6 +23,9 @@ export const routes = [
   { path: '/vendor/:id/:code', component: require('./components/Auth/Vendor/Vendor.vue').default, meta: { title: 'ডিলার/ ভেন্ডর'}, name: 'singleVendor'},
   { path: '/dues/:code', component: require('./components/Auth/Due/Dues.vue').default, meta: { title: 'দেনার হিসাব'}, name: 'duesPage'},
 
+
+  { path: '/staffs/:code', component: require('./components/Auth/Staff/Staffs.vue').default, meta: { title: 'কর্মচারী তালিকা'}, name: 'staffsPage'},
+
   { path: '*', component: require('./components/404.vue').default, meta: { title: '404 Not Found'} },
 
 ];

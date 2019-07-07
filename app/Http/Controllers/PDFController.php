@@ -22,6 +22,6 @@ class PDFController extends Controller
 
         $pdf = PDF::loadView('dashboard.purchase.pdf.receipt', ['purchase' => $purchase, 'anysinglestock' => $anysinglestock]);
         $fileName = 'Purchase_Receipt_' . $purchase->code . '.pdf';
-        return $pdf->stream($fileName);
+        return $pdf->download($fileName);
     }
 }

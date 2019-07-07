@@ -446,6 +446,7 @@ class ComposerStaticInitd74bd490cc4c8b8743736c14ad6241e3
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\Purchase' => __DIR__ . '/../..' . '/app/Purchase.php',
         'App\\Role' => __DIR__ . '/../..' . '/app/Role.php',
+        'App\\Staff' => __DIR__ . '/../..' . '/app/Staff.php',
         'App\\Stock' => __DIR__ . '/../..' . '/app/Stock.php',
         'App\\Store' => __DIR__ . '/../..' . '/app/Store.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',

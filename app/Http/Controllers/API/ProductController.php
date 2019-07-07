@@ -236,9 +236,14 @@ class ProductController extends Controller
         $product->load('stocks')->load('stocks.vendor');
 
         $store = Store::where('code', $code)->first();
-        if($store->id != $product->store_id) {
+        if($store) {
+           if($store->id != $product->store_id) {
+               $product = null;
+           } 
+        } else {
             $product = null;
         }
+        
         return response()->json($product);
     }
     

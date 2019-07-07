@@ -44,7 +44,7 @@
                     <th>ডিসপ্লে নাম</th>
                     <th>বিবরণ</th>
                     <th>অনুমতিসমূহ</th>
-                    <th width="15%">Action</th>
+                    <th width="15%">ক্রিয়াকলাপ</th>
                   </tr>
                  </thead>
                  <tbody>

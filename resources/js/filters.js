@@ -34,3 +34,7 @@ Vue.filter('totalquantity', function(data) {
   }
   return totalquantity;
 })
+
+// Vue.filter('reverse', function(array) {
+// 	return array.slice().reverse()
+// })

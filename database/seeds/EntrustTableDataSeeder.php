@@ -83,6 +83,11 @@ class EntrustTableDataSeeder extends Seeder
                 'name' => 'due-page',
                 'display_name' => 'Due CRUD',
                 'description' => 'Due Crud Permission'
+            ],,
+            [
+                'name' => 'staff-page',
+                'display_name' => 'Staff CRUD',
+                'description' => 'Staff Crud Permission'
             ],
         ];
 

@@ -55,7 +55,7 @@
                     <th>পেমেন্ট স্ট্যাটাস</th>
                     <th>মনোগ্রাম</th>
                     <th>যোগদান</th>
-                    <th width="15%">Action</th>
+                    <th width="15%">ক্রিয়াকলাপ</th>
                   </tr>
                  </thead>
                  <tbody>

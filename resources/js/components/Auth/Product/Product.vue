@@ -28,8 +28,9 @@
                   <h5 class="card-title" style="border-bottom: 1px solid #fff;">{{ product.name }}</h5>
                   <p class="card-text">
                     <b>ব্র্যান্ড/ মার্কাঃ</b> {{ product.brand }} <br/>
-                    <b>ধরণঃ</b> <span v-if="product.productcategory">{{ product.productcategory.name }}</span>
-                          <span v-else>loading...</span><br/>
+                    <b>ধরণঃ</b> 
+                      <span v-if="product.productcategory">{{ product.productcategory.name }}</span>
+                      <span v-else>লোড হচ্ছে...</span><br/>
                     <b>কোডঃ</b> {{ product.sku }}<br/>
                     <b>এককঃ</b> {{ product.unit }}<br/>
                   </p>
@@ -162,7 +163,7 @@
             editModal(stock) {
                 this.form.reset(); // clears fields
                 this.form.clear(); // clears errors
-                $('#addModal').modal('show');
+                $('#addModal').modal({ show: true, backdrop: 'static', keyboard: false });
 
                 this.form.fill(stock);                
             },
@@ -220,21 +221,21 @@
                 this.loadProduct();
             });
 
-            Fire.$on('searching', () => {
-                let query = this.$parent.search;
-                if(query != '') {
-                  axios.get('/api/searchstore/' + query)
-                  .then((data) => {
-                    this.product = data.data;
-                  })
-                  .catch(() => {
+            // Fire.$on('searching', () => {
+            //     let query = this.$parent.search;
+            //     if(query != '') {
+            //       axios.get('/api/searchstore/' + query)
+            //       .then((data) => {
+            //         this.product = data.data;
+            //       })
+            //       .catch(() => {
 
-                  })
-                } else {
-                  this.loadVendors();
-                }
+            //       })
+            //     } else {
+            //       this.loadVendors();
+            //     }
                 
-            });
+            // });
         },
         beforeDestroy() {
           Fire.$off('AfterProductStockUpdated')

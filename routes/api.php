@@ -13,9 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::apiResources(['user' => 'API\UserController']);
 
@@ -47,6 +47,7 @@ Route::put('product/category/update/{code}', 'API\ProductController@updateCatego
 
 Route::apiResources(['vendor' => 'API\VendorController']);
 Route::get('load/vendor/{code}', 'API\VendorController@loadVendors');
+Route::get('load/single/vendor/{id}/{code}', 'API\VendorController@loadSingleVendor');
 Route::get('load/vendor/due/{code}', 'API\VendorController@loadDues');
 Route::put('load/vendor/pay/due/{id}', 'API\VendorController@payDue');
 Route::get('load/duehistory/{code}', 'API\VendorController@loadDuehistories');
@@ -54,6 +55,9 @@ Route::get('load/duehistory/{code}', 'API\VendorController@loadDuehistories');
 Route::apiResources(['purchase' => 'API\PurchaseController']);
 Route::get('load/purchase/{code}', 'API\PurchaseController@loadPurchases');
 Route::get('load/purchase/product/{code}', 'API\PurchaseController@loadProducts');
+
+Route::apiResources(['staff' => 'API\StaffController']);
+Route::get('load/staff/{code}', 'API\StaffController@loadStaffs');
 
 // each search function has a big bug, it does not filters user's stores!!!
 // each search function has a big bug, it does not filters user's stores!!!
@@ -65,3 +69,4 @@ Route::get('searchstore/{query}', 'API\StoreController@searchStore');
 Route::get('searchproduct/{query}', 'API\ProductController@searchProduct');
 Route::get('searchpurchase/{query}', 'API\PurchaseController@searchPurchase');
 Route::get('searchvendor/{query}', 'API\VendorController@searchVendor');
+Route::get('searchstaff/{query}', 'API\StaffController@searchStaff');
