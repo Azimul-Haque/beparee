@@ -30,6 +30,7 @@ export const routes = [
   { path: '/customer/:id/:code', component: require('./components/Auth/Customer/Customer.vue').default, meta: { title: 'কাস্টমার'}, name: 'singleCustomer'},
 
   { path: '/expenses/:code', component: require('./components/Auth/Expense/Expenses.vue').default, meta: { title: 'খরচের হিসাব'}, name: 'expensesPage'},
+  { path: '/expense/:id/:code', component: require('./components/Auth/Expense/Expense.vue').default, meta: { title: 'খরচ'}, name: 'singleExpense'},
 
   { path: '*', component: require('./components/404.vue').default, meta: { title: '404 Not Found'} },
 

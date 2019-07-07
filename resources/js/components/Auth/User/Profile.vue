@@ -53,6 +53,7 @@
                         <div class=row>
                           <div class="col-md-6">
                             <div class="form-group">
+                              <label>নাম</label>
                               <input v-model="form.name" type="text" name="name" placeholder="নাম" 
                                 class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
                               <has-error :form="form" field="name"></has-error>
@@ -60,6 +61,7 @@
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
+                              <label>মোবাইল নম্বর (১১ ডিজিট)</label>
                               <input v-model="form.mobile" type="text" name="mobile" placeholder="১১ ডিজিট মোবাইল নম্বর" 
                                 class="form-control" :class="{ 'is-invalid': form.errors.has('mobile') }" onkeypress="if(this.value.length==11) return false;">
                               <has-error :form="form" field="mobile"></has-error>
@@ -69,6 +71,7 @@
                         <div class=row>
                           <div class="col-md-6">
                             <div class="form-group">
+                              <label>ইমেইল</label>
                               <input v-model="form.email" type="text" name="email" placeholder="ইমেইল (যদি থাকে)" 
                                 class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
                               <has-error :form="form" field="email"></has-error>
@@ -76,6 +79,7 @@
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
+                              <label>ঠিকানা</label>
                               <input v-model="form.address" type="text" name="address" placeholder="ঠিকানা" 
                                 class="form-control" :class="{ 'is-invalid': form.errors.has('address') }">
                               <has-error :form="form" field="address"></has-error>
@@ -83,11 +87,13 @@
                           </div>
                         </div>
                         <div class="form-group">
+                          <label>ছবি</label>
                           <input type="file" v-on:change="uploadImage" name="image" placeholder="Image" 
                             class="form-control" :class="{ 'is-invalid': form.errors.has('image') }" ref="imageInput">
                           <has-error :form="form" field="image"></has-error>
                         </div>
                         <div class="form-group">
+                          <label>পাসওয়ার্ড</label>
                           <input v-model="form.password" type="password" name="password" placeholder="Password" 
                             class="form-control" :class="{ 'is-invalid': form.errors.has('password') }">
                           <has-error :form="form" field="password"></has-error>

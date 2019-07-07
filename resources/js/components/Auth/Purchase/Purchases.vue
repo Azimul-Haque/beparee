@@ -172,8 +172,8 @@
                   <div class="row">
                     <div class="col-md-4">
                       <div class="form-group">
-                        <label>ডিলার/ভেন্ডর নির্ধারণ</label>
-                        <v-select placeholder="ডিলার/ভেন্ডর (অপশনে না থাকলে লিখুন)" :options="vendors" :reduce="id => id" label="name" v-model="form.vendor" ref='vendorSelect' :class="{ 'is-invalid': form.errors.has('vendors') }"></v-select>
+                        <label>ডিলার/ভেন্ডর নির্ধারণ</label> <!-- taggable kora nai ei muhurte... kore felte hobe (অপশনে না থাকলে লিখুন) -->
+                        <v-select placeholder="ডিলার/ভেন্ডর" :options="vendors" :reduce="id => id" label="name" v-model="form.vendor" ref='vendorSelect' :class="{ 'is-invalid': form.errors.has('vendors') }"></v-select>
                         <has-error :form="form" field="vendors"></has-error>
                       </div>
                     </div>

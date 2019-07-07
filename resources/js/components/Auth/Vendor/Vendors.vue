@@ -102,16 +102,19 @@
                 <!-- Modal body -->
                 <div class="modal-body">
                   <div class="form-group">
+                    <label>ডিলার/ ভেন্ডরের নাম</label>
                     <input v-model="form.name" type="text" name="name" placeholder="ডিলার/ ভেন্ডরের নাম" 
                       class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
                     <has-error :form="form" field="name"></has-error>
                   </div>
                   <div class="form-group">
+                    <label>যোগাযোগের নম্বর</label>
                     <input v-model="form.mobile" type="number" name="mobile" placeholder="যোগাযোগের নম্বর" 
                       class="form-control" :class="{ 'is-invalid': form.errors.has('mobile') }" onkeypress="if(this.value.length==11) return false;">
                     <has-error :form="form" field="mobile"></has-error>
                   </div>
                   <div class="form-group">
+                    <label>ঠিকানা</label>
                     <input v-model="form.address" type="text" name="address" placeholder="ঠিকানা" 
                       class="form-control" :class="{ 'is-invalid': form.errors.has('address') }">
                     <has-error :form="form" field="address"></has-error>

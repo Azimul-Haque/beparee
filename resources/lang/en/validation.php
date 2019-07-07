@@ -175,6 +175,9 @@ return [
         'amount_paying' => [
             'required' => 'অনুগ্রহ করে পরিশোধ পরিমাণ লিখুন'
         ],
+        'amount' => [
+            'required' => 'অনুগ্রহ করে পরিমাণ (৳) লিখুন'
+        ],
 
 
         'attribute-name' => [

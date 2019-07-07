@@ -163,6 +163,7 @@
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
+                        <label>পণ্যের নাম *</label>
                         <input v-model="form.name" type="text" name="name" placeholder="পণ্যের নাম *" 
                           class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
                         <has-error :form="form" field="name"></has-error>
@@ -170,6 +171,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
+                        <label>পণ্যের ব্র্যান্ড/ মার্কা</label>
                         <input v-model="form.brand" type="text" name="brand" placeholder="পণ্যের ব্র্যান্ড/ মার্কা" 
                           class="form-control" :class="{ 'is-invalid': form.errors.has('brand') }">
                         <has-error :form="form" field="brand"></has-error>
@@ -179,12 +181,14 @@
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
+                        <label>পন্যের ধরণ নির্ধারণ (অপশনে না থাকলে লিখুন) *</label>
                         <v-select placeholder="পন্যের ধরণ নির্ধারণ (অপশনে না থাকলে লিখুন) *" :options="categories" taggable label="name" v-model="form.productcategory" ref='categorySelect'></v-select>
                         <has-error :form="form" field="categories"></has-error>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
+                        <label>ইউনিট *</label>
                         <select v-model="form.unit" name="unit" placeholder="ইউনিট *" 
                           class="form-control" :class="{ 'is-invalid': form.errors.has('unit') }">
                           <option value="" selected="" disabled="">পণ্যের ইউনিট নির্ধারণ *</option>
@@ -204,12 +208,16 @@
                   </div>
                   <div class="row">
                     <div class="col-md-6">
-                      <input v-model="form.sku" type="text" name="sku" placeholder="পণ্যের কোড" 
-                        class="form-control" :class="{ 'is-invalid': form.errors.has('sku') }">
-                      <has-error :form="form" field="sku"></has-error>
+                      <div class="form-group">
+                        <label>পণ্যের কোড (ঐচ্ছিক)</label>
+                        <input v-model="form.sku" type="text" name="sku" placeholder="পণ্যের কোড" 
+                          class="form-control" :class="{ 'is-invalid': form.errors.has('sku') }">
+                        <has-error :form="form" field="sku"></has-error>
+                      </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
+                        <label>যে পরিমানের নিচে হলে এলার্ট চান</label>
                         <input v-model="form.stock_alert" type="number" step="any" name="stock_alert" placeholder="যে পরিমানের নিচে হলে এলার্ট চান" 
                           class="form-control" :class="{ 'is-invalid': form.errors.has('stock_alert') }">
                         <has-error :form="form" field="stock_alert"></has-error>
@@ -223,12 +231,14 @@
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
+                          <label>ডিলার/ভেন্ডর নির্ধারণ (অপশনে না থাকলে লিখুন)</label>
                           <v-select placeholder="ডিলার/ভেন্ডর নির্ধারণ (অপশনে না থাকলে লিখুন)" :options="vendors" label="name" v-model="form.vendor" taggable ref='vendorSelect' :class="{ 'is-invalid': form.errors.has('vendors') }"></v-select>
                           <has-error :form="form" field="vendors"></has-error>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
+                          <label>নতুন স্টকের পরিমাণ</label>
                           <input v-model="form.quantity" type="number" step="any" name="quantity" placeholder="নতুন স্টকের পরিমাণ" 
                             class="form-control" :class="{ 'is-invalid': form.errors.has('quantity') }">
                           <has-error :form="form" field="quantity"></has-error>
@@ -237,6 +247,7 @@
                     </div>
                     <div class="row">
                       <div class="col-md-6">
+                        <label>ইউনিট প্রতি ক্রয়মূল্য</label>
                         <div class="input-group mb-3">
                           <div class="input-group-prepend">
                             <span class="input-group-text">৳</span>
@@ -247,6 +258,7 @@
                         </div>
                       </div>
                       <div class="col-md-6">
+                        <label>ইউনিট প্রতি বিক্রয়মূল্য</label>
                         <div class="input-group mb-3">
                           <div class="input-group-prepend">
                             <span class="input-group-text">৳</span>
@@ -273,7 +285,7 @@
 
         <!-- The Category Modal -->
         <div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg">
+          <div class="modal-dialog">
             <div class="modal-content">
               <!-- Modal Header -->
               <div class="modal-header">
@@ -285,6 +297,7 @@
                 <!-- Modal body -->
                 <div class="modal-body">
                   <div class="form-group">
+                    <label>ধরণের নাম</label>
                     <input type="hidden" v-model="categoryform.code" name="code">
                     <input v-model="categoryform.name" type="text" name="name" placeholder="ধরণের নাম" 
                       class="form-control" :class="{ 'is-invalid': categoryform.errors.has('name') }">

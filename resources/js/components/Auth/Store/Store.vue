@@ -47,24 +47,28 @@
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
-                          <input v-model="form.name" type="text" name="name" placeholder="নাম" 
+                          <label>দোকানের নাম</label>
+                          <input v-model="form.name" type="text" name="name" placeholder="দোকানের নাম" 
                             class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
                           <has-error :form="form" field="name"></has-error>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
+                          <label>স্থাপিত</label>
                           <v-select placeholder="স্থাপিত" :options="years" label="year" v-model="form.established" taggable ref='theSelect' :class="{ 'is-invalid': form.errors.has('established') }" :error-messages="errors.collect('type')" v-validate="'required'" data-vv-name="type" :rules="[(v) => !!v || 'সাল নির্ধারণ করুন']" required></v-select>
                           <has-error :form="form" field="established"></has-error>
                         </div>
                       </div>
                     </div>
                     <div class="form-group">
+                      <label>ঠিকানা</label>
                       <input v-model="form.address" type="text" name="address" placeholder="ঠিকানা" 
                         class="form-control" :class="{ 'is-invalid': form.errors.has('address') }">
                       <has-error :form="form" field="address"></has-error>
                     </div>
                     <div class="form-group">
+                      <label>দোকান / ব্যবসা প্রতিষ্ঠানের স্লোগান</label>
                       <input v-model="form.slogan" type="text" name="slogan" placeholder="দোকান / ব্যবসা প্রতিষ্ঠানের স্লোগান" 
                         class="form-control" :class="{ 'is-invalid': form.errors.has('slogan') }">
                       <has-error :form="form" field="slogan"></has-error>
@@ -73,9 +77,7 @@
 
                     <div class="row">
                       <div class="col-md-6">
-                        <div class="form-group">
-                          
-                        </div>
+                        <label>মনোগ্রাম</label>
                         <div class="custom-file mb-3">
                           <input type="file" v-on:change="uploadMonogram" name="monogram" placeholder="মনোগ্রাম" 
                             class="form-control" :class="{ 'is-invalid': form.errors.has('monogram') }" ref="monogramInput" id="monogram">

@@ -112,13 +112,13 @@ class ProductController extends Controller
         $product->unit = $request->unit;
         $product->sku = $request->sku;
         $product->stock_alert = $request->stock_alert;
-
-
         
         // jehetu data alada table e store korar bepar tai ei duita niche
-        $checkcategory = Productcategory::where('name', $request->productcategory['name'])->first();
+        $checkcategory = Productcategory::where('name', $request->productcategory['name'])
+                                        ->where('store_id', $store->id)
+                                        ->first();
         if($checkcategory) {
-            $product->productcategory_id = $request->productcategory['id'];
+            $product->productcategory_id = $checkcategory->id;
         } else {
             $newcategory = new Productcategory;
             $newcategory->store_id = $store->id;
@@ -139,9 +139,9 @@ class ProductController extends Controller
             $stock->current_quantity = $request->quantity;
             $stock->buying_price = number_format($request->buying_price, 2, '.', '');
             $stock->selling_price = number_format($request->selling_price, 2, '.', '');
-            $checkvendor = Vendor::where('name', $request->vendor['name'])->first();
+            $checkvendor = Vendor::where('name', $request->vendor['name'])->where('store_id', $store->id)->first();
             if($checkvendor) {
-                $stock->vendor_id = $request->vendor['id'];
+                $stock->vendor_id = $checkvendor->id;
             } else {
                 $newvendor = new Vendor;
                 $newvendor->store_id = $store->id;

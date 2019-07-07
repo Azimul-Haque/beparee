@@ -9,4 +9,8 @@ class Expensecategory extends Model
     public function exprenses(){
         return $this->hasMany('App\Exprense');
     }
+
+    public function store(){
+        return $this->belongsTo('App\Store');
+    }
 }

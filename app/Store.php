@@ -33,4 +33,8 @@ class Store extends Model
     public function exprenses(){
         return $this->hasMany('App\Exprense');
     }
+
+    public function expensecategories(){
+        return $this->hasMany('App\Exprense');
+    }
 }

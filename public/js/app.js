@@ -3368,6 +3368,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4162,35 +4166,45 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       expenses: {},
       expensehistories: {},
-      maxpayable: 0,
+      expensecategories: [],
+      staff: [],
       code: this.$route.params.code,
       // Create a new form instance
       form: new Form({
         id: '',
-        name: '',
-        current_due: '',
-        amount_paying: '',
+        expensecategory: '',
+        staff: '',
+        amount: '',
         remark: '',
         code: this.$route.params.code
-      }) // editmode: false
-
+      }),
+      // editmode: false
+      salarymode: false,
+      categoryerror: false,
+      stafferror: false
     };
   },
   methods: {
     addModal: function addModal() {
-      this.form.reset();
+      this.form.reset(); // clears fields
+
+      this.form.clear(); // clears errors
+
+      this.salarymode = false;
+      this.categoryerror = false;
+      this.stafferror = false;
       $('#addModal').modal({
         show: true,
         backdrop: 'static',
         keyboard: false
-      }); // this.loadCategories();
-      // this.loadStaff();
+      });
+      this.loadCategories();
+      this.loadStaff();
     },
     editModal: function editModal(vendor) {
       this.form.reset(); // clears fields
@@ -4203,111 +4217,135 @@ __webpack_require__.r(__webpack_exports__);
         keyboard: false
       });
       this.form.fill(vendor);
-      this.maxpayable = vendor.current_due;
     },
     loadExpenses: function loadExpenses() {
       var _this = this;
 
-      if (this.$gate.isAdminOrAssociated('due-page', this.$route.params.code)) {
+      if (this.$gate.isAdminOrAssociated('expense-page', this.$route.params.code)) {
         axios.get('/api/load/expense/' + this.$route.params.code).then(function (_ref) {
           var data = _ref.data;
           return _this.expenses = data;
         });
       }
     },
-    updateVendor: function updateVendor() {
+    loadCategories: function loadCategories() {
       var _this2 = this;
 
+      if (this.$gate.isAdminOrAssociated('expense-page', this.$route.params.code)) {
+        axios.get('/api/load/expense/category/' + this.$route.params.code).then(function (_ref2) {
+          var data = _ref2.data;
+          return _this2.expensecategories = data;
+        });
+      }
+    },
+    loadStaff: function loadStaff() {
+      var _this3 = this;
+
+      if (this.$gate.isAdminOrAssociated('expense-page', this.$route.params.code)) {
+        axios.get('/api/load/expense/staff/' + this.$route.params.code).then(function (_ref3) {
+          var data = _ref3.data;
+          return _this3.staff = data;
+        });
+      }
+    },
+    checkCategoryIfSalary: function checkCategoryIfSalary(expensecategory) {
+      if (expensecategory && expensecategory.id == 1) {
+        this.salarymode = true;
+      } else {
+        this.salarymode = false;
+        this.form.staff = null;
+      }
+
+      this.categoryerror = false;
+    },
+    checkIfStaffEmpty: function checkIfStaffEmpty() {
+      this.stafferror = false;
+    },
+    createExpense: function createExpense() {
+      var _this4 = this;
+
       this.$Progress.start();
-      this.form.put('/api/load/vendor/pay/due/' + this.form.id).then(function () {
+
+      if (this.form.expensecategory == null || this.form.expensecategory == '') {
+        this.categoryerror = true;
+      } else {
+        this.categoryerror = false;
+      }
+
+      if (this.form.staff == null || this.form.staff == '') {
+        this.stafferror = true;
+      } else {
+        this.stafferror = false;
+      } // post the data
+
+
+      this.form.post('/api/expense').then(function () {
         $('#addModal').modal('hide');
         Fire.$emit('AfterExpensesCreatedOrUpdated');
         toast.fire({
           type: 'success',
-          title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
+          title: 'সফলভাবে সংরক্ষণ করা হয়েছে!'
         });
 
-        _this2.$Progress.finish();
+        _this4.$Progress.finish();
       })["catch"](function () {
-        _this2.$Progress.fail(); // swal('Failed!', 'There was something wrong', 'warning');
-
-      });
-    },
-    deleteVendor: function deleteVendor(id) {
-      var _this3 = this;
-
-      swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-      }).then(function (result) {
-        if (result.value) {
-          _this3.form["delete"]('/api/vendor/' + id).then(function () {
-            swal.fire('Wait...!', 'এই মুহূর্তে ডিলেট বন্ধ আছে!', 'success');
-            Fire.$emit('AfterExpensesCreatedOrUpdated');
-          })["catch"](function () {
-            swal('Failed!', 'There was something wrong', 'warning');
-          });
-        }
+        _this4.$Progress.fail();
       });
     },
     getPaginationResults: function getPaginationResults() {
-      var _this4 = this;
+      var _this5 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       axios.get('/api/load/expense/' + this.$route.params.code + '?page=' + page).then(function (response) {
-        _this4.expenses = response.data;
+        _this5.expenses = response.data;
       });
     },
     loadExpensehistories: function loadExpensehistories() {
-      var _this5 = this;
+      var _this6 = this;
 
-      if (this.$gate.isAdminOrAssociated('due-page', this.$route.params.code)) {
-        axios.get('/api/load/expense/history/' + this.$route.params.code).then(function (_ref2) {
-          var data = _ref2.data;
-          return _this5.expensehistories = data;
+      if (this.$gate.isAdminOrAssociated('expense-page', this.$route.params.code)) {
+        axios.get('/api/load/expense/history/' + this.$route.params.code).then(function (_ref4) {
+          var data = _ref4.data;
+          return _this6.expensehistories = data;
         });
       }
     },
     getPaginationExpensehistories: function getPaginationExpensehistories() {
-      var _this6 = this;
+      var _this7 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       axios.get('/api/load/expense/history/' + this.$route.params.code + '?page=' + page).then(function (response) {
-        _this6.expensehistories = response.data;
+        _this7.expensehistories = response.data;
       });
     }
   },
   created: function created() {
-    var _this7 = this;
+    var _this8 = this;
 
     this.loadExpenses();
     this.loadExpensehistories();
     Fire.$on('AfterExpensesCreatedOrUpdated', function () {
-      _this7.loadExpenses();
+      _this8.loadExpenses();
 
-      _this7.loadExpensehistories();
+      _this8.loadExpensehistories();
     });
     Fire.$on('changingstorename', function () {
-      _this7.loadExpenses();
+      _this8.loadExpenses();
 
-      _this7.loadExpensehistories();
-    });
-    Fire.$on('searching', function () {
-      var query = _this7.$parent.$parent.search;
-
-      if (query != '') {
-        axios.get('/api/searchvendor/' + query).then(function (data) {
-          _this7.expenses = data;
-        })["catch"](function () {});
-      } else {
-        _this7.loadExpenses();
-      }
-    });
+      _this8.loadExpensehistories();
+    }); // Fire.$on('searching', () => {
+    //     let query = this.$parent.$parent.search;
+    //     if(query != '') {
+    //       axios.get('/api/searchvendor/' + query)
+    //       .then((data) => {
+    //         this.expenses = data;
+    //       })
+    //       .catch(() => {
+    //       })
+    //     } else {
+    //       this.loadExpenses();
+    //     }
+    // });
   },
   beforeDestroy: function beforeDestroy() {
     Fire.$off('AfterExpensesCreatedOrUpdated');
@@ -4594,6 +4632,19 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5852,6 +5903,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -6160,6 +6215,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -6290,6 +6347,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -6831,6 +6894,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
 //
 //
 //
@@ -83826,6 +83892,8 @@ var render = function() {
                           "div",
                           { staticClass: "form-group" },
                           [
+                            _c("label", [_vm._v("কাস্টমারের নাম *")]),
+                            _vm._v(" "),
                             _c("input", {
                               directives: [
                                 {
@@ -83870,6 +83938,8 @@ var render = function() {
                           "div",
                           { staticClass: "form-group" },
                           [
+                            _c("label", [_vm._v("যোগাযোগের নম্বর (১১ ডিজিট)")]),
+                            _vm._v(" "),
                             _c("input", {
                               directives: [
                                 {
@@ -83916,6 +83986,8 @@ var render = function() {
                           "div",
                           { staticClass: "form-group" },
                           [
+                            _c("label", [_vm._v("ঠিকানা")]),
+                            _vm._v(" "),
                             _c("input", {
                               directives: [
                                 {
@@ -83960,6 +84032,10 @@ var render = function() {
                           "div",
                           { staticClass: "form-group" },
                           [
+                            _c("label", [
+                              _vm._v("জাতীয় পরিচয়পত্র নম্বর (ঐচ্ছিক)")
+                            ]),
+                            _vm._v(" "),
                             _c("input", {
                               directives: [
                                 {
@@ -84901,7 +84977,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "content" }, [
-    _vm.$gate.isAdminOrAssociated("due-page", this.$route.params.code)
+    _vm.$gate.isAdminOrAssociated("expense-page", this.$route.params.code)
       ? _c("div", { staticClass: "content-header" }, [
           _c("div", { staticClass: "container-fluid" }, [
             _c("div", { staticClass: "row mb-2" }, [
@@ -84930,7 +85006,7 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
-    _vm.$gate.isAdminOrAssociated("due-page", this.$route.params.code)
+    _vm.$gate.isAdminOrAssociated("expense-page", this.$route.params.code)
       ? _c("div", { staticClass: "container-fluid" }, [
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-8" }, [
@@ -84985,8 +85061,11 @@ var render = function() {
                                   ],
                                   attrs: {
                                     to: {
-                                      name: "singleVendor",
-                                      params: { id: expense.id, code: _vm.code }
+                                      name: "singleExpense",
+                                      params: {
+                                        id: expense.expensecategory.id,
+                                        code: _vm.code
+                                      }
                                     }
                                   }
                                 },
@@ -85029,8 +85108,11 @@ var render = function() {
                                   staticClass: "btn btn-success btn-sm",
                                   attrs: {
                                     to: {
-                                      name: "singleVendor",
-                                      params: { id: expense.id, code: _vm.code }
+                                      name: "singleExpense",
+                                      params: {
+                                        id: expense.expensecategory.id,
+                                        code: _vm.code
+                                      }
                                     }
                                   }
                                 },
@@ -85219,18 +85301,44 @@ var render = function() {
                                       "span",
                                       [
                                         _c(
-                                          "big",
-                                          { staticClass: "text-secondary" },
+                                          "router-link",
+                                          {
+                                            directives: [
+                                              {
+                                                name: "tooltip",
+                                                rawName: "v-tooltip",
+                                                value: "বিস্তারিত দেখুন",
+                                                expression: "'বিস্তারিত দেখুন'"
+                                              }
+                                            ],
+                                            attrs: {
+                                              to: {
+                                                name: "singleExpense",
+                                                params: {
+                                                  id:
+                                                    expense.expensecategory.id,
+                                                  code: _vm.code
+                                                }
+                                              }
+                                            }
+                                          },
                                           [
-                                            _vm._v(
-                                              _vm._s(
-                                                expense.expensecategory.name
-                                              )
+                                            _c(
+                                              "big",
+                                              { staticClass: "text-secondary" },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    expense.expensecategory.name
+                                                  )
+                                                )
+                                              ]
                                             )
-                                          ]
+                                          ],
+                                          1
                                         ),
                                         _vm._v(
-                                          " |\n                            "
+                                          "\n                            |\n                            "
                                         ),
                                         _c(
                                           "span",
@@ -85255,21 +85363,49 @@ var render = function() {
                                       "span",
                                       [
                                         _c(
-                                          "big",
-                                          { staticClass: "text-secondary" },
+                                          "router-link",
+                                          {
+                                            directives: [
+                                              {
+                                                name: "tooltip",
+                                                rawName: "v-tooltip",
+                                                value: "বিস্তারিত দেখুন",
+                                                expression: "'বিস্তারিত দেখুন'"
+                                              }
+                                            ],
+                                            attrs: {
+                                              to: {
+                                                name: "singleExpense",
+                                                params: {
+                                                  id:
+                                                    expense.expensecategory.id,
+                                                  code: _vm.code
+                                                }
+                                              }
+                                            }
+                                          },
                                           [
-                                            _vm._v(
-                                              _vm._s(
-                                                expense.expensecategory.name
-                                              )
+                                            _c(
+                                              "big",
+                                              { staticClass: "text-secondary" },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    expense.expensecategory.name
+                                                  )
+                                                )
+                                              ]
                                             )
-                                          ]
+                                          ],
+                                          1
                                         ),
-                                        _vm._v(" | পরিমাণঃ "),
+                                        _vm._v(
+                                          "\n                            | পরিমাণঃ "
+                                        ),
                                         _c("b", [
                                           _vm._v(_vm._s(expense.amount))
                                         ]),
-                                        _vm._v(" ৳")
+                                        _vm._v(" ৳\n                          ")
                                       ],
                                       1
                                     ),
@@ -85335,7 +85471,7 @@ var render = function() {
                       on: {
                         submit: function($event) {
                           $event.preventDefault()
-                          return _vm.updateVendor()
+                          return _vm.createExpense()
                         },
                         keydown: function($event) {
                           return _vm.form.onKeydown($event)
@@ -85348,51 +85484,126 @@ var render = function() {
                           "div",
                           { staticClass: "form-group" },
                           [
-                            _c("label", [_vm._v("ডিলার/ ভেন্ডরের নাম")]),
+                            _c("label", [
+                              _vm._v("খাত নির্ধারণ (অপশনে না থাকলে লিখুন) *")
+                            ]),
                             _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.form.name,
-                                  expression: "form.name"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              class: {
-                                "is-invalid": _vm.form.errors.has("name")
-                              },
+                            _c("v-select", {
+                              ref: "categorySelect",
                               attrs: {
-                                type: "text",
-                                name: "name",
-                                placeholder: "ডিলার/ ভেন্ডরের নাম",
-                                readonly: ""
+                                placeholder:
+                                  "খাত নির্ধারণ (অপশনে না থাকলে লিখুন) *",
+                                options: _vm.expensecategories,
+                                taggable: "",
+                                label: "name"
                               },
-                              domProps: { value: _vm.form.name },
                               on: {
                                 input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.form,
-                                    "name",
-                                    $event.target.value
+                                  return _vm.checkCategoryIfSalary(
+                                    _vm.form.expensecategory
                                   )
                                 }
+                              },
+                              model: {
+                                value: _vm.form.expensecategory,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.form, "expensecategory", $$v)
+                                },
+                                expression: "form.expensecategory"
                               }
                             }),
                             _vm._v(" "),
                             _c("has-error", {
-                              attrs: { form: _vm.form, field: "name" }
-                            })
+                              attrs: {
+                                form: _vm.form,
+                                field: "expensecategories"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.categoryerror,
+                                    expression: "categoryerror"
+                                  }
+                                ],
+                                staticStyle: {
+                                  display: "none",
+                                  width: "100%",
+                                  "margin-top": ".25rem",
+                                  "font-size": "80%",
+                                  color: "#dc3545"
+                                }
+                              },
+                              [_vm._v("অনুগ্রহ করে খাত নির্ধারণ করুন")]
+                            )
                           ],
                           1
                         ),
                         _vm._v(" "),
+                        _vm.salarymode
+                          ? _c(
+                              "div",
+                              { staticClass: "form-group" },
+                              [
+                                _c("label", [_vm._v("কর্মচারী নির্ধারণ করুন")]),
+                                _vm._v(" "),
+                                _c("v-select", {
+                                  ref: "categorySelect",
+                                  attrs: {
+                                    placeholder: "কর্মচারী নির্ধারণ করুন",
+                                    options: _vm.staff,
+                                    label: "name"
+                                  },
+                                  on: { input: _vm.checkIfStaffEmpty },
+                                  model: {
+                                    value: _vm.form.staff,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.form, "staff", $$v)
+                                    },
+                                    expression: "form.staff"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("has-error", {
+                                  attrs: {
+                                    form: _vm.form,
+                                    field: "expensecategories"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "show",
+                                        rawName: "v-show",
+                                        value: _vm.stafferror,
+                                        expression: "stafferror"
+                                      }
+                                    ],
+                                    staticStyle: {
+                                      display: "none",
+                                      width: "100%",
+                                      "margin-top": ".25rem",
+                                      "font-size": "80%",
+                                      color: "#dc3545"
+                                    }
+                                  },
+                                  [_vm._v("অনুগ্রহ করে কর্মচারী নির্ধারণ করুন")]
+                                )
+                              ],
+                              1
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
                         _c("div", { staticClass: "form-group" }, [
-                          _c("label", [_vm._v("চলতি দেনা")]),
+                          _c("label", [_vm._v("পরিমাণ")]),
                           _vm._v(" "),
                           _c(
                             "div",
@@ -85405,24 +85616,21 @@ var render = function() {
                                   {
                                     name: "model",
                                     rawName: "v-model",
-                                    value: _vm.form.current_due,
-                                    expression: "form.current_due"
+                                    value: _vm.form.amount,
+                                    expression: "form.amount"
                                   }
                                 ],
                                 staticClass: "form-control",
                                 class: {
-                                  "is-invalid": _vm.form.errors.has(
-                                    "current_due"
-                                  )
+                                  "is-invalid": _vm.form.errors.has("amount")
                                 },
                                 attrs: {
                                   type: "number",
                                   step: "any",
-                                  name: "current_due",
-                                  placeholder: "চলতি দেনা",
-                                  readonly: ""
+                                  name: "amount",
+                                  placeholder: "পরিমাণ"
                                 },
-                                domProps: { value: _vm.form.current_due },
+                                domProps: { value: _vm.form.amount },
                                 on: {
                                   input: function($event) {
                                     if ($event.target.composing) {
@@ -85430,7 +85638,7 @@ var render = function() {
                                     }
                                     _vm.$set(
                                       _vm.form,
-                                      "current_due",
+                                      "amount",
                                       $event.target.value
                                     )
                                   }
@@ -85438,65 +85646,7 @@ var render = function() {
                               }),
                               _vm._v(" "),
                               _c("has-error", {
-                                attrs: { form: _vm.form, field: "current_due" }
-                              })
-                            ],
-                            1
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "form-group" }, [
-                          _c("label", [_vm._v("পরিশোধের পরিমাণ")]),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "input-group mb-3" },
-                            [
-                              _vm._m(5),
-                              _vm._v(" "),
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.form.amount_paying,
-                                    expression: "form.amount_paying"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                class: {
-                                  "is-invalid": _vm.form.errors.has(
-                                    "amount_paying"
-                                  )
-                                },
-                                attrs: {
-                                  type: "number",
-                                  step: "any",
-                                  name: "amount_paying",
-                                  placeholder: "পরিশোধের পরিমাণ",
-                                  min: 0,
-                                  max: this.maxpayable
-                                },
-                                domProps: { value: _vm.form.amount_paying },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.$set(
-                                      _vm.form,
-                                      "amount_paying",
-                                      $event.target.value
-                                    )
-                                  }
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("has-error", {
-                                attrs: {
-                                  form: _vm.form,
-                                  field: "amount_paying"
-                                }
+                                attrs: { form: _vm.form, field: "amount" }
                               })
                             ],
                             1
@@ -85571,7 +85721,7 @@ var render = function() {
                         })
                       ]),
                       _vm._v(" "),
-                      _vm._m(6)
+                      _vm._m(5)
                     ]
                   )
                 ])
@@ -85581,7 +85731,7 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
-    !_vm.$gate.isAdminOrAssociated("due-page", this.$route.params.code)
+    !_vm.$gate.isAdminOrAssociated("expense-page", this.$route.params.code)
       ? _c("div", [_c("forbidden-403")], 1)
       : _vm._e()
   ])
@@ -85627,7 +85777,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
       _c("h4", { staticClass: "modal-title", attrs: { id: "addModalLabel" } }, [
-        _vm._v("বকেয়া পরিশোধ করুন")
+        _vm._v("খরচ লিপিবদ্ধ করুন")
       ]),
       _vm._v(" "),
       _c(
@@ -85638,14 +85788,6 @@ var staticRenderFns = [
         },
         [_vm._v("×")]
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-prepend" }, [
-      _c("span", { staticClass: "input-group-text" }, [_vm._v("৳")])
     ])
   },
   function() {
@@ -86665,6 +86807,8 @@ var render = function() {
                               "div",
                               { staticClass: "form-group" },
                               [
+                                _c("label", [_vm._v("পণ্যের নাম *")]),
+                                _vm._v(" "),
                                 _c("input", {
                                   directives: [
                                     {
@@ -86711,6 +86855,10 @@ var render = function() {
                               "div",
                               { staticClass: "form-group" },
                               [
+                                _c("label", [
+                                  _vm._v("পণ্যের ব্র্যান্ড/ মার্কা")
+                                ]),
+                                _vm._v(" "),
                                 _c("input", {
                                   directives: [
                                     {
@@ -86759,6 +86907,12 @@ var render = function() {
                               "div",
                               { staticClass: "form-group" },
                               [
+                                _c("label", [
+                                  _vm._v(
+                                    "পন্যের ধরণ নির্ধারণ (অপশনে না থাকলে লিখুন) *"
+                                  )
+                                ]),
+                                _vm._v(" "),
                                 _c("v-select", {
                                   ref: "categorySelect",
                                   attrs: {
@@ -86790,6 +86944,8 @@ var render = function() {
                               "div",
                               { staticClass: "form-group" },
                               [
+                                _c("label", [_vm._v("ইউনিট *")]),
+                                _vm._v(" "),
                                 _c(
                                   "select",
                                   {
@@ -86903,55 +87059,63 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "row" }, [
-                          _c(
-                            "div",
-                            { staticClass: "col-md-6" },
-                            [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.form.sku,
-                                    expression: "form.sku"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                class: {
-                                  "is-invalid": _vm.form.errors.has("sku")
-                                },
-                                attrs: {
-                                  type: "text",
-                                  name: "sku",
-                                  placeholder: "পণ্যের কোড"
-                                },
-                                domProps: { value: _vm.form.sku },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c(
+                              "div",
+                              { staticClass: "form-group" },
+                              [
+                                _c("label", [_vm._v("পণ্যের কোড (ঐচ্ছিক)")]),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.form.sku,
+                                      expression: "form.sku"
                                     }
-                                    _vm.$set(
-                                      _vm.form,
-                                      "sku",
-                                      $event.target.value
-                                    )
+                                  ],
+                                  staticClass: "form-control",
+                                  class: {
+                                    "is-invalid": _vm.form.errors.has("sku")
+                                  },
+                                  attrs: {
+                                    type: "text",
+                                    name: "sku",
+                                    placeholder: "পণ্যের কোড"
+                                  },
+                                  domProps: { value: _vm.form.sku },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.form,
+                                        "sku",
+                                        $event.target.value
+                                      )
+                                    }
                                   }
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("has-error", {
-                                attrs: { form: _vm.form, field: "sku" }
-                              })
-                            ],
-                            1
-                          ),
+                                }),
+                                _vm._v(" "),
+                                _c("has-error", {
+                                  attrs: { form: _vm.form, field: "sku" }
+                                })
+                              ],
+                              1
+                            )
+                          ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-6" }, [
                             _c(
                               "div",
                               { staticClass: "form-group" },
                               [
+                                _c("label", [
+                                  _vm._v("যে পরিমানের নিচে হলে এলার্ট চান")
+                                ]),
+                                _vm._v(" "),
                                 _c("input", {
                                   directives: [
                                     {
@@ -87026,6 +87190,12 @@ var render = function() {
                                   "div",
                                   { staticClass: "form-group" },
                                   [
+                                    _c("label", [
+                                      _vm._v(
+                                        "ডিলার/ভেন্ডর নির্ধারণ (অপশনে না থাকলে লিখুন)"
+                                      )
+                                    ]),
+                                    _vm._v(" "),
                                     _c("v-select", {
                                       ref: "vendorSelect",
                                       class: {
@@ -87065,6 +87235,8 @@ var render = function() {
                                   "div",
                                   { staticClass: "form-group" },
                                   [
+                                    _c("label", [_vm._v("নতুন স্টকের পরিমাণ")]),
+                                    _vm._v(" "),
                                     _c("input", {
                                       directives: [
                                         {
@@ -87115,6 +87287,8 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "row" }, [
                               _c("div", { staticClass: "col-md-6" }, [
+                                _c("label", [_vm._v("ইউনিট প্রতি ক্রয়মূল্য")]),
+                                _vm._v(" "),
                                 _c(
                                   "div",
                                   { staticClass: "input-group mb-3" },
@@ -87171,6 +87345,10 @@ var render = function() {
                               ]),
                               _vm._v(" "),
                               _c("div", { staticClass: "col-md-6" }, [
+                                _c("label", [
+                                  _vm._v("ইউনিট প্রতি বিক্রয়মূল্য")
+                                ]),
+                                _vm._v(" "),
                                 _c(
                                   "div",
                                   { staticClass: "input-group mb-3" },
@@ -87294,7 +87472,7 @@ var render = function() {
               }
             },
             [
-              _c("div", { staticClass: "modal-dialog modal-lg" }, [
+              _c("div", { staticClass: "modal-dialog" }, [
                 _c("div", { staticClass: "modal-content" }, [
                   _c("div", { staticClass: "modal-header" }, [
                     _c(
@@ -87362,6 +87540,8 @@ var render = function() {
                           "div",
                           { staticClass: "form-group" },
                           [
+                            _c("label", [_vm._v("ধরণের নাম")]),
+                            _vm._v(" "),
                             _c("input", {
                               directives: [
                                 {
@@ -88154,8 +88334,7 @@ var render = function() {
                                       )
                                     },
                                     attrs: {
-                                      placeholder:
-                                        "ডিলার/ভেন্ডর (অপশনে না থাকলে লিখুন)",
+                                      placeholder: "ডিলার/ভেন্ডর",
                                       options: _vm.vendors,
                                       reduce: function(id) {
                                         return id
@@ -88882,6 +89061,8 @@ var render = function() {
                             "div",
                             { staticClass: "form-group" },
                             [
+                              _c("label", [_vm._v("নাম")]),
+                              _vm._v(" "),
                               _c("input", {
                                 directives: [
                                   {
@@ -88926,6 +89107,8 @@ var render = function() {
                             "div",
                             { staticClass: "form-group" },
                             [
+                              _c("label", [_vm._v("মোবাইল নম্বর (১১ ডিজিট)")]),
+                              _vm._v(" "),
                               _c("input", {
                                 directives: [
                                   {
@@ -88972,6 +89155,8 @@ var render = function() {
                             "div",
                             { staticClass: "form-group" },
                             [
+                              _c("label", [_vm._v("ঠিকানা")]),
+                              _vm._v(" "),
                               _c("input", {
                                 directives: [
                                   {
@@ -89016,6 +89201,8 @@ var render = function() {
                             "div",
                             { staticClass: "form-group" },
                             [
+                              _c("label", [_vm._v("ছবি (যদি থাকে)")]),
+                              _vm._v(" "),
                               _c("input", {
                                 ref: "imageInput",
                                 staticClass: "form-control",
@@ -89256,6 +89443,8 @@ var render = function() {
                             "div",
                             { staticClass: "form-group" },
                             [
+                              _c("label", [_vm._v("দোকানের নাম")]),
+                              _vm._v(" "),
                               _c("input", {
                                 directives: [
                                   {
@@ -89272,7 +89461,7 @@ var render = function() {
                                 attrs: {
                                   type: "text",
                                   name: "name",
-                                  placeholder: "নাম"
+                                  placeholder: "দোকানের নাম"
                                 },
                                 domProps: { value: _vm.form.name },
                                 on: {
@@ -89302,6 +89491,8 @@ var render = function() {
                             "div",
                             { staticClass: "form-group" },
                             [
+                              _c("label", [_vm._v("স্থাপিত")]),
+                              _vm._v(" "),
                               _c("v-select", {
                                 directives: [
                                   {
@@ -89353,6 +89544,8 @@ var render = function() {
                         "div",
                         { staticClass: "form-group" },
                         [
+                          _c("label", [_vm._v("ঠিকানা")]),
+                          _vm._v(" "),
                           _c("input", {
                             directives: [
                               {
@@ -89397,6 +89590,10 @@ var render = function() {
                         "div",
                         { staticClass: "form-group" },
                         [
+                          _c("label", [
+                            _vm._v("দোকান / ব্যবসা প্রতিষ্ঠানের স্লোগান")
+                          ]),
+                          _vm._v(" "),
                           _c("input", {
                             directives: [
                               {
@@ -89439,7 +89636,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-6" }, [
-                          _c("div", { staticClass: "form-group" }),
+                          _c("label", [_vm._v("মনোগ্রাম")]),
                           _vm._v(" "),
                           _c(
                             "div",
@@ -89694,6 +89891,8 @@ var render = function() {
                         "div",
                         { staticClass: "form-group" },
                         [
+                          _c("label", [_vm._v("নাম")]),
+                          _vm._v(" "),
                           _c("input", {
                             directives: [
                               {
@@ -89736,6 +89935,8 @@ var render = function() {
                         "div",
                         { staticClass: "form-group" },
                         [
+                          _c("label", [_vm._v("মোবাইল নম্বর (১১ ডিজিট)")]),
+                          _vm._v(" "),
                           _c("input", {
                             directives: [
                               {
@@ -89786,6 +89987,8 @@ var render = function() {
                         "div",
                         { staticClass: "form-group" },
                         [
+                          _c("label", [_vm._v("ইমেইল")]),
+                          _vm._v(" "),
                           _c("input", {
                             directives: [
                               {
@@ -89828,6 +90031,8 @@ var render = function() {
                         "div",
                         { staticClass: "form-group" },
                         [
+                          _c("label", [_vm._v("ঠিকানা")]),
+                          _vm._v(" "),
                           _c("input", {
                             directives: [
                               {
@@ -89874,6 +90079,8 @@ var render = function() {
                     "div",
                     { staticClass: "form-group" },
                     [
+                      _c("label", [_vm._v("ছবি")]),
+                      _vm._v(" "),
                       _c("input", {
                         ref: "imageInput",
                         staticClass: "form-control",
@@ -89897,6 +90104,8 @@ var render = function() {
                     "div",
                     { staticClass: "form-group" },
                     [
+                      _c("label", [_vm._v("পাসওয়ার্ড")]),
+                      _vm._v(" "),
                       _c("input", {
                         directives: [
                           {
@@ -91002,6 +91211,8 @@ var render = function() {
                           "div",
                           { staticClass: "form-group" },
                           [
+                            _c("label", [_vm._v("ডিলার/ ভেন্ডরের নাম")]),
+                            _vm._v(" "),
                             _c("input", {
                               directives: [
                                 {
@@ -91046,6 +91257,8 @@ var render = function() {
                           "div",
                           { staticClass: "form-group" },
                           [
+                            _c("label", [_vm._v("যোগাযোগের নম্বর")]),
+                            _vm._v(" "),
                             _c("input", {
                               directives: [
                                 {
@@ -91092,6 +91305,8 @@ var render = function() {
                           "div",
                           { staticClass: "form-group" },
                           [
+                            _c("label", [_vm._v("ঠিকানা")]),
+                            _vm._v(" "),
                             _c("input", {
                               directives: [
                                 {
@@ -106547,8 +106762,7 @@ var app = new Vue({
   },
   methods: {
     searchIt: _.debounce(function () {
-      Fire.$emit('searching');
-      console.log('fired');
+      Fire.$emit('searching'); // console.log('fired');
     }, 1000),
     changeStoreName: function changeStoreName() {
       Fire.$emit('changingstorename');
@@ -107310,6 +107524,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Dues_vue_vue_type_template_id_05648826___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/components/Auth/Expense/Expense.vue":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/Auth/Expense/Expense.vue ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+var render, staticRenderFns
+var script = {}
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__["default"])(
+  script,
+  render,
+  staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+component.options.__file = "resources/js/components/Auth/Expense/Expense.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
@@ -108317,6 +108563,13 @@ var routes = [// public routes
     title: 'খরচের হিসাব'
   },
   name: 'expensesPage'
+}, {
+  path: '/expense/:id/:code',
+  component: __webpack_require__(/*! ./components/Auth/Expense/Expense.vue */ "./resources/js/components/Auth/Expense/Expense.vue")["default"],
+  meta: {
+    title: 'খরচ'
+  },
+  name: 'singleExpense'
 }, {
   path: '*',
   component: __webpack_require__(/*! ./components/404.vue */ "./resources/js/components/404.vue")["default"],

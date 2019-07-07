@@ -19,7 +19,7 @@ class CreateExpensesTable extends Migration
             $table->integer('expensecategory_id')->unsigned();
             $table->integer('staff_id')->unsigned()->nullable();
             $table->string('amount');
-            $table->string('remark');
+            $table->string('remark')->nullable();
 
             $table->timestamps();
 

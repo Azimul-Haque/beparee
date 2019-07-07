@@ -97,22 +97,26 @@
                   <!-- Modal body -->
                   <div class="modal-body">
                     <div class="form-group">
+                      <label>নাম</label>
                       <input v-model="form.name" type="text" name="name" placeholder="নাম" 
                         class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
                       <has-error :form="form" field="name"></has-error>
                     </div>
                     <div class="form-group">
+                      <label>মোবাইল নম্বর (১১ ডিজিট)</label>
                       <input v-model="form.mobile" type="text" name="mobile" placeholder="১১ ডিজিট মোবাইল নম্বর" 
                         class="form-control" :class="{ 'is-invalid': form.errors.has('mobile') }" onkeypress="if(this.value.length==11) return false;">
                       <has-error :form="form" field="mobile"></has-error>
                     </div>
                     <div class="form-group">
+                      <label>ঠিকানা</label>
                       <input v-model="form.address" type="text" name="address" placeholder="ঠিকানা" 
                         class="form-control" :class="{ 'is-invalid': form.errors.has('address') }">
                       <has-error :form="form" field="address"></has-error>
                     </div>
                     
                     <div class="form-group">
+                      <label>ছবি (যদি থাকে)</label>
                       <input type="file" v-on:change="uploadImage" name="image" placeholder="Image" 
                         class="form-control" :class="{ 'is-invalid': form.errors.has('image') }" ref="imageInput">
                       <has-error :form="form" field="image"></has-error>

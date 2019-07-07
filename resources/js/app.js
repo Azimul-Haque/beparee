@@ -88,7 +88,7 @@ const app = new Vue({
     methods: {
       searchIt: _.debounce(() => {
         Fire.$emit('searching');
-        console.log('fired');
+        // console.log('fired');
       }, 1000),
       changeStoreName() {
         Fire.$emit('changingstorename');

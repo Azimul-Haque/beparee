@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-       <div class="content-header" v-if="$gate.isAdminOrAssociated('due-page', this.$route.params.code)">
+       <div class="content-header" v-if="$gate.isAdminOrAssociated('expense-page', this.$route.params.code)">
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
@@ -18,7 +18,7 @@
       <!-- Header content -->
       
       <!-- /.content-header -->
-      <div class="container-fluid" v-if="$gate.isAdminOrAssociated('due-page', this.$route.params.code)">
+      <div class="container-fluid" v-if="$gate.isAdminOrAssociated('expense-page', this.$route.params.code)">
         <div class="row">
           <div class="col-md-8">
             <!-- <img src="images/click_here_2li1.svg" style="max-height: 200px;"> -->
@@ -55,19 +55,15 @@
                  </thead>
                  <tbody>
                   <tr v-for="expense in expenses.data" :key="expense.id">
-                    <!-- <td>{{ store.id }}</td> -->
                     <td>
-                      <!-- <router-link :to="{ name: 'singleStore', params: { token: store.token, code: store.code }}">
-                        {{ store.name }}
-                      </router-link> -->
-                      <router-link :to="{ name: 'singleVendor', params: { id: expense.id, code: code }}" v-tooltip="'বিস্তারিত দেখুন'">
+                      <router-link :to="{ name: 'singleExpense', params: { id: expense.expensecategory.id, code: code }}" v-tooltip="'বিস্তারিত দেখুন'">
                         {{ expense.expensecategory.name }}
                       </router-link>
                     </td>
                     <td><span class="badge badge-warning">{{ expense.totalamount.toFixed(2) }} ৳</span></td>
                     <td>{{ expense.count }} বার</td>
                     <td>
-                      <router-link :to="{ name: 'singleVendor', params: { id: expense.id, code: code }}" class="btn btn-success btn-sm" v-tooltip="'বিস্তারিত দেখুন'">
+                      <router-link :to="{ name: 'singleExpense', params: { id: expense.expensecategory.id, code: code }}" class="btn btn-success btn-sm" v-tooltip="'বিস্তারিত দেখুন'">
                         <i class="fa fa-eye"></i>
                       </router-link>
                     </td>
@@ -135,10 +131,18 @@
 
                           <div class="timeline-label shadow">
                               <span v-if="expense.expensecategory_id == 1">
-                                <big class="text-secondary">{{ expense.expensecategory.name }}</big> |
+                                <router-link :to="{ name: 'singleExpense', params: { id: expense.expensecategory.id, code: code }}" v-tooltip="'বিস্তারিত দেখুন'">
+                                  <big class="text-secondary">{{ expense.expensecategory.name }}</big>
+                                </router-link>
+                                |
                                 <span class="text-green"><b>{{ expense.staff.name }}</b></span>
                                 | পরিমাণঃ <b>{{ expense.amount }}</b> ৳</span>
-                              <span v-else><big class="text-secondary">{{ expense.expensecategory.name }}</big> | পরিমাণঃ <b>{{ expense.amount }}</b> ৳</span><br/>
+                              <span v-else>
+                                <router-link :to="{ name: 'singleExpense', params: { id: expense.expensecategory.id, code: code }}" v-tooltip="'বিস্তারিত দেখুন'">
+                                  <big class="text-secondary">{{ expense.expensecategory.name }}</big>
+                                </router-link>
+                                | পরিমাণঃ <b>{{ expense.amount }}</b> ৳
+                              </span><br/>
                               <span class="text-muted"><i class="fa fa-calendar"></i> {{ expense.created_at | datetime }}</span>
                           </div>
                       </div>
@@ -160,38 +164,33 @@
             <div class="modal-content">
               <!-- Modal Header -->
               <div class="modal-header">
-                <h4 class="modal-title" id="addModalLabel">বকেয়া পরিশোধ করুন</h4>
+                <h4 class="modal-title" id="addModalLabel">খরচ লিপিবদ্ধ করুন</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
               </div>
-              <form @submit.prevent="updateVendor()" @keydown="form.onKeydown($event)">
+              <form @submit.prevent="createExpense()" @keydown="form.onKeydown($event)">
                 <!-- Modal body -->
                 <div class="modal-body">
                   <div class="form-group">
-                    <label>ডিলার/ ভেন্ডরের নাম</label>
-                    <input v-model="form.name" type="text" name="name" placeholder="ডিলার/ ভেন্ডরের নাম" 
-                      class="form-control" :class="{ 'is-invalid': form.errors.has('name') }" readonly="">
-                    <has-error :form="form" field="name"></has-error>
+                    <label>খাত নির্ধারণ (অপশনে না থাকলে লিখুন) *</label>
+                    <v-select placeholder="খাত নির্ধারণ (অপশনে না থাকলে লিখুন) *" :options="expensecategories" taggable label="name" v-model="form.expensecategory" ref='categorySelect' v-on:input="checkCategoryIfSalary(form.expensecategory)"></v-select>
+                    <has-error :form="form" field="expensecategories"></has-error>
+                    <div v-show="categoryerror" style="display: none; width: 100%; margin-top: .25rem; font-size: 80%; color: #dc3545;">অনুগ্রহ করে খাত নির্ধারণ করুন</div>
+                  </div>
+                  <div class="form-group" v-if="salarymode">
+                    <label>কর্মচারী নির্ধারণ করুন</label>
+                    <v-select placeholder="কর্মচারী নির্ধারণ করুন" :options="staff" label="name" v-model="form.staff" ref='categorySelect' v-on:input="checkIfStaffEmpty"></v-select>
+                    <has-error :form="form" field="expensecategories"></has-error>
+                    <div v-show="stafferror" style="display: none; width: 100%; margin-top: .25rem; font-size: 80%; color: #dc3545;">অনুগ্রহ করে কর্মচারী নির্ধারণ করুন</div>
                   </div>
                   <div class="form-group">
-                    <label>চলতি দেনা</label>
+                    <label>পরিমাণ</label>
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
                         <span class="input-group-text">৳</span>
                       </div> 
-                      <input v-model="form.current_due" type="number" step="any" name="current_due" placeholder="চলতি দেনা" 
-                      class="form-control" :class="{ 'is-invalid': form.errors.has('current_due') }" readonly="">
-                      <has-error :form="form" field="current_due"></has-error>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label>পরিশোধের পরিমাণ</label>
-                    <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">৳</span>
-                      </div> 
-                      <input v-model="form.amount_paying" type="number" step="any" name="amount_paying" placeholder="পরিশোধের পরিমাণ" 
-                        class="form-control" :class="{ 'is-invalid': form.errors.has('amount_paying') }" :min="0" :max="this.maxpayable">
-                      <has-error :form="form" field="amount_paying"></has-error>
+                      <input v-model="form.amount" type="number" step="any" name="amount" placeholder="পরিমাণ" 
+                      class="form-control" :class="{ 'is-invalid': form.errors.has('amount') }">
+                      <has-error :form="form" field="amount"></has-error>
                     </div>
                   </div>
                   <div class="form-group">
@@ -212,7 +211,7 @@
           </div>
         </div>
       </div><!-- /.container-fluid -->
-      <div v-if="!$gate.isAdminOrAssociated('due-page', this.$route.params.code)">
+      <div v-if="!$gate.isAdminOrAssociated('expense-page', this.$route.params.code)">
           <forbidden-403></forbidden-403>
       </div>
     </div>
@@ -225,84 +224,102 @@
             return {
               expenses: {},
               expensehistories: {},
-              maxpayable: 0,
+              expensecategories: [],
+              staff: [],
               code: this.$route.params.code,
               // Create a new form instance
               form: new Form({
                 id: '',
-                name: '',
-                current_due: '',
-                amount_paying: '',
+                expensecategory: '',
+                staff: '',
+                amount: '',
                 remark: '',
                 code: this.$route.params.code,
               }),
               // editmode: false
+              salarymode: false,
+              categoryerror: false,
+              stafferror: false,
             }
         },
         methods: {
             addModal() {
-                this.form.reset();
-                $('#addModal').modal({ show: true, backdrop: 'static', keyboard: false });
+              this.form.reset(); // clears fields
+              this.form.clear(); // clears errors
+              this.salarymode = false;
+              this.categoryerror = false;
+              this.stafferror = false;
+              $('#addModal').modal({ show: true, backdrop: 'static', keyboard: false });
 
-                // this.loadCategories();
-                // this.loadStaff();
+              this.loadCategories();
+              this.loadStaff();
             },
             editModal(vendor) {
-                this.form.reset(); // clears fields
-                this.form.clear(); // clears errors
-                $('#addModal').modal({ show: true, backdrop: 'static', keyboard: false });
+              this.form.reset(); // clears fields
+              this.form.clear(); // clears errors
+              $('#addModal').modal({ show: true, backdrop: 'static', keyboard: false });
 
-                this.form.fill(vendor); 
-                this.maxpayable = vendor.current_due;             
+              this.form.fill(vendor);             
             },
-            
             loadExpenses() {
-                if(this.$gate.isAdminOrAssociated('due-page', this.$route.params.code)){
-                  axios.get('/api/load/expense/' + this.$route.params.code).then(({ data }) => (this.expenses = data));  
-                }
+              if(this.$gate.isAdminOrAssociated('expense-page', this.$route.params.code)){
+                axios.get('/api/load/expense/' + this.$route.params.code).then(({ data }) => (this.expenses = data));  
+              }
             },
-            updateVendor() {
+            loadCategories() 
+            {
+              if(this.$gate.isAdminOrAssociated('expense-page', this.$route.params.code)){
+                axios.get('/api/load/expense/category/' + this.$route.params.code).then(({ data }) => (this.expensecategories = data));  
+              }
+            },
+            loadStaff() 
+            {
+              if(this.$gate.isAdminOrAssociated('expense-page', this.$route.params.code)){
+                axios.get('/api/load/expense/staff/' + this.$route.params.code).then(({ data }) => (this.staff = data));  
+              }
+            },
+            checkCategoryIfSalary(expensecategory) {
+              if(expensecategory &&expensecategory.id == 1) {
+                this.salarymode = true;
+              } else {
+                this.salarymode = false;
+                this.form.staff = null;
+              }
+              this.categoryerror = false;
+            },
+            checkIfStaffEmpty() {
+              this.stafferror = false;
+              
+            },
+            createExpense() {
                 this.$Progress.start();
-                this.form.put('/api/load/vendor/pay/due/'+ this.form.id).then(() => {
+                if((this.form.expensecategory == null) || this.form.expensecategory == '') {
+                  this.categoryerror = true;
+                } else {
+                  this.categoryerror = false;
+                }
+                if((this.form.staff == null) || this.form.staff == '') {
+                  this.stafferror = true;
+                } else {
+                  this.stafferror = false;
+                }
+
+                // post the data
+                this.form.post('/api/expense').then(() => {
                   $('#addModal').modal('hide')
                   Fire.$emit('AfterExpensesCreatedOrUpdated')
                   toast.fire({
                     type: 'success',
-                    title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
+                    title: 'সফলভাবে সংরক্ষণ করা হয়েছে!'
                   })
                   this.$Progress.finish();
                 })
                 .catch(() => {
                     this.$Progress.fail();
-                    // swal('Failed!', 'There was something wrong', 'warning');
                 })
             },
-            deleteVendor(id) {
-                swal.fire({
-                  title: 'Are you sure?',
-                  text: "You won't be able to revert this!",
-                  type: 'warning',
-                  showCancelButton: true,
-                  confirmButtonColor: '#3085d6',
-                  cancelButtonColor: '#d33',
-                  confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.value) {
-                       this.form.delete('/api/vendor/'+ id).then(() => {
-                         swal.fire(
-                          'Wait...!',
-                          'এই মুহূর্তে ডিলেট বন্ধ আছে!',
-                          'success'
-                          )
-                         Fire.$emit('AfterExpensesCreatedOrUpdated')
-                       })
-                       .catch(() => {
-                         swal('Failed!', 'There was something wrong', 'warning');
-                       }) 
-                    }
 
-                })
-            },
+
             getPaginationResults(page = 1) {
               axios.get('/api/load/expense/' + this.$route.params.code + '?page=' + page)
               .then(response => {
@@ -310,7 +327,7 @@
               });
             },
             loadExpensehistories() {
-              if(this.$gate.isAdminOrAssociated('due-page', this.$route.params.code)){
+              if(this.$gate.isAdminOrAssociated('expense-page', this.$route.params.code)){
                 axios.get('/api/load/expense/history/' + this.$route.params.code).then(({ data }) => (this.expensehistories = data));  
               }
             },
@@ -334,21 +351,21 @@
                 this.loadExpensehistories();
             });
 
-            Fire.$on('searching', () => {
-                let query = this.$parent.$parent.search;
-                if(query != '') {
-                  axios.get('/api/searchvendor/' + query)
-                  .then((data) => {
-                    this.expenses = data;
-                  })
-                  .catch(() => {
+            // Fire.$on('searching', () => {
+            //     let query = this.$parent.$parent.search;
+            //     if(query != '') {
+            //       axios.get('/api/searchvendor/' + query)
+            //       .then((data) => {
+            //         this.expenses = data;
+            //       })
+            //       .catch(() => {
 
-                  })
-                } else {
-                  this.loadExpenses();
-                }
+            //       })
+            //     } else {
+            //       this.loadExpenses();
+            //     }
                 
-            });
+            // });
         },
         beforeDestroy() {
           Fire.$off('AfterExpensesCreatedOrUpdated')

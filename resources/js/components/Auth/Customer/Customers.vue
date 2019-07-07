@@ -102,21 +102,25 @@
                 <!-- Modal body -->
                 <div class="modal-body">
                   <div class="form-group">
+                    <label>কাস্টমারের নাম *</label>
                     <input v-model="form.name" type="text" name="name" placeholder="কাস্টমারের নাম *" 
                       class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
                     <has-error :form="form" field="name"></has-error>
                   </div>
                   <div class="form-group">
+                    <label>যোগাযোগের নম্বর (১১ ডিজিট)</label>
                     <input v-model="form.mobile" type="number" name="mobile" placeholder="যোগাযোগের নম্বর" 
                       class="form-control" :class="{ 'is-invalid': form.errors.has('mobile') }" onkeypress="if(this.value.length==11) return false;">
                     <has-error :form="form" field="mobile"></has-error>
                   </div>
                   <div class="form-group">
+                    <label>ঠিকানা</label>
                     <input v-model="form.address" type="text" name="address" placeholder="ঠিকানা" 
                       class="form-control" :class="{ 'is-invalid': form.errors.has('address') }">
                     <has-error :form="form" field="address"></has-error>
                   </div>
                   <div class="form-group">
+                    <label>জাতীয় পরিচয়পত্র নম্বর (ঐচ্ছিক)</label>
                     <input v-model="form.nid" type="number" name="nid" placeholder="জাতীয় পরিচয়পত্র নম্বর" 
                       class="form-control" :class="{ 'is-invalid': form.errors.has('nid') }" onkeypress="if(this.value.length==17) return false;">
                     <has-error :form="form" field="nid"></has-error>
