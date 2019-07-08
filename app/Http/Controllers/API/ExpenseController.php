@@ -112,9 +112,44 @@ class ExpenseController extends Controller
         return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];
     }
 
-    public function show($id)
+    public function loadSingleExpense($id, $code)
     {
-        //
+        $expensecategory = Expensecategory::findOrFail($id);
+        // $expensecategory->load('expenses', 'expenses.staff');
+
+        $store = Store::where('code', $code)->first();
+        if($store) {
+           if(($expensecategory->store_id != null) && ($store->id != $expensecategory->store_id)) {
+               $expensecategory = null;
+           } 
+        } else {
+            $expensecategory = null;
+        }
+
+        return response()->json($expensecategory);
+    }
+
+    public function loadSingleExpenseStoreWise($id, $code)
+    {
+        $store = Store::where('code', $code)->first();
+        $expenses = Expense::where('expensecategory_id', $id)
+                           ->where('store_id', $store->id)
+                           ->orderBy('id', 'desc')
+                           ->paginate(6);
+        $expenses->load('staff');
+
+        return response()->json($expenses);
+    }
+
+    public function loadSingleExpenseTotals($id, $code)
+    {
+        $store = Store::where('code', $code)->first();
+        $expenses = Expense::where('expensecategory_id', $id)
+                           ->where('store_id', $store->id)
+                           ->select(DB::raw('SUM(amount) as totalamount'), DB::raw('COUNT(*) as count'))
+                           ->first();
+
+        return response()->json($expenses);
     }
 
     /**

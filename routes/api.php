@@ -69,6 +69,13 @@ Route::get('load/expense/{code}', 'API\ExpenseController@loadExpenses');
 Route::get('load/expense/history/{code}', 'API\ExpenseController@loadExpenseHistory');
 Route::get('load/expense/category/{code}', 'API\ExpenseController@loadExpenseCategories');
 Route::get('load/expense/staff/{code}', 'API\ExpenseController@loadExpenseStaff');
+Route::get('load/single/category/expense/{id}/{code}', 'API\ExpenseController@loadSingleExpense');
+Route::get('load/single/category/expenses/store/wise/{id}/{code}', 'API\ExpenseController@loadSingleExpenseStoreWise');
+Route::get('load/single/category/expenses/totals/{id}/{code}', 'API\ExpenseController@loadSingleExpenseTotals');
+
+
+
+Route::get('get/store/id/{code}', 'API\StoreController@getStoreID');
 
 // each search function has a big bug, it does not filters user's stores!!!
 // each search function has a big bug, it does not filters user's stores!!!

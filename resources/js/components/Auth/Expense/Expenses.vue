@@ -63,7 +63,7 @@
                     <td><span class="badge badge-warning">{{ expense.totalamount.toFixed(2) }} ৳</span></td>
                     <td>{{ expense.count }} বার</td>
                     <td>
-                      <router-link :to="{ name: 'singleExpense', params: { id: expense.expensecategory.id, code: code }}" class="btn btn-success btn-sm" v-tooltip="'বিস্তারিত দেখুন'">
+                      <router-link :to="{ name: 'singleExpense', params: { id: expense.expensecategory.id, code: code }}" class="btn btn-info btn-sm" v-tooltip="'বিস্তারিত দেখুন'">
                         <i class="fa fa-eye"></i>
                       </router-link>
                     </td>

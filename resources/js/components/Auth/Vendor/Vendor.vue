@@ -231,64 +231,64 @@
                 })
             },
             removeDuplicatePurchase(stocks) {
-                        var purchases = [];
-                        var markup = '';
-                        if(stocks) {
-                          for(var i=0; i<stocks.length; i++) {
-                            // if the purchase_id is null (default product stocked), then ignore
-                            if(stocks[i].purchase_id != null) {
-                              purchases.push(stocks[i].purchase);
-                            }
-                          }
-                        }
-                        // uniquify array of OBJECTS, then orders it, it's lodash!
-                        var uniqueArray = _.map(
-                            _.uniq(
-                                _.map(purchases, function(obj){
-                                    return JSON.stringify(obj);
-                                })
-                            ), function(obj) {
-                                return JSON.parse(obj);
-                            }
-                        );
-                        uniqueArray = _.orderBy(uniqueArray, 'id', 'desc');
+              var purchases = [];
+              var markup = '';
+              if(stocks) {
+                for(var i=0; i<stocks.length; i++) {
+                  // if the purchase_id is null (default product stocked), then ignore
+                  if(stocks[i].purchase_id != null) {
+                    purchases.push(stocks[i].purchase);
+                  }
+                }
+              }
+              // uniquify array of OBJECTS, then orders it, it's lodash!
+              var uniqueArray = _.map(
+                  _.uniq(
+                      _.map(purchases, function(obj){
+                          return JSON.stringify(obj);
+                      })
+                  ), function(obj) {
+                      return JSON.parse(obj);
+                  }
+              );
+              uniqueArray = _.orderBy(uniqueArray, 'id', 'desc');
 
-                        uniqueArray.map(function(purchase, key) {
-                          markup += '<div class="card bg-light text-dark" >'
-                                    +'<div class="card-body">'
-                                      +'<div class="row">'
-                                        +'<div class="col-md-10">'
-                                          +'<div class="row">'
-                                            +'<div class="col-md-6">'
-                                              +'<i class="fa fa-ticket text-blue"></i> ক্রয় রশিদ নম্বরঃ <b>'+ purchase.code +'</b><br/>'
-                                              +'<i class="fa fa-calculator text-green"></i> মোট প্রদেয়ঃ <b>'+ purchase.total +'</b><br/>'
-                                              +'<i class="fa fa-tag text-orange"></i> ডিসকাউন্টঃ <b>'+ purchase.discount +' '+ purchase.discount_unit +'</b>'
-                                            +'</div>'
-                                            +'<div class="col-md-6">'
-                                              +'<i class="fa fa-money text-teal"></i> পরিশোধনীয় মূল্যঃ <b>'+ purchase.payable +'</b><br/>'
-                                              +'<i class="fa fa-check-circle text-cyan"></i> পরিশোধিতঃ <b>'+ purchase.paid +'</b><br/>'
-                                              +'<i class="fa fa-clock-o text-red"></i> দেনা/ পরিশোধনীয়ঃ <b>'+ purchase.due +'</b>'
-                                            +'</div>'
-                                          +'</div>'
-                                        +'</div>'
-                                        +'<div class="col-md-2">'
-                                          +'<a href="/pdf/purchase/'+ purchase.id +'" class="btn btn-primary btn-sm" data-toggle="tooltip" title="রশিদ ডাউনলোড করুন">'
-                                              +'<i class="fa fa-download text-light"></i>'
-                                          +'</a>'
-                                          +'<button class="btn btn-success btn-sm" style="margin-left: 5px;" data-toggle="tooltip" title="রশিদ প্রিন্ট করুন">'
-                                              +'<i class="fa fa-print"></i>'
-                                          +'</button>'
-                                        +'</div>'
-                                      +'</div>'
-                                      +'<small class="text-muted" style="border-top: 1px solid #DDD;">'
-                                        +'<i class="fa fa-calendar"></i> '+ moment(purchase.created_at).format('MMMM DD, YYYY hh:mm A')
-                                      +'</small>'
-                                    +'</div>'
+              uniqueArray.map(function(purchase, key) {
+                markup += '<div class="card bg-light text-dark" >'
+                          +'<div class="card-body">'
+                            +'<div class="row">'
+                              +'<div class="col-md-10">'
+                                +'<div class="row">'
+                                  +'<div class="col-md-6">'
+                                    +'<i class="fa fa-ticket text-blue"></i> ক্রয় রশিদ নম্বরঃ <b>'+ purchase.code +'</b><br/>'
+                                    +'<i class="fa fa-calculator text-green"></i> মোট প্রদেয়ঃ <b>'+ purchase.total +'</b><br/>'
+                                    +'<i class="fa fa-tag text-orange"></i> ডিসকাউন্টঃ <b>'+ purchase.discount +' '+ purchase.discount_unit +'</b>'
                                   +'</div>'
-                        });
+                                  +'<div class="col-md-6">'
+                                    +'<i class="fa fa-money text-teal"></i> পরিশোধনীয় মূল্যঃ <b>'+ purchase.payable +'</b><br/>'
+                                    +'<i class="fa fa-check-circle text-cyan"></i> পরিশোধিতঃ <b>'+ purchase.paid +'</b><br/>'
+                                    +'<i class="fa fa-clock-o text-red"></i> দেনা/ পরিশোধনীয়ঃ <b>'+ purchase.due +'</b>'
+                                  +'</div>'
+                                +'</div>'
+                              +'</div>'
+                              +'<div class="col-md-2">'
+                                +'<a href="/pdf/purchase/'+ purchase.id +'" class="btn btn-primary btn-sm" data-toggle="tooltip" title="রশিদ ডাউনলোড করুন">'
+                                    +'<i class="fa fa-download text-light"></i>'
+                                +'</a>'
+                                +'<button class="btn btn-success btn-sm" style="margin-left: 5px;" data-toggle="tooltip" title="রশিদ প্রিন্ট করুন">'
+                                    +'<i class="fa fa-print"></i>'
+                                +'</button>'
+                              +'</div>'
+                            +'</div>'
+                            +'<small class="text-muted" style="border-top: 1px solid #DDD;">'
+                              +'<i class="fa fa-calendar"></i> '+ moment(purchase.created_at).format('MMMM DD, YYYY hh:mm A')
+                            +'</small>'
+                          +'</div>'
+                        +'</div>'
+              });
 
-                        return markup;
-                      },
+              return markup;
+            },
         },
         created() {
             this.loadVendor();

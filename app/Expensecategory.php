@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Expensecategory extends Model
 {
-    public function exprenses(){
-        return $this->hasMany('App\Exprense');
+    public function expenses(){
+        return $this->hasMany('App\Expense');
     }
 
     public function store(){

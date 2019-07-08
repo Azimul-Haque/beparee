@@ -211,4 +211,10 @@ class StoreController extends Controller
         
         return ['message' => 'সফলভাবে হালনাগাদ করা হয়েছে!'];
     }
+
+    public function getStoreID($code)
+    {
+        $store = Store::where('code', $code)->first();
+        return $store->id;
+    }
 }

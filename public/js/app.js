@@ -3937,6 +3937,328 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Auth/Expense/Expense.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Auth/Expense/Expense.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      expensecategory: {},
+      expenses: {},
+      totalexpenseamount: '',
+      totalexpensecount: '',
+      maxpayable: 0,
+      // Create a new form instance
+      form: new Form({
+        id: '',
+        name: '',
+        current_due: '',
+        amount_paying: '',
+        remark: '',
+        code: this.$route.params.code
+      }) // editmode: false
+
+    };
+  },
+  methods: {
+    editModal: function editModal(expense) {
+      this.form.reset(); // clears fields
+
+      this.form.clear(); // clears errors
+
+      $('#addModal').modal({
+        show: true,
+        backdrop: 'static',
+        keyboard: false
+      });
+      this.form.fill(expense); // this.maxpayable = expense.current_due;             
+    },
+    loadExpenseCategory: function loadExpenseCategory() {
+      var _this = this;
+
+      if (this.$gate.isAdminOrAssociated('expense-page', this.$route.params.code)) {
+        axios.get('/api/load/single/category/expense/' + this.$route.params.id + '/' + this.$route.params.code).then(function (_ref) {
+          var data = _ref.data;
+          return _this.expensecategory = data;
+        });
+      }
+    },
+    loadExpenses: function loadExpenses() {
+      var _this2 = this;
+
+      if (this.$gate.isAdminOrAssociated('expense-page', this.$route.params.code)) {
+        axios.get('/api/load/single/category/expenses/store/wise/' + this.$route.params.id + '/' + this.$route.params.code).then(function (_ref2) {
+          var data = _ref2.data;
+          return _this2.expenses = data;
+        });
+      }
+    },
+    loadExpensesTotals: function loadExpensesTotals() {
+      var _this3 = this;
+
+      if (this.$gate.isAdminOrAssociated('expense-page', this.$route.params.code)) {
+        axios.get('/api/load/single/category/expenses/totals/' + this.$route.params.id + '/' + this.$route.params.code).then(function (_ref3) {
+          var data = _ref3.data;
+          return _this3.totalexpenseamount = data.totalamount.toFixed(2), _this3.totalexpensecount = data.count;
+        });
+      }
+    },
+    updateExpense: function updateExpense() {
+      var _this4 = this;
+
+      this.$Progress.start();
+      this.form.put('/api/load/expense/pay/due/' + this.form.id).then(function () {
+        $('#addModal').modal('hide');
+        Fire.$emit('AfterExpenseUpdated');
+        toast.fire({
+          type: 'success',
+          title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
+        });
+
+        _this4.$Progress.finish();
+      })["catch"](function () {
+        _this4.$Progress.fail(); // swal('Failed!', 'There was something wrong', 'warning');
+
+      });
+    },
+    getPaginationExpensehistories: function getPaginationExpensehistories() {
+      var _this5 = this;
+
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      axios.get('/api/load/single/category/expenses/store/wise/' + this.$route.params.id + '/' + this.$route.params.code + '?page=' + page).then(function (response) {
+        _this5.expenses = response.data;
+      });
+    }
+  },
+  created: function created() {
+    var _this6 = this;
+
+    this.loadExpenseCategory();
+    this.loadExpenses();
+    this.loadExpensesTotals();
+    Fire.$on('AfterExpenseUpdated', function () {
+      _this6.loadExpenseCategory();
+
+      _this6.loadExpenses();
+
+      _this6.loadExpensesTotals();
+    });
+    Fire.$on('changingstorename', function () {
+      _this6.loadExpenseCategory();
+
+      _this6.loadExpenses();
+
+      _this6.loadExpensesTotals();
+    }); // Fire.$on('searching', () => {
+    //     let query = this.$parent.search;
+    //     if(query != '') {
+    //       axios.get('/api/searchstore/' + query)
+    //       .then((data) => {
+    //         this.product = data.data;
+    //       })
+    //       .catch(() => {
+    //       })
+    //     } else {
+    //       this.loadExpenseCategory();
+    //       this.loadExpenses();
+    //       this.loadExpensesTotals();
+    //     }
+    // });
+  },
+  beforeDestroy: function beforeDestroy() {
+    Fire.$off('AfterExpenseUpdated');
+    Fire.$off('changingstorename'); // Fire.$off('searching')
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Auth/Expense/Expenses.vue?vue&type=script&lang=js&":
 /*!********************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Auth/Expense/Expenses.vue?vue&type=script&lang=js& ***!
@@ -84961,6 +85283,657 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Auth/Expense/Expense.vue?vue&type=template&id=27041a36&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Auth/Expense/Expense.vue?vue&type=template&id=27041a36& ***!
+  \***********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "content" }, [
+    _vm.$gate.isAdminOrAssociated("expense-page", this.$route.params.code)
+      ? _c("div", { staticClass: "content-header" }, [_vm._m(0)])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.$gate.isAdminOrAssociated("expense-page", this.$route.params.code)
+      ? _c("div", { staticClass: "container-fluid" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-3" }, [
+              _c("div", { staticClass: "card" }, [
+                _c(
+                  "div",
+                  {
+                    staticStyle: {
+                      background:
+                        "url('/images/expensecover.jpg') center center"
+                    }
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "card-body text-light",
+                        staticStyle: { background: "rgba(200, 66, 10, 0.75)" }
+                      },
+                      [
+                        _c(
+                          "h5",
+                          {
+                            staticClass: "card-title",
+                            staticStyle: { "border-bottom": "1px solid #fff" }
+                          },
+                          [_vm._v(_vm._s(_vm.expensecategory.name))]
+                        ),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "card-text" })
+                      ]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("ul", { staticClass: "list-group list-group-flush" }, [
+                  _c("li", { staticClass: "list-group-item" }, [
+                    _c("b", [_vm._v("খরচের সংখ্যাঃ")]),
+                    _vm._v(" " + _vm._s(this.totalexpensecount) + " টি")
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "list-group-item" }, [
+                    _c("b", [_vm._v("মোট খরচঃ")]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "badge badge-warning" }, [
+                      _vm._v(_vm._s(this.totalexpenseamount) + " ৳")
+                    ])
+                  ])
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-9" }, [
+              _c("div", { staticClass: "card" }, [
+                _c("div", { staticClass: "card-header" }, [
+                  _c("h3", { staticClass: "card-title" }, [
+                    _vm._v(_vm._s(_vm.expensecategory.name) + "-এর সময়রেখা")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card-tools" })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-body p-2" }, [
+                  _c(
+                    "div",
+                    { staticClass: "timeline-centered" },
+                    _vm._l(_vm.expenses.data, function(expense) {
+                      return _c(
+                        "article",
+                        { key: expense.id, staticClass: "timeline-entry" },
+                        [
+                          _c("div", { staticClass: "timeline-entry-inner" }, [
+                            _vm.expensecategory.id == 1
+                              ? _c(
+                                  "div",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "tooltip",
+                                        rawName: "v-tooltip",
+                                        value: _vm.expensecategory.name,
+                                        expression: "expensecategory.name"
+                                      }
+                                    ],
+                                    staticClass: "timeline-icon bg-success"
+                                  },
+                                  [_c("i", { staticClass: "fa fa-user-o" })]
+                                )
+                              : _vm.expensecategory.id == 2
+                              ? _c(
+                                  "div",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "tooltip",
+                                        rawName: "v-tooltip",
+                                        value: _vm.expensecategory.name,
+                                        expression: "expensecategory.name"
+                                      }
+                                    ],
+                                    staticClass: "timeline-icon bg-primary"
+                                  },
+                                  [_c("i", { staticClass: "fa fa-plug" })]
+                                )
+                              : _vm.expensecategory.id == 3
+                              ? _c(
+                                  "div",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "tooltip",
+                                        rawName: "v-tooltip",
+                                        value: _vm.expensecategory.name,
+                                        expression: "expensecategory.name"
+                                      }
+                                    ],
+                                    staticClass: "timeline-icon bg-info"
+                                  },
+                                  [_c("i", { staticClass: "fa fa-fire" })]
+                                )
+                              : _vm.expensecategory.id == 4
+                              ? _c(
+                                  "div",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "tooltip",
+                                        rawName: "v-tooltip",
+                                        value: _vm.expensecategory.name,
+                                        expression: "expensecategory.name"
+                                      }
+                                    ],
+                                    staticClass: "timeline-icon bg-warning"
+                                  },
+                                  [_c("i", { staticClass: "fa fa-truck" })]
+                                )
+                              : _vm.expensecategory.id == 5
+                              ? _c(
+                                  "div",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "tooltip",
+                                        rawName: "v-tooltip",
+                                        value: _vm.expensecategory.name,
+                                        expression: "expensecategory.name"
+                                      }
+                                    ],
+                                    staticClass: "timeline-icon bg-danger"
+                                  },
+                                  [_c("i", { staticClass: "fa fa-home" })]
+                                )
+                              : _vm.expensecategory.id == 6
+                              ? _c(
+                                  "div",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "tooltip",
+                                        rawName: "v-tooltip",
+                                        value: _vm.expensecategory.name,
+                                        expression: "expensecategory.name"
+                                      }
+                                    ],
+                                    staticClass: "timeline-icon bg-secondary"
+                                  },
+                                  [_c("i", { staticClass: "fa fa-motorcycle" })]
+                                )
+                              : _vm.expensecategory.id == 7
+                              ? _c(
+                                  "div",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "tooltip",
+                                        rawName: "v-tooltip",
+                                        value: _vm.expensecategory.name,
+                                        expression: "expensecategory.name"
+                                      }
+                                    ],
+                                    staticClass: "timeline-icon bg-dark"
+                                  },
+                                  [_c("i", { staticClass: "fa fa-coffee" })]
+                                )
+                              : _c(
+                                  "div",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "tooltip",
+                                        rawName: "v-tooltip",
+                                        value: _vm.expensecategory.name,
+                                        expression: "expensecategory.name"
+                                      }
+                                    ],
+                                    staticClass: "timeline-icon bg-primary"
+                                  },
+                                  [_c("i", { staticClass: "fa fa-star" })]
+                                ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "timeline-label shadow" },
+                              [
+                                _vm.expensecategory.id == 1
+                                  ? _c("span", [
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-green" },
+                                        [
+                                          _c("b", [
+                                            _vm._v(_vm._s(expense.staff.name))
+                                          ])
+                                        ]
+                                      ),
+                                      _vm._v(
+                                        "\n                            | পরিমাণঃ "
+                                      ),
+                                      _c("b", [_vm._v(_vm._s(expense.amount))]),
+                                      _vm._v(" ৳")
+                                    ])
+                                  : _c("span", [
+                                      _vm._v(
+                                        "\n                            পরিমাণঃ "
+                                      ),
+                                      _c("b", [_vm._v(_vm._s(expense.amount))]),
+                                      _vm._v(" ৳\n                          ")
+                                    ]),
+                                _vm._v(" "),
+                                _vm._m(1, true),
+                                _vm._v(" "),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("span", { staticClass: "text-muted" }, [
+                                  _c("i", { staticClass: "fa fa-calendar" }),
+                                  _vm._v(
+                                    " " +
+                                      _vm._s(
+                                        _vm._f("datetime")(expense.created_at)
+                                      )
+                                  )
+                                ])
+                              ]
+                            )
+                          ])
+                        ]
+                      )
+                    }),
+                    0
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "card-footer" },
+                  [
+                    _c("pagination", {
+                      attrs: { data: _vm.expenses },
+                      on: {
+                        "pagination-change-page":
+                          _vm.getPaginationExpensehistories
+                      }
+                    })
+                  ],
+                  1
+                )
+              ])
+            ])
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "addModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "addModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(2),
+            _vm._v(" "),
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.updateVendor()
+                  },
+                  keydown: function($event) {
+                    return _vm.form.onKeydown($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "modal-body" }, [
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c("label", [_vm._v("ডিলার/ ভেন্ডরের নাম")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.name,
+                            expression: "form.name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        class: { "is-invalid": _vm.form.errors.has("name") },
+                        attrs: {
+                          type: "text",
+                          name: "name",
+                          placeholder: "ডিলার/ ভেন্ডরের নাম",
+                          readonly: ""
+                        },
+                        domProps: { value: _vm.form.name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "name", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "name" }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", [_vm._v("চলতি দেনা")]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "input-group mb-3" },
+                      [
+                        _vm._m(3),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.current_due,
+                              expression: "form.current_due"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("current_due")
+                          },
+                          attrs: {
+                            type: "number",
+                            step: "any",
+                            name: "current_due",
+                            placeholder: "চলতি দেনা",
+                            readonly: ""
+                          },
+                          domProps: { value: _vm.form.current_due },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "current_due",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "current_due" }
+                        })
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", [_vm._v("পরিশোধের পরিমাণ")]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "input-group mb-3" },
+                      [
+                        _vm._m(4),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.amount_paying,
+                              expression: "form.amount_paying"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("amount_paying")
+                          },
+                          attrs: {
+                            type: "number",
+                            step: "any",
+                            name: "amount_paying",
+                            placeholder: "পরিশোধের পরিমাণ",
+                            min: 0,
+                            max: this.maxpayable
+                          },
+                          domProps: { value: _vm.form.amount_paying },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "amount_paying",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "amount_paying" }
+                        })
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c("label", [_vm._v("মন্তব্য (ঐচ্ছিক)")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.remark,
+                            expression: "form.remark"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        class: { "is-invalid": _vm.form.errors.has("remark") },
+                        attrs: {
+                          type: "text",
+                          name: "remark",
+                          placeholder: "মন্তব্য (ঐচ্ছিক)"
+                        },
+                        domProps: { value: _vm.form.remark },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "remark", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "remark" }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.code,
+                        expression: "form.code"
+                      }
+                    ],
+                    attrs: { type: "hidden", name: "code" },
+                    domProps: { value: _vm.form.code },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "code", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _vm._m(5)
+              ]
+            )
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    !_vm.$gate.isAdminOrAssociated("expense-page", this.$route.params.code)
+      ? _c("div", [_c("forbidden-403")], 1)
+      : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "container-fluid" }, [
+      _c("div", { staticClass: "row mb-2" }, [
+        _c("div", { staticClass: "col-sm-6" }, [
+          _c("h1", { staticClass: "m-0 text-dark" }, [_vm._v("খরচের বিবরণ")])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-6" }, [
+          _c("ol", { staticClass: "breadcrumb float-sm-right" }, [
+            _c("li", { staticClass: "breadcrumb-item" }, [
+              _c("a", { attrs: { href: "#!" } }, [_vm._v("স্টোর")])
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "breadcrumb-item" }, [
+              _c("a", { attrs: { href: "#!" } }, [_vm._v("খরচ")])
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "breadcrumb-item active" }, [
+              _vm._v("বিবরণ")
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-success btn-sm",
+        staticStyle: { float: "right" }
+      },
+      [_c("i", { staticClass: "fa fa-edit" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h4", { staticClass: "modal-title", attrs: { id: "addModalLabel" } }, [
+        _vm._v("বকেয়া পরিশোধ করুন")
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("×")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [_vm._v("৳")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [_vm._v("৳")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-success", attrs: { type: "submit" } },
+        [_vm._v("দাখিল করুন")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-danger",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("ফিরে যান")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Auth/Expense/Expenses.vue?vue&type=template&id=b227ea44&":
 /*!************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Auth/Expense/Expenses.vue?vue&type=template&id=b227ea44& ***!
@@ -85105,7 +86078,7 @@ var render = function() {
                                       expression: "'বিস্তারিত দেখুন'"
                                     }
                                   ],
-                                  staticClass: "btn btn-success btn-sm",
+                                  staticClass: "btn btn-info btn-sm",
                                   attrs: {
                                     to: {
                                       name: "singleExpense",
@@ -107536,17 +108509,20 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-var render, staticRenderFns
-var script = {}
+/* harmony import */ var _Expense_vue_vue_type_template_id_27041a36___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Expense.vue?vue&type=template&id=27041a36& */ "./resources/js/components/Auth/Expense/Expense.vue?vue&type=template&id=27041a36&");
+/* harmony import */ var _Expense_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Expense.vue?vue&type=script&lang=js& */ "./resources/js/components/Auth/Expense/Expense.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
 
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__["default"])(
-  script,
-  render,
-  staticRenderFns,
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Expense_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Expense_vue_vue_type_template_id_27041a36___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Expense_vue_vue_type_template_id_27041a36___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -107554,8 +108530,42 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
   
 )
 
+/* hot reload */
+if (false) { var api; }
 component.options.__file = "resources/js/components/Auth/Expense/Expense.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Auth/Expense/Expense.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/Auth/Expense/Expense.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Expense_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Expense.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Auth/Expense/Expense.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Expense_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Auth/Expense/Expense.vue?vue&type=template&id=27041a36&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/Auth/Expense/Expense.vue?vue&type=template&id=27041a36& ***!
+  \*****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Expense_vue_vue_type_template_id_27041a36___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Expense.vue?vue&type=template&id=27041a36& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Auth/Expense/Expense.vue?vue&type=template&id=27041a36&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Expense_vue_vue_type_template_id_27041a36___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Expense_vue_vue_type_template_id_27041a36___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 
