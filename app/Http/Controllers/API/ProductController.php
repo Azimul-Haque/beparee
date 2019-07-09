@@ -210,9 +210,9 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = Product::findOrFail($id);
-        $product->stocks()->delete();
-        $product->delete();
+        // $product = Product::findOrFail($id);
+        // $product->stocks()->delete();
+        // $product->delete();
         return ['message' => 'সফলভাবে ডিলেট করা হয়েছে!'];
     }
 

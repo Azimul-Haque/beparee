@@ -4124,8 +4124,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4133,15 +4131,13 @@ __webpack_require__.r(__webpack_exports__);
       expenses: {},
       totalexpenseamount: '',
       totalexpensecount: '',
-      maxpayable: 0,
+      code: this.$route.params.code,
       // Create a new form instance
       form: new Form({
         id: '',
-        name: '',
-        current_due: '',
-        amount_paying: '',
-        remark: '',
-        code: this.$route.params.code
+        staffname: '',
+        amount: '',
+        remark: ''
       }) // editmode: false
 
     };
@@ -4157,7 +4153,11 @@ __webpack_require__.r(__webpack_exports__);
         backdrop: 'static',
         keyboard: false
       });
-      this.form.fill(expense); // this.maxpayable = expense.current_due;             
+      this.form.fill(expense);
+
+      if (this.expensecategory.id == 1) {
+        this.form.staffname = expense.staff.name;
+      }
     },
     loadExpenseCategory: function loadExpenseCategory() {
       var _this = this;
@@ -4193,7 +4193,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this4 = this;
 
       this.$Progress.start();
-      this.form.put('/api/load/expense/pay/due/' + this.form.id).then(function () {
+      this.form.put('/api/expense/' + this.form.id).then(function () {
         $('#addModal').modal('hide');
         Fire.$emit('AfterExpenseUpdated');
         toast.fire({
@@ -4207,34 +4207,57 @@ __webpack_require__.r(__webpack_exports__);
 
       });
     },
-    getPaginationExpensehistories: function getPaginationExpensehistories() {
+    deleteExpense: function deleteExpense(id) {
       var _this5 = this;
+
+      swal.fire({
+        title: 'আপনি কি নিশ্চিত?',
+        text: "ডিলেট করলে আর ফেরত পাওয়া যাবে না!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'নিশ্চিত করছি',
+        cancelButtonText: 'ফিরে যান'
+      }).then(function (result) {
+        if (result.value) {
+          _this5.form["delete"]('/api/expense/' + id).then(function () {
+            swal.fire('ডিলেট', 'ডিলেট সফল হয়েছে!', 'success');
+            Fire.$emit('AfterExpenseUpdated');
+          })["catch"](function () {
+            swal('Failed!', 'কিছু সমস্যা হচ্ছে, দুঃখিত!', 'warning');
+          });
+        }
+      });
+    },
+    getPaginationExpenseHistories: function getPaginationExpenseHistories() {
+      var _this6 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       axios.get('/api/load/single/category/expenses/store/wise/' + this.$route.params.id + '/' + this.$route.params.code + '?page=' + page).then(function (response) {
-        _this5.expenses = response.data;
+        _this6.expenses = response.data;
       });
     }
   },
   created: function created() {
-    var _this6 = this;
+    var _this7 = this;
 
     this.loadExpenseCategory();
     this.loadExpenses();
     this.loadExpensesTotals();
     Fire.$on('AfterExpenseUpdated', function () {
-      _this6.loadExpenseCategory();
+      _this7.loadExpenseCategory();
 
-      _this6.loadExpenses();
+      _this7.loadExpenses();
 
-      _this6.loadExpensesTotals();
+      _this7.loadExpensesTotals();
     });
     Fire.$on('changingstorename', function () {
-      _this6.loadExpenseCategory();
+      _this7.loadExpenseCategory();
 
-      _this6.loadExpenses();
+      _this7.loadExpenses();
 
-      _this6.loadExpensesTotals();
+      _this7.loadExpensesTotals();
     }); // Fire.$on('searching', () => {
     //     let query = this.$parent.search;
     //     if(query != '') {
@@ -4268,6 +4291,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -6075,6 +6100,312 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Auth/Staff/Staff.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Auth/Staff/Staff.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      staff: {},
+      salaryhistories: {},
+      totalsalary: '',
+      salarycount: '',
+      // Create a new form instance
+      form: new Form({
+        code: this.$route.params.code,
+        staff_id: '',
+        amount: '',
+        remark: ''
+      }) // editmode: false
+
+    };
+  },
+  methods: {
+    editModal: function editModal(staff) {
+      this.form.reset(); // clears fields
+
+      this.form.clear(); // clears errors
+
+      $('#addModal').modal({
+        show: true,
+        backdrop: 'static',
+        keyboard: false
+      });
+      this.form.fill(staff);
+      this.form.code = this.$route.params.code;
+      this.form.staff_id = staff.id;
+    },
+    loadStaff: function loadStaff() {
+      var _this = this;
+
+      if (this.$gate.isAdminOrAssociated('staff-page', this.$route.params.code)) {
+        axios.get('/api/load/single/staff/' + this.$route.params.id + '/' + this.$route.params.code).then(function (_ref) {
+          var data = _ref.data;
+          return _this.staff = data;
+        });
+      }
+    },
+    loadSalaryHistories: function loadSalaryHistories() {
+      var _this2 = this;
+
+      if (this.$gate.isAdminOrAssociated('staff-page', this.$route.params.code)) {
+        axios.get('/api/load/single/staff/salary/history/' + this.$route.params.id + '/' + this.$route.params.code).then(function (_ref2) {
+          var data = _ref2.data;
+          return _this2.salaryhistories = data;
+        });
+      }
+    },
+    loadSalaryTotals: function loadSalaryTotals() {
+      var _this3 = this;
+
+      if (this.$gate.isAdminOrAssociated('staff-page', this.$route.params.code)) {
+        axios.get('/api/load/single/staff/salary/history/totals/' + this.$route.params.id + '/' + this.$route.params.code).then(function (_ref3) {
+          var data = _ref3.data;
+          return _this3.totalsalary = data.totalsalary.toFixed(2), _this3.salarycount = data.salarycount;
+        });
+      }
+    },
+    payStaffSalary: function payStaffSalary() {
+      var _this4 = this;
+
+      this.$Progress.start();
+      this.form.post('/api/load/staff/pay/salary').then(function () {
+        $('#addModal').modal('hide');
+        Fire.$emit('AfterStaffUpdated');
+        toast.fire({
+          type: 'success',
+          title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
+        });
+
+        _this4.$Progress.finish();
+      })["catch"](function () {
+        _this4.$Progress.fail(); // swal('Failed!', 'There was something wrong', 'warning');
+
+      });
+    },
+    getPaginationSalaryHistories: function getPaginationSalaryHistories() {
+      var _this5 = this;
+
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      axios.get('/api/load/single/staff/salary/history/' + this.$route.params.id + '/' + this.$route.params.code + '?page=' + page).then(function (response) {
+        _this5.salaryhistories = response.data;
+      });
+    }
+  },
+  created: function created() {
+    var _this6 = this;
+
+    this.loadStaff();
+    this.loadSalaryHistories();
+    this.loadSalaryTotals();
+    Fire.$on('AfterStaffUpdated', function () {
+      _this6.loadStaff();
+
+      _this6.loadSalaryHistories();
+
+      _this6.loadSalaryTotals();
+    });
+    Fire.$on('changingstorename', function () {
+      _this6.loadStaff();
+
+      _this6.loadSalaryHistories();
+
+      _this6.loadSalaryTotals();
+    }); // Fire.$on('searching', () => {
+    //     let query = this.$parent.search;
+    //     if(query != '') {
+    //       axios.get('/api/searchstore/' + query)
+    //       .then((data) => {
+    //         this.product = data.data;
+    //       })
+    //       .catch(() => {
+    //       })
+    //     } else {
+    //       this.loadStaff();
+    //       this.loadSalaryHistories();
+    //       this.loadSalaryTotals();
+    //     }
+    // });
+  },
+  beforeDestroy: function beforeDestroy() {
+    Fire.$off('AfterStaffUpdated');
+    Fire.$off('changingstorename'); // Fire.$off('searching')
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Auth/Staff/Staffs.vue?vue&type=script&lang=js&":
 /*!****************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Auth/Staff/Staffs.vue?vue&type=script&lang=js& ***!
@@ -6229,10 +6560,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       staffs: {},
+      code: this.$route.params.code,
       // Create a new form instance
       form: new Form({
         id: '',
@@ -85342,14 +85681,14 @@ var render = function() {
                 _c("ul", { staticClass: "list-group list-group-flush" }, [
                   _c("li", { staticClass: "list-group-item" }, [
                     _c("b", [_vm._v("খরচের সংখ্যাঃ")]),
-                    _vm._v(" " + _vm._s(this.totalexpensecount) + " টি")
+                    _vm._v(" " + _vm._s(_vm.totalexpensecount) + " টি")
                   ]),
                   _vm._v(" "),
                   _c("li", { staticClass: "list-group-item" }, [
                     _c("b", [_vm._v("মোট খরচঃ")]),
                     _vm._v(" "),
                     _c("span", { staticClass: "badge badge-warning" }, [
-                      _vm._v(_vm._s(this.totalexpenseamount) + " ৳")
+                      _vm._v(_vm._s(_vm.totalexpenseamount) + " ৳")
                     ])
                   ])
                 ])
@@ -85514,10 +85853,37 @@ var render = function() {
                                         "span",
                                         { staticClass: "text-green" },
                                         [
-                                          _c("b", [
-                                            _vm._v(_vm._s(expense.staff.name))
-                                          ])
-                                        ]
+                                          _c(
+                                            "router-link",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "tooltip",
+                                                  rawName: "v-tooltip",
+                                                  value: "প্রোফাইল দেখুন",
+                                                  expression: "'প্রোফাইল দেখুন'"
+                                                }
+                                              ],
+                                              attrs: {
+                                                to: {
+                                                  name: "singleStaff",
+                                                  params: {
+                                                    id: expense.staff.id,
+                                                    code: _vm.code
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("b", [
+                                                _vm._v(
+                                                  _vm._s(expense.staff.name)
+                                                )
+                                              ])
+                                            ]
+                                          )
+                                        ],
+                                        1
                                       ),
                                       _vm._v(
                                         "\n                            | পরিমাণঃ "
@@ -85533,7 +85899,49 @@ var render = function() {
                                       _vm._v(" ৳\n                          ")
                                     ]),
                                 _vm._v(" "),
-                                _vm._m(1, true),
+                                _c("div", { staticStyle: { float: "right" } }, [
+                                  _c(
+                                    "button",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "tooltip",
+                                          rawName: "v-tooltip",
+                                          value: "সম্পাদনা করুন",
+                                          expression: "'সম্পাদনা করুন'"
+                                        }
+                                      ],
+                                      staticClass: "btn btn-success btn-sm",
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.editModal(expense)
+                                        }
+                                      }
+                                    },
+                                    [_c("i", { staticClass: "fa fa-edit" })]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "button",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "tooltip",
+                                          rawName: "v-tooltip",
+                                          value: "ডিলেট করুন",
+                                          expression: "'ডিলেট করুন'"
+                                        }
+                                      ],
+                                      staticClass: "btn btn-danger btn-sm",
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.deleteExpense(expense.id)
+                                        }
+                                      }
+                                    },
+                                    [_c("i", { staticClass: "fa fa-trash" })]
+                                  )
+                                ]),
                                 _vm._v(" "),
                                 _c("br"),
                                 _vm._v(" "),
@@ -85564,7 +85972,7 @@ var render = function() {
                       attrs: { data: _vm.expenses },
                       on: {
                         "pagination-change-page":
-                          _vm.getPaginationExpensehistories
+                          _vm.getPaginationExpenseHistories
                       }
                     })
                   ],
@@ -85591,7 +85999,7 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(2),
+            _vm._m(1),
             _vm._v(" "),
             _c(
               "form",
@@ -85599,7 +86007,7 @@ var render = function() {
                 on: {
                   submit: function($event) {
                     $event.preventDefault()
-                    return _vm.updateVendor()
+                    return _vm.updateExpense()
                   },
                   keydown: function($event) {
                     return _vm.form.onKeydown($event)
@@ -85608,130 +86016,34 @@ var render = function() {
               },
               [
                 _c("div", { staticClass: "modal-body" }, [
-                  _c(
-                    "div",
-                    { staticClass: "form-group" },
-                    [
-                      _c("label", [_vm._v("ডিলার/ ভেন্ডরের নাম")]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.form.name,
-                            expression: "form.name"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        class: { "is-invalid": _vm.form.errors.has("name") },
-                        attrs: {
-                          type: "text",
-                          name: "name",
-                          placeholder: "ডিলার/ ভেন্ডরের নাম",
-                          readonly: ""
-                        },
-                        domProps: { value: _vm.form.name },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(_vm.form, "name", $event.target.value)
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("has-error", {
-                        attrs: { form: _vm.form, field: "name" }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
-                    _c("label", [_vm._v("চলতি দেনা")]),
+                    _c("label", [
+                      _vm._v("খাত " + _vm._s(_vm.expensecategory.name))
+                    ]),
                     _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "input-group mb-3" },
-                      [
-                        _vm._m(3),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.form.current_due,
-                              expression: "form.current_due"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          class: {
-                            "is-invalid": _vm.form.errors.has("current_due")
-                          },
-                          attrs: {
-                            type: "number",
-                            step: "any",
-                            name: "current_due",
-                            placeholder: "চলতি দেনা",
-                            readonly: ""
-                          },
-                          domProps: { value: _vm.form.current_due },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.form,
-                                "current_due",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("has-error", {
-                          attrs: { form: _vm.form, field: "current_due" }
-                        })
-                      ],
-                      1
-                    )
+                    _c("input", {
+                      staticClass: "form-control",
+                      attrs: { type: "text", readonly: "" },
+                      domProps: { value: _vm.expensecategory.name }
+                    })
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", [_vm._v("পরিশোধের পরিমাণ")]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "input-group mb-3" },
-                      [
-                        _vm._m(4),
+                  _vm.expensecategory.id == 1
+                    ? _c("div", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("কর্মচারী")]),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.form.amount_paying,
-                              expression: "form.amount_paying"
+                              value: _vm.form.staffname,
+                              expression: "form.staffname"
                             }
                           ],
                           staticClass: "form-control",
-                          class: {
-                            "is-invalid": _vm.form.errors.has("amount_paying")
-                          },
-                          attrs: {
-                            type: "number",
-                            step: "any",
-                            name: "amount_paying",
-                            placeholder: "পরিশোধের পরিমাণ",
-                            min: 0,
-                            max: this.maxpayable
-                          },
-                          domProps: { value: _vm.form.amount_paying },
+                          attrs: { type: "text", readonly: "" },
+                          domProps: { value: _vm.form.staffname },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -85739,15 +86051,56 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.form,
-                                "amount_paying",
+                                "staffname",
                                 $event.target.value
                               )
+                            }
+                          }
+                        })
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", [_vm._v("পরিমাণ")]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "input-group mb-3" },
+                      [
+                        _vm._m(2),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.amount,
+                              expression: "form.amount"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("amount")
+                          },
+                          attrs: {
+                            type: "number",
+                            step: "any",
+                            name: "amount",
+                            placeholder: "পরিমাণ"
+                          },
+                          domProps: { value: _vm.form.amount },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.form, "amount", $event.target.value)
                             }
                           }
                         }),
                         _vm._v(" "),
                         _c("has-error", {
-                          attrs: { form: _vm.form, field: "amount_paying" }
+                          attrs: { form: _vm.form, field: "amount" }
                         })
                       ],
                       1
@@ -85816,7 +86169,7 @@ var render = function() {
                   })
                 ]),
                 _vm._v(" "),
-                _vm._m(5)
+                _vm._m(3)
               ]
             )
           ])
@@ -85862,22 +86215,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "btn btn-success btn-sm",
-        staticStyle: { float: "right" }
-      },
-      [_c("i", { staticClass: "fa fa-edit" })]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
       _c("h4", { staticClass: "modal-title", attrs: { id: "addModalLabel" } }, [
-        _vm._v("বকেয়া পরিশোধ করুন")
+        _vm._v("খরচ সম্পাদনা করুন")
       ]),
       _vm._v(" "),
       _c(
@@ -85888,14 +86228,6 @@ var staticRenderFns = [
         },
         [_vm._v("×")]
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-prepend" }, [
-      _c("span", { staticClass: "input-group-text" }, [_vm._v("৳")])
     ])
   },
   function() {
@@ -86317,10 +86649,38 @@ var render = function() {
                                           "span",
                                           { staticClass: "text-green" },
                                           [
-                                            _c("b", [
-                                              _vm._v(_vm._s(expense.staff.name))
-                                            ])
-                                          ]
+                                            _c(
+                                              "router-link",
+                                              {
+                                                directives: [
+                                                  {
+                                                    name: "tooltip",
+                                                    rawName: "v-tooltip",
+                                                    value: "প্রোফাইল দেখুন",
+                                                    expression:
+                                                      "'প্রোফাইল দেখুন'"
+                                                  }
+                                                ],
+                                                attrs: {
+                                                  to: {
+                                                    name: "singleStaff",
+                                                    params: {
+                                                      id: expense.staff.id,
+                                                      code: _vm.code
+                                                    }
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c("b", [
+                                                  _vm._v(
+                                                    _vm._s(expense.staff.name)
+                                                  )
+                                                ])
+                                              ]
+                                            )
+                                          ],
+                                          1
                                         ),
                                         _vm._v(
                                           "\n                            | পরিমাণঃ "
@@ -86486,13 +86846,6 @@ var render = function() {
                               }
                             }),
                             _vm._v(" "),
-                            _c("has-error", {
-                              attrs: {
-                                form: _vm.form,
-                                field: "expensecategories"
-                              }
-                            }),
-                            _vm._v(" "),
                             _c(
                               "div",
                               {
@@ -86539,13 +86892,6 @@ var render = function() {
                                       _vm.$set(_vm.form, "staff", $$v)
                                     },
                                     expression: "form.staff"
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("has-error", {
-                                  attrs: {
-                                    form: _vm.form,
-                                    field: "expensecategories"
                                   }
                                 }),
                                 _vm._v(" "),
@@ -89796,6 +90142,632 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Auth/Staff/Staff.vue?vue&type=template&id=401d7635&":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Auth/Staff/Staff.vue?vue&type=template&id=401d7635& ***!
+  \*******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "content" }, [
+    _vm.$gate.isAdminOrAssociated("staff-page", this.$route.params.code)
+      ? _c("div", { staticClass: "content-header" }, [_vm._m(0)])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.$gate.isAdminOrAssociated("staff-page", this.$route.params.code)
+      ? _c("div", { staticClass: "container-fluid" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-3" }, [
+              _c("div", { staticClass: "card" }, [
+                _c(
+                  "div",
+                  {
+                    staticStyle: {
+                      background: "url('/images/staffcover.jpg') center center"
+                    }
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "card-body p-3 text-light",
+                        staticStyle: { background: "rgba(0, 90, 100, 0.80)" }
+                      },
+                      [
+                        _c("div", { staticClass: "media" }, [
+                          _vm.staff.image
+                            ? _c("img", {
+                                staticClass:
+                                  "img-size-50 mr-3 img-circle elevation-2",
+                                attrs: {
+                                  src: "/images/users/" + _vm.staff.image,
+                                  alt: "User Avatar"
+                                }
+                              })
+                            : _c("img", {
+                                staticClass:
+                                  "img-size-50 mr-3 img-circle elevation-2",
+                                attrs: {
+                                  src: "/images/staff_demo.png",
+                                  alt: "User Avatar"
+                                }
+                              }),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "media-body" }, [
+                            _c("h3", { staticClass: "dropdown-item-title" }, [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(_vm.staff.name) +
+                                  "\n                  "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("small", [
+                              _c("i", { staticClass: "fa fa-phone" }),
+                              _vm._v(" " + _vm._s(_vm.staff.mobile)),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c("i", { staticClass: "fa fa-map-marker" }),
+                              _vm._v(
+                                " " +
+                                  _vm._s(_vm.staff.address) +
+                                  "\n                  "
+                              )
+                            ])
+                          ])
+                        ])
+                      ]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("ul", { staticClass: "list-group list-group-flush" }, [
+                  _c("li", { staticClass: "list-group-item" }, [
+                    _c("b", [_vm._v("মোট বেতনঃ")]),
+                    _vm._v(" " + _vm._s(_vm.salarycount) + " বার")
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "list-group-item" }, [
+                    _c("b", [_vm._v("সর্বমোট বেতন পরিশোধঃ")]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "badge badge-primary" }, [
+                      _vm._v(_vm._s(_vm.totalsalary) + " ৳")
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "card-body" },
+                  [
+                    _c("center", [
+                      _c(
+                        "button",
+                        {
+                          directives: [
+                            {
+                              name: "tooltip",
+                              rawName: "v-tooltip",
+                              value: "বেতন পরিশোধ করুন",
+                              expression: "'বেতন পরিশোধ করুন'"
+                            }
+                          ],
+                          staticClass: "btn btn-success btn-sm",
+                          attrs: {
+                            type: "button",
+                            disabled: _vm.staff.current_due <= 0
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.editModal(_vm.staff)
+                            }
+                          }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-thumbs-o-up" }),
+                          _vm._v(" বেতন পরিশোধ করুন\n              ")
+                        ]
+                      )
+                    ])
+                  ],
+                  1
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-9" }, [
+              _c("div", { staticClass: "card" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "tab-content", attrs: { id: "myTabContent" } },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "tab-pane fade show active p-3",
+                        attrs: {
+                          id: "one",
+                          role: "tabpanel",
+                          "aria-labelledby": "one-tab"
+                        }
+                      },
+                      [
+                        _c("p", { staticClass: "card-text" }),
+                        _c(
+                          "div",
+                          { staticClass: "timeline-centered" },
+                          _vm._l(_vm.salaryhistories.data, function(
+                            salaryhistory
+                          ) {
+                            return _c(
+                              "article",
+                              {
+                                key: salaryhistory.id,
+                                staticClass: "timeline-entry"
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  { staticClass: "timeline-entry-inner" },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        directives: [
+                                          {
+                                            name: "tooltip",
+                                            rawName: "v-tooltip",
+                                            value: "বেতন",
+                                            expression: "'বেতন'"
+                                          }
+                                        ],
+                                        staticClass: "timeline-icon bg-success"
+                                      },
+                                      [_c("i", { staticClass: "fa fa-user-o" })]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "timeline-label shadow" },
+                                      [
+                                        _c("span", [
+                                          _vm._v(
+                                            "\n                              পরিমাণঃ "
+                                          ),
+                                          _c("b", [
+                                            _vm._v(_vm._s(salaryhistory.amount))
+                                          ]),
+                                          _vm._v(
+                                            " ৳\n                            "
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("br"),
+                                        _vm._v(" "),
+                                        _c(
+                                          "span",
+                                          { staticClass: "text-muted" },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fa fa-calendar"
+                                            }),
+                                            _vm._v(
+                                              " " +
+                                                _vm._s(
+                                                  _vm._f("datetime")(
+                                                    salaryhistory.created_at
+                                                  )
+                                                )
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        ),
+                        _vm._v(" "),
+                        _c("p"),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "card-footer" },
+                          [
+                            _c("pagination", {
+                              attrs: { data: _vm.salaryhistories },
+                              on: {
+                                "pagination-change-page":
+                                  _vm.getPaginationSalaryHistories
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "tab-pane fade p-3",
+                        attrs: {
+                          id: "three",
+                          role: "tabpanel",
+                          "aria-labelledby": "three-tab"
+                        }
+                      },
+                      [
+                        _c(
+                          "p",
+                          { staticClass: "card-text" },
+                          [
+                            _c("center", [
+                              _vm._v("\n                  কাজ চলছে..."),
+                              _c("br"),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c("img", {
+                                staticClass: "img-fluid",
+                                staticStyle: { height: "300px", width: "auto" },
+                                attrs: { src: "/images/in_progress.svg" }
+                              })
+                            ])
+                          ],
+                          1
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ])
+            ])
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "addModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "addModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(3),
+            _vm._v(" "),
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.payStaffSalary()
+                  },
+                  keydown: function($event) {
+                    return _vm.form.onKeydown($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "modal-body" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", [_vm._v("বেতন পরিশোধের পরিমাণ")]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "input-group mb-3" },
+                      [
+                        _vm._m(4),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.amount,
+                              expression: "form.amount"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("amount")
+                          },
+                          attrs: {
+                            type: "number",
+                            step: "any",
+                            name: "amount",
+                            placeholder: "বেতন পরিশোধের পরিমাণ"
+                          },
+                          domProps: { value: _vm.form.amount },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.form, "amount", $event.target.value)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "amount" }
+                        })
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c("label", [_vm._v("মন্তব্য (ঐচ্ছিক)")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.remark,
+                            expression: "form.remark"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        class: { "is-invalid": _vm.form.errors.has("remark") },
+                        attrs: {
+                          type: "text",
+                          name: "remark",
+                          placeholder: "মন্তব্য (ঐচ্ছিক)"
+                        },
+                        domProps: { value: _vm.form.remark },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "remark", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "remark" }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.code,
+                        expression: "form.code"
+                      }
+                    ],
+                    attrs: { type: "hidden", name: "code" },
+                    domProps: { value: _vm.form.code },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "code", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.expensecategory_id,
+                        expression: "form.expensecategory_id"
+                      }
+                    ],
+                    attrs: { type: "hidden", name: "code" },
+                    domProps: { value: _vm.form.expensecategory_id },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.form,
+                          "expensecategory_id",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _vm._m(5)
+              ]
+            )
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    !_vm.$gate.isAdminOrAssociated("staff-page", this.$route.params.code)
+      ? _c("div", [_c("forbidden-403")], 1)
+      : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "container-fluid" }, [
+      _c("div", { staticClass: "row mb-2" }, [
+        _c("div", { staticClass: "col-sm-6" }, [
+          _c("h1", { staticClass: "m-0 text-dark" }, [_vm._v("কর্মচারী বিবরণ")])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-6" }, [
+          _c("ol", { staticClass: "breadcrumb float-sm-right" }, [
+            _c("li", { staticClass: "breadcrumb-item" }, [
+              _c("a", { attrs: { href: "#!" } }, [_vm._v("স্টোর")])
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "breadcrumb-item" }, [
+              _c("a", { attrs: { href: "#!" } }, [_vm._v("কর্মচারী")])
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "breadcrumb-item active" }, [
+              _vm._v("বিবরণ")
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header tab-card-header" }, [
+      _c(
+        "ul",
+        {
+          staticClass: "nav nav-tabs card-header-tabs",
+          attrs: { id: "myTab", role: "tablist" }
+        },
+        [
+          _c("li", { staticClass: "nav-item" }, [
+            _c(
+              "a",
+              {
+                staticClass: "nav-link active",
+                attrs: {
+                  id: "one-tab",
+                  "data-toggle": "tab",
+                  href: "#one",
+                  role: "tab",
+                  "aria-controls": "One",
+                  "aria-selected": "true"
+                }
+              },
+              [_vm._v("বেতন তালিকা")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "nav-item" }, [
+            _c(
+              "a",
+              {
+                staticClass: "nav-link",
+                attrs: {
+                  id: "two-tab",
+                  "data-toggle": "tab",
+                  href: "#two",
+                  role: "tab",
+                  "aria-controls": "Two",
+                  "aria-selected": "false"
+                }
+              },
+              [_vm._v("বিক্রয় তালিকা")]
+            )
+          ])
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "tab-pane fade p-3",
+        attrs: { id: "two", role: "tabpanel", "aria-labelledby": "two-tab" }
+      },
+      [_c("p", { staticClass: "card-text" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h4", { staticClass: "modal-title", attrs: { id: "addModalLabel" } }, [
+        _vm._v("বেতন পরিশোধ করুন")
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("×")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [_vm._v("৳")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-success", attrs: { type: "submit" } },
+        [_vm._v("দাখিল করুন")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-danger",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("ফিরে যান")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Auth/Staff/Staffs.vue?vue&type=template&id=71861ce4&":
 /*!********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Auth/Staff/Staffs.vue?vue&type=template&id=71861ce4& ***!
@@ -89880,7 +90852,38 @@ var render = function() {
                       "tbody",
                       _vm._l(_vm.staffs.data, function(staff) {
                         return _c("tr", { key: staff.id }, [
-                          _c("td", [_vm._v(_vm._s(staff.name))]),
+                          _c(
+                            "td",
+                            [
+                              _c(
+                                "router-link",
+                                {
+                                  directives: [
+                                    {
+                                      name: "tooltip",
+                                      rawName: "v-tooltip",
+                                      value: "প্রোফাইল দেখুন",
+                                      expression: "'প্রোফাইল দেখুন'"
+                                    }
+                                  ],
+                                  attrs: {
+                                    to: {
+                                      name: "singleStaff",
+                                      params: { id: staff.id, code: _vm.code }
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                    " +
+                                      _vm._s(staff.name) +
+                                      "\n                  "
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          ),
                           _vm._v(" "),
                           _c("td", [
                             _c("small", [
@@ -89907,29 +90910,55 @@ var render = function() {
                             _vm._v(_vm._s(_vm._f("date")(staff.created_at)))
                           ]),
                           _vm._v(" "),
-                          _c("td", [
-                            _c(
-                              "button",
-                              {
-                                directives: [
-                                  {
-                                    name: "tooltip",
-                                    rawName: "v-tooltip",
-                                    value: "সম্পাদনা করুন",
-                                    expression: "'সম্পাদনা করুন'"
+                          _c(
+                            "td",
+                            [
+                              _c(
+                                "router-link",
+                                {
+                                  directives: [
+                                    {
+                                      name: "tooltip",
+                                      rawName: "v-tooltip",
+                                      value: "প্রোফাইল দেখুন",
+                                      expression: "'প্রোফাইল দেখুন'"
+                                    }
+                                  ],
+                                  staticClass: "btn btn-info btn-sm",
+                                  attrs: {
+                                    to: {
+                                      name: "singleStaff",
+                                      params: { id: staff.id, code: _vm.code }
+                                    }
                                   }
-                                ],
-                                staticClass: "btn btn-success btn-sm",
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.editModal(staff)
+                                },
+                                [_c("i", { staticClass: "fa fa-eye" })]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  directives: [
+                                    {
+                                      name: "tooltip",
+                                      rawName: "v-tooltip",
+                                      value: "সম্পাদনা করুন",
+                                      expression: "'সম্পাদনা করুন'"
+                                    }
+                                  ],
+                                  staticClass: "btn btn-success btn-sm",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.editModal(staff)
+                                    }
                                   }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-edit" })]
-                            )
-                          ])
+                                },
+                                [_c("i", { staticClass: "fa fa-edit" })]
+                              )
+                            ],
+                            1
+                          )
                         ])
                       }),
                       0
@@ -90292,7 +91321,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("যোগদান")]),
         _vm._v(" "),
-        _c("th", { attrs: { width: "10%" } }, [_vm._v("ক্রিয়াকলাপ")])
+        _c("th", { attrs: { width: "20%" } }, [_vm._v("ক্রিয়াকলাপ")])
       ])
     ])
   }
@@ -108845,6 +109874,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Auth/Staff/Staff.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/components/Auth/Staff/Staff.vue ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Staff_vue_vue_type_template_id_401d7635___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Staff.vue?vue&type=template&id=401d7635& */ "./resources/js/components/Auth/Staff/Staff.vue?vue&type=template&id=401d7635&");
+/* harmony import */ var _Staff_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Staff.vue?vue&type=script&lang=js& */ "./resources/js/components/Auth/Staff/Staff.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Staff_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Staff_vue_vue_type_template_id_401d7635___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Staff_vue_vue_type_template_id_401d7635___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Auth/Staff/Staff.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Auth/Staff/Staff.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/Auth/Staff/Staff.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Staff_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Staff.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Auth/Staff/Staff.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Staff_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Auth/Staff/Staff.vue?vue&type=template&id=401d7635&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/Auth/Staff/Staff.vue?vue&type=template&id=401d7635& ***!
+  \*************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Staff_vue_vue_type_template_id_401d7635___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Staff.vue?vue&type=template&id=401d7635& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Auth/Staff/Staff.vue?vue&type=template&id=401d7635&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Staff_vue_vue_type_template_id_401d7635___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Staff_vue_vue_type_template_id_401d7635___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Auth/Staff/Staffs.vue":
 /*!*******************************************************!*\
   !*** ./resources/js/components/Auth/Staff/Staffs.vue ***!
@@ -109552,6 +110650,13 @@ var routes = [// public routes
     title: 'কর্মচারী তালিকা'
   },
   name: 'staffsPage'
+}, {
+  path: '/staff/:id/:code',
+  component: __webpack_require__(/*! ./components/Auth/Staff/Staff.vue */ "./resources/js/components/Auth/Staff/Staff.vue")["default"],
+  meta: {
+    title: 'কর্মচারী'
+  },
+  name: 'singleStaff'
 }, {
   path: '/customers/:code',
   component: __webpack_require__(/*! ./components/Auth/Customer/Customers.vue */ "./resources/js/components/Auth/Customer/Customers.vue")["default"],

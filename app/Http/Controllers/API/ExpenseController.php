@@ -152,27 +152,19 @@ class ExpenseController extends Controller
         return response()->json($expenses);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,array(
+            'amount'                 => 'required',
+            'remark'                 => 'sometimes'
+        ));
+
+        $expense = Expense::findOrFail($id);
+        $expense->amount = number_format($request->amount, 2, '.', '');
+        $expense->remark = $request->remark;
+        $expense->save();
+
+        return ['message' => 'সফলভাবে হালনাগাদ করা হয়েছে!'];
     }
 
     /**
@@ -183,6 +175,8 @@ class ExpenseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $expense = Expense::findOrFail($id);
+        $expense->delete();
+        return ['message' => 'সফলভাবে ডিলেট করা হয়েছে!'];
     }
 }

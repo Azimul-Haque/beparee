@@ -51,17 +51,24 @@
                     <th>যোগাযোগ</th>
                     <th>ছবি</th>
                     <th>যোগদান</th>
-                    <th width="10%">ক্রিয়াকলাপ</th>
+                    <th width="20%">ক্রিয়াকলাপ</th>
                   </tr>
                  </thead>
                  <tbody>
                   <tr v-for="staff in staffs.data" :key="staff.id">
                     <!-- <td>{{ staff.id }}</td> -->
-                    <td>{{ staff.name }}</td>
+                    <td>
+                      <router-link :to="{ name: 'singleStaff', params: { id: staff.id, code: code }}" v-tooltip="'প্রোফাইল দেখুন'">
+                        {{ staff.name }}
+                      </router-link>
+                    </td>
                     <td><small>{{ staff.mobile }}<br/>{{ staff.address }}</small></td>
                     <td><img :src="getStaffProfilePhoto(staff.image)" class="img-responsive" style="max-height: 50px; width: auto;"></td>
                     <td>{{ staff.created_at | date }}</td>
                     <td>
+                      <router-link :to="{ name: 'singleStaff', params: { id: staff.id, code: code }}" v-tooltip="'প্রোফাইল দেখুন'" class="btn btn-info btn-sm">
+                        <i class="fa fa-eye"></i>
+                      </router-link>
                       <button type="button" class="btn btn-success btn-sm" @click="editModal(staff)" v-tooltip="'সম্পাদনা করুন'">
                           <i class="fa fa-edit"></i>
                       </button>
@@ -148,6 +155,7 @@
         data () {
             return {
               staffs: {},
+              code: this.$route.params.code,
               // Create a new form instance
               form: new Form({
                 id: '',

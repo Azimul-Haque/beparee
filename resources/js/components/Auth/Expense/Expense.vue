@@ -32,8 +32,8 @@
                 </div>
               </div>
               <ul class="list-group list-group-flush">
-                <li class="list-group-item"><b>খরচের সংখ্যাঃ</b> {{ this.totalexpensecount }} টি</li>
-                <li class="list-group-item"><b>মোট খরচঃ</b> <span class="badge badge-warning">{{ this.totalexpenseamount }} ৳</span></li>
+                <li class="list-group-item"><b>খরচের সংখ্যাঃ</b> {{ totalexpensecount }} টি</li>
+                <li class="list-group-item"><b>মোট খরচঃ</b> <span class="badge badge-warning">{{ totalexpenseamount }} ৳</span></li>
               </ul>
               <!-- <div class="card-body">
                 
@@ -92,12 +92,19 @@
 
                           <div class="timeline-label shadow">
                               <span v-if="expensecategory.id == 1">
-                                <span class="text-green"><b>{{ expense.staff.name }}</b></span>
+                                <span class="text-green">
+                                  <router-link :to="{ name: 'singleStaff', params: { id: expense.staff.id, code: code }}" v-tooltip="'প্রোফাইল দেখুন'">
+                                    <b>{{ expense.staff.name }}</b>
+                                  </router-link>
+                                </span>
                                 | পরিমাণঃ <b>{{ expense.amount }}</b> ৳</span>
                               <span v-else>
                                 পরিমাণঃ <b>{{ expense.amount }}</b> ৳
                               </span>
-                              <button class="btn btn-success btn-sm" style="float: right"><i class="fa fa-edit"></i></button>
+                              <div style="float: right">
+                                <button class="btn btn-success btn-sm" v-tooltip="'সম্পাদনা করুন'" @click="editModal(expense)"><i class="fa fa-edit"></i></button>
+                                <button class="btn btn-danger btn-sm" v-tooltip="'ডিলেট করুন'" @click="deleteExpense(expense.id)"><i class="fa fa-trash"></i></button>
+                              </div>
                               <br/>
                               <span class="text-muted"><i class="fa fa-calendar"></i> {{ expense.created_at | datetime }}</span>
                           </div>
@@ -107,7 +114,7 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                <pagination :data="expenses" @pagination-change-page="getPaginationExpensehistories"></pagination>
+                <pagination :data="expenses" @pagination-change-page="getPaginationExpenseHistories"></pagination>
               </div>
             </div>
             <!-- /.card -->
@@ -121,38 +128,29 @@
           <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-              <h4 class="modal-title" id="addModalLabel">বকেয়া পরিশোধ করুন</h4>
+              <h4 class="modal-title" id="addModalLabel">খরচ সম্পাদনা করুন</h4>
               <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <form @submit.prevent="updateVendor()" @keydown="form.onKeydown($event)">
+            <form @submit.prevent="updateExpense()" @keydown="form.onKeydown($event)">
               <!-- Modal body -->
               <div class="modal-body">
                 <div class="form-group">
-                  <label>ডিলার/ ভেন্ডরের নাম</label>
-                  <input v-model="form.name" type="text" name="name" placeholder="ডিলার/ ভেন্ডরের নাম" 
-                    class="form-control" :class="{ 'is-invalid': form.errors.has('name') }" readonly="">
-                  <has-error :form="form" field="name"></has-error>
+                  <label>খাত {{ expensecategory.name }}</label>
+                  <input type="text" class="form-control" :value="expensecategory.name" readonly="">
+                </div>
+                <div class="form-group" v-if="expensecategory.id == 1">
+                  <label>কর্মচারী</label>
+                  <input type="text" class="form-control" v-model="form.staffname" readonly="">
                 </div>
                 <div class="form-group">
-                  <label>চলতি দেনা</label>
+                  <label>পরিমাণ</label>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text">৳</span>
                     </div> 
-                    <input v-model="form.current_due" type="number" step="any" name="current_due" placeholder="চলতি দেনা" 
-                    class="form-control" :class="{ 'is-invalid': form.errors.has('current_due') }" readonly="">
-                    <has-error :form="form" field="current_due"></has-error>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label>পরিশোধের পরিমাণ</label>
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">৳</span>
-                    </div> 
-                    <input v-model="form.amount_paying" type="number" step="any" name="amount_paying" placeholder="পরিশোধের পরিমাণ" 
-                      class="form-control" :class="{ 'is-invalid': form.errors.has('amount_paying') }" :min="0" :max="this.maxpayable">
-                    <has-error :form="form" field="amount_paying"></has-error>
+                    <input v-model="form.amount" type="number" step="any" name="amount" placeholder="পরিমাণ" 
+                    class="form-control" :class="{ 'is-invalid': form.errors.has('amount') }">
+                    <has-error :form="form" field="amount"></has-error>
                   </div>
                 </div>
                 <div class="form-group">
@@ -186,15 +184,13 @@
               expenses: {},
               totalexpenseamount: '',
               totalexpensecount: '',
-              maxpayable: 0,
+              code: this.$route.params.code,
               // Create a new form instance
               form: new Form({
                 id: '',
-                name: '',
-                current_due: '',
-                amount_paying: '',
+                staffname: '',
+                amount: '',
                 remark: '',
-                code: this.$route.params.code,
               }),
               // editmode: false
             }
@@ -205,8 +201,10 @@
               this.form.clear(); // clears errors
               $('#addModal').modal({ show: true, backdrop: 'static', keyboard: false });
 
-              this.form.fill(expense); 
-              // this.maxpayable = expense.current_due;             
+              this.form.fill(expense);
+              if(this.expensecategory.id == 1) {
+                this.form.staffname = expense.staff.name;
+              }         
             },
             loadExpenseCategory() {
               if(this.$gate.isAdminOrAssociated('expense-page', this.$route.params.code)){
@@ -232,7 +230,7 @@
             },
             updateExpense() {
               this.$Progress.start();
-              this.form.put('/api/load/expense/pay/due/'+ this.form.id).then(() => {
+              this.form.put('/api/expense/'+ this.form.id).then(() => {
                 $('#addModal').modal('hide')
                 Fire.$emit('AfterExpenseUpdated')
                 toast.fire({
@@ -246,7 +244,34 @@
                   // swal('Failed!', 'There was something wrong', 'warning');
               })
             },
-            getPaginationExpensehistories(page = 1) {
+            deleteExpense(id) {
+              swal.fire({
+                title: 'আপনি কি নিশ্চিত?',
+                text: "ডিলেট করলে আর ফেরত পাওয়া যাবে না!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'নিশ্চিত করছি',
+                cancelButtonText: 'ফিরে যান'
+              }).then((result) => {
+                  if (result.value) {
+                     this.form.delete('/api/expense/'+ id).then(() => {
+                       swal.fire(
+                        'ডিলেট',
+                        'ডিলেট সফল হয়েছে!',
+                        'success'
+                        )
+                       Fire.$emit('AfterExpenseUpdated')
+                     })
+                     .catch(() => {
+                       swal('Failed!', 'কিছু সমস্যা হচ্ছে, দুঃখিত!', 'warning');
+                     }) 
+                  }
+
+              })
+            },
+            getPaginationExpenseHistories(page = 1) {
               axios.get('/api/load/single/category/expenses/store/wise/' + this.$route.params.id + '/' + this.$route.params.code + '?page=' + page)
               .then(response => {
                 this.expenses = response.data;

@@ -58,6 +58,10 @@ Route::get('load/purchase/product/{code}', 'API\PurchaseController@loadProducts'
 
 Route::apiResources(['staff' => 'API\StaffController']);
 Route::get('load/staff/{code}', 'API\StaffController@loadStaffs');
+Route::get('load/single/staff/{id}/{code}', 'API\StaffController@loadSingleStaff');
+Route::get('load/single/staff/salary/history/{id}/{code}', 'API\StaffController@loadSingleStaffSalaryHistory');
+Route::get('load/single/staff/salary/history/totals/{id}/{code}', 'API\StaffController@loadSingleStaffSalaryTotals');
+Route::post('load/staff/pay/salary', 'API\StaffController@storeSingleStaffSalary');
 
 Route::apiResources(['customer' => 'API\CustomerController']);
 Route::get('load/customer/{code}', 'API\CustomerController@loadCustomers');

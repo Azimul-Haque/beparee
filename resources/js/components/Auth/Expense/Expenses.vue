@@ -135,7 +135,11 @@
                                   <big class="text-secondary">{{ expense.expensecategory.name }}</big>
                                 </router-link>
                                 |
-                                <span class="text-green"><b>{{ expense.staff.name }}</b></span>
+                                <span class="text-green">
+                                  <router-link :to="{ name: 'singleStaff', params: { id: expense.staff.id, code: code }}" v-tooltip="'প্রোফাইল দেখুন'">
+                                    <b>{{ expense.staff.name }}</b>
+                                  </router-link>
+                                </span>
                                 | পরিমাণঃ <b>{{ expense.amount }}</b> ৳</span>
                               <span v-else>
                                 <router-link :to="{ name: 'singleExpense', params: { id: expense.expensecategory.id, code: code }}" v-tooltip="'বিস্তারিত দেখুন'">
@@ -173,13 +177,11 @@
                   <div class="form-group">
                     <label>খাত নির্ধারণ (অপশনে না থাকলে লিখুন) *</label>
                     <v-select placeholder="খাত নির্ধারণ (অপশনে না থাকলে লিখুন) *" :options="expensecategories" taggable label="name" v-model="form.expensecategory" ref='categorySelect' v-on:input="checkCategoryIfSalary(form.expensecategory)"></v-select>
-                    <has-error :form="form" field="expensecategories"></has-error>
                     <div v-show="categoryerror" style="display: none; width: 100%; margin-top: .25rem; font-size: 80%; color: #dc3545;">অনুগ্রহ করে খাত নির্ধারণ করুন</div>
                   </div>
                   <div class="form-group" v-if="salarymode">
                     <label>কর্মচারী নির্ধারণ করুন</label>
                     <v-select placeholder="কর্মচারী নির্ধারণ করুন" :options="staff" label="name" v-model="form.staff" ref='categorySelect' v-on:input="checkIfStaffEmpty"></v-select>
-                    <has-error :form="form" field="expensecategories"></has-error>
                     <div v-show="stafferror" style="display: none; width: 100%; margin-top: .25rem; font-size: 80%; color: #dc3545;">অনুগ্রহ করে কর্মচারী নির্ধারণ করুন</div>
                   </div>
                   <div class="form-group">

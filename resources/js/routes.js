@@ -25,6 +25,7 @@ export const routes = [
 
 
   { path: '/staffs/:code', component: require('./components/Auth/Staff/Staffs.vue').default, meta: { title: 'কর্মচারী তালিকা'}, name: 'staffsPage'},
+  { path: '/staff/:id/:code', component: require('./components/Auth/Staff/Staff.vue').default, meta: { title: 'কর্মচারী'}, name: 'singleStaff'},
 
   { path: '/customers/:code', component: require('./components/Auth/Customer/Customers.vue').default, meta: { title: 'কাস্টমার তালিকা'}, name: 'customersPage'},
   { path: '/customer/:id/:code', component: require('./components/Auth/Customer/Customer.vue').default, meta: { title: 'কাস্টমার'}, name: 'singleCustomer'},
