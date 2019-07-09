@@ -4513,6 +4513,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -6111,6 +6114,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+//
 //
 //
 //
@@ -85889,14 +85893,28 @@ var render = function() {
                                         "\n                            | পরিমাণঃ "
                                       ),
                                       _c("b", [_vm._v(_vm._s(expense.amount))]),
-                                      _vm._v(" ৳")
+                                      _vm._v(" ৳ "),
+                                      expense.remark
+                                        ? _c("span", [
+                                            _vm._v(
+                                              "(" + _vm._s(expense.remark) + ")"
+                                            )
+                                          ])
+                                        : _vm._e()
                                     ])
                                   : _c("span", [
                                       _vm._v(
                                         "\n                            পরিমাণঃ "
                                       ),
                                       _c("b", [_vm._v(_vm._s(expense.amount))]),
-                                      _vm._v(" ৳\n                          ")
+                                      _vm._v(" ৳ "),
+                                      expense.remark
+                                        ? _c("span", [
+                                            _vm._v(
+                                              "(" + _vm._s(expense.remark) + ")"
+                                            )
+                                          ])
+                                        : _vm._e()
                                     ]),
                                 _vm._v(" "),
                                 _c("div", { staticStyle: { float: "right" } }, [
@@ -86681,14 +86699,7 @@ var render = function() {
                                             )
                                           ],
                                           1
-                                        ),
-                                        _vm._v(
-                                          "\n                            | পরিমাণঃ "
-                                        ),
-                                        _c("b", [
-                                          _vm._v(_vm._s(expense.amount))
-                                        ]),
-                                        _vm._v(" ৳")
+                                        )
                                       ],
                                       1
                                     )
@@ -86731,17 +86742,21 @@ var render = function() {
                                             )
                                           ],
                                           1
-                                        ),
-                                        _vm._v(
-                                          "\n                            | পরিমাণঃ "
-                                        ),
-                                        _c("b", [
-                                          _vm._v(_vm._s(expense.amount))
-                                        ]),
-                                        _vm._v(" ৳\n                          ")
+                                        )
                                       ],
                                       1
                                     ),
+                                _vm._v(
+                                  "\n                          | পরিমাণঃ "
+                                ),
+                                _c("b", [_vm._v(_vm._s(expense.amount))]),
+                                _vm._v(" ৳\n                          "),
+                                expense.remark
+                                  ? _c("span", [
+                                      _vm._v("(" + _vm._s(expense.remark) + ")")
+                                    ])
+                                  : _vm._e(),
+                                _vm._v(" "),
                                 _c("br"),
                                 _vm._v(" "),
                                 _c("span", { staticClass: "text-muted" }, [
@@ -90348,8 +90363,19 @@ var render = function() {
                                             _vm._v(_vm._s(salaryhistory.amount))
                                           ]),
                                           _vm._v(
-                                            " ৳\n                            "
-                                          )
+                                            " ৳\n                              "
+                                          ),
+                                          salaryhistory.remark
+                                            ? _c("span", [
+                                                _vm._v(
+                                                  "(" +
+                                                    _vm._s(
+                                                      salaryhistory.remark
+                                                    ) +
+                                                    ")"
+                                                )
+                                              ])
+                                            : _vm._e()
                                         ]),
                                         _vm._v(" "),
                                         _c("br"),

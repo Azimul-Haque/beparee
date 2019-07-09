@@ -97,9 +97,9 @@
                                     <b>{{ expense.staff.name }}</b>
                                   </router-link>
                                 </span>
-                                | পরিমাণঃ <b>{{ expense.amount }}</b> ৳</span>
+                                | পরিমাণঃ <b>{{ expense.amount }}</b> ৳ <span v-if="expense.remark">({{ expense.remark }})</span></span>
                               <span v-else>
-                                পরিমাণঃ <b>{{ expense.amount }}</b> ৳
+                                পরিমাণঃ <b>{{ expense.amount }}</b> ৳ <span v-if="expense.remark">({{ expense.remark }})</span>
                               </span>
                               <div style="float: right">
                                 <button class="btn btn-success btn-sm" v-tooltip="'সম্পাদনা করুন'" @click="editModal(expense)"><i class="fa fa-edit"></i></button>

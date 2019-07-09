@@ -140,13 +140,16 @@
                                     <b>{{ expense.staff.name }}</b>
                                   </router-link>
                                 </span>
-                                | পরিমাণঃ <b>{{ expense.amount }}</b> ৳</span>
+                              </span>
                               <span v-else>
                                 <router-link :to="{ name: 'singleExpense', params: { id: expense.expensecategory.id, code: code }}" v-tooltip="'বিস্তারিত দেখুন'">
                                   <big class="text-secondary">{{ expense.expensecategory.name }}</big>
                                 </router-link>
-                                | পরিমাণঃ <b>{{ expense.amount }}</b> ৳
-                              </span><br/>
+
+                              </span>
+                              | পরিমাণঃ <b>{{ expense.amount }}</b> ৳
+                              <span v-if="expense.remark">({{ expense.remark }})</span>
+                              <br/>
                               <span class="text-muted"><i class="fa fa-calendar"></i> {{ expense.created_at | datetime }}</span>
                           </div>
                       </div>

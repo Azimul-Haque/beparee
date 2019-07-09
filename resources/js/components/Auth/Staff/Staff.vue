@@ -82,6 +82,7 @@
                             <div class="timeline-label shadow">
                                 <span>
                                   পরিমাণঃ <b>{{ salaryhistory.amount }}</b> ৳
+                                  <span v-if="salaryhistory.remark">({{ salaryhistory.remark }})</span>
                                 </span>
                                 <br/>
                                 <span class="text-muted"><i class="fa fa-calendar"></i> {{ salaryhistory.created_at | datetime }}</span>
