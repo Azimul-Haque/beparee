@@ -83,9 +83,10 @@
                         <button @click="printPurchase(purchase.id, purchase.code)" class="btn btn-success btn-sm" v-tooltip="'ক্রয়ের রসিদ প্রিন্ট করুন'">
                             <i class="fa fa-print"></i>
                         </button>
-                        <button @click="deletePurchase(purchase.id)" class="btn btn-danger btn-sm" v-tooltip="'পণ্য ডিলেট করুন'">
+                        <!-- <button @click="deletePurchase(purchase.id)" class="btn btn-danger btn-sm" v-tooltip="'পণ্য ডিলেট করুন'">
                             <i class="fa fa-trash"></i>
-                        </button>
+                        </button> -->
+                        <!-- delete kora jaabe na -->
                     </td>
                   </tr>
                  </tbody>

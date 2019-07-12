@@ -80,9 +80,10 @@
                         <button type="button" class="btn btn-success btn-sm" @click="editProductModal(product)" v-tooltip="'পণ্য সম্পাদনা করুন'">
                             <i class="fa fa-edit"></i>
                         </button>
-                        <button @click="deleteProduct(product.id)" class="btn btn-danger btn-sm" v-tooltip="'পণ্য ডিলেট করুন'">
+                        <!-- <button @click="deleteProduct(product.id)" class="btn btn-danger btn-sm" v-tooltip="'পণ্য ডিলেট করুন'">
                             <i class="fa fa-trash"></i>
-                        </button>
+                        </button> -->
+                        <!-- delete korte deoa jaabe na -->
                     </td>
                   </tr>
                   
