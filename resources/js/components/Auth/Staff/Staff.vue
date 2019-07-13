@@ -49,8 +49,11 @@
               </ul>
               <div class="card-body">
                 <center>
+                  <button type="button" class="btn btn-primary btn-sm" @click="editStaffModal(staff)" v-tooltip="'তথ্য হালনাগাদ করুন'" :disabled="staff.current_due <= 0">
+                      <i class="fa fa-edit"></i>
+                  </button>
                   <button type="button" class="btn btn-success btn-sm" @click="editModal(staff)" v-tooltip="'বেতন পরিশোধ করুন'" :disabled="staff.current_due <= 0">
-                      <i class="fa fa-thumbs-o-up"></i> বেতন পরিশোধ করুন
+                      <i class="fa fa-money"></i>
                   </button>
                 </center>
               </div>
@@ -155,6 +158,57 @@
           </div>
         </div>
       </div>
+
+      <!-- The Modal -->
+      <div class="modal fade" id="editStaffModal" tabindex="-1" role="dialog" aria-labelledby="editStaffModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title" id="editStaffModalLabel">কর্মচারী হালনাগাদ করুন</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form @submit.prevent="updateStaff()" @keydown="form.onKeydown($event)">
+                <!-- Modal body -->
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label>নাম</label>
+                    <input v-model="formedit.name" type="text" name="name" placeholder="নাম" 
+                      class="form-control" :class="{ 'is-invalid': formedit.errors.has('name') }">
+                    <has-error :form="formedit" field="name"></has-error>
+                  </div>
+                  <div class="form-group">
+                    <label>মোবাইল নম্বর (১১ ডিজিট)</label>
+                    <input v-model="formedit.mobile" type="text" name="mobile" placeholder="১১ ডিজিট মোবাইল নম্বর" 
+                      class="form-control" :class="{ 'is-invalid': formedit.errors.has('mobile') }" onkeypress="if(this.value.length==11) return false;">
+                    <has-error :form="formedit" field="mobile"></has-error>
+                  </div>
+                  <div class="form-group">
+                    <label>ঠিকানা</label>
+                    <input v-model="formedit.address" type="text" name="address" placeholder="ঠিকানা" 
+                      class="form-control" :class="{ 'is-invalid': formedit.errors.has('address') }">
+                    <has-error :form="formedit" field="address"></has-error>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label>ছবি (যদি থাকে)</label>
+                    <input type="file" v-on:change="uploadImage" name="image" placeholder="Image" 
+                      class="form-control" :class="{ 'is-invalid': formedit.errors.has('image') }" ref="imageInput">
+                    <has-error :form="formedit" field="image"></has-error>
+                  </div>
+                  <center>
+                    <img :src="getProfilePhotoOnModal()" class="img-responsive" style="max-height: 150px; width: auto;">
+                  </center>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-success">হালনাগাদ করুন</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">ফিরে যান</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
       <div v-if="!$gate.isAdminOrAssociated('staff-page', this.$route.params.code)">
           <forbidden-403></forbidden-403>
       </div>
@@ -172,6 +226,14 @@
             totalsalary: '',
             salarycount: '',
             // Create a new form instance
+            formedit: new Form({
+              id: '',
+              name: '',
+              mobile: '',
+              address: '',
+              image: '',
+              code: this.$route.params.code
+            }),
             form: new Form({
               code: this.$route.params.code,
               staff_id: '',
@@ -182,6 +244,29 @@
           }
         },
         methods: {
+          editStaffModal(staff) {
+              this.formedit.reset(); // clears fields
+              this.formedit.clear(); // clears errors
+              this.$refs.imageInput.value = null;
+              $('#editStaffModal').modal({ show: true, backdrop: 'static', keyboard: false });
+              this.formedit.fill(staff);
+          },
+          updateStaff() {
+              this.$Progress.start();
+              this.formedit.put('/api/staff/'+ this.formedit.id).then(() => {
+                  $('#editStaffModal').modal('hide')
+                  Fire.$emit('AfterStaffUpdated')
+                  toast.fire({
+                    type: 'success',
+                    title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
+                  })
+                  this.$Progress.finish();
+              })
+              .catch(() => {
+                  this.$Progress.fail();
+                  // swal('Failed!', 'There was something wrong', 'warning');
+              })
+          },
           editModal(staff) {
             this.form.reset(); // clears fields
             this.form.clear(); // clears errors
@@ -228,6 +313,50 @@
                 this.$Progress.fail();
                 // swal('Failed!', 'There was something wrong', 'warning');
             })
+          },
+          uploadImage(e) {
+            let file = e.target.files[0];
+            // console.log(file);
+            let reader = new FileReader();
+            if((file['size'] / 1024) > 250) {
+              swal.fire(
+               'Ops!',
+               'The size of the intended file is <b>' + parseInt(file['size'] / 1024) + 'KB</b>, try uploading under <b>250KB</b>!',
+               'warning'
+              )
+              this.$refs.imageInput.value = null;
+            } else {
+              reader.onloadend = (file) => {
+                var img = new Image();
+                img.src = file.target.result;
+
+                img.onload = function() {
+                    if(((this.height/this.width) < 0.9375) || ((this.height/this.width) > 1.07142)) {
+                      swal.fire(
+                       'Ops!',
+                       'The ratio of height and width should be same',
+                       'warning'
+                      )
+                      
+                    }
+                };
+                this.formedit.image = reader.result;
+              }
+              reader.readAsDataURL(file);
+            }
+          },
+          getProfilePhotoOnModal() {
+            if(this.formedit.image == null) {
+              return '/images/staff_demo.png';
+            } else {
+              if(this.formedit.image.length > 200) {
+                return this.formedit.image;
+              } else if(this.formedit.image.length == 0) {
+                return '/images/staff_demo.png';
+              } else {
+                return '/images/users/' + this.formedit.image;
+              }
+            }
           },
           getPaginationSalaryHistories(page = 1) {
             axios.get('/api/load/single/staff/salary/history/' + this.$route.params.id + '/' + this.$route.params.code + '?page=' + page)

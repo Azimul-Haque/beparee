@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Customer' => $baseDir . '/app/Customer.php',
+    'App\\Customerdue' => $baseDir . '/app/Customerdue.php',
     'App\\Duehistory' => $baseDir . '/app/Duehistory.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Expense' => $baseDir . '/app/Expense.php',
@@ -16,6 +17,7 @@ return array(
     'App\\Http\\Controllers\\API\\ExpenseController' => $baseDir . '/app/Http/Controllers/API/ExpenseController.php',
     'App\\Http\\Controllers\\API\\ProductController' => $baseDir . '/app/Http/Controllers/API/ProductController.php',
     'App\\Http\\Controllers\\API\\PurchaseController' => $baseDir . '/app/Http/Controllers/API/PurchaseController.php',
+    'App\\Http\\Controllers\\API\\SaleController' => $baseDir . '/app/Http/Controllers/API/SaleController.php',
     'App\\Http\\Controllers\\API\\StaffController' => $baseDir . '/app/Http/Controllers/API/StaffController.php',
     'App\\Http\\Controllers\\API\\StoreController' => $baseDir . '/app/Http/Controllers/API/StoreController.php',
     'App\\Http\\Controllers\\API\\UserController' => $baseDir . '/app/Http/Controllers/API/UserController.php',
@@ -48,6 +50,7 @@ return array(
     'App\\Purchase' => $baseDir . '/app/Purchase.php',
     'App\\Role' => $baseDir . '/app/Role.php',
     'App\\Sale' => $baseDir . '/app/Sale.php',
+    'App\\Saleitem' => $baseDir . '/app/Saleitem.php',
     'App\\Staff' => $baseDir . '/app/Staff.php',
     'App\\Stock' => $baseDir . '/app/Stock.php',
     'App\\Store' => $baseDir . '/app/Store.php',

@@ -116,7 +116,7 @@ class ProductController extends Controller
         // jehetu data alada table e store korar bepar tai ei duita niche
         $checkcategory = Productcategory::where('name', $request->productcategory['name'])
                                         ->where('store_id', $store->id)
-                                        ->first();
+                                        ->first(); // kaaj ache aro... some bugs... isset
         if($checkcategory) {
             $product->productcategory_id = $checkcategory->id;
         } else {
@@ -139,7 +139,7 @@ class ProductController extends Controller
             $stock->current_quantity = $request->quantity;
             $stock->buying_price = number_format($request->buying_price, 2, '.', '');
             $stock->selling_price = number_format($request->selling_price, 2, '.', '');
-            $checkvendor = Vendor::where('name', $request->vendor['name'])->where('store_id', $store->id)->first();
+            $checkvendor = Vendor::where('name', $request->vendor['name'])->where('store_id', $store->id)->first(); // kaaj ache aro... some bugs... isset
             if($checkvendor) {
                 $stock->vendor_id = $checkvendor->id;
             } else {

@@ -17,5 +17,4 @@ class Stock extends Model
     public function purchase(){
         return $this->belongsTo('App\Purchase');
     }
-
 }

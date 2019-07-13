@@ -48,7 +48,7 @@
                     <th>পরিশোধিত</th>
                     <th>দেনা/ পরিশোধনীয়</th>
                     <th>সময় / তারিখ</th>
-                    <th width="20%">ক্রিয়াকলাপ</th>
+                    <th width="15%">ক্রিয়াকলাপ</th>
                   </tr>
                  </thead>
                  <tbody>
@@ -77,10 +77,10 @@
                       <small>{{ purchase.created_at | datetime }}</small>
                     </td>
                     <td>
-                        <a :href="'/pdf/purchase/' + purchase.id" class="btn btn-primary btn-sm" v-tooltip="'ক্রয়ের রসিদ ডাউনলোড (PDF) করুন'">
+                        <a :href="'/pdf/purchase/' + purchase.id" class="btn btn-primary btn-sm" v-tooltip="'ডাউনলোড করুন'">
                             <i class="fa fa-download"></i>
                         </a>
-                        <button @click="printPurchase(purchase.id, purchase.code)" class="btn btn-success btn-sm" v-tooltip="'ক্রয়ের রসিদ প্রিন্ট করুন'">
+                        <button @click="printPurchase(purchase.id, purchase.code)" class="btn btn-success btn-sm" v-tooltip="'প্রিন্ট করুন'">
                             <i class="fa fa-print"></i>
                         </button>
                         <!-- <button @click="deletePurchase(purchase.id)" class="btn btn-danger btn-sm" v-tooltip="'পণ্য ডিলেট করুন'">

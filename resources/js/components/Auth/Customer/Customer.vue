@@ -40,8 +40,11 @@
               </ul>
               <div class="card-body">
                 <center>
-                  <button type="button" class="btn btn-success btn-sm" @click="editModal(customer)" v-tooltip="customer.name+'-এর পরিশোধ'" :disabled="customer.current_due <= 0">
-                      <i class="fa fa-handshake-o"></i> বকেয়া পরিশোধ
+                  <button type="button" class="btn btn-primary btn-sm" @click="editCustomerModal(customer)" v-tooltip="'তথ্য হালনাগাদ করুন'">
+                      <i class="fa fa-edit"></i>
+                  </button>
+                  <button type="button" class="btn btn-success btn-sm" @click="editModal(customer)" v-tooltip="'বকেয়া পরিশোধ করুন'" :disabled="customer.current_due <= 0">
+                      <i class="fa fa-handshake-o"></i>
                   </button>
                 </center>
               </div>
@@ -86,7 +89,7 @@
               <h4 class="modal-title" id="addModalLabel">বকেয়া পরিশোধ</h4>
               <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <form @submit.prevent="updateCustomer()" @keydown="form.onKeydown($event)">
+            <form @submit.prevent="updateCustomerDue()" @keydown="form.onKeydown($event)">
               <!-- Modal body -->
               <div class="modal-body">
                 <div class="form-group">
@@ -134,6 +137,54 @@
           </div>
         </div>
       </div>
+
+      <!-- The Other Modal -->
+      <div class="modal fade" id="editCustomerModal" tabindex="-1" role="dialog" aria-labelledby="editCustoemrModalLabel" aria-hidden="true">
+        <div class="modal-dialog"> <!-- modal-lg -->
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title" id="editCustoemrModalLabel">কাস্টমার সম্পাদনা করুন</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form @submit.prevent="updateCustomer()" @keydown="formedit.onKeydown($event)">
+              <!-- Modal body -->
+              <div class="modal-body">
+                <div class="form-group">
+                  <label>কাস্টমারের নাম *</label>
+                  <input v-model="formedit.name" type="text" name="name" placeholder="কাস্টমারের নাম *" 
+                    class="form-control" :class="{ 'is-invalid': formedit.errors.has('name') }">
+                  <has-error :form="formedit" field="name"></has-error>
+                </div>
+                <div class="form-group">
+                  <label>যোগাযোগের নম্বর (১১ ডিজিট)</label>
+                  <input v-model="formedit.mobile" type="number" name="mobile" placeholder="যোগাযোগের নম্বর" 
+                    class="form-control" :class="{ 'is-invalid': formedit.errors.has('mobile') }" onkeypress="if(this.value.length==11) return false;">
+                  <has-error :form="formedit" field="mobile"></has-error>
+                </div>
+                <div class="form-group">
+                  <label>ঠিকানা</label>
+                  <input v-model="formedit.address" type="text" name="address" placeholder="ঠিকানা" 
+                    class="form-control" :class="{ 'is-invalid': formedit.errors.has('address') }">
+                  <has-error :form="formedit" field="address"></has-error>
+                </div>
+                <div class="form-group">
+                  <label>জাতীয় পরিচয়পত্র নম্বর (ঐচ্ছিক)</label>
+                  <input v-model="formedit.nid" type="number" name="nid" placeholder="জাতীয় পরিচয়পত্র নম্বর" 
+                    class="form-control" :class="{ 'is-invalid': formedit.errors.has('nid') }" onkeypress="if(this.value.length==17) return false;">
+                  <has-error :form="formedit" field="nid"></has-error>
+                </div>
+                <input type="hidden" v-model="formedit.code" name="code">
+              </div>
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-success">হালনাগাদ করুন</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">ফিরে যান</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
       <div v-if="!$gate.isAdminOrAssociated('customer-page', this.$route.params.code)">
           <forbidden-403></forbidden-403>
       </div>
@@ -150,6 +201,14 @@
               maxpayable: 0,
               duehistories: [],
               // Create a new form instance
+              formedit: new Form({
+                id: '',
+                name: '',
+                address: '',
+                mobile: '',
+                nid: '',
+                code: this.$route.params.code,
+              }),
               form: new Form({
                 id: '',
                 name: '',
@@ -170,6 +229,13 @@
                   ));
                 }
             },
+            editCustomerModal(customer) {
+                this.formedit.reset(); // clears fields
+                this.formedit.clear(); // clears errors
+                $('#editCustomerModal').modal({ show: true, backdrop: 'static', keyboard: false });
+
+                this.formedit.fill(customer);               
+            },
             editModal(customer) {
                 this.form.reset(); // clears fields
                 this.form.clear(); // clears errors
@@ -179,6 +245,22 @@
                 this.maxpayable = customer.current_due;                
             },
             updateCustomer() {
+                this.$Progress.start();
+                this.formedit.put('/api/customer/'+ this.formedit.id).then(() => {
+                  $('#editCustomerModal').modal('hide')
+                  Fire.$emit('AfterCustomerUpdated')
+                  toast.fire({
+                    type: 'success',
+                    title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
+                  })
+                  this.$Progress.finish();
+                })
+                .catch(() => {
+                    this.$Progress.fail();
+                    // swal('Failed!', 'There was something wrong', 'warning');
+                })
+            },
+            updateCustomerDue() {
                 this.$Progress.start();
                 this.form.put('/api/load/customer/pay/due/'+ this.form.id).then(() => {
                   $('#addModal').modal('hide')
@@ -195,64 +277,64 @@
                 })
             },
             removeDuplicatePurchase(stocks) {
-                        var purchases = [];
-                        var markup = '';
-                        if(stocks) {
-                          for(var i=0; i<stocks.length; i++) {
-                            // if the purchase_id is null (default product stocked), then ignore
-                            if(stocks[i].purchase_id != null) {
-                              purchases.push(stocks[i].purchase);
-                            }
-                          }
-                        }
-                        // uniquify array of OBJECTS, then orders it, it's lodash!
-                        var uniqueArray = _.map(
-                            _.uniq(
-                                _.map(purchases, function(obj){
-                                    return JSON.stringify(obj);
-                                })
-                            ), function(obj) {
-                                return JSON.parse(obj);
-                            }
-                        );
-                        uniqueArray = _.orderBy(uniqueArray, 'id', 'desc');
+              var purchases = [];
+              var markup = '';
+              if(stocks) {
+                for(var i=0; i<stocks.length; i++) {
+                  // if the purchase_id is null (default product stocked), then ignore
+                  if(stocks[i].purchase_id != null) {
+                    purchases.push(stocks[i].purchase);
+                  }
+                }
+              }
+              // uniquify array of OBJECTS, then orders it, it's lodash!
+              var uniqueArray = _.map(
+                  _.uniq(
+                      _.map(purchases, function(obj){
+                          return JSON.stringify(obj);
+                      })
+                  ), function(obj) {
+                      return JSON.parse(obj);
+                  }
+              );
+              uniqueArray = _.orderBy(uniqueArray, 'id', 'desc');
 
-                        uniqueArray.map(function(purchase, key) {
-                          markup += '<div class="card bg-light text-dark" >'
-                                    +'<div class="card-body">'
-                                      +'<div class="row">'
-                                        +'<div class="col-md-10">'
-                                          +'<div class="row">'
-                                            +'<div class="col-md-6">'
-                                              +'<i class="fa fa-ticket text-blue"></i> ক্রয় রশিদ নম্বরঃ <b>'+ purchase.code +'</b><br/>'
-                                              +'<i class="fa fa-calculator text-green"></i> মোট প্রদেয়ঃ <b>'+ purchase.total +'</b><br/>'
-                                              +'<i class="fa fa-tag text-orange"></i> ডিসকাউন্টঃ <b>'+ purchase.discount +' '+ purchase.discount_unit +'</b>'
-                                            +'</div>'
-                                            +'<div class="col-md-6">'
-                                              +'<i class="fa fa-money text-teal"></i> পরিশোধনীয় মূল্যঃ <b>'+ purchase.payable +'</b><br/>'
-                                              +'<i class="fa fa-check-circle text-cyan"></i> পরিশোধিতঃ <b>'+ purchase.paid +'</b><br/>'
-                                              +'<i class="fa fa-clock-o text-red"></i> দেনা/ পরিশোধনীয়ঃ <b>'+ purchase.due +'</b>'
-                                            +'</div>'
-                                          +'</div>'
-                                        +'</div>'
-                                        +'<div class="col-md-2">'
-                                          +'<a href="/pdf/purchase/'+ purchase.id +'" class="btn btn-primary btn-sm" data-toggle="tooltip" title="রশিদ ডাউনলোড করুন">'
-                                              +'<i class="fa fa-download text-light"></i>'
-                                          +'</a>'
-                                          +'<button class="btn btn-success btn-sm" style="margin-left: 5px;" data-toggle="tooltip" title="রশিদ প্রিন্ট করুন">'
-                                              +'<i class="fa fa-print"></i>'
-                                          +'</button>'
-                                        +'</div>'
-                                      +'</div>'
-                                      +'<small class="text-muted" style="border-top: 1px solid #DDD;">'
-                                        +'<i class="fa fa-calendar"></i> '+ moment(purchase.created_at).format('MMMM DD, YYYY hh:mm A')
-                                      +'</small>'
-                                    +'</div>'
+              uniqueArray.map(function(purchase, key) {
+                markup += '<div class="card bg-light text-dark" >'
+                          +'<div class="card-body">'
+                            +'<div class="row">'
+                              +'<div class="col-md-10">'
+                                +'<div class="row">'
+                                  +'<div class="col-md-6">'
+                                    +'<i class="fa fa-ticket text-blue"></i> ক্রয় রশিদ নম্বরঃ <b>'+ purchase.code +'</b><br/>'
+                                    +'<i class="fa fa-calculator text-green"></i> মোট প্রদেয়ঃ <b>'+ purchase.total +'</b><br/>'
+                                    +'<i class="fa fa-tag text-orange"></i> ডিসকাউন্টঃ <b>'+ purchase.discount +' '+ purchase.discount_unit +'</b>'
                                   +'</div>'
-                        });
+                                  +'<div class="col-md-6">'
+                                    +'<i class="fa fa-money text-teal"></i> পরিশোধনীয় মূল্যঃ <b>'+ purchase.payable +'</b><br/>'
+                                    +'<i class="fa fa-check-circle text-cyan"></i> পরিশোধিতঃ <b>'+ purchase.paid +'</b><br/>'
+                                    +'<i class="fa fa-clock-o text-red"></i> দেনা/ পরিশোধনীয়ঃ <b>'+ purchase.due +'</b>'
+                                  +'</div>'
+                                +'</div>'
+                              +'</div>'
+                              +'<div class="col-md-2">'
+                                +'<a href="/pdf/purchase/'+ purchase.id +'" class="btn btn-primary btn-sm" data-toggle="tooltip" title="রশিদ ডাউনলোড করুন">'
+                                    +'<i class="fa fa-download text-light"></i>'
+                                +'</a>'
+                                +'<button class="btn btn-success btn-sm" style="margin-left: 5px;" data-toggle="tooltip" title="রশিদ প্রিন্ট করুন">'
+                                    +'<i class="fa fa-print"></i>'
+                                +'</button>'
+                              +'</div>'
+                            +'</div>'
+                            +'<small class="text-muted" style="border-top: 1px solid #DDD;">'
+                              +'<i class="fa fa-calendar"></i> '+ moment(purchase.created_at).format('MMMM DD, YYYY hh:mm A')
+                            +'</small>'
+                          +'</div>'
+                        +'</div>'
+              });
 
-                        return markup;
-                      },
+              return markup;
+            },
         },
         created() {
             this.loadCustomer();

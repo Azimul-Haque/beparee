@@ -44,19 +44,19 @@ class PurchaseController extends Controller
             'code'                 => 'required',
             
             // 'product'              => 'required',
-            'vendor'               => 'required|max:191',
+            'vendor'               => 'required',
 
             // 'expiry_date'          => 'sometimes|max:191',
             // 'quantity'             => 'required|max:191',
             // 'buying_price'         => 'required|max:191',
             // 'selling_price'        => 'required|max:191',
 
-            'total'                => 'required|max:191',
-            'discount_unit'        => 'required|max:191',
-            'discount'             => 'required|max:191',
-            'payable'              => 'required|max:191',
-            'paid'                 => 'required|max:191',
-            'due'                  => 'sometimes|max:191'            
+            'total'                => 'required',
+            'discount_unit'        => 'required',
+            'discount'             => 'required',
+            'payable'              => 'required',
+            'paid'                 => 'required',
+            'due'                  => 'sometimes'            
         ));
 
         $purchase = new Purchase;
@@ -88,7 +88,7 @@ class PurchaseController extends Controller
             $duehistory = new Duehistory;
             $duehistory->vendor_id = $request->vendor['id'];
             $duehistory->transaction_type = 0; // 0 is due, 1 is due_paid
-            $duehistory->amount = $request->due;
+            $duehistory->amount = number_format($request->due, 2, '.', '');
             $duehistory->save();
         }
 
@@ -113,7 +113,6 @@ class PurchaseController extends Controller
                 $stock->selling_price = number_format($product_array[$key]['selling_price'], 2, '.', '');
                 $stock->save();
             }
-            
         }
         return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];
     }

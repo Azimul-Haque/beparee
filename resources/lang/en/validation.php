@@ -178,6 +178,9 @@ return [
         'amount' => [
             'required' => 'অনুগ্রহ করে পরিমাণ (৳) লিখুন'
         ],
+        'payment_method' => [
+            'required' => 'অনুগ্রহ করে পেমেন্ট মাধ্যম নির্বাচন করুন'
+        ],
 
 
         'attribute-name' => [

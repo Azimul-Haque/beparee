@@ -19,6 +19,8 @@ export const routes = [
   
   { path: '/purchases/:code', component: require('./components/Auth/Purchase/Purchases.vue').default, meta: { title: 'ক্রয়ের তালিকা'}, name: 'purchasesPage'},
   
+  { path: '/sales/:code', component: require('./components/Auth/Sales/Sales.vue').default, meta: { title: 'বিক্রয়ের তালিকা'}, name: 'salesPage'},
+
   { path: '/vendors/:code', component: require('./components/Auth/Vendor/Vendors.vue').default, meta: { title: 'ডিলার/ ভেন্ডরের তালিকা'}, name: 'vendorsPage'},
   { path: '/vendor/:id/:code', component: require('./components/Auth/Vendor/Vendor.vue').default, meta: { title: 'ডিলার/ ভেন্ডর'}, name: 'singleVendor'},
   { path: '/dues/:code', component: require('./components/Auth/Due/Dues.vue').default, meta: { title: 'দেনার হিসাব'}, name: 'duesPage'},
@@ -32,6 +34,7 @@ export const routes = [
 
   { path: '/expenses/:code', component: require('./components/Auth/Expense/Expenses.vue').default, meta: { title: 'খরচের হিসাব'}, name: 'expensesPage'},
   { path: '/expense/:id/:code', component: require('./components/Auth/Expense/Expense.vue').default, meta: { title: 'খরচ'}, name: 'singleExpense'},
+
 
   { path: '*', component: require('./components/404.vue').default, meta: { title: '404 Not Found'} },
 

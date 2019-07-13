@@ -17,7 +17,7 @@ class CreateCustomersTable extends Migration
             $table->bigIncrements('id');
             $table->integer('store_id')->unsigned();
             $table->string('name');
-            $table->string('mobile')->nullable();
+            $table->string('mobile')->default('017');;
             $table->string('address')->nullable();
             $table->string('nid')->nullable();
             $table->string('total_purchase')->default('0'); // means total sales to customer

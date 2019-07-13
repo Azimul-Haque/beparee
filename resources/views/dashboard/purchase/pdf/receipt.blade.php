@@ -74,7 +74,7 @@
       @foreach($purchase->stocks as $stock)
       <tr>
         <td>{{ $stock->product->name }}</td>
-        <td align="right">{{ $stock->quantity }}</td>
+        <td align="right">{{ $stock->quantity }} {{ $stock->product->unit }}</td>
         <td align="right">{{ $stock->buying_price }} ৳</td>
         <td align="right">{{ number_format(($stock->quantity * $stock->buying_price), 2, '.', '') }} ৳</td>
       </tr>

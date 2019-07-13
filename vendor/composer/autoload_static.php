@@ -413,6 +413,7 @@ class ComposerStaticInitd74bd490cc4c8b8743736c14ad6241e3
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Customer' => __DIR__ . '/../..' . '/app/Customer.php',
+        'App\\Customerdue' => __DIR__ . '/../..' . '/app/Customerdue.php',
         'App\\Duehistory' => __DIR__ . '/../..' . '/app/Duehistory.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Expense' => __DIR__ . '/../..' . '/app/Expense.php',
@@ -421,6 +422,7 @@ class ComposerStaticInitd74bd490cc4c8b8743736c14ad6241e3
         'App\\Http\\Controllers\\API\\ExpenseController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/ExpenseController.php',
         'App\\Http\\Controllers\\API\\ProductController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/ProductController.php',
         'App\\Http\\Controllers\\API\\PurchaseController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/PurchaseController.php',
+        'App\\Http\\Controllers\\API\\SaleController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/SaleController.php',
         'App\\Http\\Controllers\\API\\StaffController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/StaffController.php',
         'App\\Http\\Controllers\\API\\StoreController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/StoreController.php',
         'App\\Http\\Controllers\\API\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/UserController.php',
@@ -453,6 +455,7 @@ class ComposerStaticInitd74bd490cc4c8b8743736c14ad6241e3
         'App\\Purchase' => __DIR__ . '/../..' . '/app/Purchase.php',
         'App\\Role' => __DIR__ . '/../..' . '/app/Role.php',
         'App\\Sale' => __DIR__ . '/../..' . '/app/Sale.php',
+        'App\\Saleitem' => __DIR__ . '/../..' . '/app/Saleitem.php',
         'App\\Staff' => __DIR__ . '/../..' . '/app/Staff.php',
         'App\\Stock' => __DIR__ . '/../..' . '/app/Stock.php',
         'App\\Store' => __DIR__ . '/../..' . '/app/Store.php',

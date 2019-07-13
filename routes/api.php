@@ -77,7 +77,10 @@ Route::get('load/single/category/expense/{id}/{code}', 'API\ExpenseController@lo
 Route::get('load/single/category/expenses/store/wise/{id}/{code}', 'API\ExpenseController@loadSingleExpenseStoreWise');
 Route::get('load/single/category/expenses/totals/{id}/{code}', 'API\ExpenseController@loadSingleExpenseTotals');
 
-
+Route::apiResources(['sale' => 'API\SaleController']);
+Route::get('load/sale/{code}', 'API\SaleController@loadSales');
+Route::get('load/sale/product/{code}', 'API\SaleController@loadProducts');
+Route::get('load/sale/customer/{code}', 'API\SaleController@loadCustomers');
 
 Route::get('get/store/id/{code}', 'API\StoreController@getStoreID');
 

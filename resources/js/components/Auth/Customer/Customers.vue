@@ -54,23 +54,23 @@
                   </tr>
                  </thead>
                  <tbody>
-                  <tr v-for="vendor in customers.data" :key="vendor.id">
+                  <tr v-for="customer in customers.data" :key="customer.id">
                     <!-- <td>{{ store.id }}</td> -->
                     <td>
-                      <router-link :to="{ name: 'singleCustomer', params: { id: vendor.id, code: code }}" v-tooltip="'বিস্তারিত দেখুন'">
-                        {{ vendor.name }}
+                      <router-link :to="{ name: 'singleCustomer', params: { id: customer.id, code: code }}" v-tooltip="'বিস্তারিত দেখুন'">
+                        {{ customer.name }}
                       </router-link>
                     </td>
-                    <td>{{ vendor.address }}</td>
-                    <td>{{ vendor.mobile }}</td>
+                    <td>{{ customer.address }}</td>
+                    <td>{{ customer.mobile }}</td>
                     <td>
-                        <router-link :to="{ name: 'singleCustomer', params: { id: vendor.id, code: code }}" class="btn btn-info btn-sm" v-tooltip="'বিস্তারিত দেখুন'">
+                        <router-link :to="{ name: 'singleCustomer', params: { id: customer.id, code: code }}" class="btn btn-info btn-sm" v-tooltip="'বিস্তারিত দেখুন'">
                           <i class="fa fa-eye"></i>
                         </router-link>
-                        <button type="button" class="btn btn-success btn-sm" @click="editModal(vendor)" v-tooltip="'সম্পাদনা করুন'">
+                        <button type="button" class="btn btn-success btn-sm" @click="editModal(customer)" v-tooltip="'সম্পাদনা করুন'">
                             <i class="fa fa-edit"></i>
                         </button><!-- 
-                        <button @click="deleteCustomer(vendor.id)" class="btn btn-danger btn-sm">
+                        <button @click="deleteCustomer(customer.id)" class="btn btn-danger btn-sm">
                             <i class="fa fa-trash"></i>
                         </button> -->
                     </td>
@@ -169,13 +169,13 @@
                 this.form.reset();
                 $('#addModal').modal({ show: true, backdrop: 'static', keyboard: false });
             },
-            editModal(vendor) {
+            editModal(customer) {
                 this.editmode = true;
                 this.form.reset(); // clears fields
                 this.form.clear(); // clears errors
                 $('#addModal').modal({ show: true, backdrop: 'static', keyboard: false });
 
-                this.form.fill(vendor);                
+                this.form.fill(customer);                
             },
             
             loadCustomers() {
@@ -225,7 +225,7 @@
                   confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
                     if (result.value) {
-                       this.form.delete('/api/vendor/'+ id).then(() => {
+                       this.form.delete('/api/customer/'+ id).then(() => {
                          swal.fire(
                           'Wait...!',
                           'এই মুহূর্তে ডিলেট বন্ধ আছে!',

@@ -1,0 +1,210 @@
+<?php
+
+namespace App\Http\Controllers\API;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+use App\User;
+use App\Store;
+use App\Product;
+use App\Stock;
+use App\Customer;
+use App\Customerdue;
+use App\Sale;
+use App\Saleitem;
+
+use DB;
+
+class SaleController extends Controller
+{
+    
+    public function __construct()
+    {        
+        // $this->middleware('auth:api'); 
+    }
+
+    public function loadSales($code)
+    {
+        $store = Store::where('code', $code)->first();
+        $sales = Sale::where('store_id', $store->id)->orderBy('id', 'desc')->paginate(5);
+        $sales->load('saleitems');
+        $sales->load('saleitems')->load('saleitems.product');
+        $sales->load('customer');
+
+        return response()->json($sales);
+    }
+    
+    public function loadProducts($code)
+    {
+        $store = Store::where('code', $code)->first();
+        $products = Product::select('id', 'name', 'unit')->where('store_id', $store->id)->get();
+        $products->load('stocks');
+
+        return response()->json($products);
+    }
+
+    public function loadCustomers($code)
+    {
+        $store = Store::where('code', $code)->first();
+
+        $customers = Customer::select('id', DB::raw(DB::raw("CONCAT(name, ' (', mobile, ')') AS name")))
+                             ->where('store_id', $store->id)
+                             ->get();
+
+        return response()->json($customers);
+    }
+
+
+    public function store(Request $request)
+    {
+        $this->validate($request,array(
+            'code'                 => 'required',
+            'customer'               => 'required',
+
+            'total_price'                => 'required',
+            'discount_unit'        => 'required',
+            'discount'             => 'required',
+            'payment_method'       => 'required',
+            'payable'              => 'required',
+            'paid'                 => 'required',
+            'due'                  => 'sometimes'            
+        ));
+
+        $sale = new Sale;
+
+        $store = Store::where('code', $request->code)->first();
+
+        $sale->store_id = $store->id;
+
+        $sale->code = random_string(8);
+        $sale->total_price = number_format($request->total_price, 2, '.', '');
+        $sale->discount_unit = $request->discount_unit;
+        $sale->discount = number_format($request->discount, 2, '.', '');
+        $sale->payment_method = $request->payment_method;
+        $sale->payable = number_format($request->payable, 2, '.', '');
+        $sale->paid = number_format($request->paid, 2, '.', '');
+        $sale->due = number_format($request->due, 2, '.', '');
+
+        // save the customer, dues and others...
+        if(isset($request->customer['id'])) {
+            $checkcustomer = Customer::findOrFail($request->customer['id']);
+            if($checkcustomer) {
+                $sale->customer_id = $checkcustomer->id;
+                $checkcustomer->total_purchase = $checkcustomer->total_purchase + 1;
+                if($request->due > 0) {
+                    $checkcustomer->current_due = number_format(($checkcustomer->current_due + $request->due), 2, '.', '');
+                    $checkcustomer->total_due = number_format(($checkcustomer->total_due + $request->due), 2, '.', '');
+                }
+                $checkcustomer->save();
+            } else {
+                $newcustomer = new Customer;
+                $newcustomer->store_id = $store->id;
+                if(isset($request->customer['name'])) {
+                    $newcustomer->name = $request->customer['name'];
+                } else {
+                    $newcustomer->name = $request->customer;
+                }                
+                $newcustomer->total_purchase = $newcustomer->total_purchase + 1;
+                if($request->due > 0) {
+                    $newcustomer->current_due = number_format(($newcustomer->current_due + $request->due), 2, '.', '');
+                    $newcustomer->total_due = number_format(($newcustomer->total_due + $request->due), 2, '.', '');
+                }
+                $newcustomer->save();
+                $sale->customer_id = $newcustomer->id;
+            }
+        } else {
+            $newcustomer = new Customer;
+            $newcustomer->store_id = $store->id;
+            if(isset($request->customer['name'])) {
+                $newcustomer->name = $request->customer['name'];
+            } else {
+                $newcustomer->name = $request->customer;
+            }
+            $newcustomer->total_purchase = $newcustomer->total_purchase + 1;
+            if($request->due > 0) {
+                $newcustomer->current_due = number_format(($newcustomer->current_due + $request->due), 2, '.', '');
+                $newcustomer->total_due = number_format(($newcustomer->total_due + $request->due), 2, '.', '');
+            }
+            $newcustomer->save();
+            $sale->customer_id = $newcustomer->id;
+        }
+
+        $sale->save();
+        
+
+        // save the customer due HISTORY if due is greater than 0
+        if($request->due > 0) {
+            $customerdues = new Customerdue;
+            $customerdues->customer_id = $sale->customer_id;
+            $customerdues->transaction_type = 0; // 0 is due, 1 is due_paid
+            $customerdues->amount = number_format($request->due, 2, '.', '');
+            $customerdues->save();
+        }
+
+        // save the saleitems...
+        $product_array = [];
+        foreach ($request->product as $key => $value) {
+            if($request->product[$key]['id'] != null) {
+                $product_array[$key]['product_id'] = $request->product[$key]['id'];
+                // $product_array[$key]['expiry_date'] = $request->expiry_date[$key];
+                $product_array[$key]['quantity'] = $request->quantity[$key];
+                $product_array[$key]['unit_price'] = $request->unit_price[$key];
+                
+                $saleitem = new Saleitem;
+                $saleitem->product_id = $product_array[$key]['product_id'];
+                $saleitem->sale_id = $sale->id;
+                // $saleitem->expiry_date = $request->expiry_date;
+                $saleitem->quantity = $product_array[$key]['quantity'];
+                $saleitem->unit_price = number_format($product_array[$key]['unit_price'], 2, '.', '');
+                $saleitem->save();
+            }
+        }
+        return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+}

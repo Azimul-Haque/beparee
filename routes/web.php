@@ -16,6 +16,7 @@ Route::get('/', ['as'=>'index','uses'=>'IndexController@index']);
 
 // Report Generation Controller... without API
 Route::get('pdf/purchase/{id}', 'PDFController@singlePurchaseReceiptPDF');
+Route::get('pdf/sale/{id}', 'PDFController@singleSaleReceiptPDF');
 
 Auth::routes();
 
