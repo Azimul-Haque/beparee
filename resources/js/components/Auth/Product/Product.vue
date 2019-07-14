@@ -66,10 +66,11 @@
                     <div class="card bg-light text-dark" v-for="stock in product.stocks">
                       <div class="card-body">
                         <div class="row">
-                          <div class="col-md-9">
+                          <div class="col-md-10">
                             <div class="row">
                               <div class="col-md-6">
                                 <i class="fa fa-industry text-blue"></i> ডিলার/ ভেন্ডরঃ <b>{{ stock.vendor.name }}</b><br/>
+                                <i class="fa fa-truck text-secondary"></i> প্রাথমিক স্টকঃ <big>{{ stock.quantity }}</big> {{ product.unit }}<br/>
                                 <i class="fa fa-archive text-green"></i> স্টকের পরিমাণঃ <big>{{ stock.current_quantity }}</big> {{ product.unit }}
                               </div>
                               <div class="col-md-6">
@@ -78,12 +79,12 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-md-3">
+                          <div class="col-md-2">
                             <button @click="editModal(stock)" class="btn btn-sm btn-primary"><i class="fa fa-edit" v-tooltip="'স্টকটি সম্পাদনা করুন'"></i></button>
                             <button class="btn btn-sm btn-success"><i class="fa fa-retweet"  v-tooltip="'স্টকটি ফেরত দিন'"></i></button>
-                            <button @click="deleteStock(stock.id)" class="btn btn-sm btn-danger"><i class="fa fa-trash"  v-tooltip="'স্টকটি ডিলেট করে দিন'"></i></button>
+                            <!-- <button @click="deleteStock(stock.id)" class="btn btn-sm btn-danger"><i class="fa fa-trash"  v-tooltip="'স্টকটি ডিলেট করে দিন'"></i></button> -->
                           </div>
-                        </div><br/>
+                        </div>
                         <small class="text-muted" style="border-top: 1px solid #DDD;">
                           সিস্টেমে প্রবেশের তারিখঃ {{ stock.created_at | datetime }}
                         </small>
@@ -157,7 +158,10 @@
         methods: {
             loadProduct() {
                 if(this.$gate.isAdminOrAssociated('product-page', this.$route.params.code)){
-                  axios.get('/api/load/single/product/' + this.$route.params.id + '/' + this.$route.params.code).then(({ data }) => (this.product = data));  
+                  axios.get('/api/load/single/product/' + this.$route.params.id + '/' + this.$route.params.code).then(({ data }) => (
+                    this.product = data, 
+                    _.reverse(this.product.stocks)
+                  ));  
                 }
             },
             editModal(stock) {
@@ -213,7 +217,6 @@
         },
         created() {
             this.loadProduct();
-            
             Fire.$on('AfterProductStockUpdated', () => {
                 this.loadProduct();
             });

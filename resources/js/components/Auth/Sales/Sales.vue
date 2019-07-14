@@ -128,8 +128,16 @@
                       <div class="col-md-4">
                         <div class="form-group">
                           <label>পণ্য নির্ধারণ করুন <!-- {{ range }} {{ index }} --></label>
-                          <v-select placeholder="পণ্য নির্ধারণ করুন" :options="products" :reduce="id => id" label="name" v-model="form.product[index]" ref='productSelect' @input="productSelected(form.product[index], index)"></v-select>
-                          <div v-show="producterror[index]" style="display: none; width: 100%; margin-top: .25rem; font-size: 80%; color: #dc3545;">অনুগ্রহ করে পণ্য নির্ধারণ করুন</div>
+                          <v-select placeholder="পণ্য নির্ধারণ করুন" :options="products" :reduce="id => id" label="name" v-model="form.product[index]" ref='productSelect' @input="productSelected(form.product[index], index)">
+                            <template #search="{attributes, events}">
+                              <input
+                                class="vs__search"
+                                :required="!form.product[index]"
+                                v-bind="attributes"
+                                v-on="events"
+                              />
+                            </template>
+                          </v-select>
                         </div>
                       </div>
                       <div class="col-md-3">
@@ -147,7 +155,7 @@
                             <span class="input-group-text">৳</span>
                           </div>
                           <input v-model="form.unit_price[index]" type="number" step="any" name="unit_price" placeholder="বিক্রয়মূল্য/ ইউনিট" 
-                            class="form-control" :class="{ 'is-invalid': form.errors.has('unit_price') }" @change="calculatePurchase" required="" oninvalid="this.setCustomValidity('বিক্রয়মূল্য/ ইউনিট লিখুন')" oninput="setCustomValidity('')">
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('unit_price') }" @change="calculatePurchase" required=""> <!-- oninvalid="this.setCustomValidity('বিক্রয়মূল্য/ ইউনিট লিখুন')"oninput="setCustomValidity('')" -->
                           <has-error :form="form" field="unit_price"></has-error>
                         </div>
                       </div>
@@ -173,8 +181,16 @@
                     <div class="col-md-4">
                       <div class="form-group">
                         <label>কাস্টমার নির্ধারণ</label> <!-- taggable kora nai ei muhurte... kore felte hobe (অপশনে না থাকলে লিখুন) -->
-                        <v-select placeholder="কাস্টমার (নতুন যোগ করতে নাম লিখুন)" :options="customers" :reduce="id => id" label="name" v-model="form.customer" ref='customerSelect' :class="{ 'is-invalid': form.errors.has('customers') }" taggable></v-select>
-                        <has-error :form="form" field="customers"></has-error>
+                        <v-select placeholder="কাস্টমার (নতুন যোগ করতে নাম লিখুন)" :options="customers" :reduce="id => id" label="name" v-model="form.customer" ref='customerSelect' taggable>
+                          <template #search="{attributes, events}">
+                            <input
+                              class="vs__search"
+                              :required="!form.customer"
+                              v-bind="attributes"
+                              v-on="events"
+                            />
+                          </template>
+                        </v-select>
                       </div>
                     </div>
                     <div class="col-md-4">
@@ -303,7 +319,6 @@
             maxquantity: [],
             productunit: [],
             addformrange: [0],
-            producterror: [],
           }
       },
       methods: {
@@ -315,7 +330,9 @@
 
             this.addformrange.splice(0, this.addformrange.length);
             this.addformrange.push(0);
-            this.producterror[0] = false;
+
+            this.maxquantity[0] = '';
+            this.productunit[0] = '';
 
             this.loadProducts();
             this.loadCustomers();
@@ -337,7 +354,6 @@
           },
           appendProduct() {
             this.addformrange.push(parseInt(this.addformrange[this.addformrange.length - 1] || 0) + 1);
-            this.producterror[parseInt(this.addformrange[this.addformrange.length - 1] || 0) + 1] = false;
             console.log(this.addformrange);  
           },
           removeProduct(index, range) {
@@ -349,33 +365,27 @@
             this.form.unit_price[index] = 0;
             this.maxquantity[index] = '';
             this.productunit[index] = '';
-            this.producterror[index] = false;
+          
             this.calculatePurchase();
 
-            // console.log(this.addformrange);
           },
           productSelected(product, index) {
-            if(product) { 
+            if(product) {
               var maxquantity = 0;
               for(var i=0; i<product.stocks.length; i++) {
-                maxquantity = maxquantity + parseFloat(product.stocks[i].quantity);
+                maxquantity = maxquantity + parseFloat(product.stocks[i].current_quantity);
               }
               this.maxquantity[index] = maxquantity;
-              this.productunit[index] = '<small style="color: red;">(স্টকঃ ' + maxquantity + ' ' + product.unit + ')</span>';
+              if(maxquantity > 0) {
+                this.productunit[index] = '<small style="color: red;">(স্টকঃ ' + maxquantity + ' ' + product.unit + ')</span>';
+              } else {
+                this.productunit[index] = '<small class="blink" style="color: red;">অপর্যাপ্ত স্টক (0 '+ product.unit +')!</span>';
+              }
+              
               this.form.unit_price[index] = product.stocks[product.stocks.length - 1].selling_price; // latest stock price
-              this.producterror[index] = false;
             }
           },
           createSale() {
-            for(var j=0; j< this.addformrange.length; j++) {
-              if((this.form.product[j] == null) || this.form.product[j] == '') {
-                this.producterror[j] = true;
-                continue;
-              } else {
-                this.producterror[j] = false;
-              }
-            }
-
             this.$Progress.start();
             this.form.post('/api/sale').then(() => {
               $('#addModal').modal('hide')

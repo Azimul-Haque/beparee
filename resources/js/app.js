@@ -21,6 +21,7 @@ import VTooltip from 'v-tooltip';
 import {filters} from './filters'
 import {routes} from './routes'
 
+
 Vue.use(VeeValidate);
 Vue.use(VTooltip);
 

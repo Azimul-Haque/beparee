@@ -183,8 +183,16 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>পন্যের ধরণ নির্ধারণ (অপশনে না থাকলে লিখুন) *</label>
-                        <v-select placeholder="পন্যের ধরণ নির্ধারণ (অপশনে না থাকলে লিখুন) *" :options="categories" taggable label="name" v-model="form.productcategory" ref='categorySelect'></v-select>
-                        <has-error :form="form" field="categories"></has-error>
+                        <v-select placeholder="পন্যের ধরণ নির্ধারণ (অপশনে না থাকলে লিখুন) *" :options="categories" taggable label="name" v-model="form.productcategory" ref='categorySelect'>
+                          <template #search="{attributes, events}">
+                            <input
+                              class="vs__search"
+                              :required="!form.productcategory"
+                              v-bind="attributes"
+                              v-on="events"
+                            />
+                          </template>
+                        </v-select>
                       </div>
                     </div>
                     <div class="col-md-6">
@@ -233,8 +241,7 @@
                       <div class="col-md-6">
                         <div class="form-group">
                           <label>ডিলার/ভেন্ডর নির্ধারণ (অপশনে না থাকলে লিখুন)</label>
-                          <v-select placeholder="ডিলার/ভেন্ডর নির্ধারণ (অপশনে না থাকলে লিখুন)" :options="vendors" label="name" v-model="form.vendor" taggable ref='vendorSelect' :class="{ 'is-invalid': form.errors.has('vendors') }"></v-select>
-                          <has-error :form="form" field="vendors"></has-error>
+                          <v-select placeholder="ডিলার/ভেন্ডর নির্ধারণ (অপশনে না থাকলে লিখুন)" :options="vendors" label="name" v-model="form.vendor" taggable ref='vendorSelect'></v-select>
                         </div>
                       </div>
                       <div class="col-md-6">

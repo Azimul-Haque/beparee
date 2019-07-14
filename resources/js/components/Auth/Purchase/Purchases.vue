@@ -118,8 +118,16 @@
                       <div class="col-md-3">
                         <div class="form-group">
                           <label>পণ্য নির্ধারণ করুন <!-- {{ range }} {{ index }} --></label>
-                          <v-select placeholder="পণ্য নির্ধারণ করুন" :options="products" :reduce="id => id" label="name" v-model="form.product[index]" ref='productSelect' :class="{ 'is-invalid': form.errors.has('products') }"></v-select>
-                          <has-error :form="form" field="products"></has-error>
+                          <v-select placeholder="পণ্য নির্ধারণ করুন" :options="products" :reduce="id => id" label="name" v-model="form.product[index]" ref='productSelect'>
+                            <template #search="{attributes, events}">
+                              <input
+                                class="vs__search"
+                                :required="!form.product[index]"
+                                v-bind="attributes"
+                                v-on="events"
+                              />
+                            </template>
+                          </v-select>
                         </div>
                       </div>
                       <div class="col-md-2">
@@ -174,8 +182,16 @@
                     <div class="col-md-4">
                       <div class="form-group">
                         <label>ডিলার/ভেন্ডর নির্ধারণ</label> <!-- taggable kora nai ei muhurte... kore felte hobe (অপশনে না থাকলে লিখুন) -->
-                        <v-select placeholder="ডিলার/ভেন্ডর" :options="vendors" :reduce="id => id" label="name" v-model="form.vendor" ref='vendorSelect' :class="{ 'is-invalid': form.errors.has('vendors') }"></v-select>
-                        <has-error :form="form" field="vendors"></has-error>
+                        <v-select placeholder="ডিলার/ভেন্ডর" :options="vendors" :reduce="id => id" label="name" v-model="form.vendor" ref='vendorSelect'>
+                          <template #search="{attributes, events}">
+                            <input
+                              class="vs__search"
+                              :required="!form.vendor"
+                              v-bind="attributes"
+                              v-on="events"
+                            />
+                          </template>
+                        </v-select>
                       </div>
                     </div>
                     <div class="col-md-4">

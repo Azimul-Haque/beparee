@@ -4945,6 +4945,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4965,7 +4966,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.$gate.isAdminOrAssociated('product-page', this.$route.params.code)) {
         axios.get('/api/load/single/product/' + this.$route.params.id + '/' + this.$route.params.code).then(function (_ref) {
           var data = _ref.data;
-          return _this.product = data;
+          return _this.product = data, _.reverse(_this.product.stocks);
         });
       }
     },
@@ -5071,6 +5072,13 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5940,6 +5948,22 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -6480,6 +6504,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -6506,8 +6546,7 @@ __webpack_require__.r(__webpack_exports__);
       }),
       maxquantity: [],
       productunit: [],
-      addformrange: [0],
-      producterror: []
+      addformrange: [0]
     };
   },
   methods: {
@@ -6522,7 +6561,8 @@ __webpack_require__.r(__webpack_exports__);
       this.$refs.customerSelect.clearSelection();
       this.addformrange.splice(0, this.addformrange.length);
       this.addformrange.push(0);
-      this.producterror[0] = false;
+      this.maxquantity[0] = '';
+      this.productunit[0] = '';
       this.loadProducts();
       this.loadCustomers();
     },
@@ -6558,7 +6598,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     appendProduct: function appendProduct() {
       this.addformrange.push(parseInt(this.addformrange[this.addformrange.length - 1] || 0) + 1);
-      this.producterror[parseInt(this.addformrange[this.addformrange.length - 1] || 0) + 1] = false;
       console.log(this.addformrange);
     },
     removeProduct: function removeProduct(index, range) {
@@ -6570,35 +6609,29 @@ __webpack_require__.r(__webpack_exports__);
       this.form.unit_price[index] = 0;
       this.maxquantity[index] = '';
       this.productunit[index] = '';
-      this.producterror[index] = false;
-      this.calculatePurchase(); // console.log(this.addformrange);
+      this.calculatePurchase();
     },
     productSelected: function productSelected(product, index) {
       if (product) {
         var maxquantity = 0;
 
         for (var i = 0; i < product.stocks.length; i++) {
-          maxquantity = maxquantity + parseFloat(product.stocks[i].quantity);
+          maxquantity = maxquantity + parseFloat(product.stocks[i].current_quantity);
         }
 
         this.maxquantity[index] = maxquantity;
-        this.productunit[index] = '<small style="color: red;">(স্টকঃ ' + maxquantity + ' ' + product.unit + ')</span>';
-        this.form.unit_price[index] = product.stocks[product.stocks.length - 1].selling_price; // latest stock price
 
-        this.producterror[index] = false;
+        if (maxquantity > 0) {
+          this.productunit[index] = '<small style="color: red;">(স্টকঃ ' + maxquantity + ' ' + product.unit + ')</span>';
+        } else {
+          this.productunit[index] = '<small class="blink" style="color: red;">অপর্যাপ্ত স্টক (0 ' + product.unit + ')!</span>';
+        }
+
+        this.form.unit_price[index] = product.stocks[product.stocks.length - 1].selling_price; // latest stock price
       }
     },
     createSale: function createSale() {
       var _this4 = this;
-
-      for (var j = 0; j < this.addformrange.length; j++) {
-        if (this.form.product[j] == null || this.form.product[j] == '') {
-          this.producterror[j] = true;
-          continue;
-        } else {
-          this.producterror[j] = false;
-        }
-      }
 
       this.$Progress.start();
       this.form.post('/api/sale').then(function () {
@@ -88368,7 +88401,7 @@ var render = function() {
                             [
                               _c("div", { staticClass: "card-body" }, [
                                 _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col-md-9" }, [
+                                  _c("div", { staticClass: "col-md-10" }, [
                                     _c("div", { staticClass: "row" }, [
                                       _c(
                                         "div",
@@ -88382,6 +88415,19 @@ var render = function() {
                                           _c("b", [
                                             _vm._v(_vm._s(stock.vendor.name))
                                           ]),
+                                          _c("br"),
+                                          _vm._v(" "),
+                                          _c("i", {
+                                            staticClass:
+                                              "fa fa-truck text-secondary"
+                                          }),
+                                          _vm._v(" প্রাথমিক স্টকঃ "),
+                                          _c("big", [
+                                            _vm._v(_vm._s(stock.quantity))
+                                          ]),
+                                          _vm._v(
+                                            " " + _vm._s(_vm.product.unit)
+                                          ),
                                           _c("br"),
                                           _vm._v(" "),
                                           _c("i", {
@@ -88430,7 +88476,7 @@ var render = function() {
                                     ])
                                   ]),
                                   _vm._v(" "),
-                                  _c("div", { staticClass: "col-md-3" }, [
+                                  _c("div", { staticClass: "col-md-2" }, [
                                     _c(
                                       "button",
                                       {
@@ -88473,36 +88519,9 @@ var render = function() {
                                           staticClass: "fa fa-retweet"
                                         })
                                       ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "button",
-                                      {
-                                        staticClass: "btn btn-sm btn-danger",
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.deleteStock(stock.id)
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _c("i", {
-                                          directives: [
-                                            {
-                                              name: "tooltip",
-                                              rawName: "v-tooltip",
-                                              value: "স্টকটি ডিলেট করে দিন",
-                                              expression:
-                                                "'স্টকটি ডিলেট করে দিন'"
-                                            }
-                                          ],
-                                          staticClass: "fa fa-trash"
-                                        })
-                                      ]
                                     )
                                   ])
                                 ]),
-                                _c("br"),
                                 _vm._v(" "),
                                 _c(
                                   "small",
@@ -89320,6 +89339,40 @@ var render = function() {
                                     taggable: "",
                                     label: "name"
                                   },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "search",
+                                        fn: function(ref) {
+                                          var attributes = ref.attributes
+                                          var events = ref.events
+                                          return [
+                                            _c(
+                                              "input",
+                                              _vm._g(
+                                                _vm._b(
+                                                  {
+                                                    staticClass: "vs__search",
+                                                    attrs: {
+                                                      required: !_vm.form
+                                                        .productcategory
+                                                    }
+                                                  },
+                                                  "input",
+                                                  attributes,
+                                                  false
+                                                ),
+                                                events
+                                              )
+                                            )
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    null,
+                                    false,
+                                    1064927444
+                                  ),
                                   model: {
                                     value: _vm.form.productcategory,
                                     callback: function($$v) {
@@ -89327,10 +89380,6 @@ var render = function() {
                                     },
                                     expression: "form.productcategory"
                                   }
-                                }),
-                                _vm._v(" "),
-                                _c("has-error", {
-                                  attrs: { form: _vm.form, field: "categories" }
                                 })
                               ],
                               1
@@ -89596,11 +89645,6 @@ var render = function() {
                                     _vm._v(" "),
                                     _c("v-select", {
                                       ref: "vendorSelect",
-                                      class: {
-                                        "is-invalid": _vm.form.errors.has(
-                                          "vendors"
-                                        )
-                                      },
                                       attrs: {
                                         placeholder:
                                           "ডিলার/ভেন্ডর নির্ধারণ (অপশনে না থাকলে লিখুন)",
@@ -89614,13 +89658,6 @@ var render = function() {
                                           _vm.$set(_vm.form, "vendor", $$v)
                                         },
                                         expression: "form.vendor"
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c("has-error", {
-                                      attrs: {
-                                        form: _vm.form,
-                                        field: "vendors"
                                       }
                                     })
                                   ],
@@ -90390,11 +90427,6 @@ var render = function() {
                                         _c("v-select", {
                                           ref: "productSelect",
                                           refInFor: true,
-                                          class: {
-                                            "is-invalid": _vm.form.errors.has(
-                                              "products"
-                                            )
-                                          },
                                           attrs: {
                                             placeholder: "পণ্য নির্ধারণ করুন",
                                             options: _vm.products,
@@ -90403,6 +90435,43 @@ var render = function() {
                                             },
                                             label: "name"
                                           },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "search",
+                                                fn: function(ref) {
+                                                  var attributes =
+                                                    ref.attributes
+                                                  var events = ref.events
+                                                  return [
+                                                    _c(
+                                                      "input",
+                                                      _vm._g(
+                                                        _vm._b(
+                                                          {
+                                                            staticClass:
+                                                              "vs__search",
+                                                            attrs: {
+                                                              required: !_vm
+                                                                .form.product[
+                                                                index
+                                                              ]
+                                                            }
+                                                          },
+                                                          "input",
+                                                          attributes,
+                                                          false
+                                                        ),
+                                                        events
+                                                      )
+                                                    )
+                                                  ]
+                                                }
+                                              }
+                                            ],
+                                            null,
+                                            true
+                                          ),
                                           model: {
                                             value: _vm.form.product[index],
                                             callback: function($$v) {
@@ -90413,13 +90482,6 @@ var render = function() {
                                               )
                                             },
                                             expression: "form.product[index]"
-                                          }
-                                        }),
-                                        _vm._v(" "),
-                                        _c("has-error", {
-                                          attrs: {
-                                            form: _vm.form,
-                                            field: "products"
                                           }
                                         })
                                       ],
@@ -90704,11 +90766,6 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("v-select", {
                                     ref: "vendorSelect",
-                                    class: {
-                                      "is-invalid": _vm.form.errors.has(
-                                        "vendors"
-                                      )
-                                    },
                                     attrs: {
                                       placeholder: "ডিলার/ভেন্ডর",
                                       options: _vm.vendors,
@@ -90717,6 +90774,40 @@ var render = function() {
                                       },
                                       label: "name"
                                     },
+                                    scopedSlots: _vm._u(
+                                      [
+                                        {
+                                          key: "search",
+                                          fn: function(ref) {
+                                            var attributes = ref.attributes
+                                            var events = ref.events
+                                            return [
+                                              _c(
+                                                "input",
+                                                _vm._g(
+                                                  _vm._b(
+                                                    {
+                                                      staticClass: "vs__search",
+                                                      attrs: {
+                                                        required: !_vm.form
+                                                          .vendor
+                                                      }
+                                                    },
+                                                    "input",
+                                                    attributes,
+                                                    false
+                                                  ),
+                                                  events
+                                                )
+                                              )
+                                            ]
+                                          }
+                                        }
+                                      ],
+                                      null,
+                                      false,
+                                      4086163211
+                                    ),
                                     model: {
                                       value: _vm.form.vendor,
                                       callback: function($$v) {
@@ -90724,10 +90815,6 @@ var render = function() {
                                       },
                                       expression: "form.vendor"
                                     }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("has-error", {
-                                    attrs: { form: _vm.form, field: "vendors" }
                                   })
                                 ],
                                 1
@@ -91528,6 +91615,43 @@ var render = function() {
                                               )
                                             }
                                           },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "search",
+                                                fn: function(ref) {
+                                                  var attributes =
+                                                    ref.attributes
+                                                  var events = ref.events
+                                                  return [
+                                                    _c(
+                                                      "input",
+                                                      _vm._g(
+                                                        _vm._b(
+                                                          {
+                                                            staticClass:
+                                                              "vs__search",
+                                                            attrs: {
+                                                              required: !_vm
+                                                                .form.product[
+                                                                index
+                                                              ]
+                                                            }
+                                                          },
+                                                          "input",
+                                                          attributes,
+                                                          false
+                                                        ),
+                                                        events
+                                                      )
+                                                    )
+                                                  ]
+                                                }
+                                              }
+                                            ],
+                                            null,
+                                            true
+                                          ),
                                           model: {
                                             value: _vm.form.product[index],
                                             callback: function($$v) {
@@ -91539,34 +91663,7 @@ var render = function() {
                                             },
                                             expression: "form.product[index]"
                                           }
-                                        }),
-                                        _vm._v(" "),
-                                        _c(
-                                          "div",
-                                          {
-                                            directives: [
-                                              {
-                                                name: "show",
-                                                rawName: "v-show",
-                                                value: _vm.producterror[index],
-                                                expression:
-                                                  "producterror[index]"
-                                              }
-                                            ],
-                                            staticStyle: {
-                                              display: "none",
-                                              width: "100%",
-                                              "margin-top": ".25rem",
-                                              "font-size": "80%",
-                                              color: "#dc3545"
-                                            }
-                                          },
-                                          [
-                                            _vm._v(
-                                              "অনুগ্রহ করে পণ্য নির্ধারণ করুন"
-                                            )
-                                          ]
-                                        )
+                                        })
                                       ],
                                       1
                                     )
@@ -91673,10 +91770,7 @@ var render = function() {
                                             step: "any",
                                             name: "unit_price",
                                             placeholder: "বিক্রয়মূল্য/ ইউনিট",
-                                            required: "",
-                                            oninvalid:
-                                              "this.setCustomValidity('বিক্রয়মূল্য/ ইউনিট লিখুন')",
-                                            oninput: "setCustomValidity('')"
+                                            required: ""
                                           },
                                           domProps: {
                                             value: _vm.form.unit_price[index]
@@ -91792,11 +91886,6 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("v-select", {
                                     ref: "customerSelect",
-                                    class: {
-                                      "is-invalid": _vm.form.errors.has(
-                                        "customers"
-                                      )
-                                    },
                                     attrs: {
                                       placeholder:
                                         "কাস্টমার (নতুন যোগ করতে নাম লিখুন)",
@@ -91807,19 +91896,46 @@ var render = function() {
                                       label: "name",
                                       taggable: ""
                                     },
+                                    scopedSlots: _vm._u(
+                                      [
+                                        {
+                                          key: "search",
+                                          fn: function(ref) {
+                                            var attributes = ref.attributes
+                                            var events = ref.events
+                                            return [
+                                              _c(
+                                                "input",
+                                                _vm._g(
+                                                  _vm._b(
+                                                    {
+                                                      staticClass: "vs__search",
+                                                      attrs: {
+                                                        required: !_vm.form
+                                                          .customer
+                                                      }
+                                                    },
+                                                    "input",
+                                                    attributes,
+                                                    false
+                                                  ),
+                                                  events
+                                                )
+                                              )
+                                            ]
+                                          }
+                                        }
+                                      ],
+                                      null,
+                                      false,
+                                      787445739
+                                    ),
                                     model: {
                                       value: _vm.form.customer,
                                       callback: function($$v) {
                                         _vm.$set(_vm.form, "customer", $$v)
                                       },
                                       expression: "form.customer"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("has-error", {
-                                    attrs: {
-                                      form: _vm.form,
-                                      field: "customers"
                                     }
                                   })
                                 ],
@@ -113179,9 +113295,10 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.filter('totalquantity', function (dat
   }
 
   return totalquantity;
-}); // Vue.filter('reverse', function(array) {
-// 	return array.slice().reverse()
-// })
+});
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.filter('reverse', function (array) {
+  return array.slice().reverse();
+});
 
 /***/ }),
 

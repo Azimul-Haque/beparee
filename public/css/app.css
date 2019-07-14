@@ -3836,6 +3836,23 @@ input[type=number] {
   border: 2px solid lightgray;
 }
 
+.blink {
+  -webkit-animation: blinker 1.5s step-start infinite;
+          animation: blinker 1.5s step-start infinite;
+}
+
+@-webkit-keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
 .tab-card {
   border: 1px solid #eee;
 }

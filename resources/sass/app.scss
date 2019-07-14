@@ -61,6 +61,16 @@ input[type=number]{
   border: 2px solid lightgray;
 }
 
+.blink {
+  animation: blinker 1.5s step-start infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
 // tab css
 .tab-card {
   border:1px solid #eee;

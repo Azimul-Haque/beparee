@@ -158,6 +158,26 @@ class SaleController extends Controller
                 $saleitem->quantity = $product_array[$key]['quantity'];
                 $saleitem->unit_price = number_format($product_array[$key]['unit_price'], 2, '.', '');
                 $saleitem->save();
+
+                // reduce from the stocks
+                $stock_calc_quantity = $product_array[$key]['quantity'];
+                $stocks = Stock::where('product_id', $product_array[$key]['product_id'])
+                               ->where('current_quantity', '>', 0)
+                               ->orderBy('id', 'asc')
+                               ->get();
+
+                foreach ($stocks as $stock) {
+                    if($stock->current_quantity > $stock_calc_quantity) {
+                        $stock->current_quantity = $stock->current_quantity - $stock_calc_quantity;
+                        $stock->save();
+                        break;
+                    } else {
+                        $stock_calc_quantity = $stock_calc_quantity - $stock->current_quantity;
+                        $stock->current_quantity = 0;
+                        $stock->save();
+                    }
+                }
+
             }
         }
         return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];
