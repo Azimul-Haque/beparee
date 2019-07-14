@@ -6506,7 +6506,8 @@ __webpack_require__.r(__webpack_exports__);
       }),
       maxquantity: [],
       productunit: [],
-      addformrange: [0]
+      addformrange: [0],
+      producterror: []
     };
   },
   methods: {
@@ -6521,6 +6522,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$refs.customerSelect.clearSelection();
       this.addformrange.splice(0, this.addformrange.length);
       this.addformrange.push(0);
+      this.producterror[0] = false;
       this.loadProducts();
       this.loadCustomers();
     },
@@ -6556,6 +6558,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     appendProduct: function appendProduct() {
       this.addformrange.push(parseInt(this.addformrange[this.addformrange.length - 1] || 0) + 1);
+      this.producterror[parseInt(this.addformrange[this.addformrange.length - 1] || 0) + 1] = false;
       console.log(this.addformrange);
     },
     removeProduct: function removeProduct(index, range) {
@@ -6567,6 +6570,7 @@ __webpack_require__.r(__webpack_exports__);
       this.form.unit_price[index] = 0;
       this.maxquantity[index] = '';
       this.productunit[index] = '';
+      this.producterror[index] = false;
       this.calculatePurchase(); // console.log(this.addformrange);
     },
     productSelected: function productSelected(product, index) {
@@ -6579,11 +6583,22 @@ __webpack_require__.r(__webpack_exports__);
 
         this.maxquantity[index] = maxquantity;
         this.productunit[index] = '<small style="color: red;">(স্টকঃ ' + maxquantity + ' ' + product.unit + ')</span>';
-        this.form.unit_price[index] = product.stocks[0].selling_price;
+        this.form.unit_price[index] = product.stocks[product.stocks.length - 1].selling_price; // latest stock price
+
+        this.producterror[index] = false;
       }
     },
     createSale: function createSale() {
       var _this4 = this;
+
+      for (var j = 0; j < this.addformrange.length; j++) {
+        if (this.form.product[j] == null || this.form.product[j] == '') {
+          this.producterror[j] = true;
+          continue;
+        } else {
+          this.producterror[j] = false;
+        }
+      }
 
       this.$Progress.start();
       this.form.post('/api/sale').then(function () {
@@ -91497,11 +91512,6 @@ var render = function() {
                                         _c("v-select", {
                                           ref: "productSelect",
                                           refInFor: true,
-                                          class: {
-                                            "is-invalid": _vm.form.errors.has(
-                                              "products"
-                                            )
-                                          },
                                           attrs: {
                                             placeholder: "পণ্য নির্ধারণ করুন",
                                             options: _vm.products,
@@ -91531,12 +91541,32 @@ var render = function() {
                                           }
                                         }),
                                         _vm._v(" "),
-                                        _c("has-error", {
-                                          attrs: {
-                                            form: _vm.form,
-                                            field: "products"
-                                          }
-                                        })
+                                        _c(
+                                          "div",
+                                          {
+                                            directives: [
+                                              {
+                                                name: "show",
+                                                rawName: "v-show",
+                                                value: _vm.producterror[index],
+                                                expression:
+                                                  "producterror[index]"
+                                              }
+                                            ],
+                                            staticStyle: {
+                                              display: "none",
+                                              width: "100%",
+                                              "margin-top": ".25rem",
+                                              "font-size": "80%",
+                                              color: "#dc3545"
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "অনুগ্রহ করে পণ্য নির্ধারণ করুন"
+                                            )
+                                          ]
+                                        )
                                       ],
                                       1
                                     )

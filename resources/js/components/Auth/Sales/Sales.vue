@@ -128,8 +128,8 @@
                       <div class="col-md-4">
                         <div class="form-group">
                           <label>পণ্য নির্ধারণ করুন <!-- {{ range }} {{ index }} --></label>
-                          <v-select placeholder="পণ্য নির্ধারণ করুন" :options="products" :reduce="id => id" label="name" v-model="form.product[index]" ref='productSelect' :class="{ 'is-invalid': form.errors.has('products') }" @input="productSelected(form.product[index], index)"></v-select>
-                          <has-error :form="form" field="products"></has-error>
+                          <v-select placeholder="পণ্য নির্ধারণ করুন" :options="products" :reduce="id => id" label="name" v-model="form.product[index]" ref='productSelect' @input="productSelected(form.product[index], index)"></v-select>
+                          <div v-show="producterror[index]" style="display: none; width: 100%; margin-top: .25rem; font-size: 80%; color: #dc3545;">অনুগ্রহ করে পণ্য নির্ধারণ করুন</div>
                         </div>
                       </div>
                       <div class="col-md-3">
@@ -303,6 +303,7 @@
             maxquantity: [],
             productunit: [],
             addformrange: [0],
+            producterror: [],
           }
       },
       methods: {
@@ -314,6 +315,7 @@
 
             this.addformrange.splice(0, this.addformrange.length);
             this.addformrange.push(0);
+            this.producterror[0] = false;
 
             this.loadProducts();
             this.loadCustomers();
@@ -335,6 +337,7 @@
           },
           appendProduct() {
             this.addformrange.push(parseInt(this.addformrange[this.addformrange.length - 1] || 0) + 1);
+            this.producterror[parseInt(this.addformrange[this.addformrange.length - 1] || 0) + 1] = false;
             console.log(this.addformrange);  
           },
           removeProduct(index, range) {
@@ -346,7 +349,7 @@
             this.form.unit_price[index] = 0;
             this.maxquantity[index] = '';
             this.productunit[index] = '';
-
+            this.producterror[index] = false;
             this.calculatePurchase();
 
             // console.log(this.addformrange);
@@ -359,10 +362,20 @@
               }
               this.maxquantity[index] = maxquantity;
               this.productunit[index] = '<small style="color: red;">(স্টকঃ ' + maxquantity + ' ' + product.unit + ')</span>';
-              this.form.unit_price[index] = product.stocks[0].selling_price;
+              this.form.unit_price[index] = product.stocks[product.stocks.length - 1].selling_price; // latest stock price
+              this.producterror[index] = false;
             }
           },
           createSale() {
+            for(var j=0; j< this.addformrange.length; j++) {
+              if((this.form.product[j] == null) || this.form.product[j] == '') {
+                this.producterror[j] = true;
+                continue;
+              } else {
+                this.producterror[j] = false;
+              }
+            }
+
             this.$Progress.start();
             this.form.post('/api/sale').then(() => {
               $('#addModal').modal('hide')
