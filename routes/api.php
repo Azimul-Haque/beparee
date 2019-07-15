@@ -66,7 +66,8 @@ Route::post('load/staff/pay/salary', 'API\StaffController@storeSingleStaffSalary
 Route::apiResources(['customer' => 'API\CustomerController']);
 Route::get('load/customer/{code}', 'API\CustomerController@loadCustomers');
 Route::get('load/single/customer/{id}/{code}', 'API\CustomerController@loadSingleCustomer');
-
+Route::get('load/single/customer/dues/{id}/{code}', 'API\CustomerController@loadSingleCustomerDueHistories');
+Route::put('load/customer/pay/due/{id}', 'API\CustomerController@payDue');
 
 Route::apiResources(['expense' => 'API\ExpenseController']);
 Route::get('load/expense/{code}', 'API\ExpenseController@loadExpenses');

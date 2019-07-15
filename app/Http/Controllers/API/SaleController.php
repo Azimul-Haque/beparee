@@ -177,7 +177,6 @@ class SaleController extends Controller
                         $stock->save();
                     }
                 }
-
             }
         }
         return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];

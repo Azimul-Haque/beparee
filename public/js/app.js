@@ -3148,13 +3148,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       customer: {},
       maxpayable: 0,
-      duehistories: [],
+      customerdues: [],
       // Create a new form instance
       formedit: new Form({
         id: '',
@@ -3182,9 +3206,28 @@ __webpack_require__.r(__webpack_exports__);
       if (this.$gate.isAdminOrAssociated('customer-page', this.$route.params.code)) {
         axios.get('/api/load/single/customer/' + this.$route.params.id + '/' + this.$route.params.code).then(function (_ref) {
           var data = _ref.data;
-          return _this.customer = data, _this.duehistories = _.orderBy(data.duehistories, 'id', 'desc');
+          return _this.customer = data;
         });
       }
+    },
+    loadCustomerdues: function loadCustomerdues() {
+      var _this2 = this;
+
+      if (this.$gate.isAdminOrAssociated('customer-page', this.$route.params.code)) {
+        axios.get('/api/load/single/customer/dues/' + this.$route.params.id + '/' + this.$route.params.code).then(function (_ref2) {
+          var data = _ref2.data;
+          return _this2.customerdues = data // _.orderBy(data, 'id', 'desc')
+          ;
+        });
+      }
+    },
+    getPaginationDueHistories: function getPaginationDueHistories() {
+      var _this3 = this;
+
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      axios.get('/api/load/single/customer/dues/' + this.$route.params.id + '/' + this.$route.params.code + '?page=' + page).then(function (response) {
+        _this3.customerdues = response.data;
+      });
     },
     editCustomerModal: function editCustomerModal(customer) {
       this.formedit.reset(); // clears fields
@@ -3212,7 +3255,7 @@ __webpack_require__.r(__webpack_exports__);
       this.maxpayable = customer.current_due;
     },
     updateCustomer: function updateCustomer() {
-      var _this2 = this;
+      var _this4 = this;
 
       this.$Progress.start();
       this.formedit.put('/api/customer/' + this.formedit.id).then(function () {
@@ -3223,14 +3266,14 @@ __webpack_require__.r(__webpack_exports__);
           title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
         });
 
-        _this2.$Progress.finish();
+        _this4.$Progress.finish();
       })["catch"](function () {
-        _this2.$Progress.fail(); // swal('Failed!', 'There was something wrong', 'warning');
+        _this4.$Progress.fail(); // swal('Failed!', 'There was something wrong', 'warning');
 
       });
     },
     updateCustomerDue: function updateCustomerDue() {
-      var _this3 = this;
+      var _this5 = this;
 
       this.$Progress.start();
       this.form.put('/api/load/customer/pay/due/' + this.form.id).then(function () {
@@ -3241,9 +3284,9 @@ __webpack_require__.r(__webpack_exports__);
           title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
         });
 
-        _this3.$Progress.finish();
+        _this5.$Progress.finish();
       })["catch"](function () {
-        _this3.$Progress.fail(); // swal('Failed!', 'There was something wrong', 'warning');
+        _this5.$Progress.fail(); // swal('Failed!', 'There was something wrong', 'warning');
 
       });
     },
@@ -3275,14 +3318,19 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    var _this4 = this;
+    var _this6 = this;
 
     this.loadCustomer();
+    this.loadCustomerdues();
     Fire.$on('AfterCustomerUpdated', function () {
-      _this4.loadCustomer();
+      _this6.loadCustomer();
+
+      _this6.loadCustomerdues();
     });
     Fire.$on('changingstorename', function () {
-      _this4.loadCustomer();
+      _this6.loadCustomer();
+
+      _this6.loadCustomerdues();
     }); // Fire.$on('searching', () => {
     //     let query = this.$parent.search;
     //     if(query != '') {
@@ -3294,6 +3342,7 @@ __webpack_require__.r(__webpack_exports__);
     //       })
     //     } else {
     //       this.loadCustomer();
+    //       this.loadCustomerdues();
     //     }
     // });
   },
@@ -84671,7 +84720,162 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _vm._m(1)
+            _c("div", { staticClass: "col-md-9" }, [
+              _c("div", { staticClass: "card" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "tab-content", attrs: { id: "myTabContent" } },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "tab-pane fade show active p-3",
+                        attrs: {
+                          id: "one",
+                          role: "tabpanel",
+                          "aria-labelledby": "one-tab"
+                        }
+                      },
+                      [
+                        _c("p", { staticClass: "card-text" }),
+                        _c(
+                          "div",
+                          { staticClass: "timeline-centered" },
+                          _vm._l(_vm.customerdues.data, function(customerdue) {
+                            return _c(
+                              "article",
+                              {
+                                key: customerdue.id,
+                                staticClass: "timeline-entry"
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  { staticClass: "timeline-entry-inner" },
+                                  [
+                                    customerdue.transaction_type == 0
+                                      ? _c(
+                                          "div",
+                                          {
+                                            directives: [
+                                              {
+                                                name: "tooltip",
+                                                rawName: "v-tooltip",
+                                                value: "দেনা",
+                                                expression: "'দেনা'"
+                                              }
+                                            ],
+                                            staticClass:
+                                              "timeline-icon bg-danger"
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fa fa-hourglass-o"
+                                            })
+                                          ]
+                                        )
+                                      : _c(
+                                          "div",
+                                          {
+                                            directives: [
+                                              {
+                                                name: "tooltip",
+                                                rawName: "v-tooltip",
+                                                value: "পরিশোধ",
+                                                expression: "'পরিশোধ'"
+                                              }
+                                            ],
+                                            staticClass:
+                                              "timeline-icon bg-primary"
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fa fa-handshake-o"
+                                            })
+                                          ]
+                                        ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "timeline-label shadow" },
+                                      [
+                                        _c(
+                                          "span",
+                                          [
+                                            customerdue.transaction_type == 0
+                                              ? _c(
+                                                  "big",
+                                                  { staticClass: "text-red" },
+                                                  [_c("b", [_vm._v("বকেয়া")])]
+                                                )
+                                              : _c(
+                                                  "big",
+                                                  { staticClass: "text-green" },
+                                                  [_c("b", [_vm._v("পরিশোধ")])]
+                                                ),
+                                            _vm._v(
+                                              " \n                              | পরিমাণঃ " +
+                                                _vm._s(customerdue.amount) +
+                                                " ৳\n                            "
+                                            )
+                                          ],
+                                          1
+                                        ),
+                                        _c("br"),
+                                        _vm._v(" "),
+                                        _c(
+                                          "span",
+                                          { staticClass: "text-muted" },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fa fa-calendar"
+                                            }),
+                                            _vm._v(
+                                              " " +
+                                                _vm._s(
+                                                  _vm._f("datetime")(
+                                                    customerdue.created_at
+                                                  )
+                                                )
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        ),
+                        _vm._v(" "),
+                        _c("p"),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "card-footer" },
+                          [
+                            _c("pagination", {
+                              attrs: { data: _vm.customerdues },
+                              on: {
+                                "pagination-change-page":
+                                  _vm.getPaginationDueHistories
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm._m(2)
+                  ]
+                )
+              ])
+            ])
           ])
         ])
       : _vm._e(),
@@ -84691,7 +84895,7 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(2),
+            _vm._m(3),
             _vm._v(" "),
             _c(
               "form",
@@ -84750,13 +84954,13 @@ var render = function() {
                   ),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
-                    _c("label", [_vm._v("চলতি দেনা")]),
+                    _c("label", [_vm._v("চলতি বক্যেয়া")]),
                     _vm._v(" "),
                     _c(
                       "div",
                       { staticClass: "input-group mb-3" },
                       [
-                        _vm._m(3),
+                        _vm._m(4),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -84808,7 +85012,7 @@ var render = function() {
                       "div",
                       { staticClass: "input-group mb-3" },
                       [
-                        _vm._m(4),
+                        _vm._m(5),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -84916,7 +85120,7 @@ var render = function() {
                   })
                 ]),
                 _vm._v(" "),
-                _vm._m(5)
+                _vm._m(6)
               ]
             )
           ])
@@ -84939,7 +85143,7 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(6),
+            _vm._m(7),
             _vm._v(" "),
             _c(
               "form",
@@ -85154,7 +85358,7 @@ var render = function() {
                   })
                 ]),
                 _vm._v(" "),
-                _vm._m(7)
+                _vm._m(8)
               ]
             )
           ])
@@ -85200,96 +85404,69 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-9" }, [
-      _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-header tab-card-header" }, [
-          _c(
-            "ul",
-            {
-              staticClass: "nav nav-tabs card-header-tabs",
-              attrs: { id: "myTab", role: "tablist" }
-            },
-            [
-              _c("li", { staticClass: "nav-item" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "nav-link active",
-                    attrs: {
-                      id: "one-tab",
-                      "data-toggle": "tab",
-                      href: "#one",
-                      role: "tab",
-                      "aria-controls": "One",
-                      "aria-selected": "true"
-                    }
-                  },
-                  [_vm._v("বকেয়া তালিকা")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "nav-item" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "nav-link",
-                    attrs: {
-                      id: "two-tab",
-                      "data-toggle": "tab",
-                      href: "#two",
-                      role: "tab",
-                      "aria-controls": "Two",
-                      "aria-selected": "false"
-                    }
-                  },
-                  [_vm._v("ক্রয় তালিকা")]
-                )
-              ])
-            ]
-          )
-        ]),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "tab-content", attrs: { id: "myTabContent" } },
-          [
+    return _c("div", { staticClass: "card-header tab-card-header" }, [
+      _c(
+        "ul",
+        {
+          staticClass: "nav nav-tabs card-header-tabs",
+          attrs: { id: "myTab", role: "tablist" }
+        },
+        [
+          _c("li", { staticClass: "nav-item" }, [
             _c(
-              "div",
+              "a",
               {
-                staticClass: "tab-pane fade show active p-3",
+                staticClass: "nav-link active",
                 attrs: {
-                  id: "one",
-                  role: "tabpanel",
-                  "aria-labelledby": "one-tab"
+                  id: "one-tab",
+                  "data-toggle": "tab",
+                  href: "#one",
+                  role: "tab",
+                  "aria-controls": "One",
+                  "aria-selected": "true"
                 }
               },
-              [
-                _c("p", { staticClass: "card-text" }, [
-                  _vm._v("\n                টেস্ট\n              ")
-                ])
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "tab-pane fade p-3",
-                attrs: {
-                  id: "two",
-                  role: "tabpanel",
-                  "aria-labelledby": "two-tab"
-                }
-              },
-              [
-                _c("p", { staticClass: "card-text" }, [
-                  _vm._v("\n                টেস্ট\n              ")
-                ])
-              ]
+              [_vm._v("বকেয়া তালিকা")]
             )
-          ]
-        )
-      ])
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "nav-item" }, [
+            _c(
+              "a",
+              {
+                staticClass: "nav-link",
+                attrs: {
+                  id: "two-tab",
+                  "data-toggle": "tab",
+                  href: "#two",
+                  role: "tab",
+                  "aria-controls": "Two",
+                  "aria-selected": "false"
+                }
+              },
+              [_vm._v("ক্রয় তালিকা")]
+            )
+          ])
+        ]
+      )
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "tab-pane fade p-3",
+        attrs: { id: "two", role: "tabpanel", "aria-labelledby": "two-tab" }
+      },
+      [
+        _c("p", { staticClass: "card-text" }, [
+          _vm._v("\n                টেস্ট\n              ")
+        ])
+      ]
+    )
   },
   function() {
     var _vm = this

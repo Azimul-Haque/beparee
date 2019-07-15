@@ -66,8 +66,32 @@
               <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active p-3" id="one" role="tabpanel" aria-labelledby="one-tab">
                   <p class="card-text">
-                    টেস্ট
-                  </p>         
+                    <div class="timeline-centered">
+                      <article class="timeline-entry" v-for="customerdue in customerdues.data" :key="customerdue.id">
+                        <div class="timeline-entry-inner">
+                            <div v-if="customerdue.transaction_type == 0" class="timeline-icon bg-danger" v-tooltip="'দেনা'">
+                                <i class="fa fa-hourglass-o"></i>
+                            </div>
+                            <div v-else class="timeline-icon bg-primary" v-tooltip="'পরিশোধ'">
+                                <i class="fa fa-handshake-o"></i>
+                            </div>
+
+                            <div class="timeline-label shadow">
+                                <span>
+                                  <big v-if="customerdue.transaction_type == 0" class="text-red"><b>বকেয়া</b></big> 
+                                  <big v-else class="text-green"><b>পরিশোধ</b></big> 
+                                  | পরিমাণঃ {{ customerdue.amount }} ৳
+                                </span><br/>
+
+                                <span class="text-muted"><i class="fa fa-calendar"></i> {{ customerdue.created_at | datetime }}</span>
+                            </div>
+                          </div>
+                      </article>
+                    </div>
+                  </p>
+                  <div class="card-footer">
+                    <pagination :data="customerdues" @pagination-change-page="getPaginationDueHistories"></pagination>
+                  </div>        
                 </div>
                 <div class="tab-pane fade p-3" id="two" role="tabpanel" aria-labelledby="two-tab">
                   <p class="card-text">
@@ -99,7 +123,7 @@
                   <has-error :form="form" field="name"></has-error>
                 </div>
                 <div class="form-group">
-                  <label>চলতি দেনা</label>
+                  <label>চলতি বক্যেয়া</label>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text">৳</span>
@@ -199,7 +223,7 @@
             return {
               customer: {},
               maxpayable: 0,
-              duehistories: [],
+              customerdues: [],
               // Create a new form instance
               formedit: new Form({
                 id: '',
@@ -224,10 +248,23 @@
             loadCustomer() {
                 if(this.$gate.isAdminOrAssociated('customer-page', this.$route.params.code)){
                   axios.get('/api/load/single/customer/' + this.$route.params.id + '/' + this.$route.params.code).then(({ data }) => (
-                    this.customer = data,
-                    this.duehistories = _.orderBy(data.duehistories, 'id', 'desc')
+                    this.customer = data
                   ));
                 }
+            },
+            loadCustomerdues() {
+                if(this.$gate.isAdminOrAssociated('customer-page', this.$route.params.code)){
+                  axios.get('/api/load/single/customer/dues/' + this.$route.params.id + '/' + this.$route.params.code).then(({ data }) => (
+                    this.customerdues = data
+                    // _.orderBy(data, 'id', 'desc')
+                  ));
+                }
+            },
+            getPaginationDueHistories(page = 1) {
+              axios.get('/api/load/single/customer/dues/' + this.$route.params.id + '/' + this.$route.params.code + '?page=' + page)
+              .then(response => {
+                this.customerdues = response.data;
+              });
             },
             editCustomerModal(customer) {
                 this.formedit.reset(); // clears fields
@@ -338,12 +375,15 @@
         },
         created() {
             this.loadCustomer();
+            this.loadCustomerdues();
 
             Fire.$on('AfterCustomerUpdated', () => {
                 this.loadCustomer();
+                this.loadCustomerdues();
             });
             Fire.$on('changingstorename', () => {
                 this.loadCustomer();
+                this.loadCustomerdues();
             });
 
             // Fire.$on('searching', () => {
@@ -358,6 +398,7 @@
             //       })
             //     } else {
             //       this.loadCustomer();
+            //       this.loadCustomerdues();
             //     }
                 
             // });
