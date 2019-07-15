@@ -65,7 +65,7 @@
                         {{ vendor.name }}
                       </router-link>
                       <br/>
-                      <small class="text-muted">{{ vendor.address }}</small>
+                      <small class="text-muted"><i class="fa fa-map-marker"></i> {{ vendor.address }}</small>
                     </td>
                     <td>{{ vendor.total_purchase }}</td>
                     <td><span class="badge badge-danger">{{ vendor.current_due }} ৳</span></td>
@@ -83,7 +83,7 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                <pagination :data="vendors" @pagination-change-page="getPaginationResults"></pagination>
+                <pagination :data="vendors" :limit="1" @pagination-change-page="getPaginationResults"></pagination>
               </div>
             </div>
             <!-- /.card -->
@@ -121,12 +121,11 @@
                           </div>
 
                           <div class="timeline-label shadow">
-                              <h2>
-                                <router-link :to="{ name: 'singleVendor', params: { id: duehistory.vendor.id, code: code }}" v-tooltip="duehistory.vendor.name +'-এর বিস্তারিত দেখুন'">
+                              <p>
+                                <router-link :to="{ name: 'singleVendor', params: { id: duehistory.vendor.id, code: code }}" v-tooltip="'বিস্তারিত দেখুন'">
                                   <b>{{ duehistory.vendor.name }}</b>
                                 </router-link>
-                                <span></span>
-                              </h2>
+                              </p>
                               <span>
                                 <big v-if="duehistory.transaction_type == 0" class="text-red"><b>দেনা</b></big> 
                                 <big v-else class="text-green"><b>পরিশোধ</b></big> 
@@ -139,7 +138,7 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                <pagination :data="duehistories" @pagination-change-page="getPaginationDuehistories"></pagination>
+                <pagination :data="duehistories" :limit="1" @pagination-change-page="getPaginationDuehistories"></pagination>
               </div>
             </div>
             <!-- /.card -->
@@ -243,7 +242,7 @@
             
             loadDues() {
                 if(this.$gate.isAdminOrAssociated('due-page', this.$route.params.code)){
-                  axios.get('/api/load/vendor/due/' + this.$route.params.code).then(({ data }) => (this.vendors = data));  
+                  axios.get('/api/load/vendors/due/' + this.$route.params.code).then(({ data }) => (this.vendors = data));  
                 }
             },
             updateVendor() {
@@ -289,7 +288,7 @@
                 })
             },
             getPaginationResults(page = 1) {
-              axios.get('/api/load/vendor/due/' + this.$route.params.code + '?page=' + page)
+              axios.get('/api/load/vendors/due/' + this.$route.params.code + '?page=' + page)
               .then(response => {
                 this.vendors = response.data;
               });

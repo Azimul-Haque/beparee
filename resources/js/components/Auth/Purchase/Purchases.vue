@@ -94,7 +94,7 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                <pagination :data="purchases" @pagination-change-page="getPaginationResults"></pagination>
+                <pagination :data="purchases" :limit="1" @pagination-change-page="getPaginationResults"></pagination>
               </div>
             </div>
             <!-- /.card -->

@@ -35,6 +35,7 @@ export const routes = [
   { path: '/expenses/:code', component: require('./components/Auth/Expense/Expenses.vue').default, meta: { title: 'খরচের হিসাব'}, name: 'expensesPage'},
   { path: '/expense/:id/:code', component: require('./components/Auth/Expense/Expense.vue').default, meta: { title: 'খরচ'}, name: 'singleExpense'},
 
+  { path: '/customer-dues/:code', component: require('./components/Auth/Customerdue/Customerdues.vue').default, meta: { title: 'কাস্টমারের বকেয়ার হিসাব'}, name: 'customerduesPage'},
 
   { path: '*', component: require('./components/404.vue').default, meta: { title: '404 Not Found'} },
 

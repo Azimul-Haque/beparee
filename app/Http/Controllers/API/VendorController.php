@@ -75,6 +75,7 @@ class VendorController extends Controller
 
         $vendors = Vendor::where('store_id', $store->id)
                          ->where('total_due', '>', 0)
+                         ->orderBy('updated_at', 'desc')
                          ->paginate(5);
 
         return response()->json($vendors);
@@ -119,8 +120,8 @@ class VendorController extends Controller
         // dd($vendors);
 
         $duehistories = Duehistory::whereHas("vendor", function($q) use ($store) {
-                       $q->where("store_id", $store->id);
-                      })->orderBy('id', 'desc')->paginate(5);
+                            $q->where("store_id", $store->id);
+                        })->orderBy('id', 'desc')->paginate(5);
 
         $duehistories->load('vendor');
         return response()->json($duehistories);

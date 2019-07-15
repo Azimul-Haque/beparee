@@ -57,33 +57,38 @@ class EntrustTableDataSeeder extends Seeder
           ],
           [
               'name' => 'purchase-page',
-              'display_name' => 'Purchase CRUD',
-              'description' => 'Purchase Crud Permission'
+              'display_name' => 'Purchase Page',
+              'description' => 'Purchase Page'
           ],
           [
               'name' => 'due-page',
-              'display_name' => 'Due CRUD',
-              'description' => 'Due Crud Permission'
+              'display_name' => 'Due Page',
+              'description' => 'Due Page'
           ],
           [
               'name' => 'staff-page',
-              'display_name' => 'Staff CRUD',
-              'description' => 'Staff Crud Permission'
+              'display_name' => 'Staff Page',
+              'description' => 'Staff Page'
           ],
           [
               'name' => 'customer-page',
-              'display_name' => 'Customer CRUD',
-              'description' => 'Customer Crud Permission'
+              'display_name' => 'Customer Page',
+              'description' => 'Customer Page'
           ],
           [
               'name' => 'expense-page',
-              'display_name' => 'Expense CRUD',
-              'description' => 'Expense Crud Permission'
+              'display_name' => 'Expense Page',
+              'description' => 'Expense Page'
           ],
           [
               'name' => 'sale-page',
-              'display_name' => 'Sale CRUD',
-              'description' => 'Sale Crud Permission'
+              'display_name' => 'Sale Page',
+              'description' => 'Sale Page'
+          ],
+          [
+              'name' => 'customer-due-page',
+              'display_name' => 'Customer Dues Page',
+              'description' => 'Customer Dues Page'
           ],
         ];
 

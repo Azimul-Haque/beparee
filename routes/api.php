@@ -48,7 +48,7 @@ Route::put('product/category/update/{code}', 'API\ProductController@updateCatego
 Route::apiResources(['vendor' => 'API\VendorController']);
 Route::get('load/vendor/{code}', 'API\VendorController@loadVendors');
 Route::get('load/single/vendor/{id}/{code}', 'API\VendorController@loadSingleVendor');
-Route::get('load/vendor/due/{code}', 'API\VendorController@loadDues');
+Route::get('load/vendors/due/{code}', 'API\VendorController@loadDues');
 Route::put('load/vendor/pay/due/{id}', 'API\VendorController@payDue');
 Route::get('load/duehistory/{code}', 'API\VendorController@loadDuehistories');
 
@@ -68,6 +68,9 @@ Route::get('load/customer/{code}', 'API\CustomerController@loadCustomers');
 Route::get('load/single/customer/{id}/{code}', 'API\CustomerController@loadSingleCustomer');
 Route::get('load/single/customer/dues/{id}/{code}', 'API\CustomerController@loadSingleCustomerDueHistories');
 Route::put('load/customer/pay/due/{id}', 'API\CustomerController@payDue');
+Route::get('load/single/customer/purchases/{id}/{code}', 'API\CustomerController@loadSingleCustomerPurchases');
+Route::get('load/customers/due/{code}', 'API\CustomerController@loadDues');
+Route::get('load/customersdues/{code}', 'API\CustomerController@loadCustomersDues');
 
 Route::apiResources(['expense' => 'API\ExpenseController']);
 Route::get('load/expense/{code}', 'API\ExpenseController@loadExpenses');

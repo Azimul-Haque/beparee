@@ -81,7 +81,7 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                <pagination :data="customers" @pagination-change-page="getPaginationResults"></pagination>
+                <pagination :data="customers" :limit="1" @pagination-change-page="getPaginationResults"></pagination>
               </div>
             </div>
             <!-- /.card -->

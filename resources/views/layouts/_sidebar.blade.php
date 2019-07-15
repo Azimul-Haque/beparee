@@ -92,7 +92,7 @@
           <li class="nav-item-separator"></li>
           
           @foreach(Auth::user()->stores as $stores_for_nav)
-            <li class="nav-item has-treeview @if(Request::url() == url('/store/'.$stores_for_nav->token.'/'.$stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/products/'.$stores_for_nav->code)) menu-open @endif @if(Request::is('product/*/' . $stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/purchases/'.$stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/sales/'.$stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/dues/'.$stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/expenses/'.$stores_for_nav->code)) menu-open @endif @if(Request::is('expense/*/' . $stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/vendors/'.$stores_for_nav->code)) menu-open @endif @if(Request::is('vendor/*/' . $stores_for_nav->code)) menu-open @endif @if(Request::is('customers/' . $stores_for_nav->code)) menu-open @endif @if(Request::is('customer/*/' . $stores_for_nav->code)) menu-open @endif @if(Request::is('staffs/' . $stores_for_nav->code)) menu-open @endif @if(Request::is('staff/*/' . $stores_for_nav->code)) menu-open @endif" {{-- :class="{'menu-open':menuselected == 2}" --}}>
+            <li class="nav-item has-treeview @if(Request::url() == url('/store/'.$stores_for_nav->token.'/'.$stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/products/'.$stores_for_nav->code)) menu-open @endif @if(Request::is('product/*/' . $stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/purchases/'.$stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/sales/'.$stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/dues/'.$stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/expenses/'.$stores_for_nav->code)) menu-open @endif @if(Request::is('expense/*/' . $stores_for_nav->code)) menu-open @endif @if(Request::url() == url('/vendors/'.$stores_for_nav->code)) menu-open @endif @if(Request::is('vendor/*/' . $stores_for_nav->code)) menu-open @endif @if(Request::is('customers/' . $stores_for_nav->code)) menu-open @endif @if(Request::is('customer/*/' . $stores_for_nav->code)) menu-open @endif @if(Request::is('staffs/' . $stores_for_nav->code)) menu-open @endif @if(Request::is('staff/*/' . $stores_for_nav->code)) menu-open @endif @if(Request::is('customer-dues/' . $stores_for_nav->code)) menu-open @endif" {{-- :class="{'menu-open':menuselected == 2}" --}}>
               <a href="#" class="nav-link {{-- active --}}" {{-- @click="menuselected = 2" --}}>
                 <i class="nav-icon fa fa-university"></i>
                 <p>
@@ -144,12 +144,7 @@
                     <p>বিক্রয়ের হিসাব</p>
                   </router-link> 
                 </li>
-                @endpermission 
-                <li class="nav-item">
-                  <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
-                    <i class="nav-icon fa fa-plus"></i><p>লেন-দেন হিসাব</p>
-                  </a>
-                </li>
+                @endpermission
                 @permission('customer-page')
                 <li class="nav-item">
                   <router-link :to="{ name: 'customersPage', params: { code: '{{ $stores_for_nav->code }}' }}" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
@@ -182,14 +177,22 @@
                   </router-link> 
                 </li>
                 @endpermission
+                @permission('customer-due-page')
+                <li class="nav-item">
+                  <router-link :to="{ name: 'customerduesPage', params: { code: '{{ $stores_for_nav->code }}' }}" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
+                    <i class="nav-icon fa fa-book"></i>
+                    <p>বকেয়ার হিসাব</p>
+                  </router-link> 
+                </li>
+                @endpermission
                 <li class="nav-item">
                   <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
-                    <i class="nav-icon fa fa-plus"></i><p>বকেয়ার হিসাব</p>
+                    <i class="nav-icon fa fa-calculator"></i><p>লেন-দেন হিসাব</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="#!" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
-                    <i class="nav-icon fa fa-plus"></i><p>রিপোর্ট</p>
+                    <i class="nav-icon fa fa-pie-chart"></i><p>রিপোর্ট</p>
                   </a>
                 </li>
               </ul>

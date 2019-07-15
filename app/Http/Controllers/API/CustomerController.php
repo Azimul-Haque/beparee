@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Store;
 use App\Customer;
 use App\Customerdue;
+use App\Sale;
 
 class CustomerController extends Controller
 {
@@ -108,6 +109,21 @@ class CustomerController extends Controller
         return response()->json($customerdues);
     }
 
+    public function loadSingleCustomerPurchases($id, $code)
+    {
+        $store = Store::where('code', $code)->first();
+
+        $customerpurchases = Sale::where('customer_id', $id)
+                                 ->where('store_id', $store->id)
+                                 ->orderBy('id', 'desc')
+                                 ->paginate(5);
+
+        // $customerpurchases->load('saleitems');
+        // $customerpurchases->load('saleitems')->load('saleitems.product');
+
+        return response()->json($customerpurchases);
+    }
+
     public function payDue(Request $request, $id)
     {
         $this->validate($request,array(
@@ -135,5 +151,35 @@ class CustomerController extends Controller
         $customerdue->save();
 
         return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];
+    }
+
+    // CUSTOMER DUES PAGE METHODS
+    // CUSTOMER DUES PAGE METHODS
+    // CUSTOMER DUES PAGE METHODS
+    // CUSTOMER DUES PAGE METHODS
+    // CUSTOMER DUES PAGE METHODS
+
+    public function loadDues($code)
+    {
+        $store = Store::where('code', $code)->first();
+
+        $customers = Customer::where('store_id', $store->id)
+                             ->where('total_due', '>', 0)
+                             ->orderBy('updated_at', 'desc')
+                             ->paginate(5);
+
+        return response()->json($customers);
+    }
+    
+    public function loadCustomersDues($code)
+    {
+        $store = Store::where('code', $code)->first();
+
+        $customerdues = Customerdue::whereHas("customer", function($q) use ($store) {
+                            $q->where("store_id", $store->id);
+                        })->orderBy('id', 'desc')->paginate(5);
+
+        $customerdues->load('customer');
+        return response()->json($customerdues);
     }
 }

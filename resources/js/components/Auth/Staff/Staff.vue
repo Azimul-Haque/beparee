@@ -95,7 +95,7 @@
                     </div>
                   </p>
                   <div class="card-footer">
-                    <pagination :data="salaryhistories" @pagination-change-page="getPaginationSalaryHistories"></pagination>
+                    <pagination :data="salaryhistories" :limit="1" @pagination-change-page="getPaginationSalaryHistories"></pagination>
                   </div>       
                 </div>
                 <div class="tab-pane fade p-3" id="two" role="tabpanel" aria-labelledby="two-tab">

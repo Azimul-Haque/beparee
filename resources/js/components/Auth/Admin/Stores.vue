@@ -90,7 +90,7 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                <pagination :data="stores" @pagination-change-page="getPaginationResults"></pagination>
+                <pagination :data="stores" :limit="1" @pagination-change-page="getPaginationResults"></pagination>
               </div>
             </div>
             <!-- /.card -->

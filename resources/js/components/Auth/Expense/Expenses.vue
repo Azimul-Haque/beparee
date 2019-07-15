@@ -74,7 +74,7 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                <pagination :data="expenses" @pagination-change-page="getPaginationResults"></pagination>
+                <pagination :data="expenses" :limit="1" @pagination-change-page="getPaginationResults"></pagination>
               </div>
             </div>
             <!-- /.card -->
@@ -158,7 +158,7 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                <pagination :data="expensehistories" @pagination-change-page="getPaginationExpensehistories"></pagination>
+                <pagination :data="expensehistories" :limit="1" @pagination-change-page="getPaginationExpensehistories"></pagination>
               </div>
             </div>
             <!-- /.card -->

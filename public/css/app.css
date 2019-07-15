@@ -281,10 +281,10 @@ img {
 
                 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2, .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label p {
                     color: #737881;
-                    font-family: "Noto Sans",sans-serif;
+                    /*font-family: "Noto Sans",sans-serif;*/
                     font-size: 12px;
                     margin: 0;
-                    line-height: 1.428571429;
+                    line-height: 1;
                 }
 
                     .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label p + p {
