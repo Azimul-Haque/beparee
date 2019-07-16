@@ -241,25 +241,25 @@
             },
             
             loadDues() {
-                if(this.$gate.isAdminOrAssociated('due-page', this.$route.params.code)){
-                  axios.get('/api/load/vendors/due/' + this.$route.params.code).then(({ data }) => (this.vendors = data));  
-                }
+              if(this.$gate.isAdminOrAssociated('due-page', this.$route.params.code)){
+                axios.get('/api/load/vendors/due/' + this.$route.params.code).then(({ data }) => (this.vendors = data));  
+              }
             },
             updateVendor() {
-                this.$Progress.start();
-                this.form.put('/api/load/vendor/pay/due/'+ this.form.id).then(() => {
-                  $('#addModal').modal('hide')
-                  Fire.$emit('AfterVendorsUpdated')
-                  toast.fire({
-                    type: 'success',
-                    title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
-                  })
-                  this.$Progress.finish();
+              this.$Progress.start();
+              this.form.put('/api/load/vendor/pay/due/'+ this.form.id).then(() => {
+                $('#addModal').modal('hide')
+                Fire.$emit('AfterVendorsUpdated')
+                toast.fire({
+                  type: 'success',
+                  title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
                 })
-                .catch(() => {
-                    this.$Progress.fail();
-                    // swal('Failed!', 'There was something wrong', 'warning');
-                })
+                this.$Progress.finish();
+              })
+              .catch(() => {
+                  this.$Progress.fail();
+                  // swal('Failed!', 'There was something wrong', 'warning');
+              })
             },
             deleteVendor(id) {
                 swal.fire({

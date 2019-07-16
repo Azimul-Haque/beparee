@@ -154,8 +154,11 @@
                           <div class="input-group-prepend">
                             <span class="input-group-text">৳</span>
                           </div>
+                          <input v-model="form.buying_price[index]" type="hidden" step="any" name="buying_price" required="">
                           <input v-model="form.unit_price[index]" type="number" step="any" name="unit_price" placeholder="বিক্রয়মূল্য/ ইউনিট" 
-                            class="form-control" :class="{ 'is-invalid': form.errors.has('unit_price') }" @change="calculatePurchase" required=""> <!-- oninvalid="this.setCustomValidity('বিক্রয়মূল্য/ ইউনিট লিখুন')"oninput="setCustomValidity('')" -->
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('unit_price') }" @change="calculatePurchase" required="">
+
+                            <!-- oninvalid="this.setCustomValidity('বিক্রয়মূল্য/ ইউনিট লিখুন')"oninput="setCustomValidity('')" -->
                           <has-error :form="form" field="unit_price"></has-error>
                         </div>
                       </div>
@@ -199,9 +202,10 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text">৳</span>
                         </div>
-                        <input v-model="form.total_price" type="number" step="any" name="total" placeholder="সর্বমোট মূল্য" 
-                          class="form-control" :class="{ 'is-invalid': form.errors.has('total') }" @change="calculatePayable">
-                        <has-error :form="form" field="total"></has-error>
+                        <input v-model="form.total_cost" name="total_cost" type="hidden">
+                        <input v-model="form.total_price" type="number" step="any" name="total_price" placeholder="সর্বমোট মূল্য" 
+                          class="form-control" :class="{ 'is-invalid': form.errors.has('total_price') }" @change="calculatePayable">
+                        <has-error :form="form" field="total_price"></has-error>
                       </div>
                     </div>
                     <div class="col-md-4">
@@ -307,7 +311,9 @@
               customer: '',
               expire_date: [],
               quantity: [],
+              buying_price: [],
               unit_price: [],
+              total_cost: '',
               total_price: '',
               discount_unit: '%',
               payment_method: '',
@@ -362,6 +368,7 @@
             // this.$delete(this.addformrange, index);
             this.form.product[index] = null;
             this.form.quantity[index] = 0;
+            this.form.buying_price[index] = 0;
             this.form.unit_price[index] = 0;
             this.maxquantity[index] = '';
             this.productunit[index] = '';
@@ -382,7 +389,12 @@
                 this.productunit[index] = '<small class="blink" style="color: red;">অপর্যাপ্ত স্টক (0 '+ product.unit +')!</span>';
               }
               
-              this.form.unit_price[index] = product.stocks[product.stocks.length - 1].selling_price; // latest stock price
+              var newproductstocks = _.orderBy(product.stocks, ['id'], ['desc']);
+
+              this.form.buying_price[index] = newproductstocks[0].buying_price; // latest stock buying price
+              this.form.unit_price[index] = newproductstocks[0].selling_price; // latest stock selling price
+
+              // console.log(newproductstocks);
             }
           },
           createSale() {
@@ -401,12 +413,19 @@
             })
           },
           calculatePurchase() {
+            var total_cost = parseFloat(0.00);
             var total_price = parseFloat(0.00);
             var discounted_total = parseFloat(0.00);
             var quantity = parseFloat(0.00);
+            var buying_price = parseFloat(0.00);
             var unit_price = parseFloat(0.00);
             for(var i = 0; i < this.addformrange.length; i++) {
               quantity = parseFloat(this.form.quantity[i]) || 0;
+
+              buying_price = parseFloat(this.form.buying_price[i]) || 0;
+              var per_total_cost =  quantity * buying_price;
+              total_cost = parseFloat(total_cost) + parseFloat(per_total_cost);
+
               unit_price = parseFloat(this.form.unit_price[i]) || 0;
               var per_total =  quantity * unit_price;
               total_price = parseFloat(total_price) + parseFloat(per_total);
@@ -426,9 +445,11 @@
             discounted_total = total_price - discount_amount;
 
             if(total_price > 0){
+              this.form.total_cost =  total_cost.toFixed(2);
               this.form.total_price =  total_price.toFixed(2);
               this.form.payable =  discounted_total.toFixed(2);
             } else {
+              this.form.total_cost =  0;
               this.form.total_price =  0;
               this.form.payable =  0;
             }

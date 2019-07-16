@@ -181,6 +181,9 @@ return [
         'payment_method' => [
             'required' => 'অনুগ্রহ করে পেমেন্ট মাধ্যম নির্বাচন করুন'
         ],
+        'total_price' => [
+            'required' => 'অনুগ্রহ করে সর্বমোট মূল্য (৳) লিখুন'
+        ],
 
 
         'attribute-name' => [

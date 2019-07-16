@@ -10,6 +10,9 @@ use App\Productcategory;
 use App\Product;
 use App\Stock;
 use App\Vendor;
+use App\Sale;
+use App\Saleitem;
+
 use Auth;
 
 class ProductController extends Controller
@@ -231,9 +234,13 @@ class ProductController extends Controller
 
     public function loadSingleProduct($id, $code)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::where('id', $id)->with(array('stocks' => function($query) {
+                                                $query->orderBy('id', 'DESC')->with(array('vendor' => function($query2) {
+                                                                                $query2->orderBy('id', 'DESC');
+                                                                            }));
+                                            }))->first();
         $product->load('productcategory');
-        $product->load('stocks')->load('stocks.vendor');
+        // $product->load('stocks.vendor');
 
         $store = Store::where('code', $code)->first();
         if($store) {
@@ -245,6 +252,18 @@ class ProductController extends Controller
         }
         
         return response()->json($product);
+    }
+
+    public function loadSingleProductSales($id, $code)
+    {
+
+        $productsales = Saleitem::where('product_id', $id)
+                             ->orderBy('id', 'desc')
+                             ->paginate(5);
+
+        $productsales->load('sale')->load('sale.customer');
+
+        return response()->json($productsales);
     }
     
     public function updateSingleProductStock(Request $request, $id)

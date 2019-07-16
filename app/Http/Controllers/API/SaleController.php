@@ -60,9 +60,10 @@ class SaleController extends Controller
     {
         $this->validate($request,array(
             'code'                 => 'required',
-            'customer'               => 'required',
+            'customer'             => 'required',
 
-            'total_price'                => 'required',
+            'total_cost'          => 'required',
+            'total_price'          => 'required',
             'discount_unit'        => 'required',
             'discount'             => 'required',
             'payment_method'       => 'required',
@@ -78,6 +79,7 @@ class SaleController extends Controller
         $sale->store_id = $store->id;
 
         $sale->code = random_string(8);
+        $sale->total_cost = number_format($request->total_cost, 2, '.', '');
         $sale->total_price = number_format($request->total_price, 2, '.', '');
         $sale->discount_unit = $request->discount_unit;
         $sale->discount = number_format($request->discount, 2, '.', '');
@@ -149,6 +151,7 @@ class SaleController extends Controller
                 $product_array[$key]['product_id'] = $request->product[$key]['id'];
                 // $product_array[$key]['expiry_date'] = $request->expiry_date[$key];
                 $product_array[$key]['quantity'] = $request->quantity[$key];
+                $product_array[$key]['buying_price'] = $request->buying_price[$key];
                 $product_array[$key]['unit_price'] = $request->unit_price[$key];
                 
                 $saleitem = new Saleitem;
@@ -156,6 +159,7 @@ class SaleController extends Controller
                 $saleitem->sale_id = $sale->id;
                 // $saleitem->expiry_date = $request->expiry_date;
                 $saleitem->quantity = $product_array[$key]['quantity'];
+                $saleitem->buying_price = number_format($product_array[$key]['buying_price'], 2, '.', '');
                 $saleitem->unit_price = number_format($product_array[$key]['unit_price'], 2, '.', '');
                 $saleitem->save();
 

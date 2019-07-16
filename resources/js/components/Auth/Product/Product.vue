@@ -93,8 +93,43 @@
                   </p>         
                 </div>
                 <div class="tab-pane fade p-3" id="two" role="tabpanel" aria-labelledby="two-tab">
-                  <p class="card-text"> on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>              
+                  <p class="card-text">
+                    <div class="card bg-light text-dark" v-for="item in productsales.data" :key="item.id">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-10">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <i class="fa fa-ticket text-blue"></i> ক্রয় রশিদ নম্বরঃ <b>{{ item.sale.code }}</b><br/>
+                                <i class="fa fa-user text-green"></i> কাস্টমার 
+                                <b>
+                                  <router-link :to="{ name: 'singleCustomer', params: { id: item.sale.customer.id, code: code }}" v-tooltip="'বিস্তারিত দেখুন'">
+                                    {{ item.sale.customer.name }}
+                                  </router-link>
+                                </b><br/>
+                              </div>
+                              <div class="col-md-6">
+                                <i class="fa fa-balance-scale text-cyan"></i> পরিমাণঃ <b>{{ item.quantity }} {{ product.unit }}</b><br/>
+                                <i class="fa fa-tag text-orange"></i> বিক্রয়মূল্যঃ <b>{{ item.unit_price }} ৳/{{ product.unit }}</b>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <a :href="'/pdf/sale/' + item.sale.id" class="btn btn-primary btn-sm" v-tooltip="'রশিদ ডাউনলোড করুন'">
+                              <i class="fa fa-download text-light"></i>
+                            </a>
+                            <button class="btn btn-success btn-sm" style="margin-left: 5px;" v-tooltip="'রশিদ প্রিন্ট করুন'">
+                              <i class="fa fa-print"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <small class="text-muted" style="border-top: 1px solid #DDD;"><i class="fa fa-calendar"></i> {{ item.sale.created_at | datetime }}</small>
+                      </div>
+                    </div>
+                  </p>
+                  <div class="card-footer">
+                    <pagination :data="productsales" :limit="1" @pagination-change-page="getPaginationProductSales"></pagination>
+                  </div>      
                 </div>
               </div>
             </div>
@@ -146,6 +181,8 @@
         data () {
             return {
               product: {},
+              productsales: {},
+              code: this.$route.params.code,
               // Create a new form instance
               form: new Form({
                 id: '',
@@ -159,10 +196,24 @@
             loadProduct() {
                 if(this.$gate.isAdminOrAssociated('product-page', this.$route.params.code)){
                   axios.get('/api/load/single/product/' + this.$route.params.id + '/' + this.$route.params.code).then(({ data }) => (
-                    this.product = data, 
-                    _.reverse(this.product.stocks)
+                    this.product = data
+                    // _.reverse(this.product.stocks)
+                    // _.orderBy(this.product.stocks, ['id'], ['desc'])
                   ));  
                 }
+            },
+            loadProductSales() {
+                if(this.$gate.isAdminOrAssociated('product-page', this.$route.params.code)){
+                  axios.get('/api/load/single/product/sales/' + this.$route.params.id + '/' + this.$route.params.code).then(({ data }) => (
+                    this.productsales = data
+                  ));  
+                }
+            },
+            getPaginationProductSales(page = 1) {
+              axios.get('/api/load/single/product/sales/' + + this.$route.params.id + '/' + this.$route.params.code + '?page=' + page)
+              .then(response => {
+                this.productsales = response.data;
+              });
             },
             editModal(stock) {
                 this.form.reset(); // clears fields
@@ -217,11 +268,15 @@
         },
         created() {
             this.loadProduct();
+            this.loadProductSales();
+
             Fire.$on('AfterProductStockUpdated', () => {
                 this.loadProduct();
+                this.loadProductSales();
             });
             Fire.$on('changingstorename', () => {
                 this.loadProduct();
+                this.loadProductSales();
             });
 
             // Fire.$on('searching', () => {
@@ -235,7 +290,8 @@
 
             //       })
             //     } else {
-            //       this.loadVendors();
+            //       this.loadProduct();
+            //       this.loadProductSales();
             //     }
                 
             // });

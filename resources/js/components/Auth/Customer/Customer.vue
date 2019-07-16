@@ -113,10 +113,10 @@
                             </div>
                           </div>
                           <div class="col-md-2">
-                            <a :href="'/pdf/sale/' + sale.id" class="btn btn-primary btn-sm" data-toggle="tooltip" title="রশিদ ডাউনলোড করুন">
+                            <a :href="'/pdf/sale/' + sale.id" class="btn btn-primary btn-sm" v-tooltip="'রশিদ ডাউনলোড করুন'">
                               <i class="fa fa-download text-light"></i>
                             </a>
-                            <button class="btn btn-success btn-sm" style="margin-left: 5px;" data-toggle="tooltip" title="রশিদ প্রিন্ট করুন">
+                            <button class="btn btn-success btn-sm" style="margin-left: 5px;" v-tooltip="'রশিদ প্রিন্ট করুন'">
                               <i class="fa fa-print"></i>
                             </button>
                           </div>

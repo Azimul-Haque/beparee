@@ -18,6 +18,7 @@ class CreateSaleitemsTable extends Migration
             $table->integer('product_id')->unsigned();
             $table->integer('sale_id')->unsigned();
             $table->string('quantity');
+            $table->string('buying_price');
             $table->string('unit_price');
             $table->timestamps();
 

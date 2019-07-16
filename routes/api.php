@@ -36,6 +36,7 @@ Route::put('store/update/by/user/{id}', 'API\StoreController@updateByUser');
 Route::apiResources(['product' => 'API\ProductController']);
 Route::get('load/product/{code}', 'API\ProductController@loadProducts');
 Route::get('load/single/product/{id}/{code}', 'API\ProductController@loadSingleProduct');
+Route::get('load/single/product/sales/{id}/{code}', 'API\ProductController@loadSingleProductSales');
 Route::put('single/product/stock/update/{id}', 'API\ProductController@updateSingleProductStock');
 Route::delete('single/product/stock/delete/{id}', 'API\ProductController@deleteSingleProductStock');
 
@@ -87,6 +88,9 @@ Route::get('load/sale/product/{code}', 'API\SaleController@loadProducts');
 Route::get('load/sale/customer/{code}', 'API\SaleController@loadCustomers');
 
 Route::get('get/store/id/{code}', 'API\StoreController@getStoreID');
+
+
+Route::get('load/accounts/lastsevendays/sales/{code}', 'API\AccountsController@loadLastSevenDaysSales');
 
 // each search function has a big bug, it does not filters user's stores!!!
 // each search function has a big bug, it does not filters user's stores!!!
