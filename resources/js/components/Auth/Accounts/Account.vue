@@ -32,19 +32,31 @@
             <div class="card">
               <div class="card-header">শেষ সাত দিনের বিক্রয়</div>
               <div class="card-body">
-                <chartjs-bar :datalabel="'মোট বিক্রয়মূল্য'" :labels="chartLabel" :data="chartData" :bind="true"></chartjs-bar>
+                <chartjs-bar :datalabel="'মোট বিক্রয়মূল্য'" 
+                             :labels="chartLastSvnLabel" 
+                             :data="chartLastSvnData" 
+                             :backgroundcolor="'rgba(21,101,192,0.5)'"
+                             :bordercolor="'0D47A1'" 
+                             :bind="true"></chartjs-bar>
               </div>
             </div>
           </div>
-
           <div class="col-md-6">
             <div class="card">
-              <div class="card-header">Header</div>
+              <div class="card-header">{{ thisYear }} সালের মাসভিত্তিক লাভ</div>
               <div class="card-body">
-                <chartjs-bar :datasets="types" :datalabel="types.dataLabel" :labels="labels"></chartjs-bar>
-                <chartjs-line :labels="mylabels" :datasets="mydatasets"></chartjs-line>
+                <chartjs-line :labels="chartThisYrPrftLabel"
+                              :datasets="chartThisYrPrftData" 
+                              :bind="true"></chartjs-line>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">{{ thisMonth }}-এর ক্রয় ও বিক্রয়ের তুলনা</div>
+          <div class="card-body">
+            <chartjs-bar :datasets="chartProfitCalcThisMonthData" :labels="chartProfitCalThisMonthcLabel" :bind="true" :height="75"></chartjs-bar>
           </div>
         </div>
       </div><!-- /.container-fluid -->
@@ -56,76 +68,60 @@
 </template>
 
 <script>
+  import moment from 'moment'
 
   export default {
     data () {
       return {
-        chartLabel: [],
-        chartData: [],
+        thisYear: moment(new Date()).format('YYYY'),
+        thisMonth: moment(new Date()).format('MMMM YYYY'),
 
-        beginZero: true,
-        labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-        types: [
+        chartLastSvnLabel: [],
+        chartLastSvnData: [],
+
+        chartThisYrPrftLabel: [],
+        chartThisYrPrftData: [
           {
-            label: "My first dataset",
-            backgroundColor: "rgba(75,192,192,0.5)",
+            label: "লাভ",
+            fill: true,
+            data: [],
+            lineTension: 0,
+            backgroundColor: "rgba(75,192,192,0.2)",
+            borderColor: "rgba(104,159,56,1)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(75,192,192,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 1,
+            pointRadius: 3,
+            pointHitRadius: 10,
+            spanGaps: false,
+          }
+        ],
+        
+        chartProfitCalThisMonthcLabel: [],
+        chartProfitCalcThisMonthData: [
+          {
+            label: "মোট ক্রয়মূল্য",
+            backgroundColor: "rgba(139,195,74,0.5)",
             borderColor: "0c0306",
-            data: [1, 3, 5, 7, 2, 4, 6],
+            data: [],
             dataLabel: "Bar"
           },
           {
-            label: "My first dataset",
-            backgroundColor: "rgba(255,0,0,0.5)",
+            label: "মোট বিক্রয়মূল্য",
+            backgroundColor: "rgba(0,150,136,0.5)",
             borderColor: "030c0c",
-            data: [1, 5, 2, 6, 3, 7, 4],
+            data: [],
             dataLabel: "Baz"
           }
         ],
-        mylabels: ["January", "February", "March", "April", "May", "June", "July"],
-          mydatasets:[{
-              label: "My first dataset",
-              fill: false,
-              lineTension: 0.1,
-              backgroundColor: "rgba(75,192,192,0.4)",
-              borderColor: "rgba(255,0,0,1)",
-              borderCapStyle: 'butt',
-              borderDash: [],
-              borderDashOffset: 0.0,
-              borderJoinStyle: 'miter',
-              pointBorderColor: "rgba(75,192,192,1)",
-              pointBackgroundColor: "#fff",
-              pointBorderWidth: 1,
-              pointHoverRadius: 5,
-              pointHoverBackgroundColor: "rgba(75,192,192,1)",
-              pointHoverBorderColor: "rgba(220,220,220,1)",
-              pointHoverBorderWidth: 1,
-              pointRadius: 3,
-              pointHitRadius: 10,
-              data: [100, 80, 90, 81, 56, 55, 40],
-              spanGaps: false,
-          },
-          {
-              label: "My second dataset",
-              fill: false,
-              lineTension: 0.1,
-              backgroundColor: "rgba(75,192,192,0.4)",
-              borderColor: "rgba(75,192,192,1)",
-              borderCapStyle: 'butt',
-              borderDash: [],
-              borderDashOffset: 0.0,
-              borderJoinStyle: 'miter',
-              pointBorderColor: "rgba(75,192,192,1)",
-              pointBackgroundColor: "#fff",
-              pointBorderWidth: 1,
-              pointHoverRadius: 5,
-              pointHoverBackgroundColor: "rgba(75,192,192,1)",
-              pointHoverBorderColor: "rgba(220,220,220,1)",
-              pointHoverBorderWidth: 1,
-              pointRadius: 3,
-              pointHitRadius: 10,
-              data: [110, 85, 99, 41, 66, 25, 80],
-              spanGaps: false,
-          },],
       }
     },
     methods: {
@@ -135,12 +131,55 @@
             let data = response.data;
             if(data) {
                 data.forEach(element => {
-                  this.chartData.push(element.total);
-                  this.chartLabel.push(element.date);
-                  // Labels.push(element.name);
-                  // Prices.push(element.price);
+                  this.chartLastSvnLabel.push(element.date);
+                  this.chartLastSvnData.push(element.total);
                 });
-                // console.log(this.chartLabel);
+                // console.log(this.chartLastSvnLabel);
+            }
+            else {
+              console.log('No data');
+            }
+          }); 
+        }
+      },
+      loadThisYearsProfit() {
+        if(this.$gate.isAdminOrAssociated('due-page', this.$route.params.code)){
+          axios.get('/api/load/accounts/thisyears/profit/' + this.$route.params.code).then((response) => {
+            let data = response.data;
+            if(data) {
+                data.forEach(element => {
+                  this.chartThisYrPrftLabel.push(element.date);
+                  this.chartThisYrPrftData[0].data.push((element.total - element.cost).toFixed(2));
+                });
+                // console.log(this.chartThisYrPrftData);
+            }
+            else {
+              console.log('No data');
+            }
+          }); 
+        }
+      },
+      loadProfitCacl() {
+        if(this.$gate.isAdminOrAssociated('due-page', this.$route.params.code)){
+          axios.get('/api/load/accounts/profit/calc/this/month/' + this.$route.params.code).then((response) => {
+            let data = response.data;
+            if(data) {
+                data.forEach(element => {
+                  this.chartProfitCalThisMonthcLabel.push(element.date);
+                  this.chartProfitCalcThisMonthData[0].data.push(element.cost);
+                  this.chartProfitCalcThisMonthData[1].data.push(element.total);
+                });
+                data.forEach(element => {
+                  this.chartProfitCalThisMonthcLabel.push(element.date);
+                  this.chartProfitCalcThisMonthData[0].data.push(element.cost);
+                  this.chartProfitCalcThisMonthData[1].data.push(element.total);
+                });
+                data.forEach(element => {
+                  this.chartProfitCalThisMonthcLabel.push(element.date);
+                  this.chartProfitCalcThisMonthData[0].data.push(element.cost);
+                  this.chartProfitCalcThisMonthData[1].data.push(element.total);
+                });
+                // console.log(this.chartProfitCalcThisMonthData);
             }
             else {
               console.log('No data');
@@ -151,6 +190,8 @@
     },
     created() {
       this.loadLastSevenDaysSales();
+      this.loadThisYearsProfit();
+      this.loadProfitCacl();
     },
     beforeDestroy() {
       

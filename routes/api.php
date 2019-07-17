@@ -91,6 +91,8 @@ Route::get('get/store/id/{code}', 'API\StoreController@getStoreID');
 
 
 Route::get('load/accounts/lastsevendays/sales/{code}', 'API\AccountsController@loadLastSevenDaysSales');
+Route::get('load/accounts/thisyears/profit/{code}', 'API\AccountsController@loadThisYearsProfit');
+Route::get('load/accounts/profit/calc/this/month/{code}', 'API\AccountsController@loadProfitCaclThisMonth');
 
 // each search function has a big bug, it does not filters user's stores!!!
 // each search function has a big bug, it does not filters user's stores!!!

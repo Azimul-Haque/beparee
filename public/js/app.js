@@ -1826,6 +1826,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -1883,69 +1885,62 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      chartLabel: [],
-      chartData: [],
-      beginZero: true,
-      labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-      types: [{
-        label: "My first dataset",
-        backgroundColor: "rgba(75,192,192,0.5)",
+      thisYear: moment__WEBPACK_IMPORTED_MODULE_0___default()(new Date()).format('YYYY'),
+      thisMonth: moment__WEBPACK_IMPORTED_MODULE_0___default()(new Date()).format('MMMM YYYY'),
+      chartLastSvnLabel: [],
+      chartLastSvnData: [],
+      chartThisYrPrftLabel: [],
+      chartThisYrPrftData: [{
+        label: "লাভ",
+        fill: true,
+        data: [],
+        lineTension: 0,
+        backgroundColor: "rgba(75,192,192,0.2)",
+        borderColor: "rgba(104,159,56,1)",
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: "rgba(75,192,192,1)",
+        pointBackgroundColor: "#fff",
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+        pointHoverBorderColor: "rgba(220,220,220,1)",
+        pointHoverBorderWidth: 1,
+        pointRadius: 3,
+        pointHitRadius: 10,
+        spanGaps: false
+      }],
+      chartProfitCalThisMonthcLabel: [],
+      chartProfitCalcThisMonthData: [{
+        label: "মোট ক্রয়মূল্য",
+        backgroundColor: "rgba(139,195,74,0.5)",
         borderColor: "0c0306",
-        data: [1, 3, 5, 7, 2, 4, 6],
+        data: [],
         dataLabel: "Bar"
       }, {
-        label: "My first dataset",
-        backgroundColor: "rgba(255,0,0,0.5)",
+        label: "মোট বিক্রয়মূল্য",
+        backgroundColor: "rgba(0,150,136,0.5)",
         borderColor: "030c0c",
-        data: [1, 5, 2, 6, 3, 7, 4],
+        data: [],
         dataLabel: "Baz"
-      }],
-      mylabels: ["January", "February", "March", "April", "May", "June", "July"],
-      mydatasets: [{
-        label: "My first dataset",
-        fill: false,
-        lineTension: 0.1,
-        backgroundColor: "rgba(75,192,192,0.4)",
-        borderColor: "rgba(255,0,0,1)",
-        borderCapStyle: 'butt',
-        borderDash: [],
-        borderDashOffset: 0.0,
-        borderJoinStyle: 'miter',
-        pointBorderColor: "rgba(75,192,192,1)",
-        pointBackgroundColor: "#fff",
-        pointBorderWidth: 1,
-        pointHoverRadius: 5,
-        pointHoverBackgroundColor: "rgba(75,192,192,1)",
-        pointHoverBorderColor: "rgba(220,220,220,1)",
-        pointHoverBorderWidth: 1,
-        pointRadius: 3,
-        pointHitRadius: 10,
-        data: [100, 80, 90, 81, 56, 55, 40],
-        spanGaps: false
-      }, {
-        label: "My second dataset",
-        fill: false,
-        lineTension: 0.1,
-        backgroundColor: "rgba(75,192,192,0.4)",
-        borderColor: "rgba(75,192,192,1)",
-        borderCapStyle: 'butt',
-        borderDash: [],
-        borderDashOffset: 0.0,
-        borderJoinStyle: 'miter',
-        pointBorderColor: "rgba(75,192,192,1)",
-        pointBackgroundColor: "#fff",
-        pointBorderWidth: 1,
-        pointHoverRadius: 5,
-        pointHoverBackgroundColor: "rgba(75,192,192,1)",
-        pointHoverBorderColor: "rgba(220,220,220,1)",
-        pointHoverBorderWidth: 1,
-        pointRadius: 3,
-        pointHitRadius: 10,
-        data: [110, 85, 99, 41, 66, 25, 80],
-        spanGaps: false
       }]
     };
   },
@@ -1959,12 +1954,64 @@ __webpack_require__.r(__webpack_exports__);
 
           if (data) {
             data.forEach(function (element) {
-              _this.chartData.push(element.total);
+              _this.chartLastSvnLabel.push(element.date);
 
-              _this.chartLabel.push(element.date); // Labels.push(element.name);
-              // Prices.push(element.price);
+              _this.chartLastSvnData.push(element.total);
+            }); // console.log(this.chartLastSvnLabel);
+          } else {
+            console.log('No data');
+          }
+        });
+      }
+    },
+    loadThisYearsProfit: function loadThisYearsProfit() {
+      var _this2 = this;
 
-            }); // console.log(this.chartLabel);
+      if (this.$gate.isAdminOrAssociated('due-page', this.$route.params.code)) {
+        axios.get('/api/load/accounts/thisyears/profit/' + this.$route.params.code).then(function (response) {
+          var data = response.data;
+
+          if (data) {
+            data.forEach(function (element) {
+              _this2.chartThisYrPrftLabel.push(element.date);
+
+              _this2.chartThisYrPrftData[0].data.push((element.total - element.cost).toFixed(2));
+            }); // console.log(this.chartThisYrPrftData);
+          } else {
+            console.log('No data');
+          }
+        });
+      }
+    },
+    loadProfitCacl: function loadProfitCacl() {
+      var _this3 = this;
+
+      if (this.$gate.isAdminOrAssociated('due-page', this.$route.params.code)) {
+        axios.get('/api/load/accounts/profit/calc/this/month/' + this.$route.params.code).then(function (response) {
+          var data = response.data;
+
+          if (data) {
+            data.forEach(function (element) {
+              _this3.chartProfitCalThisMonthcLabel.push(element.date);
+
+              _this3.chartProfitCalcThisMonthData[0].data.push(element.cost);
+
+              _this3.chartProfitCalcThisMonthData[1].data.push(element.total);
+            });
+            data.forEach(function (element) {
+              _this3.chartProfitCalThisMonthcLabel.push(element.date);
+
+              _this3.chartProfitCalcThisMonthData[0].data.push(element.cost);
+
+              _this3.chartProfitCalcThisMonthData[1].data.push(element.total);
+            });
+            data.forEach(function (element) {
+              _this3.chartProfitCalThisMonthcLabel.push(element.date);
+
+              _this3.chartProfitCalcThisMonthData[0].data.push(element.cost);
+
+              _this3.chartProfitCalcThisMonthData[1].data.push(element.total);
+            }); // console.log(this.chartProfitCalcThisMonthData);
           } else {
             console.log('No data');
           }
@@ -1974,6 +2021,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.loadLastSevenDaysSales();
+    this.loadThisYearsProfit();
+    this.loadProfitCacl();
   },
   beforeDestroy: function beforeDestroy() {}
 });
@@ -97957,8 +98006,10 @@ var render = function() {
                     _c("chartjs-bar", {
                       attrs: {
                         datalabel: "মোট বিক্রয়মূল্য",
-                        labels: _vm.chartLabel,
-                        data: _vm.chartData,
+                        labels: _vm.chartLastSvnLabel,
+                        data: _vm.chartLastSvnData,
+                        backgroundcolor: "rgba(21,101,192,0.5)",
+                        bordercolor: "0D47A1",
                         bind: true
                       }
                     })
@@ -97970,28 +98021,48 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "col-md-6" }, [
               _c("div", { staticClass: "card" }, [
-                _c("div", { staticClass: "card-header" }, [_vm._v("Header")]),
+                _c("div", { staticClass: "card-header" }, [
+                  _vm._v(_vm._s(_vm.thisYear) + " সালের মাসভিত্তিক লাভ")
+                ]),
                 _vm._v(" "),
                 _c(
                   "div",
                   { staticClass: "card-body" },
                   [
-                    _c("chartjs-bar", {
-                      attrs: {
-                        datasets: _vm.types,
-                        datalabel: _vm.types.dataLabel,
-                        labels: _vm.labels
-                      }
-                    }),
-                    _vm._v(" "),
                     _c("chartjs-line", {
-                      attrs: { labels: _vm.mylabels, datasets: _vm.mydatasets }
+                      attrs: {
+                        labels: _vm.chartThisYrPrftLabel,
+                        datasets: _vm.chartThisYrPrftData,
+                        bind: true
+                      }
                     })
                   ],
                   1
                 )
               ])
             ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _vm._v(_vm._s(_vm.thisMonth) + "-এর ক্রয় ও বিক্রয়ের তুলনা")
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "card-body" },
+              [
+                _c("chartjs-bar", {
+                  attrs: {
+                    datasets: _vm.chartProfitCalcThisMonthData,
+                    labels: _vm.chartProfitCalThisMonthcLabel,
+                    bind: true,
+                    height: 75
+                  }
+                })
+              ],
+              1
+            )
           ])
         ])
       : _vm._e(),
