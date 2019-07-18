@@ -101,7 +101,7 @@
                             <div class="row">
                               <div class="col-md-6">
                                 <i class="fa fa-ticket text-blue"></i> ক্রয় রশিদ নম্বরঃ <b>{{ item.sale.code }}</b><br/>
-                                <i class="fa fa-user text-green"></i> কাস্টমার 
+                                <i class="fa fa-user text-green"></i> কাস্টমারঃ 
                                 <b>
                                   <router-link :to="{ name: 'singleCustomer', params: { id: item.sale.customer.id, code: code }}" v-tooltip="'বিস্তারিত দেখুন'">
                                     {{ item.sale.customer.name }}

@@ -38,6 +38,8 @@ export const routes = [
   { path: '/customer-dues/:code', component: require('./components/Auth/Customerdue/Customerdues.vue').default, meta: { title: 'কাস্টমারের বকেয়ার হিসাব'}, name: 'customerduesPage'},
   
   { path: '/accounts/:code', component: require('./components/Auth/Accounts/Account.vue').default, meta: { title: 'হিসাব-নিকাশ'}, name: 'accountsPage'},
+  
+  { path: '/reports/:code', component: require('./components/Auth/Reports/Report.vue').default, meta: { title: 'রিপোর্ট'}, name: 'reportsPage'},
 
   { path: '*', component: require('./components/404.vue').default, meta: { title: '404 Not Found'} },
 

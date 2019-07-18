@@ -35,6 +35,32 @@ class PDFController extends Controller
 
         $pdf = PDF::loadView('dashboard.sale.pdf.receipt', ['sale' => $sale, 'anysinglesaleitem' => $anysinglesaleitem]);
         $fileName = 'Sale_Receipt_' . $sale->code . '.pdf';
-        return $pdf->stream($fileName);
+        return $pdf->download($fileName);
+    }
+
+    public function productReportPDF($id, $type, $code)
+    {
+        $product = Product::findOrFail($id);
+        $store = Store::where('code', $code)->first();
+
+        if($type == 'stock_list') {
+            $stocks = Stock::where('product_id', $id)
+                           ->orderBy('id', 'DESC')
+                           ->get();
+            
+            $pdf = PDF::loadView('dashboard.reports.product.stocks', ['stocks' => $stocks, 'product' => $product, 'store' => $store]);
+            $fileName = 'Product_Report ' . $product->name . '.pdf';
+            return $pdf->stream($fileName);
+
+        } elseif ($type == 'sales_list') {
+            $saleitems = Saleitem::where('product_id', $id)
+                             ->orderBy('id', 'desc')
+                             ->get();
+
+            $pdf = PDF::loadView('dashboard.reports.product.sales', ['saleitems' => $saleitems, 'product' => $product, 'store' => $store]);
+            $fileName = 'Product_Report ' . $product->name . '.pdf';
+            return $pdf->stream($fileName);
+
+        }     
     }
 }

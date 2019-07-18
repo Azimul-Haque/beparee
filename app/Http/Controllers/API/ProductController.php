@@ -258,8 +258,8 @@ class ProductController extends Controller
     {
 
         $productsales = Saleitem::where('product_id', $id)
-                             ->orderBy('id', 'desc')
-                             ->paginate(5);
+                                ->orderBy('id', 'desc')
+                                ->paginate(5);
 
         $productsales->load('sale')->load('sale.customer');
 

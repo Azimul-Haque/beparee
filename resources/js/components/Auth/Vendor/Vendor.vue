@@ -52,7 +52,7 @@
               <div class="card-header tab-card-header">
                 <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
                   <li class="nav-item">
-                      <a class="nav-link active" id="one-tab" data-toggle="tab" href="#one" role="tab" aria-controls="One" aria-selected="true">দেনা তালিকা</a>
+                      <a class="nav-link active" id="one-tab" data-toggle="tab" href="#one" role="tab" aria-controls="One" aria-selected="true">দেনা সময়রেখা</a>
                   </li>
                   <li class="nav-item">
                       <a class="nav-link" id="two-tab" data-toggle="tab" href="#two" role="tab" aria-controls="Two" aria-selected="false">ক্রয় তালিকা</a>
@@ -85,6 +85,7 @@
                                   <big v-if="duehistory.transaction_type == 0" class="text-red"><b>দেনা</b></big> 
                                   <big v-else class="text-green"><b>পরিশোধ</b></big> 
                                   | পরিমাণঃ {{ duehistory.amount }} ৳
+                                  <button v-if="duehistory.transaction_type == 1" class="btn btn-warning btn-sm" style="float: right;" v-tooltip="'রশিদ ডাউনলোড করুন'"><i class="fa fa-download"></i></button>
                                 </span><br/>
 
                                 <span class="text-muted"><i class="fa fa-calendar"></i> {{ duehistory.created_at | datetime }}</span>

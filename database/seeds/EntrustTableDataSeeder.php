@@ -89,11 +89,16 @@ class EntrustTableDataSeeder extends Seeder
               'name' => 'customer-due-page',
               'display_name' => 'Customer Dues Page',
               'description' => 'Customer Dues Page'
-          ],,
+          ],
           [
               'name' => 'accounts-page',
               'display_name' => 'Accounts Page',
               'description' => 'Accounts Page'
+          ],
+          [
+              'name' => 'reports-page',
+              'display_name' => 'Reports Page',
+              'description' => 'Reports Page'
           ],
         ];
 

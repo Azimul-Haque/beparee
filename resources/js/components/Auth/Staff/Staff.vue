@@ -86,6 +86,7 @@
                                 <span>
                                   পরিমাণঃ <b>{{ salaryhistory.amount }}</b> ৳
                                   <span v-if="salaryhistory.remark">({{ salaryhistory.remark }})</span>
+                                  <button class="btn btn-warning btn-sm" style="float: right;" v-tooltip="'বেতন রশিদ ডাউনলোড করুন'"><i class="fa fa-download"></i></button>
                                 </span>
                                 <br/>
                                 <span class="text-muted"><i class="fa fa-calendar"></i> {{ salaryhistory.created_at | datetime }}</span>
