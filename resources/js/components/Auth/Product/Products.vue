@@ -419,7 +419,7 @@
               var markup = '';
               if(stocks) {
                 for(var i=0; i<stocks.length; i++) {
-                  if(stocks[i].vendor.name) {
+                  if(stocks[i].vendor.name != null) {
                     vendors.push(stocks[i].vendor.name);
                   }
                 }
