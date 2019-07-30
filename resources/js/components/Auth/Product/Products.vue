@@ -419,7 +419,9 @@
               var markup = '';
               if(stocks) {
                 for(var i=0; i<stocks.length; i++) {
-                  vendors.push(stocks[i].vendor.name);
+                  if(stocks[i].vendor.name) {
+                    vendors.push(stocks[i].vendor.name);
+                  }
                 }
               }
               let unique = [...new Set(vendors)];
