@@ -33,6 +33,7 @@ class StaffController extends Controller
             'name'       => 'required|max:191',
             'mobile'     => 'required|min:11|max:11',
             'address'    => 'required|max:191',
+            'salary'     => 'required|max:191',
             'image'      => 'sometimes'
         ));
 
@@ -44,6 +45,7 @@ class StaffController extends Controller
         $staff->name = $request->name;
         $staff->mobile = $request->mobile;
         $staff->address = $request->address;
+        $staff->salary = $request->salary;
 
         if ($request->image) {
             // $image = time(). '.' . explode('/', explode(':', substr($request->image, 0, strpos($request->image, ':')))[1])[0];
@@ -65,6 +67,7 @@ class StaffController extends Controller
             'name'       => 'required|max:191',
             'mobile'     => 'required|min:11|max:11',
             'address'    => 'required|max:191',
+            'salary'     => 'required|max:191',
             'image'      => 'sometimes'
         ));
 
@@ -72,6 +75,7 @@ class StaffController extends Controller
         $staff->name = $request->name;
         $staff->mobile = $request->mobile;
         $staff->address = $request->address;
+        $staff->salary = $request->salary;
 
         if ($request->image != $staff->image) {
             $image_path = public_path('/images/users/'. $staff->image);

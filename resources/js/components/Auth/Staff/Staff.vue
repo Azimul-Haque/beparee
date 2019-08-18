@@ -44,6 +44,7 @@
                 </div>
               </div>
               <ul class="list-group list-group-flush">
+                <li class="list-group-item"><b>মাসিক বেতনের হারঃ</b> <span class="badge badge-warning">{{ staff.salary }} ৳</span></li>
                 <li class="list-group-item"><b>মোট বেতনঃ</b> {{ salarycount }} বার</li>
                 <li class="list-group-item"><b>সর্বমোট বেতন পরিশোধঃ</b> <span class="badge badge-primary">{{ totalsalary }} ৳</span></li>
               </ul>
@@ -190,6 +191,12 @@
                       class="form-control" :class="{ 'is-invalid': formedit.errors.has('address') }">
                     <has-error :form="formedit" field="address"></has-error>
                   </div>
+                  <div class="form-group">
+                    <label>বেতন</label>
+                    <input v-model="formedit.salary" type="text" name="salary" placeholder="ঠিকানা" 
+                      class="form-control" :class="{ 'is-invalid': formedit.errors.has('salary') }">
+                    <has-error :form="formedit" field="salary"></has-error>
+                  </div>
                   
                   <div class="form-group">
                     <label>ছবি (যদি থাকে)</label>
@@ -232,6 +239,7 @@
               name: '',
               mobile: '',
               address: '',
+              salary: '',
               image: '',
               code: this.$route.params.code
             }),

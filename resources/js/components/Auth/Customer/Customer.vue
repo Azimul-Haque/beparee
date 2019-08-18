@@ -81,7 +81,9 @@
                                   <big v-if="customerdue.transaction_type == 0" class="text-red"><b>বকেয়া</b></big> 
                                   <big v-else class="text-green"><b>পরিশোধ</b></big> 
                                   | পরিমাণঃ {{ customerdue.amount }} ৳
-                                </span><br/>
+                                </span>
+                                <button v-if="customerdue.transaction_type == 1" class="btn btn-warning btn-sm" style="float: right;" v-tooltip="'রশিদ ডাউনলোড করুন'"><i class="fa fa-download"></i></button>
+                                <br/>
 
                                 <span class="text-muted"><i class="fa fa-calendar"></i> {{ customerdue.created_at | datetime }}</span>
                             </div>

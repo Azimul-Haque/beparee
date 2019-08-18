@@ -184,6 +184,9 @@ return [
         'total_price' => [
             'required' => 'অনুগ্রহ করে সর্বমোট মূল্য (৳) লিখুন'
         ],
+        'salary' => [
+            'required' => 'অনুগ্রহ করে বেতন (৳) লিখুন'
+        ],
 
 
         'attribute-name' => [

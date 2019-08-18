@@ -19,6 +19,7 @@ class CreateStaffTable extends Migration
             $table->string('name');
             $table->string('mobile');
             $table->string('address');
+            $table->string('salary')->default(0);
             $table->string('image')->nullable();
             $table->timestamps();
 

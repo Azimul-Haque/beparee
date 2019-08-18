@@ -149,7 +149,7 @@
                         </div>
                       </div>
                       <div class="col-md-4">
-                        <label>ক্রয়মূল্য/ ইউনিট</label>
+                        <label>বিক্রয়মূল্য/ ইউনিট</label>
                         <div class="input-group mb-3">
                           <div class="input-group-prepend">
                             <span class="input-group-text">৳</span>

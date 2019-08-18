@@ -2,6 +2,7 @@
 export const routes = [
   // public routes
   { path: '/', component: require('./components/Public/PublicIndex.vue').default, meta: { title: 'ব্যাপারী'} },
+  { path: '/login', component: require('./components/Public/Login.vue').default, meta: { title: 'লগইন'} },
 
   // public routes
   { path: '/dashboard', component: require('./components/Auth/Dashboard.vue').default, meta: { title: 'ড্যাশবোর্ড'} },

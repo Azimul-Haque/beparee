@@ -61,6 +61,8 @@
                       <router-link :to="{ name: 'singleStaff', params: { id: staff.id, code: code }}" v-tooltip="'প্রোফাইল দেখুন'">
                         {{ staff.name }}
                       </router-link>
+                      <br/>
+                      <small>বেতনঃ {{ staff.salary }} ৳</small>
                     </td>
                     <td><small>{{ staff.mobile }}<br/>{{ staff.address }}</small></td>
                     <td><img :src="getStaffProfilePhoto(staff.image)" class="img-responsive" style="max-height: 50px; width: auto;"></td>
@@ -121,6 +123,13 @@
                         class="form-control" :class="{ 'is-invalid': form.errors.has('address') }">
                       <has-error :form="form" field="address"></has-error>
                     </div>
+
+                    <div class="form-group">
+                      <label>বেতন</label>
+                      <input v-model="form.salary" type="number" step="any" name="salary" placeholder="ঠিকানা" 
+                        class="form-control" :class="{ 'is-invalid': form.errors.has('salary') }">
+                      <has-error :form="form" field="salary"></has-error>
+                    </div>
                     
                     <div class="form-group">
                       <label>ছবি (যদি থাকে)</label>
@@ -162,6 +171,7 @@
                 name: '',
                 mobile: '',
                 address: '',
+                salary: '',
                 image: '',
                 code: this.$route.params.code
               }),
