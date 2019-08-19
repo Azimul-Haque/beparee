@@ -444,6 +444,70 @@
         ]
     },
     {
+        "name": "eusonlito/laravel-packer",
+        "version": "v2.1.6",
+        "version_normalized": "2.1.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/eusonlito/laravel-Packer.git",
+            "reference": "e895cfe2a3f3bd92f463d94a29920719d85564e1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/eusonlito/laravel-Packer/zipball/e895cfe2a3f3bd92f463d94a29920719d85564e1",
+            "reference": "e895cfe2a3f3bd92f463d94a29920719d85564e1",
+            "shasum": ""
+        },
+        "require": {
+            "imagecow/imagecow": "2.1.*",
+            "php": ">=5.5"
+        },
+        "require-dev": {
+            "mikey179/vfsstream": "*",
+            "phpunit/phpunit": "*"
+        },
+        "time": "2018-01-26T17:14:36+00:00",
+        "type": "library",
+        "extra": {
+            "laravel": {
+                "providers": [
+                    "Eusonlito\\LaravelPacker\\PackerServiceProvider"
+                ],
+                "aliases": {
+                    "Packer": "Eusonlito\\LaravelPacker\\Facade"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Eusonlito\\LaravelPacker\\": "src/Eusonlito/LaravelPacker/"
+            },
+            "classmap": [
+                "src/Eusonlito/LaravelPacker/Processors/"
+            ],
+            "files": [
+                "src/Eusonlito/LaravelPacker/Exceptions.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Lito",
+                "email": "lito@eordes.com"
+            }
+        ],
+        "description": "A package for pack css and javascript files",
+        "keywords": [
+            "laravel",
+            "minify",
+            "packer"
+        ]
+    },
+    {
         "name": "fideloper/proxy",
         "version": "4.1.0",
         "version_normalized": "4.1.0.0",
@@ -731,6 +795,50 @@
         "description": "This is the PHP port of Hamcrest Matchers",
         "keywords": [
             "test"
+        ]
+    },
+    {
+        "name": "imagecow/imagecow",
+        "version": "v2.1.6",
+        "version_normalized": "2.1.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/oscarotero/imagecow.git",
+            "reference": "b168cfe786cf7feb2218dec16f1660d81d7e2bd5"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/oscarotero/imagecow/zipball/b168cfe786cf7feb2218dec16f1660d81d7e2bd5",
+            "reference": "b168cfe786cf7feb2218dec16f1660d81d7e2bd5",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.5"
+        },
+        "time": "2016-12-11T15:27:37+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Imagecow\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Oscar Otero",
+                "role": "Developer",
+                "email": "oom@oscarotero.com",
+                "homepage": "http://oscarotero.com"
+            }
+        ],
+        "description": "PHP library to manipulate and generate responsive images",
+        "homepage": "https://github.com/oscarotero/imagecow/",
+        "keywords": [
+            "image"
         ]
     },
     {

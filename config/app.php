@@ -168,6 +168,7 @@ return [
         Zizaco\Entrust\EntrustServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Riverskies\Laravel\MobileDetect\MobileDetectServiceProvider::class,
+        Eusonlito\LaravelPacker\PackerServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -232,6 +233,7 @@ return [
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'MobileDetect' => Riverskies\Laravel\MobileDetect\Facades\MobileDetect::class,
+        'Packer'    => Eusonlito\LaravelPacker\Facade::class,
 
     ],
 

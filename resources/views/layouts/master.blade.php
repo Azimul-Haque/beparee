@@ -23,7 +23,8 @@
 
   <title>@yield('title')</title>
   <!-- Styles -->
-  <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+  {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
+  {!! Packer::css('/css/app.css', '/storage/cache/css/app.css') !!}
 
 </head>
 <body class="hold-transition sidebar-mini layout-navbar-fixed layout-fixed">
@@ -75,6 +76,7 @@
 </script>
 @endauth
 
-<script src="{{ asset('js/app.js') }}" defer></script>
+{{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
+{!! Packer::js('/js/app.js', '/storage/cache/js/app.js') !!}
 </body>
 </html>

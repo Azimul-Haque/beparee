@@ -21,5 +21,6 @@ return array(
     '58571171fd5812e6e447dce228f52f4d' => $vendorDir . '/laravel/framework/src/Illuminate/Support/helpers.php',
     '801c31d8ed748cfa537fa45402288c95' => $vendorDir . '/psy/psysh/src/functions.php',
     '0d8253363903f0ac7b0978dcde4e28a0' => $vendorDir . '/beyondcode/laravel-dump-server/helpers.php',
+    '75d8f9a6b0c485f32bf49e14dbe518c5' => $vendorDir . '/eusonlito/laravel-packer/src/Eusonlito/LaravelPacker/Exceptions.php',
     '6d394c3a532652dafb4dd296ba6a3f0b' => $baseDir . '/app/Http/helpers.php',
 );
