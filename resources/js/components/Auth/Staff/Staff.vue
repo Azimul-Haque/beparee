@@ -193,7 +193,7 @@
                   </div>
                   <div class="form-group">
                     <label>বেতন</label>
-                    <input v-model="formedit.salary" type="text" name="salary" placeholder="ঠিকানা" 
+                    <input v-model="formedit.salary" type="text" name="salary" placeholder="বেতন" 
                       class="form-control" :class="{ 'is-invalid': formedit.errors.has('salary') }">
                     <has-error :form="formedit" field="salary"></has-error>
                   </div>

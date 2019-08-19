@@ -126,7 +126,7 @@
 
                     <div class="form-group">
                       <label>বেতন</label>
-                      <input v-model="form.salary" type="number" step="any" name="salary" placeholder="ঠিকানা" 
+                      <input v-model="form.salary" type="number" step="any" name="salary" placeholder="বেতন" 
                         class="form-control" :class="{ 'is-invalid': form.errors.has('salary') }">
                       <has-error :form="form" field="salary"></has-error>
                     </div>
