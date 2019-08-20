@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\User;
 use App\Store;
+use App\Upazilla;
 use Image, File, DB;
 
 class StoreController extends Controller
@@ -24,18 +25,28 @@ class StoreController extends Controller
         return response()->json($stores);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function loadDistricts()
+    {
+        $districts = Upazilla::orderBy('id', 'asc')->groupBy('district_bangla')->get()->pluck('district_bangla');
+
+        return response()->json($districts);
+    }
+
+    public function loadUpazillas($district)
+    {
+        $upazillas = Upazilla::where('district_bangla', $district)->get()->pluck('upazilla_bangla');
+
+        return response()->json($upazillas);
+    }
+
     public function store(Request $request)
     {
         $this->validate($request,array(
             'name'                   => 'required|max:191',
             'established'            => 'required',
             'address'                => 'required',
+            'upazilla'               => 'required',
+            'district'               => 'required',
             'activation_status'      => 'required',
             'payment_status'         => 'required',
             'monogram'               => 'sometimes',
@@ -47,6 +58,8 @@ class StoreController extends Controller
         $store->name = $request->name;
         $store->established = $request->established;
         $store->address = $request->address;
+        $store->upazilla = $request->upazilla;
+        $store->district = $request->district;
         $store->activation_status = $request->activation_status; // 0 means প্রক্রিয়াধীন, 1 means অনুমোদিত
         $store->payment_status = $request->payment_status; // 0 means অপরিশোধিত, 1 means পরিশোধিত
 
@@ -100,6 +113,8 @@ class StoreController extends Controller
             'name'                   => 'required|max:191',
             'established'            => 'required',
             'address'                => 'required',
+            'upazilla'               => 'required',
+            'district'               => 'required',
             'activation_status'      => 'required',
             'payment_status'         => 'required',
             'monogram'               => 'sometimes',
@@ -111,6 +126,8 @@ class StoreController extends Controller
         $store->name = $request->name;
         $store->established = $request->established;
         $store->address = $request->address;
+        $store->upazilla = $request->upazilla;
+        $store->district = $request->district;
         $store->activation_status = $request->activation_status;
         $store->payment_status = $request->payment_status;
 
@@ -155,7 +172,9 @@ class StoreController extends Controller
         $stores = Store::where(function($search) use ($query) {
             $search->where('name', 'LIKE', '%'.$query.'%')
                    ->orWhere('code', 'LIKE', '%'.$query.'%')
-                   ->orWhere('address', 'LIKE', '%'.$query.'%');
+                   ->orWhere('address', 'LIKE', '%'.$query.'%')
+                   ->orWhere('upazilla', 'LIKE', '%'.$query.'%')
+                   ->orWhere('district', 'LIKE', '%'.$query.'%');
          })->paginate(5);
         
         $stores->load('users');

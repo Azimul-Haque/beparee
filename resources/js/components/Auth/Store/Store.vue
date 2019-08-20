@@ -33,7 +33,10 @@
                   <div class="description-block">
                     <h3 class="description-header">{{ store.name }}</h3>
                     <h6 class="widget-user-desc">দোকান কোডঃ {{ store.code }}</h6>
-                    <span class="description-text">{{ store.address }}</span>
+                    <span class="description-text">
+                      {{ store.address }}<br/>
+                      {{ store.upazilla }}, {{ store.district }}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -66,6 +69,9 @@
                       <input v-model="form.address" type="text" name="address" placeholder="ঠিকানা" 
                         class="form-control" :class="{ 'is-invalid': form.errors.has('address') }">
                       <has-error :form="form" field="address"></has-error>
+                      <br/>
+                      <b>উপজেলা</b> {{ store.upazilla }}, 
+                      <b>জেলাঃ</b> {{ store.district }}
                     </div>
                     <div class="form-group">
                       <label>দোকান / ব্যবসা প্রতিষ্ঠানের স্লোগান</label>

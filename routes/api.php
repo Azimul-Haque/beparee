@@ -30,6 +30,8 @@ Route::get('permissions/names/{id}', 'API\UserController@getPermissionsNames'); 
 
 Route::apiResources(['store' => 'API\StoreController']);
 Route::get('load/store/{code}', 'API\StoreController@loadStore');
+Route::get('load/districts', 'API\StoreController@loadDistricts');
+Route::get('load/upazilla/{district}', 'API\StoreController@loadUpazillas');
 Route::get('owners', 'API\StoreController@getOwners'); // For store Select Options
 Route::put('store/update/by/user/{id}', 'API\StoreController@updateByUser');
 

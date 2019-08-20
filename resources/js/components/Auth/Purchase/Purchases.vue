@@ -118,7 +118,7 @@
                       <div class="col-md-3">
                         <div class="form-group">
                           <label>পণ্য নির্ধারণ করুন <!-- {{ range }} {{ index }} --></label>
-                          <v-select placeholder="পণ্য নির্ধারণ করুন" :options="products" :reduce="id => id" label="name" v-model="form.product[index]" ref='productSelect'>
+                          <v-select placeholder="পণ্য নির্ধারণ করুন" :options="products" :reduce="id => id" label="name" v-model="form.product[index]" ref='productSelect' @input="productSelected(form.product[index], index)">
                             <template #search="{attributes, events}">
                               <input
                                 class="vs__search"
@@ -132,7 +132,7 @@
                       </div>
                       <div class="col-md-2">
                         <div class="form-group">
-                          <label>পরিমাণ</label>
+                          <label>পরিমাণ <span v-html="productunit[index]"></span></label>
                           <input v-model="form.quantity[index]" type="number" step="any" name="quantity" placeholder="স্টকের পরিমাণ" 
                             class="form-control" :class="{ 'is-invalid': form.errors.has('quantity') }" @change="calculatePurchase" required="" oninvalid="this.setCustomValidity('স্টকের পরিমাণ লিখুন')" oninput="setCustomValidity('')">
                           <has-error :form="form" field="quantity"></has-error>
@@ -238,7 +238,7 @@
                           <span class="input-group-text">৳</span>
                         </div>
                         <input v-model="form.paid" type="number" step="any" name="paid" placeholder="পরিশোধ"
-                          class="form-control" :class="{ 'is-invalid': form.errors.has('paid') }" @change="calculatePayable">
+                          class="form-control" :class="{ 'is-invalid': form.errors.has('paid') }" @change="calculatePayable" :max="maxpaid">
                         <has-error :form="form" field="paid"></has-error>
                       </div>
                     </div>
@@ -296,7 +296,9 @@
               paid: '',
               due: '',
             }),
+            productunit: [],
             addformrange: [0],
+            maxpaid: 0,
           }
       },
       methods: {
@@ -308,6 +310,7 @@
 
             this.addformrange.splice(0, this.addformrange.length);
             this.addformrange.push(0);
+            this.productunit[0] = '';
 
             this.loadProducts();
             this.loadVendors();
@@ -353,10 +356,16 @@
             this.form.quantity[index] = 0;
             this.form.buying_price[index] = 0;
             this.form.selling_price[index] = 0;
+            this.productunit[index] = '';
 
             this.calculatePurchase();
 
             // console.log(this.addformrange);
+          },
+          productSelected(product, index) {
+            if(product) {
+              this.productunit[index] = '<span style="color: red;">(' + product.unit + ')</span>';
+            }
           },
           createPurchase() {
             this.$Progress.start();
@@ -429,6 +438,7 @@
             discounted_total = total - discount_amount;
 
             this.form.payable =  discounted_total.toFixed(2);
+            this.maxpaid = discounted_total.toFixed(2);
 
             var due = parseFloat(discounted_total) - parseFloat(paid);
 

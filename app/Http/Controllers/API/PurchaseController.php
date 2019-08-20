@@ -33,7 +33,7 @@ class PurchaseController extends Controller
     public function loadProducts($code)
     {
         $store = Store::where('code', $code)->first();
-        $products = Product::select('id','name')->where('store_id', $store->id)->get();
+        $products = Product::select('id','name', 'unit')->where('store_id', $store->id)->get();
 
         return response()->json($products);
     }

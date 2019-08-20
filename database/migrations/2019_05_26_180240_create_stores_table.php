@@ -20,6 +20,8 @@ class CreateStoresTable extends Migration
             $table->string('name');
             $table->integer('established');
             $table->text('address');
+            $table->string('upazilla');
+            $table->string('district');
             $table->integer('activation_status');
             $table->integer('payment_status');
             $table->integer('payment_method');

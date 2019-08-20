@@ -92,6 +92,18 @@
           </div>
         </div>
 
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">ক্যালেন্ডার</h3>
+          </div>
+          
+          <div class="card-body table-responsive p-0">
+            <full-calendar :events="events" :config="config"></full-calendar>
+          </div>
+        </div>
+        
+        <br/>
+
         <!-- The Modal -->
         <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -175,7 +187,47 @@
                 image: '',
                 code: this.$route.params.code
               }),
-              editmode: false
+              editmode: false,
+              events: [
+                {
+                    title  : 'রিফাত',
+                    start  : '2019-08-10',
+                    color: '#adcadc',
+                    textColor: 'white',
+                },
+                {
+                    title  : 'মান্নান',
+                    start  : '2019-08-10',
+                    color: 'red',
+                    textColor: 'white',
+                },
+                {
+                    title  : 'আসিফ',
+                    start  : '2019-08-10',
+                    color: 'green',
+                    textColor: 'white',
+                },
+                {
+                    title  : 'event2',
+                    start  : '2019-08-17',
+                    end    : '2019-08-19',
+                },
+                {
+                    title  : 'event3',
+                    start  : '2019-08-09T12:30:00',
+                    allDay : false,
+                },
+              ],
+              config: {
+                defaultView: 'month',
+                editable: false,
+                selectHelper: true,
+                header: {
+                    left: 'prev,next',
+                    center: 'title',
+                    right: ''
+                }
+              },
             }
         },
         methods: {

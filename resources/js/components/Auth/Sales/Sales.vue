@@ -384,9 +384,9 @@
               }
               this.maxquantity[index] = maxquantity;
               if(maxquantity > 0) {
-                this.productunit[index] = '<small style="color: red;">(স্টকঃ ' + maxquantity + ' ' + product.unit + ')</span>';
+                this.productunit[index] = '<small style="color: red;">(স্টকঃ ' + maxquantity + ' ' + product.unit + ')</small>';
               } else {
-                this.productunit[index] = '<small class="blink" style="color: red;">অপর্যাপ্ত স্টক (0 '+ product.unit +')!</span>';
+                this.productunit[index] = '<small class="blink" style="color: red;">অপর্যাপ্ত স্টক (0 '+ product.unit +')!</small>';
               }
               
               var newproductstocks = _.orderBy(product.stocks, ['id'], ['desc']);

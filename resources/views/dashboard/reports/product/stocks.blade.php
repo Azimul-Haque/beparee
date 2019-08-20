@@ -42,7 +42,7 @@
     @endif
     <br/>
     {{ $store->name }}<br/>
-    <small>{{ $store->address }}</small>
+    <small>{{ $store->address }}, {{ $store->upazilla }}, {{ $store->district }}</small>
   </h2>
   <h1 align="center" style="color: #397736; border-bottom: 1px solid #397736;">
     স্টক তালিকাঃ {{ $product->name }}

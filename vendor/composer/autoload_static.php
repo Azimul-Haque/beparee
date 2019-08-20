@@ -472,6 +472,7 @@ class ComposerStaticInitd74bd490cc4c8b8743736c14ad6241e3
         'App\\Staff' => __DIR__ . '/../..' . '/app/Staff.php',
         'App\\Stock' => __DIR__ . '/../..' . '/app/Stock.php',
         'App\\Store' => __DIR__ . '/../..' . '/app/Store.php',
+        'App\\Upazilla' => __DIR__ . '/../..' . '/app/Upazilla.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'App\\Vendor' => __DIR__ . '/../..' . '/app/Vendor.php',
         'BeyondCode\\DumpServer\\DumpServerCommand' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src/DumpServerCommand.php',

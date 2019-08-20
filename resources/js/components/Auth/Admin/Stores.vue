@@ -24,7 +24,7 @@
             <!-- <img src="images/click_here_2li1.svg" style="max-height: 200px;"> -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Responsive Hover Table</h3>
+                <h3 class="card-title">দোকানের তালিকা</h3>
 
                 <div class="card-tools">
                   <button type="button" class="btn btn-primary btn-sm" @click="addStoreModal" v-tooltip="'নতুন স্টোর যোগ করুন'">
@@ -70,7 +70,13 @@
                       <span v-for="user in store.users" :key="user.id" class="badge badge-success" style="margin-left: 5px;">{{ user.name }}</span>
                     </td>
                     <td>{{ store.code }}</td>
-                    <td>{{ store.address }}</td>
+                    <td>
+                      <small>
+                        {{ store.address }}<br/>
+                        {{ store.upazilla }}, 
+                        {{ store.district }}
+                      </small>
+                    </td>
                     <td>{{ store.activation_status | activation_status }}</td>
                     <td>{{ store.payment_status | payment_status }}</td>
                     <td><img :src="getStoreMonogram(store.monogram)" class="img-responsive" style="max-height: 50px; width: auto;"></td>
@@ -139,6 +145,34 @@
                       </div>
                     </div>
                   </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <v-select placeholder="জেলা নির্ধারণ করুন" :options="districts"  label="district_bangla" v-model="form.district" ref='districtSelect' @input="districtSelected(form.district)">
+                        <template #search="{attributes, events}">
+                          <input
+                            class="vs__search"
+                            :required="!form.district"
+                            v-bind="attributes"
+                            v-on="events"
+                          />
+                        </template>
+                      </v-select>
+                    </div>
+                    <div class="col-md-6">
+                      <v-select placeholder="উপজেলা নির্ধারণ করুন" :options="upazillas"  label="upazilla_bangla" v-model="form.upazilla" ref='upazillaSelect'>
+                        <template #search="{attributes, events}">
+                          <input
+                            class="vs__search"
+                            :required="!form.upazilla"
+                            v-bind="attributes"
+                            v-on="events"
+                          />
+                        </template>
+                      </v-select>
+                    </div>
+                  </div><br/>
+
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
@@ -163,6 +197,7 @@
                       </div>
                     </div>
                   </div>
+
                   <div class="form-group">
                     <input v-model="form.slogan" type="text" name="slogan" placeholder="দোকান / ব্যবসা প্রতিষ্ঠানের স্লোগান" 
                       class="form-control" :class="{ 'is-invalid': form.errors.has('slogan') }">
@@ -209,6 +244,8 @@
               stores: {},
               users: [],
               years: [],
+              districts: [],
+              upazillas: [],
               // Create a new form instance
               form: new Form({
                 id: '',
@@ -217,6 +254,8 @@
                 name: '',
                 established: '',
                 address: '',
+                district: [],
+                upazilla: '',
                 activation_status: '',
                 payment_status: '',
                 // payment_method: '',
@@ -233,13 +272,22 @@
             addStoreModal() {
                 this.editmode = false;
                 this.form.reset();
+                this.$refs.districtSelect.clearSelection();
+                this.$refs.upazillaSelect.clearSelection();
+                this.upazillas = [];
                 this.$refs.monogramInput.value = null;
                 $('#addStoreModal').modal({ show: true, backdrop: 'static', keyboard: false });
                 this.$refs.ownerSelect.clearSelection();
                 this.$refs.theSelect.clearSelection();
 
+                this.loadDistricts();
                 this.loadOwners();
                 this.loadYears();
+            },
+            loadDistricts() {
+              if(this.$gate.isAuthorized('store-crud')){
+                axios.get('/api/load/districts').then(({ data }) => (this.districts = data));
+              }
             },
             editStoreModal(store) {
                 this.editmode = true;
@@ -250,6 +298,7 @@
                 this.$refs.ownerSelect.clearSelection();
                 this.$refs.theSelect.clearSelection();
 
+                this.loadDistricts();
                 this.loadOwners();
                 this.loadYears();
 
@@ -272,6 +321,12 @@
                 if(this.$gate.isAuthorized('store-crud')){
                   axios.get('/api/store').then(({ data }) => (this.stores = data));  
                 }
+            },
+            districtSelected(district) {
+              if(district) {
+                // this.$refs.upazillaSelect.clearSelection();
+                axios.get('/api/load/upazilla/' + district).then(({ data }) => (this.upazillas = data));
+              }
             },
             createStore() {
                 this.$Progress.start();

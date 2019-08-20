@@ -42,7 +42,7 @@
     @endif
     <br/>
     {{ $anysinglesaleitem->product->store->name }}<br/>
-    <small>{{ $anysinglesaleitem->product->store->address }}</small>
+    <small>{{ $anysinglesaleitem->product->store->address }}, {{ $anysinglesaleitem->product->store->upazilla }}, {{ $anysinglesaleitem->product->store->district }}</small>
   </h2>
   <h1 align="center" style="color: #397736; border-bottom: 1px solid #397736;">
     বিক্রয় রশিদ

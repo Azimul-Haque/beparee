@@ -22,7 +22,9 @@ import {filters} from './filters'
 import {routes} from './routes'
 import "chart.js"
 import "hchs-vue-charts"
+import FullCalendar from 'vue-full-calendar'
 
+Vue.use(FullCalendar);
 Vue.use(window.VueCharts);
 Vue.use(VeeValidate);
 Vue.use(VTooltip);
