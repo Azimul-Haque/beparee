@@ -157,7 +157,7 @@
                 <li class="nav-item">
                   <router-link :to="{ name: 'staffsPage', params: { code: '{{ $stores_for_nav->code }}' }}" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
                     <i class="nav-icon fa fa-vcard-o"></i>
-                    <p>কর্মচারী তালিকা</p>
+                    <p>কর্মচারী ব্যবস্থাপনা</p>
                   </router-link> 
                 </li>
                 @endpermission   

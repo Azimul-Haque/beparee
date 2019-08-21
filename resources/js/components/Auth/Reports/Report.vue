@@ -148,6 +148,21 @@
             </div>
           </div>
         </div>
+
+        <div class="row">
+          <div class="col-md-3">
+            <div class="card card-outline card-primary">
+              <div class="card-header text-primary">
+                <h3 class="card-title"><i class="fa fa-vcard-o"></i> কর্মচারী রিপোর্ট</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body" style="display: block;">
+                The body of the card
+              </div>
+              <!-- /.card-body -->
+            </div>
+          </div>
+        </div>
       </div><!-- /.container-fluid -->
       <div v-if="!$gate.isAdminOrAssociated('reports-page', this.$route.params.code)">
           <forbidden-403></forbidden-403>

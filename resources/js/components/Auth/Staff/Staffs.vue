@@ -149,9 +149,14 @@
           </div>
         </div>
 
-        <div class="card">
+        <div class="card" id="calendarDiv">
           <div class="card-header">
             <h3 class="card-title">উপস্থিতি ক্যালেন্ডার</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-primary btn-sm noprint" @click="printDiv" v-tooltip="'প্রিন্ট করুন'">
+                  <i class="fa fa-print"></i>
+              </button>
+            </div>
           </div>
           
           <div class="card-body table-responsive p-0">
@@ -262,27 +267,6 @@
                     color: '#adcadc',
                     textColor: 'white',
                 },
-                {
-                    title  : 'মান্নান',
-                    start  : '2019-08-10',
-                    color: 'red',
-                    textColor: 'white',
-                },
-                {
-                    title  : 'আসিফ',
-                    start  : '2019-08-10',
-                    color: 'green',
-                    textColor: 'white',
-                },
-                {
-                    title  : 'event2',
-                    start  : '2019-08-17',
-                    end    : '2019-08-19',
-                },
-                {
-                    title  : 'event3',
-                    start  : '2019-08-09',
-                },
               ],
               config: {
                 defaultView: 'month',
@@ -292,6 +276,10 @@
                     left: 'prev,next',
                     center: 'title',
                     right: ''
+                },
+                locale: 'bn',
+                eventRender: function(event, element) {
+                    element.attr('data-title', event.description);
                 }
               },
               
@@ -459,6 +447,11 @@
               axios.get('/api/staff/'+ this.$route.params.come +'?page=' + page)
               .then(response => {
                 this.staffs = response.data;
+              });
+            },
+            printDiv() {
+              this.$htmlToPaper('calendarDiv', () => {
+                // console.log('Printing done or got cancelled!');
               });
             }
         },

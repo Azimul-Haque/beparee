@@ -224,3 +224,38 @@ input[type=number]{
     transition: opacity .15s;
   }
 }
+
+[data-title]:hover:after {
+    opacity: 1;
+    transition: all 0.1s ease 0.5s;
+    visibility: visible;
+}
+[data-title]:after {
+    content: attr(data-title);
+    
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 99999999999999;
+    visibility: hidden;
+    width: 100%;
+    bottom: 100%;
+    left: 50%; 
+    margin-left: -50px;
+}
+[data-title] {
+    position: relative;
+}
+
+@media print
+{    
+    .noprint, .noprint *, .fc-button
+    {
+        display: none !important;
+    }
+}

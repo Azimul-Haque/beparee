@@ -23,8 +23,22 @@ import {routes} from './routes'
 import "chart.js"
 import "hchs-vue-charts"
 import FullCalendar from 'vue-full-calendar'
-import VCalendar from 'v-calendar';
+import VCalendar from 'v-calendar'
+import VueHtmlToPaper from 'vue-html-to-paper';
 
+const vue_html_to_paper_options = {
+  name: '_blank',
+  specs: [
+    'fullscreen=yes',
+    'titlebar=yes',
+    'scrollbars=yes'
+  ],
+  styles: [
+    location.protocol + '//' + location.host + '/css/app.css',
+  ]
+}
+
+Vue.use(VueHtmlToPaper, vue_html_to_paper_options);
 Vue.use(VCalendar, { componentPrefix: 'vc'});
 Vue.use(FullCalendar);
 Vue.use(window.VueCharts);

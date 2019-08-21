@@ -49,12 +49,14 @@ class StaffController extends Controller
                 $staffsforcal[$attendence->id]['title'] = '☂ ' . $attendence->staff->name;
                 $staffsforcal[$attendence->id]['color'] = '#d3d3d3';
                 $staffsforcal[$attendence->id]['textColor'] = '#000000';
+                $staffsforcal[$attendence->id]['description'] = '☂ ছুটি';
             } else {
                 $colors = ['#0069D9', '#f66d9b', '#f6993f', '#ffC107', '#38c172', '#4dc0b5', '#6cb2eb'];
 
                 $staffsforcal[$attendence->id]['title'] = '✓ ' . $attendence->staff->name;
                 $staffsforcal[$attendence->id]['color'] = $colors[array_rand($colors)];
                 $staffsforcal[$attendence->id]['textColor'] = '#fff';
+                $staffsforcal[$attendence->id]['description'] = '✓ উপস্থিত';
             }
         }
 
@@ -72,13 +74,25 @@ class StaffController extends Controller
             'type'       => 'required'
         ));
 
-        $attendence = new Staffattendance;
-        $attendence->staff_id = $request->staff['id'];
-        $attendence->store_id = $request->staff['store_id'];
-        $attendence->date = date('Y-m-d', strtotime($request->date));
-        $attendence->type = $request->type;
+        // check if already there
+        $oldattendence = Staffattendance::where('staff_id', $request->staff['id'])
+                                        ->where('date', date('Y-m-d', strtotime($request->date)))
+                                        ->first();
+        // check if already there
+        
+        if($oldattendence) {
+            $oldattendence->type = $request->type;
+            $oldattendence->save();
+        } else {
+            $attendence = new Staffattendance;
+            $attendence->staff_id = $request->staff['id'];
+            $attendence->store_id = $request->staff['store_id'];
+            $attendence->date = date('Y-m-d', strtotime($request->date));
+            $attendence->type = $request->type;
 
-        $attendence->save();
+            $attendence->save();
+        }
+        
 
         return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];
     }
