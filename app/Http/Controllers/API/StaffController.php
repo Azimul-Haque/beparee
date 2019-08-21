@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Store;
 use App\Staff;
+use App\Staffattendance;
 use App\Expense;
 
 use Image, File, DB;
@@ -25,6 +26,61 @@ class StaffController extends Controller
         $staffs = Staff::where('store_id', $store->id)->paginate(5);
 
         return response()->json($staffs);
+    }
+
+    public function loadStaffsForAtt($code)
+    {
+        $store = Store::where('code', $code)->first();
+        $staffs = Staff::where('store_id', $store->id)->get();
+
+        return response()->json($staffs);
+    }
+
+    public function loadStaffsAttForCal($code)
+    {
+        $store = Store::where('code', $code)->first();
+        $attendences = Staffattendance::where('store_id', $store->id)->get();
+
+        $staffsforcal = [];
+        foreach ($attendences as $attendence) {
+            
+            $staffsforcal[$attendence->id]['start'] = $attendence->date;
+            if($attendence->type == 1) {
+                $staffsforcal[$attendence->id]['title'] = '☂ ' . $attendence->staff->name;
+                $staffsforcal[$attendence->id]['color'] = '#d3d3d3';
+                $staffsforcal[$attendence->id]['textColor'] = '#000000';
+            } else {
+                $colors = ['#0069D9', '#f66d9b', '#f6993f', '#ffC107', '#38c172', '#4dc0b5', '#6cb2eb'];
+
+                $staffsforcal[$attendence->id]['title'] = '✓ ' . $attendence->staff->name;
+                $staffsforcal[$attendence->id]['color'] = $colors[array_rand($colors)];
+                $staffsforcal[$attendence->id]['textColor'] = '#fff';
+            }
+        }
+
+        $staffsforcal = collect($staffsforcal);
+        $staffsforcal = $staffsforcal->values()->all();
+
+        return response()->json($staffsforcal);
+    }
+
+    public function postStaffAtt(Request $request) 
+    {
+        $this->validate($request,array(
+            'staff'      => 'required',
+            'date'       => 'required',
+            'type'       => 'required'
+        ));
+
+        $attendence = new Staffattendance;
+        $attendence->staff_id = $request->staff['id'];
+        $attendence->store_id = $request->staff['store_id'];
+        $attendence->date = date('Y-m-d', strtotime($request->date));
+        $attendence->type = $request->type;
+
+        $attendence->save();
+
+        return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];
     }
 
     public function store(Request $request)

@@ -13,4 +13,8 @@ class Staff extends Model
     public function expenses(){
         return $this->hasMany('App\Expense');
     }
+
+    public function staffattendances(){
+        return $this->hasMany('App\Staffattendance');
+    }
 }

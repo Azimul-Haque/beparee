@@ -20,7 +20,7 @@
       <!-- /.content-header -->
       <div class="container-fluid" v-if="$gate.isAdminOrAssociated('staff-page', this.$route.params.code)">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-8">
             <!-- <img src="images/click_here_2li1.svg" style="max-height: 200px;"> -->
             <div class="card">
               <div class="card-header">
@@ -90,15 +90,72 @@
             </div>
             <!-- /.card -->
           </div>
+          <div class="col-md-4">
+            <!-- <img src="images/click_here_2li1.svg" style="max-height: 200px;"> -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">কর্মচারীগণের উপস্থিতি</h3>
+              </div>
+              <!-- /.card-header -->
+              <form @submit.prevent="submitStaffAttendence()" @keydown="form.onKeydown($event)">
+              <div class="card-body table-responsive">
+                <div class="form-group">
+                  <label>কর্মচারী নির্ধারণ করুন</label>
+                  <v-select placeholder="কর্মচারী নির্ধারণ করুন" :options="staffsforatt"  label="name" v-model="formforatt.staff">
+                    <template #search="{attributes, events}">
+                      <input
+                        class="vs__search"
+                        :required="!formforatt.staff"
+                        v-bind="attributes"
+                        v-on="events"
+                      />
+                    </template>
+                  </v-select>
+                </div>
+                <div class="form-group">
+                  <label>তারিখ</label>
+                  <vc-date-picker
+                    v-model="formforatt.date"
+                    :input-props='{
+                      placeholder: "তারিখ নির্ধারণ করুন",
+                      readonly: true
+                    }'
+                    :masks='{ input: "MMMM DD, YYYY" }'
+                    :class="{ 'form-control is-invalid': formforatt.errors.has('date') }"
+                  />
+                  <has-error :form="formforatt" field="date"></has-error>
+                </div>
+                <div class="form-group">
+                  <div class="form-check-inline">
+                    <label class="form-check-label">
+                      <input type="radio" class="form-check-input" name="type" value="0" v-model.number="formforatt.type" :checked="true"> উপস্থিতি
+                    </label>
+                  </div>
+                  <div class="form-check-inline">
+                    <label class="form-check-label">
+                      <input type="radio" class="form-check-input" name="type" value="1" v-model.number="formforatt.type"> ছুটি
+                    </label>
+                  </div>
+                  <has-error :form="formforatt" field="type"></has-error>
+                </div>
+              </div>
+              <!-- /.card-body -->
+              <div class="card-footer">
+                <button type="submit" class="btn btn-success btn-sm">দাখিল করুন</button>
+              </div>
+              </form>
+            </div>
+            <!-- /.card -->
+          </div>
         </div>
 
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">ক্যালেন্ডার</h3>
+            <h3 class="card-title">উপস্থিতি ক্যালেন্ডার</h3>
           </div>
           
           <div class="card-body table-responsive p-0">
-            <full-calendar :events="events" :config="config"></full-calendar>
+            <full-calendar :events="staffsforcal" :config="config"></full-calendar>
           </div>
         </div>
         
@@ -172,10 +229,15 @@
 </template>
 
 <script>
+    import moment from 'moment'
+
     export default {
         data () {
             return {
               staffs: {},
+              staffsforatt: [],
+              staffsforcal: [],
+              date: '',
               code: this.$route.params.code,
               // Create a new form instance
               form: new Form({
@@ -186,6 +248,11 @@
                 salary: '',
                 image: '',
                 code: this.$route.params.code
+              }),
+              formforatt: new Form({
+                staff: '',
+                date: '',
+                type: 0
               }),
               editmode: false,
               events: [
@@ -214,8 +281,7 @@
                 },
                 {
                     title  : 'event3',
-                    start  : '2019-08-09T12:30:00',
-                    allDay : false,
+                    start  : '2019-08-09',
                 },
               ],
               config: {
@@ -228,6 +294,7 @@
                     right: ''
                 }
               },
+              
             }
         },
         methods: {
@@ -248,6 +315,16 @@
             loadStaffs() {
                 if(this.$gate.isAdminOrAssociated('staff-page', this.$route.params.code)){
                   axios.get('/api/load/staff/' + this.$route.params.code).then(({ data }) => (this.staffs = data));  
+                }
+            },
+            loadStaffsForAtt() {
+                if(this.$gate.isAdminOrAssociated('staff-page', this.$route.params.code)){
+                  axios.get('/api/load/staff/for/attendance/' + this.$route.params.code).then(({ data }) => (this.staffsforatt = data));  
+                }
+            },
+            loadStaffsForCal() {
+                if(this.$gate.isAdminOrAssociated('staff-page', this.$route.params.code)){
+                  axios.get('/api/load/staff/attendance/for/calendar/' + this.$route.params.code).then(({ data }) => (this.staffsforcal = data));
                 }
             },
             createStaff() {
@@ -274,6 +351,22 @@
                       type: 'success',
                       title: 'সফলভাবে হালনাগাদ করা হয়েছে!'
                     })
+                    this.$Progress.finish();
+                })
+                .catch(() => {
+                    this.$Progress.fail();
+                    // swal('Failed!', 'There was something wrong', 'warning');
+                })
+            },
+            submitStaffAttendence() {
+                this.$Progress.start();
+                this.formforatt.post('/api/post/staff/attendance').then(() => {
+                    Fire.$emit('AfterStaffCreatedOrUpdated')
+                    toast.fire({
+                      type: 'success',
+                      title: 'সফলভাবে দাখিল করা হয়েছে!'
+                    })
+                    this.formforatt.reset();
                     this.$Progress.finish();
                 })
                 .catch(() => {
@@ -371,9 +464,12 @@
         },
         created() {
             this.loadStaffs();
-            // console.log('loaded');
+            this.loadStaffsForAtt();
+            this.loadStaffsForCal();
             Fire.$on('AfterStaffCreatedOrUpdated', () => {
                 this.loadStaffs();
+                this.loadStaffsForAtt();
+                this.loadStaffsForCal();
             });
 
             Fire.$on('searching', () => {

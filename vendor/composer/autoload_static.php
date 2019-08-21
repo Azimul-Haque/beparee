@@ -470,6 +470,8 @@ class ComposerStaticInitd74bd490cc4c8b8743736c14ad6241e3
         'App\\Sale' => __DIR__ . '/../..' . '/app/Sale.php',
         'App\\Saleitem' => __DIR__ . '/../..' . '/app/Saleitem.php',
         'App\\Staff' => __DIR__ . '/../..' . '/app/Staff.php',
+        'App\\Staffattendance' => __DIR__ . '/../..' . '/app/Staffattendance.php',
+        'App\\Staffattendece' => __DIR__ . '/../..' . '/app/Staffattendece.php',
         'App\\Stock' => __DIR__ . '/../..' . '/app/Stock.php',
         'App\\Store' => __DIR__ . '/../..' . '/app/Store.php',
         'App\\Upazilla' => __DIR__ . '/../..' . '/app/Upazilla.php',

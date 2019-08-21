@@ -54,6 +54,8 @@ return array(
     'App\\Sale' => $baseDir . '/app/Sale.php',
     'App\\Saleitem' => $baseDir . '/app/Saleitem.php',
     'App\\Staff' => $baseDir . '/app/Staff.php',
+    'App\\Staffattendance' => $baseDir . '/app/Staffattendance.php',
+    'App\\Staffattendece' => $baseDir . '/app/Staffattendece.php',
     'App\\Stock' => $baseDir . '/app/Stock.php',
     'App\\Store' => $baseDir . '/app/Store.php',
     'App\\Upazilla' => $baseDir . '/app/Upazilla.php',

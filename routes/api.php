@@ -61,6 +61,9 @@ Route::get('load/purchase/product/{code}', 'API\PurchaseController@loadProducts'
 
 Route::apiResources(['staff' => 'API\StaffController']);
 Route::get('load/staff/{code}', 'API\StaffController@loadStaffs');
+Route::get('load/staff/for/attendance/{code}', 'API\StaffController@loadStaffsForAtt');
+Route::get('load/staff/attendance/for/calendar/{code}', 'API\StaffController@loadStaffsAttForCal');
+Route::post('post/staff/attendance', 'API\StaffController@postStaffAtt');
 Route::get('load/single/staff/{id}/{code}', 'API\StaffController@loadSingleStaff');
 Route::get('load/single/staff/salary/history/{id}/{code}', 'API\StaffController@loadSingleStaffSalaryHistory');
 Route::get('load/single/staff/salary/history/totals/{id}/{code}', 'API\StaffController@loadSingleStaffSalaryTotals');
