@@ -44,9 +44,9 @@
     {{ $anysinglestock->product->store->name }}<br/>
     <small>{{ $anysinglestock->product->store->address }}, {{ $anysinglestock->product->store->upazilla }}, {{ $anysinglestock->product->store->district }}</small>
   </h2>
-  <h1 align="center" style="color: #397736; border-bottom: 1px solid #397736;">
+  <h2 align="center" style="color: #397736; border-bottom: 1px solid #397736;">
     ক্রয় রশিদ
-  </h1>
+  </h2>
 
   <table>
     <tr>

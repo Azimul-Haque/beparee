@@ -17,7 +17,9 @@ Route::get('/', ['as'=>'index','uses'=>'IndexController@index']);
 // Report Generation Controller... without API
 Route::get('pdf/purchase/{id}', 'PDFController@singlePurchaseReceiptPDF');
 Route::get('pdf/sale/{id}', 'PDFController@singleSaleReceiptPDF');
-Route::get('pdf/product/report/{id}/{tupe}/{code}', 'PDFController@productReportPDF');
+
+Route::get('pdf/product/report/{id}/{type}/{code}', 'PDFController@productReportPDF');
+Route::get('pdf/staff/report/{staff_id}/{month}/{year}/{code}', 'PDFController@staffReportPDF');
 
 // Auth::routes();
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');

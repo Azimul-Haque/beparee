@@ -98,7 +98,7 @@
               </div>
               <!-- /.card-header -->
               <form @submit.prevent="submitStaffAttendence()" @keydown="form.onKeydown($event)">
-              <div class="card-body table-responsive">
+              <div class="card-body">
                 <div class="form-group">
                   <label>কর্মচারী নির্ধারণ করুন</label>
                   <v-select placeholder="কর্মচারী নির্ধারণ করুন" :options="staffsforatt"  label="name" v-model="formforatt.staff">
@@ -444,7 +444,7 @@
               }
             },
             getPaginationResults(page = 1) {
-              axios.get('/api/staff/'+ this.$route.params.come +'?page=' + page)
+              axios.get('/api/load/staff/'+ this.$route.params.code +'?page=' + page)
               .then(response => {
                 this.staffs = response.data;
               });

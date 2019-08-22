@@ -157,7 +157,46 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
-                The body of the card
+                <form @submit.prevent="generateStaffReport()" @keydown="form.onKeydown($event)">
+                  <div class="form-group">
+                    <v-select placeholder="কর্মচারী নির্ধারণ করুন" :options="staffsforatt"  label="name" v-model="staffform.staff">
+                      <template #search="{attributes, events}">
+                        <input
+                          class="vs__search"
+                          :required="!staffform.staff"
+                          v-bind="attributes"
+                          v-on="events"
+                        />
+                      </template>
+                    </v-select>
+                  </div>
+                  
+                  <div class="form-group">
+                    <v-select placeholder="মাস নির্ধারণ করুন" :options="months"  label="name" v-model="staffform.month">
+                      <template #search="{attributes, events}">
+                        <input
+                          class="vs__search"
+                          :required="!staffform.month"
+                          v-bind="attributes"
+                          v-on="events"
+                        />
+                      </template>
+                    </v-select>
+                  </div>
+                  <div class="form-group">
+                    <v-select placeholder="বছর নির্ধারণ করুন" :options="years"  label="name" v-model="staffform.year">
+                      <template #search="{attributes, events}">
+                        <input
+                          class="vs__search"
+                          :required="!staffform.year"
+                          v-bind="attributes"
+                          v-on="events"
+                        />
+                      </template>
+                    </v-select>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> রিপোর্ট ডাউনলোড</button>
+                </form>
               </div>
               <!-- /.card-body -->
             </div>
@@ -177,14 +216,23 @@
     data () {
       return {
         products: [],
+        staffsforatt: [],
+        years: [],
+        months: ['জানুয়ারী', 'ফেব্রুয়ারী', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'],
         productform: new Form({
           product: '',
           report_type: '',
           code: this.$route.params.code,
         }),
+        staffform: new Form({
+          staff: '',
+          month: '',
+          year: ''
+        }),
       }
     },
     methods: {
+      // product report...
       loadProducts() {
         if(this.$gate.isAdminOrAssociated('reports-page', this.$route.params.code)){
           axios.get('/api/load/purchase/product/' + this.$route.params.code).then(({ data }) => (this.products = data));
@@ -195,9 +243,29 @@
           window.location.href = '/pdf/product/report/' + this.productform.product['id'] + '/' + this.productform.report_type + '/' + this.$route.params.code;
         }
       },
+
+      // staff report...
+      loadStaffsForAtt() {
+          if(this.$gate.isAdminOrAssociated('staff-page', this.$route.params.code)){
+            axios.get('/api/load/staff/for/attendance/report/' + this.$route.params.code).then(({ data }) => (this.staffsforatt = data));  
+          }
+      },
+      loadYears() {
+          var thisyear = new Date();
+          for (var i = thisyear.getFullYear(); i >= 1990; i--) {
+              this.years.push(i);
+          }
+      },
+      generateStaffReport() {
+        if(this.$gate.isAdminOrAssociated('reports-page', this.$route.params.code)){
+          window.location.href = '/pdf/staff/report/' + this.staffform.staff['id'] + '/' + this.staffform.month + '/' + this.staffform.year + '/' + this.$route.params.code;
+        }
+      },
     },
     created() {
       this.loadProducts();
+      this.loadStaffsForAtt();
+      this.loadYears();
     },
     beforeDestroy() {
       

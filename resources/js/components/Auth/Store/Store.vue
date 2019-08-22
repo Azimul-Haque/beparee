@@ -205,7 +205,7 @@
       loadYears() {
           var sub_array = [];
           var thisyear = new Date();
-          for (var i = 1990; i <= thisyear.getFullYear(); i++) {
+          for (var i = thisyear.getFullYear(); i >= 1990; i--) {
               this.years.push(i);
           }
           // console.log(this.years);

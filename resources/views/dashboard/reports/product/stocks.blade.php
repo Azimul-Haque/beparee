@@ -44,9 +44,9 @@
     {{ $store->name }}<br/>
     <small>{{ $store->address }}, {{ $store->upazilla }}, {{ $store->district }}</small>
   </h2>
-  <h1 align="center" style="color: #397736; border-bottom: 1px solid #397736;">
+  <h2 align="center" style="color: #397736; border-bottom: 1px solid #397736;">
     স্টক তালিকাঃ {{ $product->name }}
-  </h1>
+  </h2>
 
   <table class="bordertable">
     <thead>
@@ -67,7 +67,7 @@
         <td align="center">{{ $stock->current_quantity }}</td>
         <td align="right">{{ $stock->buying_price }} ৳</td>
         <td align="right">{{ $stock->selling_price }} ৳</td>
-        <td >{{ date('F d, Y', strtotime($stock->created_at)) }}</td>
+        <td align="center">{{ bangla(date('F d, Y', strtotime($stock->created_at))) }}</td>
       </tr>
       @endforeach
       <tr>

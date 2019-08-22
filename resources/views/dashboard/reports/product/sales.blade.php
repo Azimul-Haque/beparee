@@ -44,9 +44,9 @@
     {{ $store->name }}<br/>
     <small>{{ $store->address }}, {{ $store->upazilla }}, {{ $store->district }}</small>
   </h2>
-  <h1 align="center" style="color: #397736; border-bottom: 1px solid #397736;">
+  <h2 align="center" style="color: #397736; border-bottom: 1px solid #397736;">
     বিক্রয় তালিকাঃ {{ $product->name }}
-  </h1>
+  </h2>
 
   <table class="bordertable">
     <thead>
@@ -65,7 +65,7 @@
         <td>{{ $item->sale->customer->name }}</td>
         <td align="center">{{ $item->quantity }}</td>
         <td align="right">{{ $item->unit_price }} ৳</td>
-        <td >{{ date('F d, Y', strtotime($item->created_at)) }}</td>
+        <td align="center">{{ bangla(date('F d, Y', strtotime($item->created_at))) }}</td>
       </tr>
       @endforeach
       {{-- <tr>
