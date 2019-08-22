@@ -36,7 +36,8 @@
                              :labels="chartLastSvnLabel" 
                              :data="chartLastSvnData" 
                              :backgroundcolor="'rgba(21,101,192,0.5)'"
-                             :bordercolor="'0D47A1'" 
+                             :bordercolor="'0D47A1'"
+                             :height="140" 
                              :bind="true"></chartjs-bar>
               </div>
             </div>
@@ -46,7 +47,8 @@
               <div class="card-header">{{ thisYear }} সালের মাসভিত্তিক লাভ</div>
               <div class="card-body">
                 <chartjs-line :labels="chartThisYrPrftLabel"
-                              :datasets="chartThisYrPrftData" 
+                              :datasets="chartThisYrPrftData"
+                              :height="140" 
                               :bind="true"></chartjs-line>
               </div>
             </div>
@@ -128,10 +130,10 @@
       loadLastSevenDaysSales() {
         if(this.$gate.isAdminOrAssociated('due-page', this.$route.params.code)){
           axios.get('/api/load/accounts/lastsevendays/sales/' + this.$route.params.code).then((response) => {
-            let data = response.data;
+            let data = _.sortBy(response.data, 'date');
             if(data) {
                 data.forEach(element => {
-                  this.chartLastSvnLabel.push(element.date);
+                  this.chartLastSvnLabel.push(moment(element.date).format('MMM DD'));
                   this.chartLastSvnData.push(element.total);
                 });
                 // console.log(this.chartLastSvnLabel);
@@ -164,16 +166,6 @@
           axios.get('/api/load/accounts/profit/calc/this/month/' + this.$route.params.code).then((response) => {
             let data = response.data;
             if(data) {
-                data.forEach(element => {
-                  this.chartProfitCalThisMonthcLabel.push(element.date);
-                  this.chartProfitCalcThisMonthData[0].data.push(element.cost);
-                  this.chartProfitCalcThisMonthData[1].data.push(element.total);
-                });
-                data.forEach(element => {
-                  this.chartProfitCalThisMonthcLabel.push(element.date);
-                  this.chartProfitCalcThisMonthData[0].data.push(element.cost);
-                  this.chartProfitCalcThisMonthData[1].data.push(element.total);
-                });
                 data.forEach(element => {
                   this.chartProfitCalThisMonthcLabel.push(element.date);
                   this.chartProfitCalcThisMonthData[0].data.push(element.cost);

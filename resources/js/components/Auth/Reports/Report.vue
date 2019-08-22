@@ -22,8 +22,8 @@
         <div class="row">
           <div class="col-md-3">
             <div class="card card-outline card-primary">
-              <div class="card-header">
-                <h3 class="card-title text-primary"><i class="fa fa-cubes"></i> মালামাল রিপোর্ট</h3>
+              <div class="card-header text-primary">
+                <i class="fa fa-cubes"></i> মালামাল রিপোর্ট
                 <div class="card-tools">
                   
                 </div>
@@ -63,8 +63,8 @@
           </div>
           <div class="col-md-3">
             <div class="card card-outline card-success">
-              <div class="card-header">
-                <h3 class="card-title text-success"><i class="fa fa-briefcase"></i> ক্রয়ের রিপোর্ট</h3>
+              <div class="card-header text-success">
+                <i class="fa fa-briefcase"></i> ক্রয়ের রিপোর্ট
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
@@ -76,7 +76,7 @@
           <div class="col-md-3">
             <div class="card card-outline card-info">
               <div class="card-header text-info">
-                <h3 class="card-title"><i class="fa fa-hourglass-start"></i> দেনার রিপোর্ট</h3>
+                <i class="fa fa-hourglass-start"></i> দেনার রিপোর্ট
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
@@ -88,7 +88,7 @@
           <div class="col-md-3">
             <div class="card card-outline card-warning">
               <div class="card-header text-warning">
-                <h3 class="card-title"><i class="fa fa-balance-scale"></i> বিক্রয় রিপোর্ট</h3>
+                <i class="fa fa-balance-scale"></i> বিক্রয় রিপোর্ট
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
@@ -102,7 +102,7 @@
           <div class="col-md-3">
             <div class="card card-outline card-primary">
               <div class="card-header text-primary">
-                <h3 class="card-title"><i class="fa fa-users"></i> কাস্টমার রিপোর্ট</h3>
+                <i class="fa fa-users"></i> কাস্টমার রিপোর্ট
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
@@ -114,7 +114,7 @@
           <div class="col-md-3">
             <div class="card card-outline card-success">
               <div class="card-header text-success">
-                <h3 class="card-title"><i class="fa fa-book"></i> বকেয়ার রিপোর্ট</h3>
+                <i class="fa fa-book"></i> বকেয়ার রিপোর্ট
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
@@ -126,7 +126,7 @@
           <div class="col-md-3">
             <div class="card card-outline card-info">
               <div class="card-header text-success">
-                <h3 class="card-title"><i class="fa fa-cogs"></i> খরচের রিপোর্ট</h3>
+                <i class="fa fa-cogs"></i> খরচের রিপোর্ট
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
@@ -138,7 +138,7 @@
           <div class="col-md-3">
             <div class="card card-outline card-warning">
               <div class="card-header text-success">
-                <h3 class="card-title"><i class="fa fa-truck"></i> ডিলার/ ভেন্ডর রিপোর্ট</h3>
+                <i class="fa fa-truck"></i> ডিলার/ ভেন্ডর রিপোর্ট
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
@@ -153,7 +153,7 @@
           <div class="col-md-3">
             <div class="card card-outline card-primary">
               <div class="card-header text-primary">
-                <h3 class="card-title"><i class="fa fa-vcard-o"></i> কর্মচারী রিপোর্ট</h3>
+                <i class="fa fa-vcard-o"></i> কর্মচারী উপস্থিতি রিপোর্ট
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
