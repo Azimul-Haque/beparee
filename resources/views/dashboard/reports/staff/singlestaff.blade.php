@@ -19,6 +19,12 @@
   .bordertable td, th {
       border: 1px solid #A8A8A8;
   }
+  .present {
+    color: #218838;
+  }
+  .absent {
+    color: #F03A17;
+  }
   @page {
     header: page-header;
     footer: page-footer;
@@ -61,9 +67,11 @@
         <td align="center" width="50%">{{ bangla(date('F d, Y', strtotime($attendance->date))) }}</td>
         <td align="center">
           @if($attendance->type == 0)
-            উপস্থিত
-          @else
+            <span class="present">উপস্থিত</span>
+          @elseif($attendance->type == 1)
             ছুটি
+          @elseif($attendance->type == 2)
+            <span class="absent">অনুপস্থিত</span>
           @endif
         </td>
       </tr>

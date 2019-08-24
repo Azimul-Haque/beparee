@@ -223,7 +223,7 @@
             loadExpensesTotals() {
               if(this.$gate.isAdminOrAssociated('expense-page', this.$route.params.code)){
                 axios.get('/api/load/single/category/expenses/totals/' + this.$route.params.id + '/' + this.$route.params.code).then(({ data }) => (
-                  this.totalexpenseamount = data.totalamount.toFixed(2),
+                  this.totalexpenseamount = data.totalamount ? data.totalamount.toFixed(2) : 0,
                   this.totalexpensecount = data.count
                 ));
               }

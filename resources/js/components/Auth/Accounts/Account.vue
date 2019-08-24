@@ -1,15 +1,15 @@
 <template>
-    <div class="content">
+    <div class="content" id="pageId">
        <div class="content-header" v-if="$gate.isAdminOrAssociated('accounts-page', this.$route.params.code)">
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0 text-dark">হিসাব-নিকাশ</h1>
+                <h1 class="m-0 text-dark">হিসাব-নিকাশ একনজরে</h1>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                   <li class="breadcrumb-item"><router-link to="/dashboard">স্টোর</router-link></li>
-                  <li class="breadcrumb-item active">হিসাব-নিকাশ</li>
+                  <li class="breadcrumb-item active">হিসাব-নিকাশ একনজরে</li>
                 </ol>
               </div>
             </div>
@@ -30,7 +30,14 @@
         <div class="row">
           <div class="col-md-6">
             <div class="card">
-              <div class="card-header">শেষ সাত দিনের বিক্রয়</div>
+              <div class="card-header">
+                শেষ সাত দিনের বিক্রয়
+                <div class="card-tools">
+                  <button type="button" class="btn btn-primary btn-sm noprint" @click="printLastSevenDays()" v-tooltip="'প্রিন্ট করুন'">
+                      <i class="fa fa-print"></i>
+                  </button>
+                </div>
+              </div>
               <div class="card-body">
                 <chartjs-bar :datalabel="'মোট বিক্রয়মূল্য'" 
                              :labels="chartLastSvnLabel" 
@@ -38,27 +45,43 @@
                              :backgroundcolor="'rgba(21,101,192,0.5)'"
                              :bordercolor="'0D47A1'"
                              :height="140" 
-                             :bind="true"></chartjs-bar>
+                             :bind="true"
+                             ref="lastSevenDays"></chartjs-bar>
               </div>
             </div>
           </div>
           <div class="col-md-6">
             <div class="card">
-              <div class="card-header">{{ thisYear }} সালের মাসভিত্তিক লাভ</div>
+              <div class="card-header">
+                {{ thisYear }} সালের মাসভিত্তিক লাভ
+                <div class="card-tools">
+                  <button type="button" class="btn btn-primary btn-sm noprint" @click="printThisYears(thisYear)" v-tooltip="'প্রিন্ট করুন'">
+                      <i class="fa fa-print"></i>
+                  </button>
+                </div>
+              </div>
               <div class="card-body">
                 <chartjs-line :labels="chartThisYrPrftLabel"
                               :datasets="chartThisYrPrftData"
                               :height="140" 
-                              :bind="true"></chartjs-line>
+                              :bind="true"
+                              ref="thisYears"></chartjs-line>
               </div>
             </div>
           </div>
         </div>
 
         <div class="card">
-          <div class="card-header">{{ thisMonth }}-এর ক্রয় ও বিক্রয়ের তুলনা</div>
+          <div class="card-header">
+            {{ thisMonth }}-এর ক্রয় ও বিক্রয়ের তুলনা
+            <div class="card-tools">
+              <button type="button" class="btn btn-primary btn-sm noprint" @click="printThisMonths(thisMonth)" v-tooltip="'প্রিন্ট করুন'">
+                  <i class="fa fa-print"></i>
+              </button>
+            </div>
+          </div>
           <div class="card-body">
-            <chartjs-bar :datasets="chartProfitCalcThisMonthData" :labels="chartProfitCalThisMonthcLabel" :bind="true" :height="75"></chartjs-bar>
+            <chartjs-bar :datasets="chartProfitCalcThisMonthData" :labels="chartProfitCalThisMonthcLabel" :bind="true" :height="75" ref="thisMonths"></chartjs-bar>
           </div>
         </div>
       </div><!-- /.container-fluid -->
@@ -178,6 +201,42 @@
             }
           }); 
         }
+      },
+      printLastSevenDays() {
+        const canvasEle = this.$refs.lastSevenDays.$el.querySelector('canvas').toDataURL('image/png', 1.0);
+        var win = window.open('', 'Print', 'height=800,width=1000');
+        win.document.write("<h2>শেষ সাত দিনের বিক্রয়</h2><br/><img src='" + canvasEle + "' /><br/><br/><br/>Powered by ব্যাপারী");
+        setTimeout(function(){ //giving it 200 milliseconds time to load
+                win.document.close();
+                win.focus()
+                win.print();
+                win.location.reload()
+                win.close();
+        }, 200); 
+      },
+      printThisYears(year) {
+        const canvasEle = this.$refs.thisYears.$el.querySelector('canvas').toDataURL('image/png', 1.0);
+        var win = window.open('', 'Print', 'height=800,width=1000');
+        win.document.write("<h2>"+year+" সালের মাসভিত্তিক লাভ</h2><br/><img src='" + canvasEle + "' /><br/><br/><br/>Powered by ব্যাপারী");
+        setTimeout(function(){ //giving it 200 milliseconds time to load
+                win.document.close();
+                win.focus()
+                win.print();
+                win.location.reload()
+                win.close();
+        }, 200); 
+      },
+      printThisMonths(month) {
+        const canvasEle = this.$refs.thisMonths.$el.querySelector('canvas').toDataURL('image/png', 1.0);
+        var win = window.open('', 'Print', 'height=800,width=1000');
+        win.document.write("<h2>"+month+" এর ক্রয় ও বিক্রয়ের তুলনা</h2><br/><img src='" + canvasEle + "' /><br/><br/><br/>Powered by ব্যাপারী");
+        setTimeout(function(){ //giving it 200 milliseconds time to load
+                win.document.close();
+                win.focus()
+                win.print();
+                win.location.reload()
+                win.close();
+        }, 200); 
       },
     },
     created() {

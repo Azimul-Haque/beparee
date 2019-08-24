@@ -50,13 +50,18 @@ class StaffController extends Controller
                 $staffsforcal[$attendence->id]['color'] = '#d3d3d3';
                 $staffsforcal[$attendence->id]['textColor'] = '#000000';
                 $staffsforcal[$attendence->id]['description'] = '☂ ছুটি';
-            } else {
+            } elseif($attendence->type == 0) {
                 $colors = ['#0069D9', '#f66d9b', '#f6993f', '#ffC107', '#38c172', '#4dc0b5', '#6cb2eb'];
 
                 $staffsforcal[$attendence->id]['title'] = '✓ ' . $attendence->staff->name;
                 $staffsforcal[$attendence->id]['color'] = $colors[array_rand($colors)];
                 $staffsforcal[$attendence->id]['textColor'] = '#fff';
                 $staffsforcal[$attendence->id]['description'] = '✓ উপস্থিত';
+            } elseif($attendence->type == 2) {
+                $staffsforcal[$attendence->id]['title'] = '⚠️ ' . $attendence->staff->name;
+                $staffsforcal[$attendence->id]['color'] = '#F03A17';
+                $staffsforcal[$attendence->id]['textColor'] = '#fff';
+                $staffsforcal[$attendence->id]['description'] = '⚠️ অনুপস্থিত';
             }
         }
 

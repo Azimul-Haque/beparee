@@ -189,7 +189,7 @@
                 <li class="nav-item">
                   <router-link :to="{ name: 'accountsPage', params: { code: '{{ $stores_for_nav->code }}' }}" class="nav-link" @mobile data-widget="pushmenu" @endmobile>
                     <i class="nav-icon fa fa-calculator"></i>
-                    <p>হিসাব-নিকাশ</p>
+                    <p>হিসাব-নিকাশ একনজরে</p>
                   </router-link> 
                 </li>
                 @endpermission

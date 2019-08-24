@@ -31,7 +31,8 @@ const vue_html_to_paper_options = {
   specs: [
     'fullscreen=yes',
     'titlebar=yes',
-    'scrollbars=yes'
+    'scrollbars=yes',
+    'left=screen.width/2'
   ],
   styles: [
     location.protocol + '//' + location.host + '/css/app.css',

@@ -128,7 +128,12 @@
                 <div class="form-group">
                   <div class="form-check-inline">
                     <label class="form-check-label">
-                      <input type="radio" class="form-check-input" name="type" value="0" v-model.number="formforatt.type" :checked="true"> উপস্থিতি
+                      <input type="radio" class="form-check-input" name="type" value="0" v-model.number="formforatt.type" :checked="true"> উপস্থিত
+                    </label>
+                  </div>
+                  <div class="form-check-inline">
+                    <label class="form-check-label">
+                      <input type="radio" class="form-check-input" name="type" value="2" v-model.number="formforatt.type"> অনুপস্থিত
                     </label>
                   </div>
                   <div class="form-check-inline">

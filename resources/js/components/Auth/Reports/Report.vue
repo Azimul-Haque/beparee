@@ -68,7 +68,8 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
-                The body of the card
+                ভেন্ডর/সব<br/>
+                তারিখ হতে - তারিখ পর্যন্ত
               </div>
               <!-- /.card-body -->
             </div>
@@ -80,7 +81,9 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
-                The body of the card
+                ভেন্ডর/সব<br/>
+                শুধু ভেন্ডর হলে দেনা সময়রেখা (মোট দেনা, মোট পরিশোধ)<br/>
+                সব হলে চলতি দেনা  সর্বমোট দেনা  সর্বমোট দেনা পরিশোধ
               </div>
               <!-- /.card-body -->
             </div>
@@ -92,7 +95,8 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
-                The body of the card
+                পণ্য/সব<br/>
+                তারিখ হতে - তারিখ পর্যন্ত
               </div>
               <!-- /.card-body -->
             </div>
@@ -106,7 +110,10 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
-                The body of the card
+                কাস্টমার/সব<br/>
+                ক্রয় তালিকা/ বকেয়া তালিকা<br/>
+                শুধু কাস্টমার হলে ক্রয় ডিটেল, বকেয়া ডিটেল সময়রেখা (মোট বক্যেয়া, মোট পরিশোধ)<br/>
+                সব হলে মোট ক্রয়, মোট বক্যেয়া আকারে
               </div>
               <!-- /.card-body -->
             </div>
@@ -118,31 +125,37 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
-                The body of the card
+                কাস্টমার/সব<br/>
+                শুধু কাস্টমার হলে বকেয়া সময়রেখা (মোট বকেয়া, মোট পরিশোধ)<br/>
+                সব হলে চলতি বকেয়া  সর্বমোট বকেয়া  সর্বমোট বকেয়া পরিশোধ
               </div>
               <!-- /.card-body -->
             </div>
           </div>
           <div class="col-md-3">
             <div class="card card-outline card-info">
-              <div class="card-header text-success">
+              <div class="card-header text-info">
                 <i class="fa fa-cogs"></i> খরচের রিপোর্ট
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
-                The body of the card
+                খাত/সব<br/>
+                তারিখ হতে - তারিখ পর্যন্ত
               </div>
               <!-- /.card-body -->
             </div>
           </div>
           <div class="col-md-3">
             <div class="card card-outline card-warning">
-              <div class="card-header text-success">
-                <i class="fa fa-truck"></i> ডিলার/ ভেন্ডর রিপোর্ট
+              <div class="card-header text-warning">
+                <i class="fa fa-vcard-o"></i> কর্মচারী বেতন রিপোর্ট
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
-                The body of the card
+                কর্মচারী/সবাই<br/>
+                তারিখ হতে - তারিখ পর্যন্ত<br/>
+                শুধু কর্মচারী হলে ডিটেল পরিশোধ<br/>
+                সবাই হলে, কর্মচারীওয়াইজ মোট
               </div>
               <!-- /.card-body -->
             </div>

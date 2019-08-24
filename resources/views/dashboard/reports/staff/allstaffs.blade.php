@@ -19,6 +19,13 @@
   .bordertable td, th {
       border: 1px solid #A8A8A8;
   }
+  .present {
+    color: #218838;
+  }
+  .absent {
+    color: #F03A17;
+  }
+
   @page {
     header: page-header;
     footer: page-footer;
@@ -63,9 +70,11 @@
           @for($i=0; $i < $staffs->count(); $i++)
             {{ $staffs[$i]->staff->name }} - 
             @if($staffs[$i]->type == 0)
-              উপস্থিত
-            @else
+              <span class="present">উপস্থিত</span>
+            @elseif($staffs[$i]->type == 1)
               ছুটি
+            @elseif($staffs[$i]->type == 2)
+              <span class="absent">অনুপস্থিত</span>
             @endif
             <br/>
           @endfor
