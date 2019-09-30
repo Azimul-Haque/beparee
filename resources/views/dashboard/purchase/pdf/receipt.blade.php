@@ -94,7 +94,7 @@
 
   <htmlpagefooter name="page-footer">
     <small>ডাউনলোডের সময়কালঃ <span style="font-family: Calibri;">{{ date('F d, Y, h:i A') }}</span></small><br/>
-    <small style="font-family: Calibri; color: #3f51b5;">Powered by: beparee</span>
+    <span style="font-family: Calibri; color: #3f51b5;">Powered by: beparee</span>
   </htmlpagefooter>
 </body>
 </html>
