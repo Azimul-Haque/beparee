@@ -142,7 +142,7 @@
             },
             updateUser() {
                 this.$Progress.start();
-                this.form.put('/api/user/'+ this.form.id).then(() => {
+                this.form.post('/api/user/'+ this.form.id).then(() => {
                   Fire.$emit('AfterUserProfileUpdated');
                   Fire.$emit('updateuserdpinnav');
                   toast.fire({

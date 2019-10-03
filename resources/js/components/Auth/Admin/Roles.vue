@@ -199,7 +199,7 @@
             },
             updateRole() {
                 this.$Progress.start();
-                this.form.put('/api/role/update/'+ this.form.id).then(() => {
+                this.form.post('/api/role/update/'+ this.form.id).then(() => {
                     Fire.$emit('AfterRoleCreatedOrUpdated')
                     toast.fire({
                       type: 'success',

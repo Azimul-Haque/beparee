@@ -200,7 +200,7 @@
             },
             updateCustomer() {
                 this.$Progress.start();
-                this.form.put('/api/customer/'+ this.form.id).then(() => {
+                this.form.post('/api/customer/'+ this.form.id).then(() => {
                   $('#addModal').modal('hide')
                   Fire.$emit('AfterCustomerCreatedOrUpdated')
                   toast.fire({

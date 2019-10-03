@@ -345,7 +345,7 @@
             },
             updateStore() {
                 this.$Progress.start();
-                this.form.put('/api/store/'+ this.form.id).then(() => {
+                this.form.post('/api/store/'+ this.form.id).then(() => {
                   $('#addStoreModal').modal('hide')
                   Fire.$emit('AfterStoresCreatedOrUpdated')
                   toast.fire({

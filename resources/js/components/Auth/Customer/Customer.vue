@@ -329,7 +329,7 @@
             },
             updateCustomer() {
                 this.$Progress.start();
-                this.formedit.put('/api/customer/'+ this.formedit.id).then(() => {
+                this.formedit.post('/api/customer/'+ this.formedit.id).then(() => {
                   $('#editCustomerModal').modal('hide')
                   Fire.$emit('AfterCustomerUpdated')
                   toast.fire({
@@ -345,7 +345,7 @@
             },
             updateCustomerDue() {
                 this.$Progress.start();
-                this.form.put('/api/load/customer/pay/due/'+ this.form.id).then(() => {
+                this.form.post('/api/load/customer/pay/due/'+ this.form.id).then(() => {
                   $('#addModal').modal('hide')
                   Fire.$emit('AfterCustomerUpdated')
                   toast.fire({

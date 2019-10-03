@@ -224,7 +224,7 @@
             },
             updateStock() {
                 this.$Progress.start();
-                this.form.put('/api/single/product/stock/update/'+ this.form.id).then(() => {
+                this.form.post('/api/single/product/stock/update/'+ this.form.id).then(() => {
                   $('#addModal').modal('hide')
                   Fire.$emit('AfterProductStockUpdated')
                   toast.fire({

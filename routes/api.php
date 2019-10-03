@@ -18,17 +18,20 @@ use Illuminate\Http\Request;
 // });
 
 Route::apiResources(['user' => 'API\UserController']);
+Route::post('user/{id}', 'API\UserController@update'); // to cover up the vps put perm.
 
 Route::get('roles', 'API\UserController@getRoles'); // For user Select Options
 Route::get('roles/list', 'API\UserController@getRolesList');
 Route::post('role/create', 'API\UserController@createRole');
-Route::put('role/update/{id}', 'API\UserController@updateRole');
+Route::post('role/update/{id}', 'API\UserController@updateRole');
 Route::delete('role/delete/{id}', 'API\UserController@deleteRole');
 
 Route::get('permissions', 'API\UserController@getPermissions'); // For role Select Options
 Route::get('permissions/names/{id}', 'API\UserController@getPermissionsNames'); // For Permission
 
 Route::apiResources(['store' => 'API\StoreController']);
+Route::post('store/{id}', 'API\StoreController@update'); // to cover up the vps put perm.
+
 Route::get('load/store/{code}', 'API\StoreController@loadStore');
 Route::get('load/districts', 'API\StoreController@loadDistricts');
 Route::get('load/upazilla/{district}', 'API\StoreController@loadUpazillas');
@@ -36,30 +39,38 @@ Route::get('owners', 'API\StoreController@getOwners'); // For store Select Optio
 Route::post('store/update/by/user/{id}', 'API\StoreController@updateByUser');
 
 Route::apiResources(['product' => 'API\ProductController']);
+Route::post('product/{id}', 'API\ProductController@update'); // to cover up the vps put perm.
+
 Route::get('load/product/{code}', 'API\ProductController@loadProducts');
 Route::get('load/single/product/{id}/{code}', 'API\ProductController@loadSingleProduct');
 Route::get('load/single/product/sales/{id}/{code}', 'API\ProductController@loadSingleProductSales');
-Route::put('single/product/stock/update/{id}', 'API\ProductController@updateSingleProductStock');
+Route::post('single/product/stock/update/{id}', 'API\ProductController@updateSingleProductStock');
 Route::delete('single/product/stock/delete/{id}', 'API\ProductController@deleteSingleProductStock');
 
 Route::get('load/product/vendor/{code}', 'API\ProductController@loadVendors');
 Route::get('product/category/{code}', 'API\ProductController@loadCategories');
 Route::post('product/category/store', 'API\ProductController@storeCategory');
-Route::put('product/category/update/{code}', 'API\ProductController@updateCategory');
+Route::post('product/category/update/{code}', 'API\ProductController@updateCategory');
 
 
 Route::apiResources(['vendor' => 'API\VendorController']);
+Route::post('vendor/{id}', 'API\VendorController@update'); // to cover up the vps put perm.
+
 Route::get('load/vendor/{code}', 'API\VendorController@loadVendors');
 Route::get('load/single/vendor/{id}/{code}', 'API\VendorController@loadSingleVendor');
 Route::get('load/vendors/due/{code}', 'API\VendorController@loadDues');
-Route::put('load/vendor/pay/due/{id}', 'API\VendorController@payDue');
+Route::post('load/vendor/pay/due/{id}', 'API\VendorController@payDue');
 Route::get('load/duehistory/{code}', 'API\VendorController@loadDuehistories');
 
 Route::apiResources(['purchase' => 'API\PurchaseController']);
+Route::post('purchase/{id}', 'API\PurchaseController@update'); // to cover up the vps put perm.
+
 Route::get('load/purchase/{code}', 'API\PurchaseController@loadPurchases');
 Route::get('load/purchase/product/{code}', 'API\PurchaseController@loadProducts');
 
 Route::apiResources(['staff' => 'API\StaffController']);
+Route::post('staff/{id}', 'API\StaffController@update'); // to cover up the vps put perm.
+
 Route::get('load/staff/{code}', 'API\StaffController@loadStaffs');
 Route::get('load/staff/for/attendance/{code}', 'API\StaffController@loadStaffsForAtt');
 Route::get('load/staff/for/attendance/report/{code}', 'API\StaffController@loadStaffsForAttReport');
@@ -71,15 +82,18 @@ Route::get('load/single/staff/salary/history/totals/{id}/{code}', 'API\StaffCont
 Route::post('load/staff/pay/salary', 'API\StaffController@storeSingleStaffSalary');
 
 Route::apiResources(['customer' => 'API\CustomerController']);
+Route::post('customer/{id}', 'API\CustomerController@update'); // to cover up the vps put perm.
+
 Route::get('load/customer/{code}', 'API\CustomerController@loadCustomers');
 Route::get('load/single/customer/{id}/{code}', 'API\CustomerController@loadSingleCustomer');
 Route::get('load/single/customer/dues/{id}/{code}', 'API\CustomerController@loadSingleCustomerDueHistories');
-Route::put('load/customer/pay/due/{id}', 'API\CustomerController@payDue');
+Route::post('load/customer/pay/due/{id}', 'API\CustomerController@payDue');
 Route::get('load/single/customer/purchases/{id}/{code}', 'API\CustomerController@loadSingleCustomerPurchases');
 Route::get('load/customers/due/{code}', 'API\CustomerController@loadDues');
 Route::get('load/customersdues/{code}', 'API\CustomerController@loadCustomersDues');
 
 Route::apiResources(['expense' => 'API\ExpenseController']);
+Route::post('expense/{id}', 'API\ExpenseController@update'); // to cover up the vps put perm.
 Route::get('load/expense/{code}', 'API\ExpenseController@loadExpenses');
 Route::get('load/expense/history/{code}', 'API\ExpenseController@loadExpenseHistory');
 Route::get('load/expense/category/{code}', 'API\ExpenseController@loadExpenseCategories');
@@ -89,6 +103,7 @@ Route::get('load/single/category/expenses/store/wise/{id}/{code}', 'API\ExpenseC
 Route::get('load/single/category/expenses/totals/{id}/{code}', 'API\ExpenseController@loadSingleExpenseTotals');
 
 Route::apiResources(['sale' => 'API\SaleController']);
+Route::post('sale/{id}', 'API\SaleController@update'); // to cover up the vps put perm.
 Route::get('load/sale/{code}', 'API\SaleController@loadSales');
 Route::get('load/sale/product/{code}', 'API\SaleController@loadProducts');
 Route::get('load/sale/customer/{code}', 'API\SaleController@loadCustomers');

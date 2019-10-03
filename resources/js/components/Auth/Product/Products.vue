@@ -447,7 +447,7 @@
             },
             updateProduct() {
                 this.$Progress.start();
-                this.form.put('/api/product/'+ this.form.id).then(() => {
+                this.form.post('/api/product/'+ this.form.id).then(() => {
                   $('#addProductModal').modal('hide')
                   Fire.$emit('AfterProductCreatedOrUpdated')
                   toast.fire({
@@ -516,7 +516,7 @@
             },
             updateCategory() {
                 this.$Progress.start();
-                this.categoryform.put('/api/product/category/update/'+ this.categoryform.id).then(() => {
+                this.categoryform.post('/api/product/category/update/'+ this.categoryform.id).then(() => {
                   $('#addCategoryModal').modal('hide')
                   Fire.$emit('AfterCategoryCreatedOrUpdated')
                   toast.fire({

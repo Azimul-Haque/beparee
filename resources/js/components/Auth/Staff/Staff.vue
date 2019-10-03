@@ -262,7 +262,7 @@
           },
           updateStaff() {
               this.$Progress.start();
-              this.formedit.put('/api/staff/'+ this.formedit.id).then(() => {
+              this.formedit.post('/api/staff/'+ this.formedit.id).then(() => {
                   $('#editStaffModal').modal('hide')
                   Fire.$emit('AfterStaffUpdated')
                   toast.fire({

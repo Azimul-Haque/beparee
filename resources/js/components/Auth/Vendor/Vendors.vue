@@ -193,7 +193,7 @@
             },
             updateVendor() {
                 this.$Progress.start();
-                this.form.put('/api/vendor/'+ this.form.id).then(() => {
+                this.form.post('/api/vendor/'+ this.form.id).then(() => {
                   $('#addModal').modal('hide')
                   Fire.$emit('AfterVendorsCreatedOrUpdated')
                   toast.fire({

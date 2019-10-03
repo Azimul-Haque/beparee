@@ -149,7 +149,6 @@ class UserController extends Controller
                 $user->attachRole($value);
             }
         }
-
         return ['message' => 'Updated successfully!'];    
     }
 

@@ -337,7 +337,7 @@
             },
             updateStaff() {
                 this.$Progress.start();
-                this.form.put('/api/staff/'+ this.form.id).then(() => {
+                this.form.post('/api/staff/'+ this.form.id).then(() => {
                     $('#addModal').modal('hide')
                     Fire.$emit('AfterStaffCreatedOrUpdated')
                     toast.fire({

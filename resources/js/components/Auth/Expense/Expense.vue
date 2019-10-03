@@ -230,7 +230,7 @@
             },
             updateExpense() {
               this.$Progress.start();
-              this.form.put('/api/expense/'+ this.form.id).then(() => {
+              this.form.post('/api/expense/'+ this.form.id).then(() => {
                 $('#addModal').modal('hide')
                 Fire.$emit('AfterExpenseUpdated')
                 toast.fire({

@@ -249,7 +249,7 @@
             },
             updateCustomerDue() {
                 this.$Progress.start();
-                this.form.put('/api/load/customer/pay/due/'+ this.form.id).then(() => {
+                this.form.post('/api/load/customer/pay/due/'+ this.form.id).then(() => {
                   $('#addModal').modal('hide')
                   Fire.$emit('AfterCusstomderDueUpdated')
                   toast.fire({
