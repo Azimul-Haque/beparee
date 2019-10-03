@@ -145,7 +145,7 @@
       },
       updateStore() {
           this.$Progress.start();
-          this.form.put('/api/store/update/by/user/'+ this.form.id).then(() => {
+          this.form.post('/api/store/update/by/user/'+ this.form.id).then(() => {
             Fire.$emit('AfterStoreUpdated')
             toast.fire({
               type: 'success',
