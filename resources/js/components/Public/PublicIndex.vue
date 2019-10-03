@@ -6,7 +6,7 @@
                     <div class="card-header">Index</div>
 
                     <div class="card-body">
-                        Index page. Rifat
+                        Index page. Rifat Mannan
                     </div>
                 </div>
             </div>
