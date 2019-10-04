@@ -7,7 +7,12 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="user" content="{{ Auth::user() }}">
-    <title>{{ config('app.name', 'দোকান খাতা') }}</title>
+    <title>{{ config('app.name', 'দোকান খাতা (Dokan Khata)') }}</title>
+
+    <meta name="description" content="দোকান খাতা (Dokan Khata) অনলাইন প্লাটফর্ম, সব হিসাব এখানেই! আপনার যাবতীয় ব্যবসায়ী হিসাব এখন সহজ করে দিতে আমরা এসেছি আপনার প্রতিষ্ঠানে! &copy; Copyright Reserved {{ date('Y') }}">
+    <meta name="keywords" content="দোকান খাতা, দোকান, খাতা,  Dokan Khata, Dokan, Khata, shop, store, business, Bangladesh">
+    <meta charset="utf-8">
+    <meta name="author" content="A. H. M. Azimul Haque">
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
