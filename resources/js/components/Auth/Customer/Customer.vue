@@ -82,7 +82,7 @@
                                   <big v-else class="text-green"><b>পরিশোধ</b></big> 
                                   | পরিমাণঃ {{ customerdue.amount }} ৳
                                 </span>
-                                <button v-if="customerdue.transaction_type == 1" class="btn btn-warning btn-sm" style="float: right;" v-tooltip="'রশিদ ডাউনলোড করুন'"><i class="fa fa-download"></i></button>
+                                <a :href="'/pdf/customer/due/payment/report/' + customerdue.id +'/' + code" v-if="customerdue.transaction_type == 1" class="btn btn-warning btn-sm" style="float: right;" v-tooltip="'রশিদ ডাউনলোড করুন'"><i class="fa fa-download"></i></a>
                                 <br/>
 
                                 <span class="text-muted"><i class="fa fa-calendar"></i> {{ customerdue.created_at | datetime }}</span>
@@ -256,6 +256,7 @@
               maxpayable: 0,
               customerdues: {},
               customerpurchases: {},
+              code: this.$route.params.code,
               // Create a new form instance
               formedit: new Form({
                 id: '',

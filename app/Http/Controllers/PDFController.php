@@ -13,6 +13,9 @@ use App\Sale;
 use App\Saleitem;
 use App\Staff;
 use App\Staffattendance;
+use App\Duehistory;
+use App\Customerdue;
+use App\Expense;
 
 use PDF;
 use Illuminate\Support\Facades\DB;
@@ -99,5 +102,47 @@ class PDFController extends Controller
             $fileName = $staff->name . ' Report_' . $year_month . '.pdf';
             return $pdf->stream($fileName);
         }
+    }
+
+    public function allProductsReportPDF($code)
+    {   
+        $store = Store::where('code', $code)->first();
+        $products = Product::where('store_id', $store->id)
+                                      ->orderBy('id', 'asc')
+                                      ->get();
+
+        $pdf = PDF::loadView('dashboard.reports.product.allproducts', ['products' => $products, 'store' => $store]);
+        $fileName = 'All_Products_Report_' . $store->code . '.pdf';
+        return $pdf->download($fileName);
+    }
+
+    public function duePayementReportPDF($id, $code)
+    {   
+        $store = Store::where('code', $code)->first();
+        $duehistory = Duehistory::findOrFail($id);
+
+        $pdf = PDF::loadView('dashboard.reports.vendordue.duehistorysingle', ['duehistory' => $duehistory, 'store' => $store]);
+        $fileName = 'Due_Payment_Report_' . $duehistory->id . '.pdf';
+        return $pdf->download($fileName);
+    }
+
+    public function customerDuePayementReportPDF($id, $code)
+    {   
+        $store = Store::where('code', $code)->first();
+        $customerdue = Customerdue::findOrFail($id);
+
+        $pdf = PDF::loadView('dashboard.reports.customerdue.singlepayment', ['customerdue' => $customerdue, 'store' => $store]);
+        $fileName = 'Customer_Due_Payment_Report_' . $customerdue->id . '.pdf';
+        return $pdf->download($fileName);
+    }    
+
+    public function staffPayementReportPDF($id, $code)
+    {   
+        $store = Store::where('code', $code)->first();
+        $singlepayment = Expense::findOrFail($id);
+
+        $pdf = PDF::loadView('dashboard.reports.staff.singlepayment', ['singlepayment' => $singlepayment, 'store' => $store]);
+        $fileName = 'Staff_Payment_Report_' . $singlepayment->id . '.pdf';
+        return $pdf->download($fileName);
     }
 }

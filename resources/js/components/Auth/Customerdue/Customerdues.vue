@@ -130,7 +130,7 @@
                                 <big v-if="customersdue.transaction_type == 0" class="text-red"><b>বকেয়া</b></big> 
                                 <big v-else class="text-green"><b>পরিশোধ</b></big> 
                               | পরিমাণঃ {{ customersdue.amount }} ৳</span>
-                              <button v-if="customersdue.transaction_type == 1" class="btn btn-warning btn-sm" style="float: right;" v-tooltip="'রশিদ ডাউনলোড করুন'"><i class="fa fa-download"></i></button>
+                              <a :href="'/pdf/customer/due/payment/report/' + customersdue.id +'/' + code" v-if="customersdue.transaction_type == 1" class="btn btn-warning btn-sm" style="float: right;" v-tooltip="'রশিদ ডাউনলোড করুন'"><i class="fa fa-download"></i></a>
                               <br/>
                               <span class="text-muted"><i class="fa fa-calendar"></i> {{ customersdue.created_at | datetime }}</span>
                           </div>

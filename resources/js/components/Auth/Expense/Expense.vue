@@ -102,6 +102,7 @@
                                 পরিমাণঃ <b>{{ expense.amount }}</b> ৳ <span v-if="expense.remark">({{ expense.remark }})</span>
                               </span>
                               <div style="float: right">
+                                <a :href="'/pdf/staff/payment/report/' + expense.id + '/' + code" class="btn btn-warning btn-sm" v-if="expensecategory.id == 1" v-tooltip="'রশিদ ডাউনলোড করুন'"><i class="fa fa-download"></i></a>
                                 <button class="btn btn-success btn-sm" v-tooltip="'সম্পাদনা করুন'" @click="editModal(expense)"><i class="fa fa-edit"></i></button>
                                 <button class="btn btn-danger btn-sm" v-tooltip="'ডিলেট করুন'" @click="deleteExpense(expense.id)"><i class="fa fa-trash"></i></button>
                               </div>

@@ -24,7 +24,7 @@
           <div class="col-md-3">
             <div class="card">
               <div style="background: url('/images/staffcover.jpg') center center;">
-                <div class="card-body p-3 text-light" style="background: rgba(0, 90, 100, 0.80);">
+                <div class="p-3 text-light" style="background: rgba(0, 90, 100, 0.80);">
                   <div class="media">
                     <img v-if="staff.image" :src="'/images/users/' + staff.image" alt="User Avatar" class="img-size-50 mr-3 img-circle elevation-2">
                     <img v-else src="/images/staff_demo.png" alt="User Avatar" class="img-size-50 mr-3 img-circle elevation-2">
@@ -87,7 +87,7 @@
                                 <span>
                                   পরিমাণঃ <b>{{ salaryhistory.amount }}</b> ৳
                                   <span v-if="salaryhistory.remark">({{ salaryhistory.remark }})</span>
-                                  <button class="btn btn-warning btn-sm" style="float: right;" v-tooltip="'বেতন রশিদ ডাউনলোড করুন'"><i class="fa fa-download"></i></button>
+                                  <a :href="'/pdf/staff/payment/report/' + salaryhistory.id + '/' + code" class="btn btn-warning btn-sm" style="float: right;" v-tooltip="'বেতন রশিদ ডাউনলোড করুন'"><i class="fa fa-download"></i></a>
                                 </span>
                                 <br/>
                                 <span class="text-muted"><i class="fa fa-calendar"></i> {{ salaryhistory.created_at | datetime }}</span>
@@ -143,7 +143,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label>মন্তব্য (ঐচ্ছিক)</label>
+                  <label>মন্তব্য (ঐচ্ছিক, যেমনঃ বেতন পরিশোধের মাস, খাত ইত্যাদি)</label>
                   <input v-model="form.remark" type="text" name="remark" placeholder="মন্তব্য (ঐচ্ছিক)" 
                     class="form-control" :class="{ 'is-invalid': form.errors.has('remark') }">
                   <has-error :form="form" field="remark"></has-error>
@@ -233,6 +233,7 @@
             salaryhistories: {},
             totalsalary: '',
             salarycount: '',
+            code: this.$route.params.code,
             // Create a new form instance
             formedit: new Form({
               id: '',

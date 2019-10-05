@@ -62,7 +62,7 @@
       Version: <b>1.0.28</b>
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; {{ date('Y') }} <a href="http://orbachinujbuk.com/">Orbachin Ujbuk</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; {{ date('Y') }} <a href="https://dokankhata.com">দোকান খাতা</a>.</strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->

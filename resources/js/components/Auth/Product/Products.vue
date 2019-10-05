@@ -27,9 +27,9 @@
                 <h3 class="card-title">মালামাল</h3>
 
                 <div class="card-tools">
-                  <button type="button" class="btn btn-warning btn-sm" v-tooltip="'তালিকা ডাউনলোড করুন'">
+                  <a :href="'/pdf/all/products/' + this.$route.params.code" class="btn btn-warning btn-sm" v-tooltip="'তালিকা ডাউনলোড করুন'">
                       <i class="fa fa-download"></i>
-                  </button>
+                  </a>
                   <button type="button" class="btn btn-primary btn-sm" @click="addProductModal" v-tooltip="'নতুন পণ্য যোগ করুন'">
                       <i class="fa fa-user-plus"></i>
                   </button> <!-- data-toggle="modal" data-target="#addProductModal" -->
