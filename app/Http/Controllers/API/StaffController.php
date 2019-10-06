@@ -255,10 +255,10 @@ class StaffController extends Controller
     public function loadStaffsForAttReport($code)
     {
         $store = Store::where('code', $code)->first();
-        $staffs = Staff::where('store_id', $store->id)->get();
+        $staffs = Staff::select('id', 'name', 'store_id')->where('store_id', $store->id)->get();
         
         $staffs->push(['id' => 0, 'name' => 'সব কর্মচারী', 'store_id' => $store->id]);
 
-        return response()->json($staffs->all());
+        return response()->json(array_reverse($staffs->all()));
     }
 }

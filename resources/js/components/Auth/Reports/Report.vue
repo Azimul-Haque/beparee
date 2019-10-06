@@ -68,8 +68,45 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
-                ভেন্ডর/সব<br/>
-                তারিখ হতে - তারিখ পর্যন্ত
+                <form @submit.prevent="generatePurchaseReport()" @keydown="purchaseform.onKeydown($event)">
+                  <div class="form-group">
+                    <v-select placeholder="ভেন্ডর/ ডিলার নির্ধারণ করুন" :options="vendors" :reduce="id => id" label="name" v-model="purchaseform.vendor" ref='productSelect'>
+                      <template #search="{attributes, events}">
+                        <input
+                          class="vs__search"
+                          :required="!purchaseform.vendor"
+                          v-bind="attributes"
+                          v-on="events"
+                        />
+                      </template>
+                    </v-select>
+                  </div>
+                  <div class="form-group">
+                    <vc-date-picker
+                      v-model="purchaseform.start"
+                      :input-props='{
+                        placeholder: "শুরু তারিখ নির্ধারণ করুন",
+                        readonly: true
+                      }'
+                      :masks='{ input: "MMMM DD, YYYY" }'
+                      :class="{ 'form-control is-invalid': purchaseform.errors.has('date') }"
+                    />
+                    <has-error :form="purchaseform" field="date"></has-error>
+                  </div>
+                  <div class="form-group">
+                    <vc-date-picker
+                      v-model="purchaseform.end"
+                      :input-props='{
+                        placeholder: "শেষ তারিখ নির্ধারণ করুন",
+                        readonly: true
+                      }'
+                      :masks='{ input: "MMMM DD, YYYY" }'
+                      :class="{ 'form-control is-invalid': purchaseform.errors.has('date') }"
+                    />
+                    <has-error :form="purchaseform" field="date"></has-error>
+                  </div>
+                  <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-download"></i> রিপোর্ট ডাউনলোড</button>
+                </form>
               </div>
               <!-- /.card-body -->
             </div>
@@ -224,17 +261,24 @@
 </template>
 
 <script>
-  
+  import moment from 'moment'
   export default {
     data () {
       return {
         products: [],
+        vendors: [],
         staffsforatt: [],
         years: [],
         months: ['জানুয়ারী', 'ফেব্রুয়ারী', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'],
         productform: new Form({
           product: '',
           report_type: '',
+          code: this.$route.params.code,
+        }),
+        purchaseform: new Form({
+          vendor: '',
+          start: '',
+          end: '',
           code: this.$route.params.code,
         }),
         staffform: new Form({
@@ -254,6 +298,25 @@
       generateProductReport() {
         if(this.$gate.isAdminOrAssociated('reports-page', this.$route.params.code)){
           window.location.href = '/pdf/product/report/' + this.productform.product['id'] + '/' + this.productform.report_type + '/' + this.$route.params.code;
+        }
+      },
+
+      // purchase report...
+      loadVendors() {
+        if(this.$gate.isAdminOrAssociated('reports-page', this.$route.params.code)){
+          axios.get('/api/load/vendors/for/report/' + this.$route.params.code).then(({ data }) => (this.vendors = data));
+        }
+      },
+      generatePurchaseReport() {
+        if(this.$gate.isAdminOrAssociated('reports-page', this.$route.params.code)){
+          if(this.purchaseform.start == '' || this.purchaseform.end == '') {
+            toast.fire({
+              type: 'warning',
+              title: 'তারিখ পূরণ করুন'
+            })
+          } else {
+            window.location.href = '/pdf/purchase/report/' + this.purchaseform.vendor['id'] + '/' + moment(this.purchaseform.start).format('YYYY-MM-DD') + '/' + moment(this.purchaseform.end).format('YYYY-MM-DD') + '/' + this.$route.params.code;
+          }
         }
       },
 
@@ -277,6 +340,7 @@
     },
     created() {
       this.loadProducts();
+      this.loadVendors();
       this.loadStaffsForAtt();
       this.loadYears();
     },

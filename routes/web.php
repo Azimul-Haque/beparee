@@ -19,12 +19,14 @@ Route::get('pdf/purchase/{id}', 'PDFController@singlePurchaseReceiptPDF');
 Route::get('pdf/sale/{id}', 'PDFController@singleSaleReceiptPDF');
 
 Route::get('pdf/product/report/{id}/{type}/{code}', 'PDFController@productReportPDF');
+Route::get('pdf/purchase/report/{id}/{start}/{end}/{code}', 'PDFController@purchaseReportPDF');
 
 Route::get('pdf/staff/report/{staff_id}/{month}/{year}/{code}', 'PDFController@staffReportPDF');
 Route::get('pdf/all/products/{code}', 'PDFController@allProductsReportPDF');
 Route::get('pdf/due/payment/report/{id}/{code}', 'PDFController@duePayementReportPDF');
 Route::get('pdf/customer/due/payment/report/{id}/{code}', 'PDFController@customerDuePayementReportPDF');
 Route::get('pdf/staff/payment/report/{id}/{code}', 'PDFController@staffPayementReportPDF');
+
 // Auth::routes();
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');

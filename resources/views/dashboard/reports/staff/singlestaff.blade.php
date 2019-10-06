@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>পিডিএফ | সকল স্টাফ উপস্থিতি {{ $month }} {{ $year }}</title>
+  <title>পিডিএফ | স্টাফ উপস্থিতি {{ $month }} {{ $year }}</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <style>
   body {

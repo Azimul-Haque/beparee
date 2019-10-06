@@ -60,6 +60,7 @@ Route::get('load/vendor/{code}', 'API\VendorController@loadVendors');
 Route::get('load/single/vendor/{id}/{code}', 'API\VendorController@loadSingleVendor');
 Route::get('load/vendors/due/{code}', 'API\VendorController@loadDues');
 Route::post('load/vendor/pay/due/{id}', 'API\VendorController@payDue');
+Route::get('load/vendors/for/report/{code}', 'API\ReportController@loadVendorsForAttReport');
 Route::get('load/duehistory/{code}', 'API\VendorController@loadDuehistories');
 
 Route::apiResources(['purchase' => 'API\PurchaseController']);

@@ -56,7 +56,7 @@ class PDFController extends Controller
                            ->get();
 
             $pdf = PDF::loadView('dashboard.reports.product.stocks', ['stocks' => $stocks, 'product' => $product, 'store' => $store]);
-            $fileName = 'Product_Report ' . $product->name . '.pdf';
+            $fileName = 'Product_Report_' . $product->name . '.pdf';
             return $pdf->stream($fileName);
 
         } elseif ($type == 'sales_list') {
@@ -68,6 +68,32 @@ class PDFController extends Controller
             $fileName = 'Product_Report_' . $product->name . '.pdf';
             return $pdf->stream($fileName);
 
+        }     
+    }
+
+    public function purchaseReportPDF($id, $start, $end, $code)
+    {
+        $store = Store::where('code', $code)->first();
+
+        if($id == 0) {
+            $purchases = Purchase::where('store_id', $store->id)
+                                ->whereBetween('created_at', [date('Y-m-d H:i:s', strtotime($start)), date('Y-m-d H:i:s', strtotime($end . '+1 day'))])
+                                ->get();              
+            // dd($purchases);         
+            $pdf = PDF::loadView('dashboard.reports.purchase.allvendors', ['purchases' => $purchases, 'store' => $store, 'start' => $start, 'end' => $end], [] ,['mode' => 'utf-8', 'format' => 'A4-L']);
+            $fileName = 'Purchase_Report_'. date('F_d_Y', strtotime($start)). '_to_' .date('F_d_Y', strtotime($end)).'.pdf';
+            return $pdf->stream($fileName);
+        } else {
+            $purchases = Purchase::whereHas('stocks', function($q) use($id, $start, $end) {
+                        $q->where('vendor_id', $id);
+                        $q->whereBetween('created_at', [date('Y-m-d H:i:s', strtotime($start)), date('Y-m-d H:i:s', strtotime($end . '+1 day'))]);
+                    })->get();
+
+            $vendor = Vendor::findOrFail($id);
+
+            $pdf = PDF::loadView('dashboard.reports.purchase.singlevendor', ['purchases' => $purchases, 'vendor' => $vendor, 'store' => $store, 'start' => $start, 'end' => $end], [] ,['mode' => 'utf-8', 'format' => 'A4-L']);
+            $fileName = 'Purchase_Report_'. date('F_d_Y', strtotime($start)). '_to_' .date('F_d_Y', strtotime($end)).'.pdf';
+            return $pdf->stream($fileName);
         }     
     }
 
