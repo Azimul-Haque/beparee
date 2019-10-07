@@ -1,73 +1,74 @@
 @extends('layouts.app')
 
+@section('css')
+    <style type="text/css">
+        .invalid-feedback {
+            color: red;
+        }
+    </style>
+@endsection
+
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">লগইন</div>
+<section id="content">
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
+    <div class="content-wrap">
 
-                        <div class="form-group row">
-                            <label for="mobile" class="col-md-4 col-form-label text-md-right">{{ __('মোবাইল নম্বর') }}</label>
+        <div class="container clearfix">
 
-                            <div class="col-md-6">
-                                <input id="mobile" type="text" class="form-control @error('mobile') is-invalid @enderror" name="mobile" value="{{ old('mobile') }}" required autocomplete="off" autofocus>
+            <div class="tabs divcenter nobottommargin clearfix" id="tab-login-register" style="max-width: 500px;">
 
-                                @error('mobile')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                <div class="tab-content clearfix" id="tab-login">
+                    <div class="panel panel-default nobottommargin">
+                        <div class="panel-body" style="padding: 40px;">
+                            <form id="login-form" name="login-form" class="nobottommargin" action="{{ route('login') }}" method="POST">
+                                @csrf
+                                <h3>আপনার অ্যাকাউন্টে লগইন করুন</h3>
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('পাসওয়ার্ড') }}</label>
+                                <div class="col_full">
+                                    <label for="mobile">মোবাইল নম্বর</label>
+                                    <input type="text" id="mobile" name="mobile" class="form-control @error('mobile') is-invalid @enderror" value="{{ old('mobile') }}" required autocomplete="off" autofocus />
+                                    @error('mobile')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                <div class="col_full">
+                                    <label for="password">পাসওয়ার্ড</label>
+                                    <input type="password" id="password" name="password" value="" class="form-control @error('password') is-invalid @enderror" required autocomplete="off"/>
+                                    @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
 
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
+                                <div class="col_full nobottommargin">
+                                    <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
                                     <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
+                                        {{ __('মনে রেখো') }}
                                     </label>
                                 </div>
-                            </div>
-                        </div>
+                                </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
+                                <div class="col_full nobottommargin">
+                                    <button type="submit" class="button button-3d button-black nomargin" id="login-form-submit" name="login-form-submit" value="login">লগইন</button>
+                                    <a href="#!" class="fright">পাসওয়ার্ড ভুলে গেছেন?</a>
+                                </div>
 
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
                 </div>
+
             </div>
+
         </div>
+
     </div>
-</div>
+
+</section><!-- #content end -->
 @endsection

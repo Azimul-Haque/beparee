@@ -10,7 +10,24 @@ class IndexController extends Controller
 {
     public function index()
     {
-        return view('welcome');
+        return view('index.index');
+    }
+
+    public function about()
+    {
+        return view('index.about');
+    }
+
+    public function contact()
+    {
+        return view('index.contact');
+    }
+
+    public function sendMessageFromSite(Request $request)
+    {
+        $message_success = 'We have <strong>successfully</strong> received your Message and will get Back to you as soon as possible.';
+        return '{ "alert": "success", "message": "' . $message_success . '" }';
+        // return redirect()->route('index');
     }
 
     // clear configs, routes and serve

@@ -13,6 +13,10 @@
 
 Route::get('/clear', ['as'=>'clear','uses'=>'IndexController@clear']);
 Route::get('/', ['as'=>'index','uses'=>'IndexController@index']);
+Route::get('/about', ['as'=>'index.about','uses'=>'IndexController@about']);
+Route::get('/contact', ['as'=>'index.contact','uses'=>'IndexController@contact']);
+Route::get('/register', ['as'=>'index.register','uses'=>'IndexController@register ']);
+Route::post('/send/message/from/site', ['as'=>'send.message.from.site','uses'=>'IndexController@sendMessageFromSite']);
 
 // Report Generation Controller... without API
 Route::get('pdf/purchase/{id}', 'PDFController@singlePurchaseReceiptPDF');
