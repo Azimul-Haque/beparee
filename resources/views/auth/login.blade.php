@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'লগইন | দোকান খাতা (Dokan Khata)')
+
 @section('css')
     <style type="text/css">
         .invalid-feedback {

@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'আমাদের সম্পর্কে | দোকান খাতা (Dokan Khata)')
+
 @section('css')
 
 @endsection
