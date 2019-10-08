@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Artisan;
 use Session;
+use Auth;
 
 class IndexController extends Controller
 {
@@ -25,7 +26,11 @@ class IndexController extends Controller
 
     public function demo()
     {
-        return view('index.demo');
+        if(Auth::check()) {
+            return redirect('/dashboard');
+        } else {
+            return view('index.demo');
+        }
     }
 
     public function sendMessageFromSite(Request $request)
