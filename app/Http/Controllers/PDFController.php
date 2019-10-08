@@ -67,7 +67,6 @@ class PDFController extends Controller
             $pdf = PDF::loadView('dashboard.reports.product.sales', ['saleitems' => $saleitems, 'product' => $product, 'store' => $store]);
             $fileName = 'Product_Report_' . $product->name . '.pdf';
             return $pdf->stream($fileName);
-
         }     
     }
 
@@ -93,6 +92,54 @@ class PDFController extends Controller
 
             $pdf = PDF::loadView('dashboard.reports.purchase.singlevendor', ['purchases' => $purchases, 'vendor' => $vendor, 'store' => $store, 'start' => $start, 'end' => $end], [] ,['mode' => 'utf-8', 'format' => 'A4-L']);
             $fileName = 'Purchase_Report_'. date('F_d_Y', strtotime($start)). '_to_' .date('F_d_Y', strtotime($end)).'.pdf';
+            return $pdf->stream($fileName);
+        }     
+    }
+
+    public function dueReportPDF($id, $start, $end, $code)
+    {
+        $store = Store::where('code', $code)->first();
+
+        if($id == 0) {
+            $vendors = Vendor::where('store_id', $store->id)->get();              
+            // dd($purchases);         
+            $pdf = PDF::loadView('dashboard.reports.vendordue.allvendors', ['vendors' => $vendors, 'store' => $store]);
+            $fileName = 'Due_Report_All_'. $store->code .'.pdf';
+            return $pdf->stream($fileName);
+        } else {
+            $duehistories = Duehistory::where('vendor_id', $id)
+                                      ->whereBetween('created_at', [date('Y-m-d H:i:s', strtotime($start)), date('Y-m-d H:i:s', strtotime($end . '+1 day'))])
+                                      ->get();
+
+            $vendor = Vendor::findOrFail($id);
+
+            $pdf = PDF::loadView('dashboard.reports.vendordue.vendorduehistories', ['duehistories' => $duehistories, 'vendor' => $vendor, 'store' => $store, 'start' => $start, 'end' => $end]);
+            $fileName = 'Due_Report_'. date('F_d_Y', strtotime($start)). '_to_' .date('F_d_Y', strtotime($end)).'.pdf';
+            return $pdf->stream($fileName);
+        }     
+    }
+
+    public function saleReportPDF($id, $start, $end, $code)
+    {
+        $store = Store::where('code', $code)->first();
+
+        if($id == 0) {
+            $sales = Sale::where('store_id', $store->id)
+                         ->whereBetween('created_at', [date('Y-m-d H:i:s', strtotime($start)), date('Y-m-d H:i:s', strtotime($end . '+1 day'))])
+                         ->get();
+
+            $pdf = PDF::loadView('dashboard.reports.sale.allproducts', ['sales' => $sales, 'store' => $store, 'start' => $start, 'end' => $end], [] ,['mode' => 'utf-8', 'format' => 'A4-L']);
+            $fileName = 'Due_Report_All_'. $store->code .'.pdf';
+            return $pdf->stream($fileName);
+        } else {
+            $product = Product::findOrFail($id);
+            $saleitems = Saleitem::where('product_id', $id)
+                                 ->whereBetween('created_at', [date('Y-m-d H:i:s', strtotime($start)), date('Y-m-d H:i:s', strtotime($end . '+1 day'))])
+                                 ->orderBy('id', 'desc')
+                                 ->get();
+
+            $pdf = PDF::loadView('dashboard.reports.sale.singleproduct', ['saleitems' => $saleitems, 'product' => $product, 'store' => $store, 'start' => $start, 'end' => $end]);
+            $fileName = 'Single_Product_Sale_Report_' . $store->code . '.pdf';
             return $pdf->stream($fileName);
         }     
     }

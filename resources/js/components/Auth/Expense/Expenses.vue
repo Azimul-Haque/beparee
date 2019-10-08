@@ -284,7 +284,7 @@
               }
             },
             checkCategoryIfSalary(expensecategory) {
-              if(expensecategory &&expensecategory.id == 1) {
+              if(expensecategory && expensecategory.id == 1) {
                 this.salarymode = true;
               } else {
                 this.salarymode = false;

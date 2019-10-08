@@ -15,6 +15,7 @@ Route::get('/clear', ['as'=>'clear','uses'=>'IndexController@clear']);
 Route::get('/', ['as'=>'index','uses'=>'IndexController@index']);
 Route::get('/about', ['as'=>'index.about','uses'=>'IndexController@about']);
 Route::get('/contact', ['as'=>'index.contact','uses'=>'IndexController@contact']);
+Route::get('/demo', ['as'=>'index.demo','uses'=>'IndexController@demo']);
 Route::get('/register', ['as'=>'index.register','uses'=>'IndexController@register ']);
 Route::post('/send/message/from/site', ['as'=>'send.message.from.site','uses'=>'IndexController@sendMessageFromSite']);
 
@@ -24,6 +25,8 @@ Route::get('pdf/sale/{id}', 'PDFController@singleSaleReceiptPDF');
 
 Route::get('pdf/product/report/{id}/{type}/{code}', 'PDFController@productReportPDF');
 Route::get('pdf/purchase/report/{id}/{start}/{end}/{code}', 'PDFController@purchaseReportPDF');
+Route::get('pdf/due/report/{id}/{start}/{end}/{code}', 'PDFController@dueReportPDF');
+Route::get('pdf/sale/report/{id}/{start}/{end}/{code}', 'PDFController@saleReportPDF');
 
 Route::get('pdf/staff/report/{staff_id}/{month}/{year}/{code}', 'PDFController@staffReportPDF');
 Route::get('pdf/all/products/{code}', 'PDFController@allProductsReportPDF');

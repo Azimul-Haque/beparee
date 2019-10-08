@@ -22,7 +22,7 @@
    					<h1></h1>
    					<h2>দুই লাইনে বর্ণনা দুই লাইনে বর্ণনা লাইনে বর্ণনা দুই লাইনে বর্ণনা  দুই লাইনে বর্ণনা দুই লাইনে বর্ণনা  দুই লাইনে বর্ণনা দুই লাইনে বর্ণনা  </h2>
    					<a href="#section-features-homepage" data-href="" class="button button-3d button-dark button-large ">ফিচারগুলো দেখুন</a>
-   					<a href="contact.html" class="button button-3d button-large">যোগাযোগ করুন</a>
+   					<a href="/contact" class="button button-3d button-large">যোগাযোগ করুন</a>
    				</div>
 
    			</div>
@@ -310,7 +310,7 @@
 
    					<div class="center">
 
-   						<a href="#" data-animate="tada" class="button button-3d button-teal button-xlarge nobottommargin"><i class="icon-star3"></i>যোগাযোগ করুন</a> - অথবা - <a href="#" data-scrollto="#section-pricing" class="button button-3d button-red button-xlarge nobottommargin"><i class="icon-user2"></i>ডেমো দেখুন</a>
+   						<a href="/contact" data-animate="tada" class="button button-3d button-teal button-xlarge nobottommargin"><i class="icon-star3"></i>যোগাযোগ করুন</a> - অথবা - <a href="/demo" data-scrollto="#section-pricing" class="button button-3d button-red button-xlarge nobottommargin"><i class="icon-user2"></i>ডেমো দেখুন</a>
 
    					</div>
 

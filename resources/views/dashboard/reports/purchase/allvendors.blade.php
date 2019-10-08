@@ -51,23 +51,23 @@
   <table class="bordertable">
     <thead>
       <tr>
-        <th width="10%">ক্রয় আইডি</th>
+        {{-- <th width="9%">ক্রয় আইডি</th> --}}
         <th>ভেন্ডর/ ডিলার</th>
         <th>পণ্যের নাম</th>
-        <th width="7%">পরিমাণ</th>
-        <th width="7%">ইউনিট মূল্য</th>
-        <th width="7%">মূল্য</th>
+        <th width="8%">পরিমাণ</th>
+        <th width="9%">ইউনিট মূল্য</th>
+        <th width="9%">মূল্য</th>
         <th width="7%">ডিস্কাউন্ট</th>
-        <th width="7%">পরিশোধনীয় মূল্য</th>
-        <th width="7%">পরিশোধিত</th>
-        <th width="7%">দেনা</th>
-        <th width="20%">সমকাল</th>
+        <th width="10%">পরিশোধনীয় মূল্য</th>
+        <th width="10%">পরিশোধিত</th>
+        <th width="9%">দেনা</th>
+        <th width="13%">সময়কাল</th>
       </tr>
     </thead>
     <tbody>
       @foreach($purchases as $purchase)
         <tr>
-          <td rowspan="{{ $purchase->stocks->count() }}">{{ $purchase->code }}</td>
+          {{-- <td rowspan="{{ $purchase->stocks->count() }}">{{ $purchase->code }}</td> --}}
           @php
             $columncount = $purchase->stocks->count();
             $columnadded1 = 0;
@@ -82,14 +82,14 @@
             @endif
             <td>{{ $stock->product->name }}</td>
             <td align="center">{{ $stock->quantity }} {{ $stock->product->unit }}</td>
-            <td align="center">{{ $stock->buying_price }}</td>
+            <td align="center">{{ $stock->buying_price }} ৳</td>
             @if($columnadded2 == 0) {{-- when it will be 1 columns will be added --}}
               <td rowspan="{{ $purchase->stocks->count() }}">{{ $purchase->total }} ৳</td>
               <td rowspan="{{ $purchase->stocks->count() }}">{{ $purchase->discount }} {{ $purchase->discount_unit }}</td>
               <td rowspan="{{ $purchase->stocks->count() }}">{{ $purchase->payable }} ৳</td>
               <td rowspan="{{ $purchase->stocks->count() }}">{{ $purchase->paid }} ৳</td>
               <td rowspan="{{ $purchase->stocks->count() }}">{{ $purchase->due }} ৳</td>
-              <td rowspan="{{ $purchase->stocks->count() }}">{{ date('F d, Y H:i A', strtotime($purchase->created_at)) }}</td>
+              <td rowspan="{{ $purchase->stocks->count() }}">{{ date('F d, Y', strtotime($purchase->created_at)) }}</td>
               @php
                 $columnadded2 = 1;
               @endphp
@@ -109,8 +109,23 @@
 
 
   <htmlpagefooter name="page-footer">
-    <small>ডাউনলোডের সময়কালঃ <span style="font-family: Calibri;">{{ date('F d, Y, h:i A') }}</span></small><br/>
-    <small style="font-family: Calibri; color: #3f51b5;">Powered by: http://dokankhata.com</span>
+    <table>
+      <tr>
+        <td width="50%">
+          <small>ডাউনলোডের সময়কালঃ <span style="font-family: Calibri;">{{ date('F d, Y, h:i A') }}</span></small><br/>
+          <small style="font-family: Calibri; color: #3f51b5;">Powered by: http://dokankhata.com (01515297658)</span>
+        </td>
+        <td align="right">
+          <small>প্রস্তুতকারকঃ 
+          @if(Auth::check())
+            {{ Auth::user()->name }}
+          @else
+            গেস্ট
+          @endif
+          </small>
+        </td>
+      </tr>
+    </table>
   </htmlpagefooter>
 </body>
 </html>

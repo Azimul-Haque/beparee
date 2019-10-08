@@ -117,8 +117,8 @@ const app = new Vue({
       	
       },
       getUserProfilePhotoOnNav() {
-        if(this.$user) {
-          var user_parsed = JSON.parse(this.$user);
+        var user_parsed = JSON.parse(this.$user);
+        if(user_parsed.image != null || user_parsed.image == '') {
           var user_id = user_parsed.id;
           axios.get('/api/user/'+user_id).then(
             ({ data }) => 
@@ -126,6 +126,7 @@ const app = new Vue({
               this.profileNavImageLink = '/images/users/'+data.image,
               $('#profileNavName').text(data.name )
             ));
+          // console.log(this.profileNavImageLink);
         }
       },
     },

@@ -50,6 +50,10 @@
                     <th>ডিলার/ ভেন্ডরের নাম</th>
                     <th>ঠিকানা</th>
                     <th>যোগাযোগের নম্বর</th>
+                    <th>মোট ক্রয় সংখ্যা</th>
+                    <th>চলতি দেনা</th>
+                    <th>সর্বমোট দেনা</th>
+                    <th>সর্বমোট দেনা পরিশোধ</th>
                     <th width="15%">ক্রিয়াকলাপ</th>
                   </tr>
                  </thead>
@@ -63,6 +67,10 @@
                     </td>
                     <td>{{ vendor.address }}</td>
                     <td>{{ vendor.mobile }}</td>
+                    <td>{{ vendor.total_purchase }}</td>
+                    <td><span class="badge badge-danger">{{ vendor.current_due }} ৳</span></td>
+                    <td><span class="badge badge-warning">{{ vendor.total_due }} ৳</span></td>
+                    <td><span class="badge badge-primary">{{ vendor.total_due_paid }} ৳</span></td>
                     <td>
                         <router-link :to="{ name: 'singleVendor', params: { id: vendor.id, code: code }}" class="btn btn-info btn-sm" v-tooltip="'বিস্তারিত দেখুন'">
                           <i class="fa fa-eye"></i>

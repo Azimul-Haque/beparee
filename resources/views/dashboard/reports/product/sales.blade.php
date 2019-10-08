@@ -12,9 +12,9 @@
       width: 100%;
   }
   th, td{
-    padding: 7px;
+    padding: 5px;
     font-family: 'kalpurush', sans-serif;
-    font-size: 15px;
+    font-size: 14px;
   }
   .bordertable td, th {
       border: 1px solid #A8A8A8;
@@ -51,11 +51,12 @@
   <table class="bordertable">
     <thead>
       <tr>
-        <th>ক্রয় রশিদ নম্বর</th>
+        <th width="15%">বিক্রয় রশিদ নং</th>
         <th>কাস্টমার</th>
-        <th width="13%">পরিমাণ ({{ $product->unit }})</th>
-        <th width="13%">বিক্রয়মূল্য (প্রতি {{ $product->unit }})</th>
-        <th>তারিখ</th>
+        <th width="10%">পরিমাণ ({{ $product->unit }})</th>
+        <th width="14%">বিক্রয়মূল্য (প্রতি {{ $product->unit }})</th>
+        <th width="14%">সর্বমোট বিক্রয়মূল্য</th>
+        <th width="20%">তারিখ</th>
       </tr>
     </thead>
     <tbody>
@@ -65,6 +66,7 @@
         <td>{{ $item->sale->customer->name }}</td>
         <td align="center">{{ $item->quantity }}</td>
         <td align="right">{{ $item->unit_price }} ৳</td>
+        <td align="right">{{ number_format(($item->quantity * $item->unit_price), 2, '.', '') }} ৳</td>
         <td align="center">{{ bangla(date('F d, Y', strtotime($item->created_at))) }}</td>
       </tr>
       @endforeach
@@ -78,8 +80,23 @@
 
 
   <htmlpagefooter name="page-footer">
-    <small>ডাউনলোডের সময়কালঃ <span style="font-family: Calibri;">{{ date('F d, Y, h:i A') }}</span></small><br/>
-    <small style="font-family: Calibri; color: #3f51b5;">Powered by: http://dokankhata.com</span>
+    <table>
+      <tr>
+        <td width="50%">
+          <small>ডাউনলোডের সময়কালঃ <span style="font-family: Calibri;">{{ date('F d, Y, h:i A') }}</span></small><br/>
+          <small style="font-family: Calibri; color: #3f51b5;">Powered by: http://dokankhata.com (01515297658)</span>
+        </td>
+        <td align="right">
+          <small>প্রস্তুতকারকঃ 
+          @if(Auth::check())
+            {{ Auth::user()->name }}
+          @else
+            গেস্ট
+          @endif
+          </small>
+        </td>
+      </tr>
+    </table>
   </htmlpagefooter>
 </body>
 </html>

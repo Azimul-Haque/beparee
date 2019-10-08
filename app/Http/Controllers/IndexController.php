@@ -23,6 +23,11 @@ class IndexController extends Controller
         return view('index.contact');
     }
 
+    public function demo()
+    {
+        return view('index.demo');
+    }
+
     public function sendMessageFromSite(Request $request)
     {
         $message_success = 'We have <strong>successfully</strong> received your Message and will get Back to you as soon as possible.';

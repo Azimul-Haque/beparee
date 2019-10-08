@@ -205,7 +205,7 @@
       printLastSevenDays() {
         const canvasEle = this.$refs.lastSevenDays.$el.querySelector('canvas').toDataURL('image/png', 1.0);
         var win = window.open('', 'Print', 'height=800,width=1000');
-        win.document.write("<h2>শেষ সাত দিনের বিক্রয়</h2><br/><img src='" + canvasEle + "' /><br/><br/><br/>Powered by ব্যাপারী");
+        win.document.write("<h2>শেষ সাত দিনের বিক্রয়</h2><br/><img src='" + canvasEle + "' /><br/><br/><br/>Powered by http://dokankhata.com");
         setTimeout(function(){ //giving it 200 milliseconds time to load
                 win.document.close();
                 win.focus()
@@ -217,7 +217,7 @@
       printThisYears(year) {
         const canvasEle = this.$refs.thisYears.$el.querySelector('canvas').toDataURL('image/png', 1.0);
         var win = window.open('', 'Print', 'height=800,width=1000');
-        win.document.write("<h2>"+year+" সালের মাসভিত্তিক লাভ</h2><br/><img src='" + canvasEle + "' /><br/><br/><br/>Powered by ব্যাপারী");
+        win.document.write("<h2>"+year+" সালের মাসভিত্তিক লাভ</h2><br/><img src='" + canvasEle + "' /><br/><br/><br/>Powered by http://dokankhata.com");
         setTimeout(function(){ //giving it 200 milliseconds time to load
                 win.document.close();
                 win.focus()
@@ -229,7 +229,7 @@
       printThisMonths(month) {
         const canvasEle = this.$refs.thisMonths.$el.querySelector('canvas').toDataURL('image/png', 1.0);
         var win = window.open('', 'Print', 'height=800,width=1000');
-        win.document.write("<h2>"+month+" এর ক্রয় ও বিক্রয়ের তুলনা</h2><br/><img src='" + canvasEle + "' /><br/><br/><br/>Powered by ব্যাপারী");
+        win.document.write("<h2>"+month+" এর ক্রয় ও বিক্রয়ের তুলনা</h2><br/><img src='" + canvasEle + "' /><br/><br/><br/>Powered by http://dokankhata.com");
         setTimeout(function(){ //giving it 200 milliseconds time to load
                 win.document.close();
                 win.focus()

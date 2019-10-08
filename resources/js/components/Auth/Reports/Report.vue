@@ -118,9 +118,45 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
-                ভেন্ডর/সব<br/>
-                শুধু ভেন্ডর হলে দেনা সময়রেখা (মোট দেনা, মোট পরিশোধ)<br/>
-                সব হলে চলতি দেনা  সর্বমোট দেনা  সর্বমোট দেনা পরিশোধ
+                <form @submit.prevent="generateDueReport()" @keydown="dueform.onKeydown($event)">
+                  <div class="form-group">
+                    <v-select placeholder="ভেন্ডর/ ডিলার নির্ধারণ করুন" :options="vendors" :reduce="id => id" label="name" v-model="dueform.vendor" ref='productSelect' v-on:input="checkCategoryIfAllForDueReport(dueform.vendor)">
+                      <template #search="{attributes, events}">
+                        <input
+                          class="vs__search"
+                          :required="!dueform.vendor"
+                          v-bind="attributes"
+                          v-on="events"
+                        />
+                      </template>
+                    </v-select>
+                  </div>
+                  <div class="form-group" v-if="duereportallvendormode">
+                    <vc-date-picker
+                      v-model="dueform.start"
+                      :input-props='{
+                        placeholder: "শুরু তারিখ নির্ধারণ করুন",
+                        readonly: true
+                      }'
+                      :masks='{ input: "MMMM DD, YYYY" }'
+                      :class="{ 'form-control is-invalid': dueform.errors.has('date') }"
+                    />
+                    <has-error :form="dueform" field="date"></has-error>
+                  </div>
+                  <div class="form-group" v-if="duereportallvendormode">
+                    <vc-date-picker
+                      v-model="dueform.end"
+                      :input-props='{
+                        placeholder: "শেষ তারিখ নির্ধারণ করুন",
+                        readonly: true
+                      }'
+                      :masks='{ input: "MMMM DD, YYYY" }'
+                      :class="{ 'form-control is-invalid': dueform.errors.has('date') }"
+                    />
+                    <has-error :form="dueform" field="date"></has-error>
+                  </div>
+                  <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-download"></i> রিপোর্ট ডাউনলোড</button>
+                </form>
               </div>
               <!-- /.card-body -->
             </div>
@@ -132,8 +168,45 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
-                পণ্য/সব<br/>
-                তারিখ হতে - তারিখ পর্যন্ত
+                <form @submit.prevent="generateSaleReport()" @keydown="saleform.onKeydown($event)">
+                  <div class="form-group">
+                    <v-select placeholder="পণ্য নির্ধারণ করুন" :options="productsforsale" :reduce="id => id" label="name" v-model="saleform.product" ref='productSelect'>
+                      <template #search="{attributes, events}">
+                        <input
+                          class="vs__search"
+                          :required="!saleform.product"
+                          v-bind="attributes"
+                          v-on="events"
+                        />
+                      </template>
+                    </v-select>
+                  </div>
+                  <div class="form-group">
+                    <vc-date-picker
+                      v-model="saleform.start"
+                      :input-props='{
+                        placeholder: "শুরু তারিখ নির্ধারণ করুন",
+                        readonly: true
+                      }'
+                      :masks='{ input: "MMMM DD, YYYY" }'
+                      :class="{ 'form-control is-invalid': saleform.errors.has('date') }"
+                    />
+                    <has-error :form="saleform" field="date"></has-error>
+                  </div>
+                  <div class="form-group">
+                    <vc-date-picker
+                      v-model="saleform.end"
+                      :input-props='{
+                        placeholder: "শেষ তারিখ নির্ধারণ করুন",
+                        readonly: true
+                      }'
+                      :masks='{ input: "MMMM DD, YYYY" }'
+                      :class="{ 'form-control is-invalid': saleform.errors.has('date') }"
+                    />
+                    <has-error :form="saleform" field="date"></has-error>
+                  </div>
+                  <button type="submit" class="btn btn-warning btn-sm"><i class="fa fa-download"></i> রিপোর্ট ডাউনলোড</button>
+                </form>
               </div>
               <!-- /.card-body -->
             </div>
@@ -251,6 +324,18 @@
               <!-- /.card-body -->
             </div>
           </div>
+          <div class="col-md-3">
+            <div class="card card-outline card-success">
+              <div class="card-header text-success">
+                <i class="fa fa-calendar-check-o"></i> দৈনিক রিপোর্ট
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body" style="display: block;">
+                দৈনিক সকল ডেবিট ক্রেডিটের হিসাব
+              </div>
+              <!-- /.card-body -->
+            </div>
+          </div>
         </div>
       </div><!-- /.container-fluid -->
       <div v-if="!$gate.isAdminOrAssociated('reports-page', this.$route.params.code)">
@@ -267,6 +352,7 @@
       return {
         products: [],
         vendors: [],
+        productsforsale: [],
         staffsforatt: [],
         years: [],
         months: ['জানুয়ারী', 'ফেব্রুয়ারী', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'],
@@ -281,11 +367,24 @@
           end: '',
           code: this.$route.params.code,
         }),
+        saleform: new Form({
+          product: '',
+          start: '',
+          end: '',
+          code: this.$route.params.code,
+        }),
+        dueform: new Form({
+          vendor: '',
+          start: '',
+          end: '',
+          code: this.$route.params.code,
+        }),
         staffform: new Form({
           staff: '',
           month: '',
           year: ''
         }),
+        duereportallvendormode: true,
       }
     },
     methods: {
@@ -319,6 +418,44 @@
           }
         }
       },
+      // due report...
+      generateDueReport() {
+        if(this.$gate.isAdminOrAssociated('reports-page', this.$route.params.code)){
+          if(this.dueform.vendor.id != 0 && (this.dueform.start == '' || this.dueform.end == '')) {
+            toast.fire({
+              type: 'warning',
+              title: 'তারিখ পূরণ করুন'
+            })
+          } else {
+            window.location.href = '/pdf/due/report/' + this.dueform.vendor['id'] + '/' + moment(this.dueform.start).format('YYYY-MM-DD') + '/' + moment(this.dueform.end).format('YYYY-MM-DD') + '/' + this.$route.params.code;
+          }
+        }
+      },
+      checkCategoryIfAllForDueReport(vendor) {
+        if(vendor && vendor.id == 0) {
+          this.duereportallvendormode = false;
+        } else {
+          this.duereportallvendormode = true;
+        }
+      },
+      // sale report...
+      generateSaleReport() {
+        if(this.$gate.isAdminOrAssociated('reports-page', this.$route.params.code)){
+          if(this.saleform.start == '' || this.saleform.end == '') {
+            toast.fire({
+              type: 'warning',
+              title: 'তারিখ পূরণ করুন'
+            })
+          } else {
+            window.location.href = '/pdf/sale/report/' + this.saleform.product['id'] + '/' + moment(this.saleform.start).format('YYYY-MM-DD') + '/' + moment(this.saleform.end).format('YYYY-MM-DD') + '/' + this.$route.params.code;
+          }
+        }
+      },
+      loadProductsForSale() {
+        if(this.$gate.isAdminOrAssociated('reports-page', this.$route.params.code)){
+          axios.get('/api/load/product/for/sale/report/' + this.$route.params.code).then(({ data }) => (this.productsforsale = data));
+        }
+      },
 
       // staff report...
       loadStaffsForAtt() {
@@ -341,6 +478,7 @@
     created() {
       this.loadProducts();
       this.loadVendors();
+      this.loadProductsForSale();
       this.loadStaffsForAtt();
       this.loadYears();
     },

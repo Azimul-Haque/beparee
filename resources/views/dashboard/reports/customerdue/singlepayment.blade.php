@@ -105,8 +105,23 @@
 
 
   <htmlpagefooter name="page-footer">
-    <small>ডাউনলোডের সময়কালঃ <span style="font-family: Calibri;">{{ date('F d, Y, h:i A') }}</span></small><br/>
-    <small style="font-family: Calibri; color: #3f51b5;">Powered by: http://dokankhata.com</span>
+    <table>
+      <tr>
+        <td width="50%">
+          <small>ডাউনলোডের সময়কালঃ <span style="font-family: Calibri;">{{ date('F d, Y, h:i A') }}</span></small><br/>
+          <small style="font-family: Calibri; color: #3f51b5;">Powered by: http://dokankhata.com (01515297658)</span>
+        </td>
+        <td align="right">
+          <small>প্রস্তুতকারকঃ 
+          @if(Auth::check())
+            {{ Auth::user()->name }}
+          @else
+            গেস্ট
+          @endif
+          </small>
+        </td>
+      </tr>
+    </table>
   </htmlpagefooter>
 </body>
 </html>

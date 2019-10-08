@@ -108,6 +108,7 @@ Route::post('sale/{id}', 'API\SaleController@update'); // to cover up the vps pu
 Route::get('load/sale/{code}', 'API\SaleController@loadSales');
 Route::get('load/sale/product/{code}', 'API\SaleController@loadProducts');
 Route::get('load/sale/customer/{code}', 'API\SaleController@loadCustomers');
+Route::get('load/product/for/sale/report/{code}', 'API\ReportController@loadProducts');
 
 Route::get('get/store/id/{code}', 'API\StoreController@getStoreID');
 
