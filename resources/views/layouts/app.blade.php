@@ -38,7 +38,7 @@
     {{-- og --}}
     <meta property="og:image" content="{{ asset('images/fb.jpg') }}" />
     <meta property="og:title" content="দোকান খাতা (Dokan Khata), সব হিসাব এখানেই!"/>
-    <meta name="description" property="og:description" content="আপনার যাবতীয় ব্যবসায়ী হিসাব এখন সহজ করে দিতে আমরা এসেছি আপনার প্রতিষ্ঠানে! &copy; Copyright Reserved {{ date('Y') }}" />
+    <meta property="og:description" content="আপনার যাবতীয় ব্যবসায়ী হিসাব এখন সহজ করে দিতে আমরা এসেছি আপনার প্রতিষ্ঠানে! &copy; Copyright Reserved {{ date('Y') }}" />
     <meta property="og:type" content="article"/>
     <meta property="og:url" content="{{ Request::url() }}" />
     <meta property="og:site_name" content="দোকান খাতা (Dokan Khata)">
