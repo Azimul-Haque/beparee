@@ -91,10 +91,21 @@
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
     <div class="p-3">
-      <h5>Title</h5>
-      <p>
-        Sidebar content
-      </p>
+      <h5>সারাদিনের জমা খরচ</h5>
+      
+      {{-- <p>ক্রয়ঃ 220 ৳ | <small>08:46 PM</small></p>
+      <p>বিক্রয়ঃ 570 ৳ | <small>08:46 PM</small></p>
+      <p>খরচঃ 230 ৳ | <small>08:46 PM</small></p>
+      <p>ক্রয়ঃ 320 ৳ | <small>08:46 PM</small></p>
+      <p>বিক্রয়ঃ 70 ৳ | <small>08:46 PM</small></p>
+      <p>খরচঃ 230 ৳ | <small>08:46 PM</small></p>
+
+      <br/><br/>
+      <center>
+        <a href="">
+          <small>সর্বশেষ তথ্য দেখতে না পেলে রিলোড করুন</small>
+        </a>
+      </center> --}}
     </div>
   </aside>
   <!-- /.control-sidebar -->

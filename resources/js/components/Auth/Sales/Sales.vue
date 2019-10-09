@@ -325,14 +325,17 @@
             maxquantity: [],
             productunit: [],
             addformrange: [0],
+            nativemodal: true,
           }
       },
       methods: {
           addModal() {
             this.form.reset();
             $('#addModal').modal({ show: true, backdrop: 'static', keyboard: false });
-            this.$refs.productSelect[0].clearSelection();
-            this.$refs.customerSelect.clearSelection();
+            if(this.nativemodal) {
+              this.$refs.productSelect[0].clearSelection();
+              this.$refs.customerSelect.clearSelection();
+            }
 
             this.addformrange.splice(0, this.addformrange.length);
             this.addformrange.push(0);
@@ -540,6 +543,10 @@
           
           Fire.$on('AfterSaleCreated', () => {
               this.loadSales();
+          });
+          Fire.$on('saleFromNavOpenModal', () => {
+            this.nativemodal = false;
+            setTimeout(() => this.addModal(), 500);
           });
 
           // Fire.$on('searching', () => {

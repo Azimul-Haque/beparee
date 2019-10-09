@@ -25,6 +25,15 @@ class StoreController extends Controller
         return response()->json($stores);
     }
 
+    public function loadStoresForDashboard($id)
+    {
+        $stores = Store::whereHas('users', function($q) use($id) {
+                        $q->where('user_id', $id);
+                    })->get();
+        // dd($stores);
+        return response()->json($stores);
+    }
+
     public function loadDistricts()
     {
         $districts = Upazilla::orderBy('id', 'asc')->groupBy('district_bangla')->get()->pluck('district_bangla');

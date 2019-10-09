@@ -13,6 +13,7 @@ use App\Expense;
 use App\Vendor;
 use App\Duehistory;
 use App\Product;
+use App\Customer;
 
 use Image, File, DB;
 
@@ -37,6 +38,17 @@ class ReportController extends Controller
     public function loadProducts($code)
     {
         $store = Store::where('code', $code)->first();
+        
+        $products = Product::select('id','name', 'unit')->where('store_id', $store->id)->get();
+
+        $products->push(['id' => 0, 'name' => 'সব পণ্য', 'store_id' => $store->id]);
+
+        return response()->json(array_reverse($products->all()));
+    }
+
+    public function loadCustomersForReport($code)
+    {
+        $store = Customer::where('code', $code)->first();
         
         $products = Product::select('id','name', 'unit')->where('store_id', $store->id)->get();
 

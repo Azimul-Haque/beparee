@@ -33,6 +33,7 @@ Route::apiResources(['store' => 'API\StoreController']);
 Route::post('store/{id}', 'API\StoreController@update'); // to cover up the vps put perm.
 
 Route::get('load/store/{code}', 'API\StoreController@loadStore');
+Route::get('load/stores/for/dashboard/{code}', 'API\StoreController@loadStoresForDashboard');
 Route::get('load/districts', 'API\StoreController@loadDistricts');
 Route::get('load/upazilla/{district}', 'API\StoreController@loadUpazillas');
 Route::get('owners', 'API\StoreController@getOwners'); // For store Select Options
@@ -92,6 +93,7 @@ Route::post('load/customer/pay/due/{id}', 'API\CustomerController@payDue');
 Route::get('load/single/customer/purchases/{id}/{code}', 'API\CustomerController@loadSingleCustomerPurchases');
 Route::get('load/customers/due/{code}', 'API\CustomerController@loadDues');
 Route::get('load/customersdues/{code}', 'API\CustomerController@loadCustomersDues');
+Route::get('load/customers/for/report/{code}', 'API\ReportController@loadCustomersForReport');
 
 Route::apiResources(['expense' => 'API\ExpenseController']);
 Route::post('expense/{id}', 'API\ExpenseController@update'); // to cover up the vps put perm.
@@ -119,6 +121,11 @@ Route::get('load/accounts/profit/calc/this/month/{code}', 'API\AccountsControlle
 
 
 
+// each search function has a big bug, it does not filters user's stores!!!
+// each search function has a big bug, it does not filters user's stores!!!
+// each search function has a big bug, it does not filters user's stores!!!
+// each search function has a big bug, it does not filters user's stores!!!
+// each search function has a big bug, it does not filters user's stores!!!
 // each search function has a big bug, it does not filters user's stores!!!
 // each search function has a big bug, it does not filters user's stores!!!
 // each search function has a big bug, it does not filters user's stores!!!

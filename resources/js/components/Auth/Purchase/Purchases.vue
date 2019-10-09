@@ -299,14 +299,17 @@
             productunit: [],
             addformrange: [0],
             maxpaid: 0,
+            nativemodal: true,
           }
       },
       methods: {
           addModal() {
             this.form.reset();
             $('#addModal').modal({ show: true, backdrop: 'static', keyboard: false });
-            this.$refs.productSelect[0].clearSelection();
-            this.$refs.vendorSelect.clearSelection();
+            if(this.nativemodal) {
+              this.$refs.productSelect[0].clearSelection();
+              this.$refs.vendorSelect.clearSelection();
+            }
 
             this.addformrange.splice(0, this.addformrange.length);
             this.addformrange.push(0);
@@ -502,6 +505,10 @@
           
           Fire.$on('AfterPurchaseCreatedOrUpdated', () => {
               this.loadPurchases();
+          });
+          Fire.$on('purchaseFromNavOpenModal', () => {
+            this.nativemodal = false;
+            setTimeout(() => this.addModal(), 500);
           });
 
           Fire.$on('searching', () => {

@@ -220,6 +220,31 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
+                <form @submit.prevent="generateCustomerReport()" @keydown="customerform.onKeydown($event)">
+                  <div class="form-group">
+                    <v-select placeholder="কাস্টমার নির্ধারণ করুন" :options="products" :reduce="id => id" label="name" v-model="customerform.customer" ref='productSelect'>
+                      <template #search="{attributes, events}">
+                        <input
+                          class="vs__search"
+                          :required="!customerform.customer"
+                          v-bind="attributes"
+                          v-on="events"
+                        />
+                      </template>
+                    </v-select>
+                  </div>
+                  <div class="form-group">
+                    <!-- <label>রিপোর্টের ধরণ</label> -->
+                    <select v-model="customerform.report_type" name="report_type" placeholder="রিপোর্টের ধরণ" 
+                      class="form-control" :class="{ 'is-invalid': customerform.errors.has('report_type') }" required="" oninvalid="this.setCustomValidity('রিপোর্টের ধরণ নির্ধারণ করুন')" oninput="setCustomValidity('')">
+                      <option value="" selected="" disabled="">রিপোর্টের ধরণ</option>
+                      <option value="stock_list">স্টক তালিকা</option>
+                      <option value="sales_list">বিক্রয়য়ের তালিকা</option>
+                    </select>
+                    <has-error :form="customerform" field="report_type"></has-error>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> রিপোর্ট ডাউনলোড</button>
+                </form>
                 কাস্টমার/সব<br/>
                 ক্রয় তালিকা/ বকেয়া তালিকা<br/>
                 শুধু কাস্টমার হলে ক্রয় ডিটেল, বকেয়া ডিটেল সময়রেখা (মোট বক্যেয়া, মোট পরিশোধ)<br/>
@@ -353,6 +378,7 @@
         products: [],
         vendors: [],
         productsforsale: [],
+        customers: [],
         staffsforatt: [],
         years: [],
         months: ['জানুয়ারী', 'ফেব্রুয়ারী', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'],
@@ -383,6 +409,11 @@
           staff: '',
           month: '',
           year: ''
+        }),
+        customerform: new Form({
+          customer: '',
+          report_type: '',
+          code: this.$route.params.code,
         }),
         duereportallvendormode: true,
       }
@@ -456,6 +487,17 @@
           axios.get('/api/load/product/for/sale/report/' + this.$route.params.code).then(({ data }) => (this.productsforsale = data));
         }
       },
+      // customer report...
+      generateCustomerReport() {
+        if(this.$gate.isAdminOrAssociated('reports-page', this.$route.params.code)){
+          window.location.href = '/pdf/staff/report/' + this.staffform.staff['id'] + '/' + this.staffform.month + '/' + this.staffform.year + '/' + this.$route.params.code;
+        }
+      },
+      loadCustomerForReport() {
+        if(this.$gate.isAdminOrAssociated('reports-page', this.$route.params.code)){
+          axios.get('/api/load/customers/for/report/' + this.$route.params.code).then(({ data }) => (this.customers = data));
+        }
+      },
 
       // staff report...
       loadStaffsForAtt() {
@@ -474,11 +516,13 @@
           window.location.href = '/pdf/staff/report/' + this.staffform.staff['id'] + '/' + this.staffform.month + '/' + this.staffform.year + '/' + this.$route.params.code;
         }
       },
+
     },
     created() {
       this.loadProducts();
       this.loadVendors();
       this.loadProductsForSale();
+      this.loadCustomerForReport();
       this.loadStaffsForAtt();
       this.loadYears();
     },

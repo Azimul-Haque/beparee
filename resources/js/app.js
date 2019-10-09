@@ -124,15 +124,41 @@ const app = new Vue({
             ({ data }) => 
             (
               this.profileNavImageLink = '/images/users/'+data.image,
-              $('#profileNavName').text(data.name )
+              $('#profileNavName').text(data.name)
             ));
           // console.log(this.profileNavImageLink);
+        }
+      },
+      purchaseFromNavBtn() {
+        var urlnow = window.location.pathname;
+        if(urlnow.includes('dashboard') || urlnow.includes('profile')) {
+          toast.fire({
+            type: 'warning',
+            title: 'দোকানের যে কোন পাতায় যান!'
+          })
+        } else {
+          var storecodenow = urlnow.substr(urlnow.length - 10);
+          this.$router.push({name: 'purchasesPage', params: { code: storecodenow }});
+          Fire.$emit('purchaseFromNavOpenModal');
+        }
+      },
+      saleFromNavBtn() {
+        var urlnow = window.location.pathname;
+        if(urlnow.includes('dashboard') || urlnow.includes('profile')) {
+          toast.fire({
+            type: 'warning',
+            title: 'দোকানের যে কোন পাতায় যান!'
+          })
+        } else {
+          var storecodenow = urlnow.substr(urlnow.length - 10); // => "Tabs1"
+          this.$router.push({name: 'salesPage', params: { code: storecodenow }});
+          Fire.$emit('saleFromNavOpenModal');
         }
       },
     },
 
     created() {
-    	this.getUserProfilePhotoOnNav();
+      this.getUserProfilePhotoOnNav();
 
       Fire.$on('updateuserdpinnav', () => {
         this.getUserProfilePhotoOnNav();
