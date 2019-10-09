@@ -47,7 +47,7 @@
    								<a href="#!"><img src="{{ asset('vendor/canvas/images/icons/features/responsive.png') }}" alt="Responsive Layout"></a>
    							</div>
    							<h3>মালামালের তালিকা</h3>
-   							<p>Powerful Layout with Responsive functionality that can be adapted to any screen size. Resize browser to view.</p>
+   							<p>মালামালের ধরণ, পরিমাণভিত্তিক তালিকা, ডিলার/ ভেন্ডর ভিত্তিক মালামাল তালিকা, মালামাল ক্রয়, মালামালের বিস্তারিত রিপোর্ট </p>
    						</div>
    					</div>
 
@@ -57,7 +57,7 @@
    								<a href="#!"><img src="{{ asset('vendor/canvas/images/icons/features/retina.png') }}" alt="Retina Graphics"></a>
    							</div>
    							<h3>ক্রয়ের-বিক্রয়ের হিসাব</h3>
-   							<p>Looks beautiful &amp; ultra-sharp on Retina Screen Displays. Retina Icons, Fonts &amp; all others graphics are optimized.</p>
+   							<p>ক্রয় কার্যক্রম, ক্রয় রশিদ নং সহ তালিকা, ডিলা/ ভেন্ডরের দেনা/ পরিশোধনীয়সহ যাবতীয় ক্রিয়াকলাপ, ক্রয়ের রশিদ ডাউনলোড ইত্যাদি</p>
    						</div>
    					</div>
 
@@ -67,7 +67,7 @@
    								<a href="#!"><img src="{{ asset('vendor/canvas/images/icons/features/performance.png') }}" alt="Powerful Performance"></a>
    							</div>
    							<h3>কর্মচারী ব্যবস্থাপনা</h3>
-   							<p>Canvas includes tons of optimized code that are completely customizable and deliver unmatched fast performance.</p>
+   							<p>কর্মচারী উপস্থিতি, ছুটি ব্যবস্থাপনা, বেতন-ভাতা প্রদান কার্যক্রম, উপস্থিতির রিপোর্ট, বেতন-ভাতার রিপোর্ট ইত্যাদি</p>
    						</div>
    					</div>
 
@@ -79,7 +79,7 @@
    								<a href="#!"><img src="{{ asset('vendor/canvas/images/icons/features/flag.png') }}" alt="Responsive Layout"></a>
    							</div>
    							<h3>দেনার-বকেয়ার হিসাব</h3>
-   							<p>You have complete easy control on each &amp; every element that provides endless customization possibilities.</p>
+   							<p>ডিলার/ ভেন্ডরের দেনার যাবতীয় হিসাব, রশিদ ও রিপোর্ট, কাস্টমারের বকেয়ার যাবতীয় হিসাব, রশিদ ও রিপোর্ট, দেনা ও বকেয়া পরিশোধ কার্যক্রম</p>
    						</div>
    					</div>
 
@@ -89,7 +89,7 @@
    								<a href="#!"><img src="{{ asset('vendor/canvas/images/icons/features/tick.png') }}" alt="Retina Graphics"></a>
    							</div>
    							<h3> ইনভয়েস ব্যবস্থাপনা</h3>
-   							<p>Change your Website's Primary Scheme instantly by simply adding the dark class to the body.</p>
+   							<p>পণ্য বিক্রয়ের ইনভয়েস/ রশিদ, বিক্রয়সমূহের তালিকা, কাস্টমারের বাকী-বকেয়াসহ বিক্রয়ের লাভ-লোকশানের রিপোর্ট, গ্রাফ ইত্যাদি</p>
    						</div>
    					</div>
 
@@ -99,7 +99,7 @@
    								<a href="#!"><img src="{{ asset('vendor/canvas/images/icons/features/tools.png') }}" alt="Powerful Performance"></a>
    							</div>
    							<h3>খরচের হিসাব</h3>
-   							<p>Use any Font you like from Google Web Fonts, Typekit or other Web Fonts. They will blend in perfectly.</p>
+   							<p>খাতভিত্তিক খরচের হিসাব সংরক্ষণ ক্রিয়াকলাপ, বেতন-ভাতা, নানাবিধ বিল, আপ্যায়ন ইত্যাদি খরচ লিপিবদ্ধকরণ, সকল খরচের রিপোর্ট</p>
    						</div>
    					</div>
 
@@ -111,7 +111,7 @@
    								<a href="#!"><img src="{{ asset('vendor/canvas/images/icons/features/map.png') }}" alt="Responsive Layout"></a>
    							</div>
    							<h3>কাস্টমার ব্যবস্থাপনা</h3>
-   							<p>Powerful Layout with Responsive functionality that can be adapted to any screen size. Resize browser to view.</p>
+   							<p>কাস্টমার সংযোজন, কাস্টমার সম্পাদনা, কাস্টোমারের বাকী-বকেয়া ও হালখাতার রিপোর্ট, কাস্টমারের ক্রয়-তালিকা, বকেয়া পরিশোধ কার্যক্রম ইত্যাদি</p>
    						</div>
    					</div>
 
@@ -120,8 +120,8 @@
    							<div class="fbox-icon" data-animate="bounceIn" data-delay="1400">
    								<a href="#!"><img src="{{ asset('vendor/canvas/images/icons/features/seo.png') }}" alt="Retina Graphics"></a>
    							</div>
-   							<h3>ডিলার ব্যবস্থাপনা</h3>
-   							<p>Looks beautiful &amp; ultra-sharp on Retina Screen Displays. Retina Icons, Fonts &amp; all others graphics are optimized.</p>
+   							<h3>ডিলার/ ভেন্ডর ব্যবস্থাপনা</h3>
+   							<p>ডিলার/ ভেন্ডর সংযোজন, সম্পাদনা, ডিলার/ ভেন্ডরের দেনার রিপোর্ট, ডিলার থেকে ক্রয়-তালিকা, দেনা পরিশোধ কার্যক্রম ইত্যাদি</p>
    						</div>
    					</div>
 
@@ -131,7 +131,7 @@
    								<a href="#!"><img src="{{ asset('vendor/canvas/images/icons/features/support.png') }}" alt="Powerful Performance"></a>
    							</div>
    							<h3>রিপোর্ট </h3>
-   							<p>Canvas includes tons of optimized code that are completely customizable and deliver unmatched fast performance.</p>
+   							<p>সুবিধামাফিক পিডিএফ ফরম্যাটে রিপোর্ট ডাউনলোড ও প্রিন্টের ব্যবস্থা, মালামাল, ক্রয়, বিক্রয়, দেনা-বকেয়া, ডিলার-কাস্টমার-কর্মচারী ইত্যাদির রিপোর্ট তৈরি</p>
    						</div>
    					</div>
 
@@ -155,7 +155,7 @@
    								<a href="#!"><i class="icon-phone2"></i></a>
    							</div>
    							<h3>এক প্লাটফর্ম একাধিক দোকান </h3>
-   							<p>Powerful Layout with Responsive functionality that can be adapted to any screen size.</p>
+   							<p>একটিমাত্র একাউন্ট ব্যবহার করে একাধিক দোকান ব্যবস্থাপনা আমাদের অভিনব সংযোজন!</p>
    						</div>
    					</div>
 
@@ -165,7 +165,7 @@
    								<a href="#!"><i class="icon-eye"></i></a>
    							</div>
    							<h3>নির্ভুল হিসাবনিকাশ</h3>
-   							<p>Looks beautiful &amp; ultra-sharp on Retina Displays with Retina Icons, Fonts &amp; Images.</p>
+   							<p>সফটওয়্যারের মাধ্যমে শতভাগ নির্ভুল ও নিখুঁত হিসাব-নিকাশ!</p>
    						</div>
    					</div>
 
@@ -175,7 +175,7 @@
    								<a href="#!"><i class="icon-star2"></i></a>
    							</div>
    							<h3>সময়ের অপচয় রোধ</h3>
-   							<p>Optimized code that are completely customizable and deliver unmatched fast performance.</p>
+   							<p>সারা সপ্তাহের হিসাব নিমেষেই, দৈনিক কমপক্ষে ৮ ঘণ্টা সাশ্রয়!</p>
    						</div>
    					</div>
 
@@ -187,7 +187,7 @@
    								<a href="#!"><i class="icon-video"></i></a>
    							</div>
    							<h3>ক্লাউড বেসড</h3>
-   							<p>Canvas provides support for Native HTML5 Videos that can be added to a Full Width Background.</p>
+   							<p>সম্পূর্ণরূপে ক্লাউডবেসড হওয়ায় আপনার মূল্যবান ব্যবসায়ী তথ্যগুলো হারাবার কোন ভয় নেই!</p>
    						</div>
    					</div>
 
@@ -197,7 +197,7 @@
    								<a href="#!"><i class="icon-params"></i></a>
    							</div>
    							<h3>নিরাপদ</h3>
-   							<p>Display your Content attractively using Parallax Sections that have unlimited customizable areas.</p>
+   							<p>দোকান খাতা ১০০% নিরাপদ ও ঝুকিমুক্ত একটি অনলাইন প্লাটফর্ম!</p>
    						</div>
    					</div>
 
@@ -207,7 +207,7 @@
    								<a href="#!"><i class="icon-fire"></i></a>
    							</div>
    							<h3>সম্পূর্ণ বাংলা ভাষায়</h3>
-   							<p>Complete control on each &amp; every element that provides endless customization possibilities.</p>
+   							<p>আমরাই প্রথম ব্যবসায়ী সফটওয়্যারকে সম্পূর্ণ বাংলায় ব্যবহারের উপযোগী করে এনেছি আপনাদের সামনে!</p>
    						</div>
    					</div>
 
@@ -219,7 +219,7 @@
    								<a href="#!"><i class="icon-bulb"></i></a>
    							</div>
    							<h3>আনলিমিটেড ইউজার</h3>
-   							<p>Change your Website's Primary Scheme instantly by simply adding the dark class to the body.</p>
+   							<p>সামান্য খরচের এ প্লাটফর্মে আমরাই দিচ্ছি একটি দোকানের জন্য সীমাহীন ব্যবহারকারীর থাকার সুযোগ!</p>
    						</div>
    					</div>
 
@@ -229,7 +229,7 @@
    								<a href="#!"><i class="icon-heart2"></i></a>
    							</div>
    							<h3>২৪/৭ সাপোর্ট</h3>
-   							<p>Stretch your Website to the Full Width or make it boxed to surprise your visitors.</p>
+   							<p>আপনার ছোট ছোট সমস্যাগুলো সমাধানকল্পে আমাদের প্রতিনিধিদের পাচ্ছেন ২৪ ঘণ্টা, ৭ দিন!</p>
    						</div>
    					</div>
 
@@ -238,8 +238,8 @@
    							<div class="fbox-icon">
    								<a href="#!"><i class="icon-note"></i></a>
    							</div>
-   							<h3>ফ্রী মোবাইল অ্যাপ</h3>
-   							<p>We have covered each &amp; everything in our Documentation including Videos &amp; Screenshots.</p>
+   							<h3>ফ্রি মোবাইল অ্যাপ</h3>
+   							<p>দোকান খাতা ব্যবহারকারীদের জন্য আমাদের আরেকটি অভিনব সংযোজন, ফ্রি মোবাইল অ্যাপ (অ্যান্ড্রয়েড)</p>
    						</div>
    					</div>
 
