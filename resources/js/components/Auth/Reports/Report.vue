@@ -222,7 +222,7 @@
               <div class="card-body" style="display: block;">
                 <form @submit.prevent="generateCustomerReport()" @keydown="customerform.onKeydown($event)">
                   <div class="form-group">
-                    <v-select placeholder="কাস্টমার নির্ধারণ করুন" :options="products" :reduce="id => id" label="name" v-model="customerform.customer" ref='productSelect'>
+                    <v-select placeholder="কাস্টমার নির্ধারণ করুন" :options="customers" :reduce="id => id" label="name" v-model="customerform.customer" ref='productSelect'>
                       <template #search="{attributes, events}">
                         <input
                           class="vs__search"
@@ -238,8 +238,8 @@
                     <select v-model="customerform.report_type" name="report_type" placeholder="রিপোর্টের ধরণ" 
                       class="form-control" :class="{ 'is-invalid': customerform.errors.has('report_type') }" required="" oninvalid="this.setCustomValidity('রিপোর্টের ধরণ নির্ধারণ করুন')" oninput="setCustomValidity('')">
                       <option value="" selected="" disabled="">রিপোর্টের ধরণ</option>
-                      <option value="stock_list">স্টক তালিকা</option>
-                      <option value="sales_list">বিক্রয়য়ের তালিকা</option>
+                      <option value="buy_list">ক্রয় তালিকা</option>
+                      <option value="due_list">বকেয়া তালিকা</option>
                     </select>
                     <has-error :form="customerform" field="report_type"></has-error>
                   </div>
@@ -256,11 +256,11 @@
           <div class="col-md-3">
             <div class="card card-outline card-success">
               <div class="card-header text-success">
-                <i class="fa fa-book"></i> বকেয়ার রিপোর্ট
+                <i class="fa fa-book"></i> বকেয়া/ হালখাতা রিপোর্ট
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
-                কাস্টমার/সব<br/>
+                কাস্টমার/সব (কাস্টমার রিপোর্ট)<br/>
                 শুধু কাস্টমার হলে বকেয়া সময়রেখা (মোট বকেয়া, মোট পরিশোধ)<br/>
                 সব হলে চলতি বকেয়া  সর্বমোট বকেয়া  সর্বমোট বকেয়া পরিশোধ
               </div>
@@ -490,7 +490,7 @@
       // customer report...
       generateCustomerReport() {
         if(this.$gate.isAdminOrAssociated('reports-page', this.$route.params.code)){
-          window.location.href = '/pdf/staff/report/' + this.staffform.staff['id'] + '/' + this.staffform.month + '/' + this.staffform.year + '/' + this.$route.params.code;
+          window.location.href = '/pdf/customer/report/' + this.customerform.customer['id'] + '/' + this.customerform.report_type + '/' + this.$route.params.code;
         }
       },
       loadCustomerForReport() {

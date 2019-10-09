@@ -39,7 +39,7 @@ class ReportController extends Controller
     {
         $store = Store::where('code', $code)->first();
         
-        $products = Product::select('id','name', 'unit')->where('store_id', $store->id)->get();
+        $products = Product::select('id','name', 'store_id')->where('store_id', $store->id)->get();
 
         $products->push(['id' => 0, 'name' => 'সব পণ্য', 'store_id' => $store->id]);
 
@@ -48,12 +48,12 @@ class ReportController extends Controller
 
     public function loadCustomersForReport($code)
     {
-        $store = Customer::where('code', $code)->first();
+        $store = Store::where('code', $code)->first();
         
-        $products = Product::select('id','name', 'unit')->where('store_id', $store->id)->get();
+        $customers = Customer::select('id', DB::raw(DB::raw("CONCAT(name, ' (', mobile, ')') AS name")))->where('store_id', $store->id)->get();
 
-        $products->push(['id' => 0, 'name' => 'সব পণ্য', 'store_id' => $store->id]);
+        $customers->push(['id' => 0, 'name' => 'সকল কাস্টমার', 'store_id' => $store->id]);
 
-        return response()->json(array_reverse($products->all()));
+        return response()->json(array_reverse($customers->all()));
     }
 }

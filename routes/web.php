@@ -27,6 +27,7 @@ Route::get('pdf/product/report/{id}/{type}/{code}', 'PDFController@productReport
 Route::get('pdf/purchase/report/{id}/{start}/{end}/{code}', 'PDFController@purchaseReportPDF');
 Route::get('pdf/due/report/{id}/{start}/{end}/{code}', 'PDFController@dueReportPDF');
 Route::get('pdf/sale/report/{id}/{start}/{end}/{code}', 'PDFController@saleReportPDF');
+Route::get('pdf/customer/report/{id}/{type}/{code}', 'PDFController@customerReportPDF');
 
 Route::get('pdf/staff/report/{staff_id}/{month}/{year}/{code}', 'PDFController@staffReportPDF');
 Route::get('pdf/all/products/{code}', 'PDFController@allProductsReportPDF');

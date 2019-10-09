@@ -16,6 +16,7 @@ use App\Staffattendance;
 use App\Duehistory;
 use App\Customerdue;
 use App\Expense;
+use App\Customer;
 
 use PDF;
 use Illuminate\Support\Facades\DB;
@@ -120,6 +121,31 @@ class PDFController extends Controller
     }
 
     public function saleReportPDF($id, $start, $end, $code)
+    {
+        $store = Store::where('code', $code)->first();
+
+        if($id == 0) {
+            $sales = Sale::where('store_id', $store->id)
+                         ->whereBetween('created_at', [date('Y-m-d H:i:s', strtotime($start)), date('Y-m-d H:i:s', strtotime($end . '+1 day'))])
+                         ->get();
+
+            $pdf = PDF::loadView('dashboard.reports.sale.allproducts', ['sales' => $sales, 'store' => $store, 'start' => $start, 'end' => $end], [] ,['mode' => 'utf-8', 'format' => 'A4-L']);
+            $fileName = 'Due_Report_All_'. $store->code .'.pdf';
+            return $pdf->stream($fileName);
+        } else {
+            $product = Product::findOrFail($id);
+            $saleitems = Saleitem::where('product_id', $id)
+                                 ->whereBetween('created_at', [date('Y-m-d H:i:s', strtotime($start)), date('Y-m-d H:i:s', strtotime($end . '+1 day'))])
+                                 ->orderBy('id', 'desc')
+                                 ->get();
+
+            $pdf = PDF::loadView('dashboard.reports.sale.singleproduct', ['saleitems' => $saleitems, 'product' => $product, 'store' => $store, 'start' => $start, 'end' => $end]);
+            $fileName = 'Single_Product_Sale_Report_' . $store->code . '.pdf';
+            return $pdf->stream($fileName);
+        }     
+    }
+
+    public function customerReportPDF($id, $type, $code)
     {
         $store = Store::where('code', $code)->first();
 
