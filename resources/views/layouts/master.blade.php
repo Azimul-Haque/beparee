@@ -36,11 +36,40 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="#ffffff">
   <meta name="mobile-web-app-capable" content="yes">
 
+  {{-- og --}}
+  <meta property="og:image" content="{{ asset('images/fb.jpg') }}" />
+  <meta property="og:title" content="দোকান খাতা (Dokan Khata), সব হিসাব এখানেই!"/>
+  <meta name="description" property="og:description" content="আপনার যাবতীয় ব্যবসায়ী হিসাব এখন সহজ করে দিতে আমরা এসেছি আপনার প্রতিষ্ঠানে! &copy; Copyright Reserved {{ date('Y') }}" />
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="{{ Request::url() }}" />
+  <meta property="og:site_name" content="দোকান খাতা (Dokan Khata)">
+  <meta property="og:locale" content="en_US">
+  <meta property="fb:admins" content="100001596964477">
+  <meta property="fb:app_id" content="163879201229487">
+  <meta property="og:type" content="article">
+  <!-- Open Graph - Article -->
+  <meta name="article:section" content="দোকান খাতা (Dokan Khata)">
+  <meta name="article:published_time" content="{{ date('F d, Y') }}">
+  <meta name="article:author" content="A. H. M. Azimul Haque">
+  <meta name="article:tag" content="Product">
+  <meta name="article:modified_time" content="{{ date('F d, Y') }}">
+  <link rel="canonical" href="{{ url()->current() }}" />
+  {{-- og --}}
+
   <title>@yield('title')</title>
   <!-- Styles -->
   {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
   {!! Packer::css('/css/app.css', '/storage/cache/css/app.css') !!}
 
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-149690696-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-149690696-1');
+    </script>
 </head>
 <body class="hold-transition sidebar-mini layout-navbar-fixed layout-fixed">
 <div class="wrapper" id="app">

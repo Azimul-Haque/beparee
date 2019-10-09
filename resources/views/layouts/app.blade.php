@@ -35,6 +35,26 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="#ffffff">
     <meta name="mobile-web-app-capable" content="yes">
 
+    {{-- og --}}
+    <meta property="og:image" content="{{ asset('images/fb.jpg') }}" />
+    <meta property="og:title" content="দোকান খাতা (Dokan Khata), সব হিসাব এখানেই!"/>
+    <meta name="description" property="og:description" content="আপনার যাবতীয় ব্যবসায়ী হিসাব এখন সহজ করে দিতে আমরা এসেছি আপনার প্রতিষ্ঠানে! &copy; Copyright Reserved {{ date('Y') }}" />
+    <meta property="og:type" content="article"/>
+    <meta property="og:url" content="{{ Request::url() }}" />
+    <meta property="og:site_name" content="দোকান খাতা (Dokan Khata)">
+    <meta property="og:locale" content="en_US">
+    <meta property="fb:admins" content="100001596964477">
+    <meta property="fb:app_id" content="163879201229487">
+    <meta property="og:type" content="article">
+    <!-- Open Graph - Article -->
+    <meta name="article:section" content="দোকান খাতা (Dokan Khata)">
+    <meta name="article:published_time" content="{{ date('F d, Y') }}">
+    <meta name="article:author" content="A. H. M. Azimul Haque">
+    <meta name="article:tag" content="Product">
+    <meta name="article:modified_time" content="{{ date('F d, Y') }}">
+    <link rel="canonical" href="{{ url()->current() }}" />
+    {{-- og --}}
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700,800,900|Roboto+Slab:400,700" rel="stylesheet">
@@ -56,8 +76,29 @@
 
     @yield('css')
     {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-149690696-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-149690696-1');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PBXL2GW');</script>
+    <!-- End Google Tag Manager -->
 </head>
 <body class="stretched">
+    <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PBXL2GW"
+        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <!-- End Google Tag Manager (noscript) -->
     <div id="app">
         <!-- Document Wrapper
         ============================================= -->
