@@ -43,12 +43,13 @@
                   <tr>
                     <!-- <th>ID</th> -->
                     <th>ক্রয় রশিদ নং</th>
+                    <th width="15%">পণ্যসমূহ</th>
                     <th>ডিলার/ ভেন্ডর</th>
                     <th>প্রদেয়</th>
                     <th>পরিশোধিত</th>
                     <th>দেনা/ পরিশোধনীয়</th>
                     <th>সময় / তারিখ</th>
-                    <th width="15%">ক্রিয়াকলাপ</th>
+                    <th width="10%">ক্রিয়াকলাপ</th>
                   </tr>
                  </thead>
                  <tbody>
@@ -56,6 +57,11 @@
                     <!-- <td>{{ purchase.id }}</td> -->
                     <td>
                       {{ purchase.code }}
+                    </td>
+                    <td>
+                      <span class="badge badge-pill badge-warning" v-for="stock in purchase.stocks" :key="stock.id">
+                        {{ stock.product.name }} [{{ stock.buying_price }} ৳]
+                      </span>
                     </td>
                     <td v-html="removeDuplicateVendor(purchase.stocks)">
                       

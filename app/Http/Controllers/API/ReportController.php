@@ -14,6 +14,7 @@ use App\Vendor;
 use App\Duehistory;
 use App\Product;
 use App\Customer;
+use App\Expensecategory;
 
 use Image, File, DB;
 
@@ -55,5 +56,30 @@ class ReportController extends Controller
         $customers->push(['id' => 0, 'name' => 'সকল কাস্টমার', 'store_id' => $store->id]);
 
         return response()->json(array_reverse($customers->all()));
+    }
+
+    public function loadExpenseCategoriesForReport($code)
+    {
+        $store = Store::where('code', $code)->first();
+        
+        $expensecategories = Expensecategory::select('id', 'name')
+                                            ->where('store_id', $store->id)
+                                            ->orWhere('type', 0) // 0 for common categories
+                                            ->get();
+
+        $expensecategories->push(['id' => 0, 'name' => 'সকল খরচের ধরণ', 'store_id' => $store->id]);
+
+        return response()->json(array_reverse($expensecategories->all()));
+    }
+
+    public function loadStaffsForAttReport($code)
+    {
+        $store = Store::where('code', $code)->first();
+       
+        $staffs = Staff::select('id', 'name', 'store_id')->where('store_id', $store->id)->get();
+        
+        $staffs->push(['id' => 0, 'name' => 'সব কর্মচারী', 'store_id' => $store->id]);
+
+        return response()->json(array_reverse($staffs->all()));
     }
 }

@@ -60,15 +60,15 @@ class AccountsController extends Controller
     public function loadProfitCaclThisMonth($code) 
     {   
     	$store = Store::where('code', $code)->first();
-        $profitcalc = Sale::where('store_id', $store->id)
-                          ->select(DB::raw("DATE_FORMAT(created_at, '%M-%d') as date"), DB::raw('SUM(payable) as total'), DB::raw('SUM(total_cost) as cost')) // payable is used, as total_price is discounted later
-                          ->where(DB::raw("DATE_FORMAT(created_at, '%Y-%m')"), "=", Carbon::now()->format('Y-m'))
-                          ->groupBy(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d')"))
-                          ->orderBy('created_at', 'ASC')
-                          ->get();
+      $profitcalc = Sale::where('store_id', $store->id)
+                        ->select(DB::raw("DATE_FORMAT(created_at, '%M-%d') as date"), DB::raw('SUM(payable) as total'), DB::raw('SUM(total_cost) as cost')) // payable is used, as total_price is discounted later
+                        ->where(DB::raw("DATE_FORMAT(created_at, '%Y-%m')"), "=", Carbon::now()->format('Y-m'))
+                        ->groupBy(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d')"))
+                        ->orderBy('created_at', 'ASC')
+                        ->get();
 
-        return response()->json($profitcalc);
-        
-        // dd($profitcalc);
+      return response()->json($profitcalc);
+      
+      // dd($profitcalc);
     }
 }

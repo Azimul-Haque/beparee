@@ -48,6 +48,18 @@
     {{ $vendor->name }}-এর দেনা রিপোর্ট ({{ bangla(date('F d, Y', strtotime($start))) }}-{{ bangla(date('F d, Y', strtotime($end))) }})
   </h2>
 
+  <table>
+    <tbody>
+      <tr>
+        <td width="60%">ডিলার/ ভেন্ডরঃ {{ $vendor->name }}</td>
+        <td>যোগাযোগঃ {{ $vendor->mobile }}</td>
+      </tr>
+      <tr>
+        <td colspan="2">ঠিকানাঃ {{ $vendor->address }}</td>
+      </tr>
+    </tbody>
+  </table>
+
   <table class="bordertable">
     <thead>
       <tr>

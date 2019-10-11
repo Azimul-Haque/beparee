@@ -52,7 +52,7 @@
     <small>{{ $store->address }}, {{ $store->upazilla }}, {{ $store->district }}</small>
   </h2>
   <h2 align="center" style="color: #397736; border-bottom: 1px solid #397736;">
-    কমচারীগণের উপস্থিতি ({{ $month }} {{ bangla($year) }})
+    কর্মচারীগণের উপস্থিতি ({{ $month }} {{ bangla($year) }})
   </h2>
 
   <table class="bordertable">

@@ -234,21 +234,31 @@
                     </v-select>
                   </div>
                   <div class="form-group">
-                    <!-- <label>রিপোর্টের ধরণ</label> -->
-                    <select v-model="customerform.report_type" name="report_type" placeholder="রিপোর্টের ধরণ" 
-                      class="form-control" :class="{ 'is-invalid': customerform.errors.has('report_type') }" required="" oninvalid="this.setCustomValidity('রিপোর্টের ধরণ নির্ধারণ করুন')" oninput="setCustomValidity('')">
-                      <option value="" selected="" disabled="">রিপোর্টের ধরণ</option>
-                      <option value="buy_list">ক্রয় তালিকা</option>
-                      <option value="due_list">বকেয়া তালিকা</option>
-                    </select>
-                    <has-error :form="customerform" field="report_type"></has-error>
+                    <vc-date-picker
+                      v-model="customerform.start"
+                      :input-props='{
+                        placeholder: "শুরু তারিখ নির্ধারণ করুন",
+                        readonly: true
+                      }'
+                      :masks='{ input: "MMMM DD, YYYY" }'
+                      :class="{ 'form-control is-invalid': customerform.errors.has('date') }"
+                    />
+                    <has-error :form="customerform" field="date"></has-error>
+                  </div>
+                  <div class="form-group">
+                    <vc-date-picker
+                      v-model="customerform.end"
+                      :input-props='{
+                        placeholder: "শেষ তারিখ নির্ধারণ করুন",
+                        readonly: true
+                      }'
+                      :masks='{ input: "MMMM DD, YYYY" }'
+                      :class="{ 'form-control is-invalid': customerform.errors.has('date') }"
+                    />
+                    <has-error :form="customerform" field="date"></has-error>
                   </div>
                   <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> রিপোর্ট ডাউনলোড</button>
                 </form>
-                কাস্টমার/সব<br/>
-                ক্রয় তালিকা/ বকেয়া তালিকা<br/>
-                শুধু কাস্টমার হলে ক্রয় ডিটেল, বকেয়া ডিটেল সময়রেখা (মোট বক্যেয়া, মোট পরিশোধ)<br/>
-                সব হলে মোট ক্রয়, মোট বক্যেয়া আকারে
               </div>
               <!-- /.card-body -->
             </div>
@@ -260,9 +270,48 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
-                কাস্টমার/সব (কাস্টমার রিপোর্ট)<br/>
-                শুধু কাস্টমার হলে বকেয়া সময়রেখা (মোট বকেয়া, মোট পরিশোধ)<br/>
-                সব হলে চলতি বকেয়া  সর্বমোট বকেয়া  সর্বমোট বকেয়া পরিশোধ
+                <form @submit.prevent="generateCustomerDueReport()" @keydown="customerdueform.onKeydown($event)">
+                  <div class="form-group">
+                    <v-select placeholder="কাস্টমার নির্ধারণ করুন" :options="customers" :reduce="id => id" label="name" v-model="customerdueform.customer" ref='productSelect' v-on:input="checkCategoryIfAllForCustomerDueReport(customerdueform.customer)">
+                      <template #search="{attributes, events}">
+                        <input
+                          class="vs__search"
+                          :required="!customerdueform.customer"
+                          v-bind="attributes"
+                          v-on="events"
+                        />
+                      </template>
+                    </v-select>
+                  </div>
+                  <div class="form-group" v-if="customerduereportallmode">
+                    <vc-date-picker
+                      v-model="customerdueform.start"
+                      :input-props='{
+                        placeholder: "শুরু তারিখ নির্ধারণ করুন",
+                        readonly: true
+                      }'
+                      :masks='{ input: "MMMM DD, YYYY" }'
+                      :class="{ 'form-control is-invalid': customerdueform.errors.has('date') }"
+                    />
+                    <has-error :form="customerdueform" field="date"></has-error>
+                  </div>
+                  <div class="form-group" v-if="customerduereportallmode">
+                    <vc-date-picker
+                      v-model="customerdueform.end"
+                      :input-props='{
+                        placeholder: "শেষ তারিখ নির্ধারণ করুন",
+                        readonly: true
+                      }'
+                      :masks='{ input: "MMMM DD, YYYY" }'
+                      :class="{ 'form-control is-invalid': customerdueform.errors.has('date') }"
+                    />
+                    <has-error :form="customerdueform" field="date"></has-error>
+                  </div>
+                  <center v-if="!customerduereportallmode">
+                    <h4>হালখাতার রিপোর্ট</h4>
+                  </center>
+                  <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-download"></i> রিপোর্ট ডাউনলোড</button>
+                </form>
               </div>
               <!-- /.card-body -->
             </div>
@@ -274,8 +323,48 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
-                খাত/সব<br/>
-                তারিখ হতে - তারিখ পর্যন্ত
+                <form @submit.prevent="generateExpenseReport()" @keydown="expenseform.onKeydown($event)">
+                  <div class="form-group">
+                    <v-select placeholder="খরচের খাত নির্ধারণ করুন" :options="expensecategories" :reduce="id => id" label="name" v-model="expenseform.category" ref='productSelect'>
+                      <template #search="{attributes, events}">
+                        <input
+                          class="vs__search"
+                          :required="!expenseform.category"
+                          v-bind="attributes"
+                          v-on="events"
+                        />
+                      </template>
+                    </v-select>
+                  </div>
+                  <div class="form-group">
+                    <vc-date-picker
+                      v-model="expenseform.start"
+                      :input-props='{
+                        placeholder: "শুরু তারিখ নির্ধারণ করুন",
+                        readonly: true
+                      }'
+                      :masks='{ input: "MMMM DD, YYYY" }'
+                      :class="{ 'form-control is-invalid': expenseform.errors.has('date') }"
+                    />
+                    <has-error :form="expenseform" field="date"></has-error>
+                  </div>
+                  <div class="form-group">
+                    <vc-date-picker
+                      v-model="expenseform.end"
+                      :input-props='{
+                        placeholder: "শেষ তারিখ নির্ধারণ করুন",
+                        readonly: true
+                      }'
+                      :masks='{ input: "MMMM DD, YYYY" }'
+                      :class="{ 'form-control is-invalid': expenseform.errors.has('date') }"
+                    />
+                    <has-error :form="expenseform" field="date"></has-error>
+                  </div>
+                  <center v-if="!customerduereportallmode">
+                    <h4>হালখাতার রিপোর্ট</h4>
+                  </center>
+                  <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-download"></i> রিপোর্ট ডাউনলোড</button>
+                </form>
               </div>
               <!-- /.card-body -->
             </div>
@@ -287,10 +376,48 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
-                কর্মচারী/সবাই<br/>
-                তারিখ হতে - তারিখ পর্যন্ত<br/>
-                শুধু কর্মচারী হলে ডিটেল পরিশোধ<br/>
-                সবাই হলে, কর্মচারীওয়াইজ মোট
+                <form @submit.prevent="generateSalaryReport()" @keydown="staffsaralyform.onKeydown($event)">
+                  <div class="form-group">
+                    <v-select placeholder="কর্মচারী নির্ধারণ করুন" :options="staffsforatt" :reduce="id => id" label="name" v-model="staffsaralyform.staff" ref='productSelect'>
+                      <template #search="{attributes, events}">
+                        <input
+                          class="vs__search"
+                          :required="!staffsaralyform.staff"
+                          v-bind="attributes"
+                          v-on="events"
+                        />
+                      </template>
+                    </v-select>
+                  </div>
+                  <div class="form-group">
+                    <vc-date-picker
+                      v-model="staffsaralyform.start"
+                      :input-props='{
+                        placeholder: "শুরু তারিখ নির্ধারণ করুন",
+                        readonly: true
+                      }'
+                      :masks='{ input: "MMMM DD, YYYY" }'
+                      :class="{ 'form-control is-invalid': staffsaralyform.errors.has('date') }"
+                    />
+                    <has-error :form="staffsaralyform" field="date"></has-error>
+                  </div>
+                  <div class="form-group">
+                    <vc-date-picker
+                      v-model="staffsaralyform.end"
+                      :input-props='{
+                        placeholder: "শেষ তারিখ নির্ধারণ করুন",
+                        readonly: true
+                      }'
+                      :masks='{ input: "MMMM DD, YYYY" }'
+                      :class="{ 'form-control is-invalid': staffsaralyform.errors.has('date') }"
+                    />
+                    <has-error :form="staffsaralyform" field="date"></has-error>
+                  </div>
+                  <center v-if="!customerduereportallmode">
+                    <h4>হালখাতার রিপোর্ট</h4>
+                  </center>
+                  <button type="submit" class="btn btn-warning btn-sm"><i class="fa fa-download"></i> রিপোর্ট ডাউনলোড</button>
+                </form>
               </div>
               <!-- /.card-body -->
             </div>
@@ -352,11 +479,63 @@
           <div class="col-md-3">
             <div class="card card-outline card-success">
               <div class="card-header text-success">
-                <i class="fa fa-calendar-check-o"></i> দৈনিক রিপোর্ট
+                <i class="fa fa-calendar-check-o"></i> দিনভিত্তিক লাভের রিপোর্ট
               </div>
               <!-- /.card-header -->
               <div class="card-body" style="display: block;">
-                দৈনিক সকল ডেবিট ক্রেডিটের হিসাব
+                <form @submit.prevent="generateProfitReport()" @keydown="form.onKeydown($event)">
+                  <div class="form-group">
+                    <vc-date-picker
+                      v-model="profitform.start"
+                      :input-props='{
+                        placeholder: "শুরু তারিখ নির্ধারণ করুন",
+                        readonly: true
+                      }'
+                      :masks='{ input: "MMMM DD, YYYY" }'
+                      :class="{ 'form-control is-invalid': profitform.errors.has('date') }"
+                    />
+                    <has-error :form="profitform" field="date"></has-error>
+                  </div>
+                  <div class="form-group">
+                    <vc-date-picker
+                      v-model="profitform.end"
+                      :input-props='{
+                        placeholder: "শেষ তারিখ নির্ধারণ করুন",
+                        readonly: true
+                      }'
+                      :masks='{ input: "MMMM DD, YYYY" }'
+                      :class="{ 'form-control is-invalid': profitform.errors.has('date') }"
+                    />
+                    <has-error :form="profitform" field="date"></has-error>
+                  </div>
+                  <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-download"></i> রিপোর্ট ডাউনলোড</button>
+                </form>
+              </div>
+              <!-- /.card-body -->
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card card-outline card-info">
+              <div class="card-header text-info">
+                <i class="fa fa-calendar-check-o"></i> দৈনিক লেন-দেন রিপোর্ট
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body" style="display: block;">
+                <form @submit.prevent="generateDailyReport()" @keydown="form.onKeydown($event)">
+                  <div class="form-group">
+                    <vc-date-picker
+                      v-model="dailyform.date"
+                      :input-props='{
+                        placeholder: "তারিখ নির্ধারণ করুন",
+                        readonly: true
+                      }'
+                      :masks='{ input: "MMMM DD, YYYY" }'
+                      :class="{ 'form-control is-invalid': dailyform.errors.has('date') }"
+                    />
+                    <has-error :form="dailyform" field="date"></has-error>
+                  </div>
+                  <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-download"></i> রিপোর্ট ডাউনলোড</button>
+                </form>
               </div>
               <!-- /.card-body -->
             </div>
@@ -379,6 +558,7 @@
         vendors: [],
         productsforsale: [],
         customers: [],
+        expensecategories: [],
         staffsforatt: [],
         years: [],
         months: ['জানুয়ারী', 'ফেব্রুয়ারী', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'],
@@ -405,17 +585,46 @@
           end: '',
           code: this.$route.params.code,
         }),
+        customerform: new Form({
+          customer: '',
+          start: '',
+          end: '',
+          code: this.$route.params.code,
+        }),
+        customerdueform: new Form({
+          customer: '',
+          start: '',
+          end: '',
+          code: this.$route.params.code,
+        }),
+        expenseform: new Form({
+          category: '',
+          start: '',
+          end: '',
+          code: this.$route.params.code,
+        }),
+        staffsaralyform: new Form({
+          staff: '',
+          start: '',
+          end: '',
+          code: this.$route.params.code,
+        }),
         staffform: new Form({
           staff: '',
           month: '',
           year: ''
         }),
-        customerform: new Form({
-          customer: '',
-          report_type: '',
+        profitform: new Form({
+          start: '',
+          end: '',
+          code: this.$route.params.code,
+        }),
+        dailyform: new Form({
+          date: '',
           code: this.$route.params.code,
         }),
         duereportallvendormode: true,
+        customerduereportallmode: true,
       }
     },
     methods: {
@@ -489,8 +698,13 @@
       },
       // customer report...
       generateCustomerReport() {
-        if(this.$gate.isAdminOrAssociated('reports-page', this.$route.params.code)){
-          window.location.href = '/pdf/customer/report/' + this.customerform.customer['id'] + '/' + this.customerform.report_type + '/' + this.$route.params.code;
+        if(this.customerform.start == '' || this.customerform.end == '') {
+          toast.fire({
+            type: 'warning',
+            title: 'তারিখ পূরণ করুন'
+          })
+        } else {
+          window.location.href = '/pdf/customer/report/' + + this.customerform.customer['id'] + '/' + moment(this.customerform.start).format('YYYY-MM-DD') + '/' + moment(this.customerform.end).format('YYYY-MM-DD') + '/' + this.$route.params.code;
         }
       },
       loadCustomerForReport() {
@@ -498,7 +712,84 @@
           axios.get('/api/load/customers/for/report/' + this.$route.params.code).then(({ data }) => (this.customers = data));
         }
       },
-
+      // customer due report
+      generateCustomerDueReport() {
+        if(this.$gate.isAdminOrAssociated('reports-page', this.$route.params.code)){
+          if(this.customerdueform.customer.id != 0 && (this.customerdueform.start == '' || this.customerdueform.end == '')) {
+            toast.fire({
+              type: 'warning',
+              title: 'তারিখ পূরণ করুন'
+            })
+          } else {
+            window.location.href = '/pdf/customer/due/report/' + this.customerdueform.customer['id'] + '/' + moment(this.customerdueform.start).format('YYYY-MM-DD') + '/' + moment(this.customerdueform.end).format('YYYY-MM-DD') + '/' + this.$route.params.code;
+          }
+        }
+      },
+      checkCategoryIfAllForCustomerDueReport(customer) {
+        if(customer && customer.id == 0) {
+          this.customerduereportallmode = false;
+        } else {
+          this.customerduereportallmode = true;
+        }
+      },
+      // expense report
+      generateExpenseReport() {
+        if(this.$gate.isAdminOrAssociated('reports-page', this.$route.params.code)){
+          if(this.expenseform.start == '' || this.expenseform.end == '') {
+            toast.fire({
+              type: 'warning',
+              title: 'তারিখ পূরণ করুন'
+            })
+          } else {
+            window.location.href = '/pdf/expense/report/' + this.expenseform.category['id'] + '/' + moment(this.expenseform.start).format('YYYY-MM-DD') + '/' + moment(this.expenseform.end).format('YYYY-MM-DD') + '/' + this.$route.params.code;
+          }
+        }
+      },
+      loadExpenseCategories() 
+      {
+        if(this.$gate.isAdminOrAssociated('reports-page', this.$route.params.code)){
+          axios.get('/api/load/expense/categories/for/report/' + this.$route.params.code).then(({ data }) => (this.expensecategories = data));  
+        }
+      },
+      // salary report
+      generateSalaryReport() {
+        if(this.$gate.isAdminOrAssociated('reports-page', this.$route.params.code)){
+          if(this.staffsaralyform.start == '' || this.staffsaralyform.end == '') {
+            toast.fire({
+              type: 'warning',
+              title: 'তারিখ পূরণ করুন'
+            })
+          } else {
+            window.location.href = '/pdf/salary/report/' + this.staffsaralyform.staff['id'] + '/' + moment(this.staffsaralyform.start).format('YYYY-MM-DD') + '/' + moment(this.staffsaralyform.end).format('YYYY-MM-DD') + '/' + this.$route.params.code;
+          }
+        }
+      },
+      // salary report
+      generateProfitReport() {
+        if(this.$gate.isAdminOrAssociated('reports-page', this.$route.params.code)){
+          if(this.profitform.start == '' || this.profitform.end == '') {
+            toast.fire({
+              type: 'warning',
+              title: 'তারিখ পূরণ করুন'
+            })
+          } else {
+            window.location.href = '/pdf/profit/report/' + moment(this.profitform.start).format('YYYY-MM-DD') + '/' + moment(this.profitform.end).format('YYYY-MM-DD') + '/' + this.$route.params.code;
+          }
+        }
+      },
+      // daily report
+      generateDailyReport() {
+        if(this.$gate.isAdminOrAssociated('reports-page', this.$route.params.code)){
+          if(this.dailyform.date == '') {
+            toast.fire({
+              type: 'warning',
+              title: 'তারিখ পূরণ করুন'
+            })
+          } else {
+            window.location.href = '/pdf/daily/report/' + moment(this.dailyform.date).format('YYYY-MM-DD') + '/' + this.$route.params.code;
+          }
+        }
+      },
       // staff report...
       loadStaffsForAtt() {
           if(this.$gate.isAdminOrAssociated('staff-page', this.$route.params.code)){
@@ -523,6 +814,7 @@
       this.loadVendors();
       this.loadProductsForSale();
       this.loadCustomerForReport();
+      this.loadExpenseCategories();
       this.loadStaffsForAtt();
       this.loadYears();
     },

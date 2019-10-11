@@ -75,7 +75,7 @@ Route::post('staff/{id}', 'API\StaffController@update'); // to cover up the vps 
 
 Route::get('load/staff/{code}', 'API\StaffController@loadStaffs');
 Route::get('load/staff/for/attendance/{code}', 'API\StaffController@loadStaffsForAtt');
-Route::get('load/staff/for/attendance/report/{code}', 'API\StaffController@loadStaffsForAttReport');
+Route::get('load/staff/for/attendance/report/{code}', 'API\ReportController@loadStaffsForAttReport');
 Route::get('load/staff/attendance/for/calendar/{code}', 'API\StaffController@loadStaffsAttForCal');
 Route::post('post/staff/attendance', 'API\StaffController@postStaffAtt');
 Route::get('load/single/staff/{id}/{code}', 'API\StaffController@loadSingleStaff');
@@ -104,6 +104,7 @@ Route::get('load/expense/staff/{code}', 'API\ExpenseController@loadExpenseStaff'
 Route::get('load/single/category/expense/{id}/{code}', 'API\ExpenseController@loadSingleExpense');
 Route::get('load/single/category/expenses/store/wise/{id}/{code}', 'API\ExpenseController@loadSingleExpenseStoreWise');
 Route::get('load/single/category/expenses/totals/{id}/{code}', 'API\ExpenseController@loadSingleExpenseTotals');
+Route::get('load/expense/categories/for/report/{code}', 'API\ReportController@loadExpenseCategoriesForReport');
 
 Route::apiResources(['sale' => 'API\SaleController']);
 Route::post('sale/{id}', 'API\SaleController@update'); // to cover up the vps put perm.

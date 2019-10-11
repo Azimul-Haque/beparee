@@ -251,14 +251,4 @@ class StaffController extends Controller
 
         return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];
     }
-
-    public function loadStaffsForAttReport($code)
-    {
-        $store = Store::where('code', $code)->first();
-        $staffs = Staff::select('id', 'name', 'store_id')->where('store_id', $store->id)->get();
-        
-        $staffs->push(['id' => 0, 'name' => 'সব কর্মচারী', 'store_id' => $store->id]);
-
-        return response()->json(array_reverse($staffs->all()));
-    }
 }

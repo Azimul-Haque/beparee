@@ -44,7 +44,7 @@
                     <!-- <th>ID</th> -->
                     <th>বিক্রয় রশিদ নং</th>
                     <th>কাস্টমার</th>
-                    <th>পণ্যসমূহ</th>
+                    <th width="15%">পণ্যসমূহ</th>
                     <th>প্রদেয়</th>
                     <th>পরিশোধিত</th>
                     <th>বকেয়া</th>
@@ -65,7 +65,7 @@
                     </td>
                     <td>
                       <small>
-                        <span v-for="item in sale.saleitems" class="badge badge-secondary">
+                        <span v-for="item in sale.saleitems" class="badge badge-pill badge-success">
                           {{ item.product.name }} ({{ item.quantity }} {{ item.product.unit }})
                         </span>
                       </small>
@@ -323,6 +323,7 @@
               due: '',
             }),
             maxquantity: [],
+            productpurchaseprice: [],
             productunit: [],
             addformrange: [0],
             nativemodal: true,
@@ -341,6 +342,7 @@
             this.addformrange.push(0);
 
             this.maxquantity[0] = '';
+            this.productpurchaseprice[0] = '';
             this.productunit[0] = '';
 
             this.loadProducts();
@@ -374,6 +376,7 @@
             this.form.buying_price[index] = 0;
             this.form.unit_price[index] = 0;
             this.maxquantity[index] = '';
+            this.productpurchaseprice[index] = '';
             this.productunit[index] = '';
           
             this.calculatePurchase();
@@ -382,22 +385,28 @@
           productSelected(product, index) {
             if(product) {
               var maxquantity = 0;
+              var productpurchaseprice = 0;
               for(var i=0; i<product.stocks.length; i++) {
                 maxquantity = maxquantity + parseFloat(product.stocks[i].current_quantity);
               }
               this.maxquantity[index] = maxquantity;
-              if(maxquantity > 0) {
-                this.productunit[index] = '<small style="color: red;">(স্টকঃ ' + maxquantity + ' ' + product.unit + ')</small>';
-              } else {
-                this.productunit[index] = '<small class="blink" style="color: red;">অপর্যাপ্ত স্টক (0 '+ product.unit +')!</small>';
-              }
               
+
               var newproductstocks = _.orderBy(product.stocks, ['id'], ['desc']);
 
               this.form.buying_price[index] = newproductstocks[0].buying_price; // latest stock buying price
               this.form.unit_price[index] = newproductstocks[0].selling_price; // latest stock selling price
 
-              // console.log(newproductstocks);
+              productpurchaseprice = newproductstocks[0].buying_price;
+              this.productpurchaseprice[index] = productpurchaseprice;
+              // set the max quantity, unit and buying price...
+              if(maxquantity > 0) {
+                this.productunit[index] = '<small style="color: red;">(স্টকঃ ' + maxquantity + ' ' + product.unit + '), ক্রয় খরচঃ '+ productpurchaseprice +' ৳</small>';
+              } else {
+                this.productunit[index] = '<small class="blink" style="color: red;">অপর্যাপ্ত স্টক (0 '+ product.unit +')! , ক্রয় খরচঃ '+ productpurchaseprice +' ৳</small>';
+              }
+              
+              
             }
           },
           createSale() {
