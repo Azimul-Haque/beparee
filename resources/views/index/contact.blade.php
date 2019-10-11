@@ -89,7 +89,7 @@
                               <i class="fa fa-map-marker"></i>   
                            </a>
                         </div>
-                        <h3>অফিস <span class="subtitle">Melbourne, Australia</span></h3>
+                        <h3>অফিস <span class="subtitle">ঢাকা, বাংলাদেশ</span></h3>
                      </div>
                   </div>
 
@@ -100,7 +100,12 @@
                               <i class="fa fa-phone"></i>   
                            </a>
                         </div>
-                        <h3>প্রয়োজনে কাল করুন<span class="subtitle">(123) 456 7890</span></h3>
+                        <h3>
+                           প্রয়োজনে কাল করুন
+                           <span class="subtitle">
+                              (+88) 01515 297 658
+                           </span>
+                        </h3>
                      </div>
                   </div>
 
@@ -122,7 +127,7 @@
                               <i class="fa fa-envelope-o"></i>   
                            </a>
                         </div>
-                        <h3>ইমেইল করুন<span class="subtitle">abc@gmail.com</span></h3>
+                        <h3>ইমেইল করুন<span class="subtitle">support@dokankhata.com</span></h3>
                      </div>
                   </div>
 
