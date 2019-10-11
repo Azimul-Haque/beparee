@@ -386,26 +386,33 @@
             if(product) {
               var maxquantity = 0;
               var productpurchaseprice = 0;
+              console.log(product.stocks.length);
+              
               for(var i=0; i<product.stocks.length; i++) {
                 maxquantity = maxquantity + parseFloat(product.stocks[i].current_quantity);
               }
               this.maxquantity[index] = maxquantity;
               
 
-              var newproductstocks = _.orderBy(product.stocks, ['id'], ['desc']);
+              if(product.stocks.length > 0) {
+                var newproductstocks = _.orderBy(product.stocks, ['id'], ['desc']);
 
-              this.form.buying_price[index] = newproductstocks[0].buying_price; // latest stock buying price
-              this.form.unit_price[index] = newproductstocks[0].selling_price; // latest stock selling price
+                this.form.buying_price[index] = newproductstocks[0].buying_price; // latest stock buying price
+                this.form.unit_price[index] = newproductstocks[0].selling_price; // latest stock selling price
 
-              productpurchaseprice = newproductstocks[0].buying_price;
-              this.productpurchaseprice[index] = productpurchaseprice;
-              // set the max quantity, unit and buying price...
-              if(maxquantity > 0) {
-                this.productunit[index] = '<small style="color: red;">(স্টকঃ ' + maxquantity + ' ' + product.unit + '), ক্রয় খরচঃ '+ productpurchaseprice +' ৳</small>';
+                productpurchaseprice = newproductstocks[0].buying_price;
+                this.productpurchaseprice[index] = productpurchaseprice;
+                // set the max quantity, unit and buying price...
+                if(maxquantity > 0) {
+                  this.productunit[index] = '<small style="color: red;">(স্টকঃ ' + maxquantity + ' ' + product.unit + '), ক্রয় খরচঃ '+ productpurchaseprice +' ৳</small>';
+                } else {
+                  this.productunit[index] = '<small class="blink" style="color: red;">অপর্যাপ্ত স্টক (0 '+ product.unit +')! , ক্রয় খরচঃ '+ productpurchaseprice +' ৳</small>';
+                }
               } else {
-                this.productunit[index] = '<small class="blink" style="color: red;">অপর্যাপ্ত স্টক (0 '+ product.unit +')! , ক্রয় খরচঃ '+ productpurchaseprice +' ৳</small>';
+                this.form.buying_price[index] = 0;
+                this.form.unit_price[index] = 0;
+                this.productunit[index] = '<small style="color: red;">(স্টকঃ 0 ' + product.unit + '), ক্রয় খরচঃ 0.00 ৳</small>';
               }
-              
               
             }
           },
