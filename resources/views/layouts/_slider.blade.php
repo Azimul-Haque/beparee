@@ -52,7 +52,7 @@
 					data-responsive_offset="on"
 
 
-					style="z-index: 6; min-width: 600px; max-width: 600px; white-space: normal;">একটি অনলাইন ভিত্তিক দোকান ব্যবস্থাপনা পদ্ধতি 
+					style="z-index: 6; margin-top: 10px; min-width: 600px; max-width: 600px; white-space: normal;">একটি অনলাইন ভিত্তিক দোকান ব্যবস্থাপনা পদ্ধতি 
 				</div>
 
 				<!-- LAYER NR. 3 -->
@@ -151,7 +151,7 @@
 					data-responsive_offset="on"
 
 
-					style="z-index: 6; min-width: 600px; max-width: 600px; white-space: normal;">সকল হিসাব নিকাশ নিখুঁতভাবে প্রদান করে
+					style="z-index: 6; margin-top: 10px; min-width: 600px; max-width: 600px; white-space: normal;">সকল হিসাব নিকাশ নিখুঁতভাবে প্রদান করে
 				</div>
 
 				<!-- LAYER NR. 3 -->
@@ -250,7 +250,7 @@
 					data-responsive_offset="on"
 
 
-					style="z-index: 6; min-width: 600px; max-width: 600px; white-space: normal;">পৃথিবীর যেকোনো প্রান্ত থেকে মনিটরিং করার সুবিধা 
+					style="z-index: 6; margin-top: 10px; min-width: 600px; max-width: 600px; white-space: normal;">পৃথিবীর যেকোনো প্রান্ত থেকে মনিটরিং করার সুবিধা 
 				</div>
 
 				<!-- LAYER NR. 3 -->
@@ -349,7 +349,7 @@
 					data-responsive_offset="on"
 
 
-					style="z-index: 6; min-width: 600px; max-width: 600px; white-space: normal;">১০০ এর অধিক বিষয়ভিত্তিক রিপোর্ট প্রদান করে
+					style="z-index: 6; margin-top: 10px; min-width: 600px; max-width: 600px; white-space: normal;">১০০ এর অধিক বিষয়ভিত্তিক রিপোর্ট প্রদান করে
 				</div>
 
 				<!-- LAYER NR. 3 -->

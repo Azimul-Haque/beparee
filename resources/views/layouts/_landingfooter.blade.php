@@ -125,24 +125,20 @@
 
 			<div class="col_half col_last tright">
 				<div class="fright clearfix">
-					<a href="https://www.facebook.com/dokankhatabd" class="social-icon si-small si-borderless si-facebook" target="_blank">
-						<i class="icon-facebook"></i>
-						<i class="icon-facebook"></i>
+					<a href="https://www.facebook.com/dokankhatabd" class="social-icon-custom si-facebook" target="_blank">
+						<i class="fa fa-facebook"></i>
 					</a>
 
-					<a href="#!" class="social-icon si-small si-borderless si-twitter">
-						<i class="icon-twitter"></i>
-						<i class="icon-twitter"></i>
+					<a href="#!" class="social-icon-custom si-twitter">
+						<i class="fa fa-twitter"></i>
 					</a>
 
-					<a href="#!" class="social-icon si-small si-borderless si-instagram">
-						<i class="icon-instagram"></i>
-						<i class="icon-instagram"></i>
+					<a href="#!" class="social-icon-custom si-instagram">
+						<i class="fa fa-instagram"></i>
 					</a>
 
-					<a href="#!" class="social-icon si-small si-borderless si-linkedin">
-						<i class="icon-linkedin"></i>
-						<i class="icon-linkedin"></i>
+					<a href="#!" class="social-icon-custom si-linkedin">
+						<i class="fa fa-linkedin"></i>
 					</a>
 				</div>
 

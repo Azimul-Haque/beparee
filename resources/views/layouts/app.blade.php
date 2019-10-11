@@ -24,7 +24,7 @@
     <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('images/favicons/apple-icon-144x144.png') }}">
     <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('images/favicons/apple-icon-152x152.png') }}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/favicons/apple-icon-180x180.png') }}">
-    <link rel="icon" type="image/png" sizes="192x192"  href="{{ asset('images/favicons//android-icon-192x192.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192"  href="{{ asset('images/favicons/android-icon-192x192.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/favicons/favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('images/favicons/favicon-96x96.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicons/favicon-16x16.png') }}">
@@ -40,7 +40,7 @@
     <meta property="og:title" content="দোকান খাতা (Dokan Khata), সব হিসাব এখানেই!"/>
     <meta property="og:description" content="আপনার যাবতীয় ব্যবসায়ী হিসাব এখন সহজ করে দিতে আমরা এসেছি আপনার প্রতিষ্ঠানে! &copy; Copyright Reserved {{ date('Y') }}" />
     <meta property="og:type" content="article"/>
-    <meta property="og:url" content="{{ Request::url() }}" />
+    <meta property="og:url" content="{{ Request::url('/') }}" />
     <meta property="og:site_name" content="দোকান খাতা (Dokan Khata)">
     <meta property="og:locale" content="en_US">
     <meta property="fb:admins" content="100001596964477">
@@ -56,16 +56,16 @@
     {{-- og --}}
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700,800,900|Roboto+Slab:400,700" rel="stylesheet">
+    {{-- <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700,800,900|Roboto+Slab:400,700" rel="stylesheet"> --}}
 
     <!-- Styles -->
     <!-- Stylesheets
     ============================================= -->
-    {!! Packer::css('/vendor/canvas/css/bootstrap.css', '/storage/cache/vendor/canvas/css/bootstrap.css') !!}
+    {!! Packer::css('/vendor/canvas/css/bootstrap.min.css', '/storage/cache/vendor/canvas/css/bootstrap.min.css') !!}
     {!! Packer::css('/vendor/canvas/style.css', '/storage/cache/vendor/canvas/style.css') !!}
     {!! Packer::css('/vendor/canvas/css/dark.css', '/storage/cache/vendor/canvas/css/dark.css') !!}
-    {!! Packer::css('/vendor/canvas/css/font-icons.css', '/storage/cache/vendor/canvas/css/font-icons.css') !!}
+    {{-- {!! Packer::css('/vendor/canvas/css/font-icons.css', '/storage/cache/vendor/canvas/css/font-icons.css') !!} --}}
+    {!! Packer::css('/vendor/canvas/css/font-awesome.min.css', '/storage/cache/vendor/canvas/css/font-awesome.min.css') !!}
     {!! Packer::css('/vendor/canvas/css/animate.css', '/storage/cache/vendor/canvas/css/animate.css') !!}
     {{-- {!! Packer::css('/vendor/canvas/css/magnific-popup.css', '/storage/cache/vendor/canvas/css/magnific-popup.css') !!} --}}
 

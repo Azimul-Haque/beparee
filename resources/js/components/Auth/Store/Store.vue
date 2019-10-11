@@ -35,11 +35,61 @@
                     <h6 class="widget-user-desc">দোকান কোডঃ {{ store.code }}</h6>
                     <span class="description-text">
                       {{ store.address }}<br/>
-                      {{ store.upazilla }}, {{ store.district }}
+                      {{ store.upazilla }}, {{ store.district }}<br/><br/>
+                      <big>
+                        বাকি দিন<span class="badge badge-till badge-primary" v-html="loadPaidTillDays(store.paid_till)">0</span>
+                      </big>
                     </span>
                   </div>
                 </div>
               </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title"><b>{{ store.name }}</b>-এর পরিশোধসমূহ</h3>
+                  <div class="card-tools">
+                    
+                  </div>
+                </div>
+                <!-- /.card-header -->
+                
+                <div class="card-body table-responsive p-0">
+
+                  <table class="table table-hover">
+                   <thead>
+                    <tr>
+                      <th>তারিখ</th>
+                      <th>পরিমাণ</th>
+                      <th width="10%">রশিদ</th>
+                    </tr>
+                   </thead>
+                   <tbody>
+                    <tr>
+                      <td>August 17, 2019</td>
+                      <td>10000.00 ৳</td>
+                      <td>
+                        <button class="btn btn-warning btn-sm" v-tooltip="'পরিশোধ রশিদ ডাউনলোড করুন'">
+                            <i class="fa fa-download"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>October 11, 2019</td>
+                      <td>1500.00 ৳</td>
+                      <td>
+                        <button class="btn btn-warning btn-sm" v-tooltip="'পরিশোধ রশিদ ডাউনলোড করুন'">
+                            <i class="fa fa-download"></i>
+                        </button>
+                      </td>
+                    </tr>
+                   </tbody>
+                  </table>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                </div>
+              </div>
+              <!-- /.card -->
             </div>
             <div class="col-md-6">
               <div class="card">
@@ -70,7 +120,7 @@
                         class="form-control" :class="{ 'is-invalid': form.errors.has('address') }">
                       <has-error :form="form" field="address"></has-error>
                       <br/>
-                      <b>উপজেলা</b> {{ store.upazilla }}, 
+                      <b>উপজেলাঃ</b> {{ store.upazilla }}, 
                       <b>জেলাঃ</b> {{ store.district }}
                     </div>
                     <div class="form-group">
@@ -111,6 +161,7 @@
 </template>
 
 <script>
+  import moment from 'moment'
   export default {
     data () {
         return {
@@ -141,6 +192,16 @@
             this.form.fill(this.store),
             $('#changeNavStoreName'+ this.store.id).text(this.store.name)
           ));
+        }
+      },
+      loadPaidTillDays(paid_till) {
+        var date  = moment(paid_till, "YYYY-MM-DD");
+        var today = moment().format("YYYY-MM-DD");
+        var paid_till_days = date.diff(today, 'days');
+        if(paid_till_days < 0) {
+          return 0;
+        } else {
+          return paid_till_days;
         }
       },
       updateStore() {

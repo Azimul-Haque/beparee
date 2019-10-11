@@ -85,7 +85,9 @@
                   <div class="col-md-3 col-sm-6 bottommargin clearfix">
                      <div class="feature-box fbox-center fbox-bg fbox-plain">
                         <div class="fbox-icon">
-                           <a href="#"><i class="icon-map-marker2"></i></a>
+                           <a href="#">
+                              <i class="fa fa-map-marker"></i>   
+                           </a>
                         </div>
                         <h3>অফিস <span class="subtitle">Melbourne, Australia</span></h3>
                      </div>
@@ -94,7 +96,9 @@
                   <div class="col-md-3 col-sm-6 bottommargin clearfix">
                      <div class="feature-box fbox-center fbox-bg fbox-plain">
                         <div class="fbox-icon">
-                           <a href="#"><i class="icon-phone3"></i></a>
+                           <a href="#">
+                              <i class="fa fa-phone"></i>   
+                           </a>
                         </div>
                         <h3>প্রয়োজনে কাল করুন<span class="subtitle">(123) 456 7890</span></h3>
                      </div>
@@ -103,7 +107,9 @@
                   <div class="col-md-3 col-sm-6 bottommargin clearfix">
                      <div class="feature-box fbox-center fbox-bg fbox-plain">
                         <div class="fbox-icon">
-                           <a href="https://www.facebook.com/dokankhatabd"><i class="icon-facebook"></i></a>
+                           <a href="https://www.facebook.com/dokankhatabd">
+                              <i class="fa fa-facebook"></i>   
+                           </a>
                         </div>
                         <h3>ফেইসবুক পেজ<span class="subtitle">Dokan Khata - দোকান খাতা</span></h3>
                      </div>
@@ -112,7 +118,9 @@
                   <div class="col-md-3 col-sm-6 bottommargin clearfix">
                      <div class="feature-box fbox-center fbox-bg fbox-plain">
                         <div class="fbox-icon">
-                           <a href="#"><i class="icon-email2"></i></a>
+                           <a href="#">
+                              <i class="fa fa-envelope-o"></i>   
+                           </a>
                         </div>
                         <h3>ইমেইল করুন<span class="subtitle">abc@gmail.com</span></h3>
                      </div>
