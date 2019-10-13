@@ -748,7 +748,7 @@
       loadExpenseCategories() 
       {
         if(this.$gate.isAdminOrAssociated('reports-page', this.$route.params.code)){
-          axios.get('/api/load/expense/categories/for/report/' + this.$route.params.code).then(({ data }) => (this.expensecategories = data));  
+          axios.get('/api/load/expense/categories/for/report/' + this.$route.params.code).then(({ data }) => (this.expensecategories = data));
         }
       },
       // salary report

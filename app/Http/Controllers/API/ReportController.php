@@ -15,6 +15,8 @@ use App\Duehistory;
 use App\Product;
 use App\Customer;
 use App\Expensecategory;
+use App\Purchase;
+use App\Sale;
 
 use Image, File, DB;
 
@@ -81,5 +83,39 @@ class ReportController extends Controller
         $staffs->push(['id' => 0, 'name' => 'সব কর্মচারী', 'store_id' => $store->id]);
 
         return response()->json(array_reverse($staffs->all()));
+    }
+
+    public function loadAllTransactionsToday($code)
+    {
+        $store = Store::where('code', $code)->first();
+        $date = date('2019-10-11');
+        $purchases = Purchase::where('store_id', $store->id)
+                             ->whereBetween('created_at', [date('Y-m-d 00:00:00', strtotime($date)), date('Y-m-d 23:59:59', strtotime($date . '+1 day'))])
+                             ->get();
+        foreach ($purchases as $purchase) {
+            $purchase->transaction_type = 'purchase';
+        }
+
+        $sales = Sale::where('store_id', $store->id)
+                     ->whereBetween('created_at', [date('Y-m-d 00:00:00', strtotime($date)), date('Y-m-d 23:59:59', strtotime($date . '+1 day'))])
+                     ->get();
+        foreach ($sales as $sale) {
+            $sale->transaction_type = 'sale';
+        }
+
+        $expenses = Expense::where('store_id', $store->id)
+                           ->whereBetween('created_at', [date('Y-m-d 00:00:00', strtotime($date)), date('Y-m-d 23:59:59', strtotime($date . '+1 day'))])
+                           ->get();
+        foreach ($expenses as $expense) {
+            $expense->transaction_type = 'expense';
+        }
+
+        $alltransactions = $purchases->merge($sales)->merge($expenses)->sortBy('created_at');
+
+        $markup = '';
+        foreach($alltransactions as $transacetion) {
+            $markup .= '<span>Rifat</span><br>';
+        }
+        return $markup;
     }
 }

@@ -103,7 +103,8 @@ const app = new Vue({
     data: {
       search: '',
       menuselected: undefined,
-      profileNavImageLink: '/images/profile.png'
+      profileNavImageLink: '/images/profile.png',
+      alltransactionstoday: '',
     },
     methods: {
       searchIt: _.debounce(() => {
@@ -150,10 +151,27 @@ const app = new Vue({
             title: 'দোকানের যে কোন পাতায় যান!'
           })
         } else {
-          var storecodenow = urlnow.substr(urlnow.length - 10); // => "Tabs1"
+          var storecodenow = urlnow.substr(urlnow.length - 10);
           this.$router.push({name: 'salesPage', params: { code: storecodenow }});
           Fire.$emit('saleFromNavOpenModal');
         }
+      },
+      dailyDebitCredit() {
+        var urlnow = window.location.pathname;
+        if(urlnow.includes('dashboard') || urlnow.includes('profile')) {
+          toast.fire({
+            type: 'warning',
+            title: 'দোকানের যে কোন পাতায় যান!'
+          })
+        } else {
+          var storecodenow = urlnow.substr(urlnow.length - 10);
+          axios.get('/api/load/all/transactions/today/' + storecodenow).then(({ data }) => (this.alltransactionstoday = data));
+          // $('#dailyDebitCreditText').html(this.alltransactionstoday);
+          console.log(this.alltransactionstoday);
+        }
+      },
+      dailyDebitCreditText(transactions) {
+        return transactions;
       },
     },
 
