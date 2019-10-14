@@ -27,7 +27,7 @@ class SaleController extends Controller
     public function loadSales($code)
     {
         $store = Store::where('code', $code)->first();
-        $sales = Sale::where('store_id', $store->id)->orderBy('id', 'desc')->paginate(5);
+        $sales = Sale::where('store_id', $store->id)->orderBy('id', 'desc')->paginate(7);
         $sales->load('saleitems');
         $sales->load('saleitems')->load('saleitems.product');
         $sales->load('customer');
@@ -186,16 +186,17 @@ class SaleController extends Controller
         return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];
     }
 
-    public function searchPurchase($query)
+    public function searchSale($query)
     {
-        $purchases = Purchase::where(function($search) use ($query) {
+        $sales = Sale::where(function($search) use ($query) {
                         $search->where('code', 'LIKE', '%'.$query.'%')
-                               ->orWhere('total', 'LIKE', '%'.$query.'%');
-                     })->paginate(5);
-        $purchases->load('stocks');
-        $purchases->load('stocks')->load('stocks.product', 'stocks.vendor');
+                               ->orWhere('total_price', 'LIKE', '%'.$query.'%');
+                     })->paginate(7);
+        $sales->load('saleitems');
+        $sales->load('saleitems')->load('saleitems.product');
+        $sales->load('customer');
 
-        return response()->json($purchases);
+        return response()->json($sales);
     }
 
     public function show($id)

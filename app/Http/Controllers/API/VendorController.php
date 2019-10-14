@@ -15,7 +15,7 @@ class VendorController extends Controller
     {
         $store = Store::where('code', $code)->first();
 
-        $vendors = Vendor::where('store_id', $store->id)->paginate(5);
+        $vendors = Vendor::where('store_id', $store->id)->paginate(10);
 
         return response()->json($vendors);
     }
@@ -76,7 +76,7 @@ class VendorController extends Controller
         $vendors = Vendor::where('store_id', $store->id)
                          ->where('total_due', '>', 0)
                          ->orderBy('updated_at', 'desc')
-                         ->paginate(5);
+                         ->paginate(10);
 
         return response()->json($vendors);
     }
@@ -133,7 +133,7 @@ class VendorController extends Controller
                         $search->where('name', 'LIKE', '%'.$query.'%')
                                ->orWhere('address', 'LIKE', '%'.$query.'%')
                                ->orWhere('mobile', 'LIKE', '%'.$query.'%');
-                     })->paginate(5);
+                     })->paginate(10);
 
         return response()->json($vendors);
     }
