@@ -50,7 +50,8 @@
                  <thead>
                   <tr>
                     <!-- <th>ID</th> -->
-                    <th>পণ্য</th>
+                    <th width="20%">পণ্য</th>
+                    <th width="10%">কোড</th>
                     <th>ধরণ</th>
                     <th>ডিলার/ ভেন্ডর</th>
                     <th width="15%">বর্তমান স্টক</th>
@@ -67,9 +68,8 @@
                       <br/>
                       <small class="text-muted">{{ product.brand }}</small>
                     </td>
-                    <td>
-                      {{ product.productcategory.name }}
-                    </td>
+                    <td>{{ product.sku }}</td>
+                    <td>{{ product.productcategory.name }}</td>
                     <td v-html="removeDuplicateVendor(product.stocks)">
                       
                     </td>
@@ -429,7 +429,7 @@
               }
               let unique = [...new Set(vendors)];
               unique.map(function(value, key) {
-                markup += '<small><span class="badge badge-pill badge-info"> '+ value +' </span></small>'
+                markup += '<span class="badge badge-pill badge-info"> '+ value +' </span>'
               });
               return markup;
             },
