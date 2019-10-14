@@ -30,23 +30,28 @@
   </style>
 </head>
 <body>
-  <h2 align="center">
+  <p align="center">
     @if($store->monogram != null)
       @if(file_exists( public_path() . '/images/stores/' . $store->monogram))
-        <img src="{{ public_path('images/stores/'. $store->monogram) }}" style="height: 80px; width: auto;">
+        <img src="{{ public_path('images/stores/'. $store->monogram) }}" style="height: 65px; width: auto;">
       @else
-        <img src="{{ public_path('images/default_store.png') }}" style="height: 80px; width: auto;">
+        <img src="{{ public_path('images/default_store.png') }}" style="height: 65px; width: auto;">
       @endif
     @else
-      <img src="{{ public_path('images/default_store.png') }}" style="height: 80px; width: auto;">
+      <img src="{{ public_path('images/default_store.png') }}" style="height: 65px; width: auto;">
     @endif
     <br/>
     {{ $store->name }}<br/>
     <small>{{ $store->address }}, {{ $store->upazilla }}, {{ $store->district }}</small>
-  </h2>
-  <h2 align="center" style="color: #397736; border-bottom: 1px solid #397736;">
-    {{ $customer->name }}-এর বকেয়া রিপোর্ট ({{ bangla(date('F d, Y', strtotime($start))) }}-{{ bangla(date('F d, Y', strtotime($end))) }})
-  </h2>
+    <br/>
+    @if($store->slogan)
+      <small style="color: #525659;">** {{ $store->slogan }} **</small>
+    @endif
+    <br/>
+    <span align="center" style="color: #397736; border-bottom: 1px solid #397736;">
+      {{ $customer->name }}-এর বকেয়া রিপোর্ট ({{ bangla(date('F d, Y', strtotime($start))) }}-{{ bangla(date('F d, Y', strtotime($end))) }})
+    </span>
+  </p>
 
   <table>
     <tbody>

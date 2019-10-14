@@ -37,23 +37,28 @@
   </style>
 </head>
 <body>
-  <h2 align="center">
+  <p align="center">
     @if($store->monogram != null)
       @if(file_exists( public_path() . '/images/stores/' . $store->monogram))
-        <img src="{{ public_path('images/stores/'. $store->monogram) }}" style="height: 80px; width: auto;">
+        <img src="{{ public_path('images/stores/'. $store->monogram) }}" style="height: 65px; width: auto;">
       @else
-        <img src="{{ public_path('images/default_store.png') }}" style="height: 80px; width: auto;">
+        <img src="{{ public_path('images/default_store.png') }}" style="height: 65px; width: auto;">
       @endif
     @else
-      <img src="{{ public_path('images/default_store.png') }}" style="height: 80px; width: auto;">
+      <img src="{{ public_path('images/default_store.png') }}" style="height: 65px; width: auto;">
     @endif
     <br/>
     {{ $store->name }}<br/>
     <small>{{ $store->address }}, {{ $store->upazilla }}, {{ $store->district }}</small>
-  </h2>
-  <h2 align="center" style="color: #397736; border-bottom: 1px solid #397736;">
-    {{ $category->name }}-বাবদ খরচের রিপোর্ট ({{ bangla(date('F d, Y', strtotime($start))) }}-{{ bangla(date('F d, Y', strtotime($end))) }})
-  </h2>
+    <br/>
+    @if($store->slogan)
+      <small style="color: #525659;">** {{ $store->slogan }} **</small>
+    @endif
+    <br/>
+    <span align="center" style="color: #397736; border-bottom: 1px solid #397736;">
+      {{ $category->name }}-বাবদ খরচের রিপোর্ট ({{ bangla(date('F d, Y', strtotime($start))) }}-{{ bangla(date('F d, Y', strtotime($end))) }})
+    </span>
+  </p>
 
   <table class="bordertable">
     <thead>
@@ -91,21 +96,35 @@
   </table>
 
 
-  <htmlpagefooter name="page-footer">
+  <htmlpageheader name="page-header">
     <table>
       <tr>
         <td width="50%">
-          <small>ডাউনলোডের সময়কালঃ <span style="font-family: Calibri;">{{ date('F d, Y, h:i A') }}</span></small><br/>
-          <small style="font-family: Calibri; color: #3f51b5;">Powered by: http://dokankhata.com (01515297658)</span>
+          <small style="font-size: 12px; color: #525659;">ডাউনলোডের সময়কালঃ <span style="font-family: Calibri; font-size: 12px;">{{ date('F d, Y, h:i A') }}</span></small>
         </td>
-        <td align="right">
+        <td align="right" style="color: #525659;">
           <small>প্রস্তুতকারকঃ 
           @if(Auth::check())
-            {{ Auth::user()->name }}
+            {{ Auth::user()->name }} 
           @else
-            গেস্ট
+            গেস্ট 
           @endif
+          | পাতাঃ {PAGENO}/{nbpg}
           </small>
+        </td>
+      </tr>
+    </table>
+  </htmlpageheader>
+
+
+  <htmlpagefooter name="page-footer">
+    <table>
+      <tr>
+        <td width="70%" align="left">
+          <span style="font-size: 11px; color: #525659;">{{ $store->receipt_footer }}</span>
+        </td>
+        <td align="right">
+          <small style="font-family: Calibri; font-size: 11px; color: #3f51b5;">Powered by: http://dokankhata.com<br/>(01515297658)</span>
         </td>
       </tr>
     </table>

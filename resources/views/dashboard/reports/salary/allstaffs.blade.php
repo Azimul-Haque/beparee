@@ -51,7 +51,9 @@
     {{ $store->name }}<br/>
     <small>{{ $store->address }}, {{ $store->upazilla }}, {{ $store->district }}</small>
     <br/>
-    <small style="color: #525659;">** {{ $store->slogan }} **</small>
+    @if($store->slogan)
+      <small style="color: #525659;">** {{ $store->slogan }} **</small>
+    @endif
     <br/>
     <span align="center" style="color: #397736; border-bottom: 1px solid #397736;">
       বেতন প্রদান রিপোর্ট ({{ bangla(date('F d, Y', strtotime($start))) }}-{{ bangla(date('F d, Y', strtotime($end))) }})
