@@ -186,12 +186,22 @@ class SaleController extends Controller
         return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];
     }
 
-    public function searchSale($query)
+    public function searchSale($query, $code)
     {
+        $store = Store::where('code', $code)->first();
+
         $sales = Sale::where(function($search) use ($query) {
                         $search->where('code', 'LIKE', '%'.$query.'%')
                                ->orWhere('total_price', 'LIKE', '%'.$query.'%');
-                     })->paginate(7);
+                     })->where('store_id', $code)->paginate(7);
+
+        $customerlikes = Customer::where("name", 'LIKE', '%' . $query . '%')
+                                 ->orWhere("mobile", 'LIKE', '%' . $query . '%')
+                                 ->orWhere("nid", 'LIKE', '%' . $query . '%')
+                                 ->orWhere("nid", 'LIKE', '%' . $query . '%')
+                                 ->where('store_id', $code)
+                                 ->get();
+
         $sales->load('saleitems');
         $sales->load('saleitems')->load('saleitems.product');
         $sales->load('customer');

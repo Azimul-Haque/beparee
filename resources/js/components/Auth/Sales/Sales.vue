@@ -568,7 +568,7 @@
           Fire.$on('searching', () => {
               let query = this.$parent.$parent.search;
               if(query != '') {
-                axios.get('/api/searchsale/' + query)
+                axios.get('/api/searchsale/' + query + '/' + this.$route.params.code)
                 .then((data) => {
                   this.sales = data.data;
                 })
