@@ -130,7 +130,8 @@
                       <has-error :form="form" field="slogan"></has-error>
                     </div>
                     <div class="form-group">
-                      <textarea v-model="form.receipt_footer" type="text" name="receipt_footer" placeholder="রশিদের ফুটনোট (সর্বোচ্চ ২৫৫ অক্ষর)" 
+                      <label>রশিদের ফুটনোট (দোকানের তথ্য, মোবাইল নম্বর ইত্যাদি) [সর্বোচ্চ ২৫৫ অক্ষর]</label>
+                      <textarea v-model="form.receipt_footer" type="text" name="receipt_footer" placeholder="রশিদের ফুটনোট (দোকানের তথ্য, মোবাইল নম্বর ইত্যাদি) [সর্বোচ্চ ২৫৫ অক্ষর]" 
                         class="form-control" :class="{ 'is-invalid': form.errors.has('receipt_footer') }" onkeypress="if(this.value.length==255) return false;"></textarea>
                       
                       <has-error :form="form" field="receipt_footer"></has-error>

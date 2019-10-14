@@ -30,7 +30,6 @@
   </style>
 </head>
 <body>
-  <h2 align="center">
   <p align="center">
     @if($store->monogram != null)
       @if(file_exists( public_path() . '/images/stores/' . $store->monogram))
