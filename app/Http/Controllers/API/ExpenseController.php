@@ -21,7 +21,7 @@ class ExpenseController extends Controller
         $expenses = Expense::where('store_id', $store->id)
                       ->select('expensecategory_id', DB::raw('SUM(amount) as totalamount'), DB::raw('COUNT(*) as count'))
                       ->groupBy('expensecategory_id')
-                      ->paginate(10);
+                      ->paginate(15);
         $expenses->load('expensecategory');
 
         return response()->json($expenses);

@@ -140,6 +140,7 @@ Route::get('searchrole/{query}', 'API\UserController@searchRole');
 Route::get('searchstore/{query}', 'API\StoreController@searchStore');
 Route::get('searchproduct/{query}', 'API\ProductController@searchProduct');
 Route::get('searchpurchase/{query}', 'API\PurchaseController@searchPurchase');
+Route::get('searchsale/{query}', 'API\SaleController@searchSale');
 Route::get('searchvendor/{query}', 'API\VendorController@searchVendor');
 Route::get('searchstaff/{query}', 'API\StaffController@searchStaff');
 Route::get('searchcustomer/{query}', 'API\CustomerController@searchCustomer');

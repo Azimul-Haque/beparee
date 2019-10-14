@@ -186,46 +186,33 @@ class SaleController extends Controller
         return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function searchPurchase($query)
+    {
+        $purchases = Purchase::where(function($search) use ($query) {
+                        $search->where('code', 'LIKE', '%'.$query.'%')
+                               ->orWhere('total', 'LIKE', '%'.$query.'%');
+                     })->paginate(5);
+        $purchases->load('stocks');
+        $purchases->load('stocks')->load('stocks.product', 'stocks.vendor');
+
+        return response()->json($purchases);
+    }
+
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

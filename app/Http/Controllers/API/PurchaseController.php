@@ -129,7 +129,7 @@ class PurchaseController extends Controller
 			                   ->orWhere('total', 'LIKE', '%'.$query.'%');
 			         })->paginate(5);
         $purchases->load('stocks');
-        $purchases->load('stocks')->load('stocks.vendor');
+        $purchases->load('stocks')->load('stocks.product', 'stocks.vendor');
 
         return response()->json($purchases);
     }

@@ -565,21 +565,21 @@
             setTimeout(() => this.addModal(), 500);
           });
 
-          // Fire.$on('searching', () => {
-          //     let query = this.$parent.$parent.search;
-          //     if(query != '') {
-          //       axios.get('/api/searchpurchase/' + query)
-          //       .then((data) => {
-          //         this.sales = data.data;
-          //       })
-          //       .catch(() => {
+          Fire.$on('searching', () => {
+              let query = this.$parent.$parent.search;
+              if(query != '') {
+                axios.get('/api/searchsale/' + query)
+                .then((data) => {
+                  this.sales = data.data;
+                })
+                .catch(() => {
 
-          //       })
-          //     } else {
-          //       this.loadSales();
-          //     }
+                })
+              } else {
+                this.loadSales();
+              }
               
-          // });
+          });
       },
       beforeDestroy() {
         Fire.$off('AfterSaleCreated')
