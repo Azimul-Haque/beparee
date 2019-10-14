@@ -43,6 +43,7 @@ Route::apiResources(['product' => 'API\ProductController']);
 Route::post('product/{id}', 'API\ProductController@update'); // to cover up the vps put perm.
 
 Route::get('load/product/{code}', 'API\ProductController@loadProducts');
+Route::get('load/product/category/wise/{category_id}/{code}', 'API\ProductController@loadCategoryWise');
 Route::get('load/single/product/{id}/{code}', 'API\ProductController@loadSingleProduct');
 Route::get('load/single/product/sales/{id}/{code}', 'API\ProductController@loadSingleProductSales');
 Route::post('single/product/stock/update/{id}', 'API\ProductController@updateSingleProductStock');

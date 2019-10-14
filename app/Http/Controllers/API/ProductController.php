@@ -47,6 +47,19 @@ class ProductController extends Controller
         return response()->json($products);
     }
 
+    public function loadCategoryWise($productcategory_id, $code)
+    {
+        $store = Store::where('code', $code)->first();
+        $products = Product::where('store_id', $store->id)
+                           ->where('productcategory_id', $productcategory_id)
+                           ->paginate(25);
+
+        $products->load('productcategory');
+        $products->load('stocks')->load('stocks.vendor');
+
+        return response()->json($products);
+    }
+
     public function loadCategories($code)
     {
         $store = Store::where('code', $code)->first();

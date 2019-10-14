@@ -115,8 +115,7 @@
               <!-- /.card-header -->
               
               <div class="card-body table-responsive p-0">
-
-                <table class="table table-hover">
+                <table class="table table-hover table-condensed">
                  <thead>
                   <tr>
                     <!-- <th>ID</th> -->
@@ -125,9 +124,16 @@
                   </tr>
                  </thead>
                  <tbody>
+                  <tr v-if="showAllProductsTr">
+                    <td>
+                      <a href="#!" @click="loadAllProducts()" v-tooltip="'সকল মালামাল দেখুন'">সকল মালামাল</a>
+                    </td>
+                    <td>
+                    </td>
+                  </tr>
                   <tr v-for="category in categories" :key="category.id">
-                    <td @click="editProductModal(product)">
-                      {{ category.name }}
+                    <td>
+                      <a href="#!" @click="loadCategoriyWise(category.id)" v-tooltip="category.name +' এর মালামাল দেখুন'">{{ category.name }}</a>
                     </td>
                     <td>
                         <button type="button" class="btn btn-success btn-sm" @click="editCategoryModal(category)" v-tooltip="'ধরণ সম্পাদনা করুন'">
@@ -361,6 +367,7 @@
               }),
               editmode: false,
               categoryeditmode: false,
+              showAllProductsTr: false,
             }
         },
         methods: {
@@ -526,11 +533,15 @@
                     // swal('Failed!', 'There was something wrong', 'warning');
                 })
             },
-            loadCategoriyWise() {
+            loadCategoriyWise(productcategory_id) {
                 if(this.$gate.isAdminOrAssociated('product-page', this.$route.params.code)){
-                  // axios.get('/api/product/category/' + this.$route.params.code).then(({ data }) => (this.categories = data));
-                  console.log('works');  
+                  axios.get('/api/load/product/category/wise/' + productcategory_id + '/' + this.$route.params.code).then(({ data }) => (this.products = data));
+                  this.showAllProductsTr = true;
                 }
+            },
+            loadAllProducts() {
+                this.loadProducts();
+                this.showAllProductsTr = false;
             },
         },
         computed: {
