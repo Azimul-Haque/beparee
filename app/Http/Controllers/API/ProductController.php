@@ -267,6 +267,18 @@ class ProductController extends Controller
         return response()->json($product);
     }
 
+    public function loadSingleProductStocks($id, $code)
+    {
+
+        $stocks = Stock::where('product_id', $id)
+                                ->orderBy('id', 'desc')
+                                ->paginate(5);
+
+        $stocks->load('vendor');
+
+        return response()->json($stocks);
+    }
+
     public function loadSingleProductSales($id, $code)
     {
 

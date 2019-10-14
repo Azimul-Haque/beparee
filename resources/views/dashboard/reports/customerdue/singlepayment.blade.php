@@ -104,21 +104,35 @@
   </table>
 
 
-  <htmlpagefooter name="page-footer">
+  <htmlpageheader name="page-header">
     <table>
       <tr>
         <td width="50%">
-          <small>ডাউনলোডের সময়কালঃ <span style="font-family: Calibri;">{{ date('F d, Y, h:i A') }}</span></small><br/>
-          <small style="font-family: Calibri; color: #3f51b5;">Powered by: http://dokankhata.com (01515297658)</span>
+          <small style="font-size: 12px; color: #525659;">ডাউনলোডের সময়কালঃ <span style="font-family: Calibri; font-size: 12px;">{{ date('F d, Y, h:i A') }}</span></small>
         </td>
-        <td align="right">
+        <td align="right" style="color: #525659;">
           <small>প্রস্তুতকারকঃ 
           @if(Auth::check())
-            {{ Auth::user()->name }}
+            {{ Auth::user()->name }} 
           @else
-            গেস্ট
+            গেস্ট 
           @endif
+          | পাতাঃ {PAGENO}/{nbpg}
           </small>
+        </td>
+      </tr>
+    </table>
+  </htmlpageheader>
+
+
+  <htmlpagefooter name="page-footer">
+    <table>
+      <tr>
+        <td width="70%" align="left">
+          <span style="font-size: 11px; color: #525659;">{{ $store->receipt_footer }}</span>
+        </td>
+        <td align="right">
+          <small style="font-family: Calibri; font-size: 11px; color: #3f51b5;">Powered by: http://dokankhata.com<br/>(01515297658)</span>
         </td>
       </tr>
     </table>

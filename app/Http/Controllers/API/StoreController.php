@@ -60,6 +60,7 @@ class StoreController extends Controller
             'payment_status'         => 'required',
             'monogram'               => 'sometimes',
             'slogan'                 => 'sometimes',
+            'receipt_footer'        => 'sometimes|max:255',
             'users'                 => 'required'
         ));
 
@@ -85,6 +86,7 @@ class StoreController extends Controller
             $store->monogram = $filename;
         }
         $store->slogan = $request->slogan;
+        $store->receipt_footer = $request->receipt_footer;
 
         $store->save();
 
@@ -128,6 +130,7 @@ class StoreController extends Controller
             'payment_status'         => 'required',
             'monogram'               => 'sometimes',
             'slogan'                 => 'sometimes',
+            'receipt_footer'         => 'sometimes|max:255',
             'users'                 => 'required'
         ));
 
@@ -151,6 +154,7 @@ class StoreController extends Controller
             $store->monogram = $filename;
         }
         $store->slogan = $request->slogan;
+        $store->receipt_footer = $request->receipt_footer;
 
         $store->save();
         
@@ -215,7 +219,8 @@ class StoreController extends Controller
             'established'            => 'required',
             'address'                => 'required',
             'monogram'               => 'sometimes',
-            'slogan'                 => 'sometimes'
+            'slogan'                 => 'sometimes',
+            'receipt_footer'         => 'sometimes|max:255'
         ));
 
         $store = Store::findOrFail($id);
@@ -234,6 +239,7 @@ class StoreController extends Controller
             $store->monogram = $filename;
         }
         $store->slogan = $request->slogan;
+        $store->receipt_footer = $request->receipt_footer;
         
         $store->save();
         

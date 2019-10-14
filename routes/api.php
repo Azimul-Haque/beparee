@@ -45,6 +45,7 @@ Route::post('product/{id}', 'API\ProductController@update'); // to cover up the 
 Route::get('load/product/{code}', 'API\ProductController@loadProducts');
 Route::get('load/product/category/wise/{category_id}/{code}', 'API\ProductController@loadCategoryWise');
 Route::get('load/single/product/{id}/{code}', 'API\ProductController@loadSingleProduct');
+Route::get('load/single/product/stocks/{id}/{code}', 'API\ProductController@loadSingleProductStocks');
 Route::get('load/single/product/sales/{id}/{code}', 'API\ProductController@loadSingleProductSales');
 Route::post('single/product/stock/update/{id}', 'API\ProductController@updateSingleProductStock');
 Route::delete('single/product/stock/delete/{id}', 'API\ProductController@deleteSingleProductStock');

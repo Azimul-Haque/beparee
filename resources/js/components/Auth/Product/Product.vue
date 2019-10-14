@@ -38,12 +38,12 @@
               </div>
               <ul class="list-group list-group-flush">
                 <li class="list-group-item"><b>স্টকঃ</b> {{ product.stocks | totalquantity }} {{ product.unit }}</li>
-                <li class="list-group-item"><b>ক্রয়মূল্যঃ</b> </li>
-                <li class="list-group-item"><b>বিক্রয়যোগ্য মোট মূল্যঃ</b> </li>
+                <!-- <li class="list-group-item"><b>ক্রয়মূল্যঃ</b> </li>
+                <li class="list-group-item"><b>বিক্রয়যোগ্য মোট মূল্যঃ</b> </li> -->
               </ul>
               <div class="card-body">
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+                <!-- <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a> -->
               </div>
             </div>
           </div>
@@ -63,7 +63,7 @@
               <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active p-3" id="one" role="tabpanel" aria-labelledby="one-tab">
                   <p class="card-text">
-                    <div class="card bg-light text-dark" v-for="stock in product.stocks">
+                    <div class="card bg-light text-dark" v-for="stock in stocks.data" :key="stock.id">
                       <div class="card-body">
                         <div class="row">
                           <div class="col-md-10">
@@ -90,7 +90,10 @@
                         </small>
                       </div>
                     </div>
-                  </p>         
+                  </p>
+                  <div class="card-footer">
+                    <pagination :data="stocks" :limit="1" @pagination-change-page="getPaginationProductStocks"></pagination>
+                  </div>     
                 </div>
                 <div class="tab-pane fade p-3" id="two" role="tabpanel" aria-labelledby="two-tab">
                   <p class="card-text">
@@ -181,6 +184,7 @@
         data () {
             return {
               product: {},
+              stocks: {},
               productsales: {},
               code: this.$route.params.code,
               // Create a new form instance
@@ -201,6 +205,19 @@
                     // _.orderBy(this.product.stocks, ['id'], ['desc'])
                   ));  
                 }
+            },
+            loadProductStocks() {
+                if(this.$gate.isAdminOrAssociated('product-page', this.$route.params.code)){
+                  axios.get('/api/load/single/product/stocks/' + this.$route.params.id + '/' + this.$route.params.code).then(({ data }) => (
+                    this.stocks = data
+                  ));  
+                }
+            },
+            getPaginationProductStocks(page = 1) {
+              axios.get('/api/load/single/product/stocks/' + + this.$route.params.id + '/' + this.$route.params.code + '?page=' + page)
+              .then(response => {
+                this.stocks = response.data;
+              });
             },
             loadProductSales() {
                 if(this.$gate.isAdminOrAssociated('product-page', this.$route.params.code)){
@@ -269,14 +286,17 @@
         created() {
             this.loadProduct();
             this.loadProductSales();
+            this.loadProductStocks();
 
             Fire.$on('AfterProductStockUpdated', () => {
                 this.loadProduct();
                 this.loadProductSales();
+                this.loadProductStocks();
             });
             Fire.$on('changingstorename', () => {
                 this.loadProduct();
                 this.loadProductSales();
+                this.loadProductStocks();
             });
 
             // Fire.$on('searching', () => {
