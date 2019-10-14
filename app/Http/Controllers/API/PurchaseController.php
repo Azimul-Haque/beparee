@@ -64,7 +64,7 @@ class PurchaseController extends Controller
         $store = Store::where('code', $request->code)->first();
 
         $purchase->store_id = $store->id;
-        $purchase->code = random_string(8);
+        $purchase->code = 'P'.$store->id.'D'.date('dmy') random_string(8);
         $purchase->total = number_format($request->total, 2, '.', '');
         $purchase->discount_unit = $request->discount_unit;
         $purchase->discount = number_format($request->discount, 2, '.', '');
