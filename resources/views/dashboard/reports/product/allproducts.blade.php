@@ -52,15 +52,19 @@
     <thead>
       <tr>
         <th>পণ্যের নাম</th>
+        <th width="15%">ব্র্যান্ড/ মার্কা</th>
+        <th width="15%">পণ্যের ধরণ</th>
         <th width="15%">ক্রয়কৃত স্টক</th>
         <th width="15%">বর্তমান স্টক</th>
-        <th width="20%">SKU</th>
+        <th width="10%">কোড</th>
       </tr>
     </thead>
     <tbody>
       @foreach($products as $product)
       <tr>
         <td>{{ $product->name }}</td>
+        <td align="center">{{ $product->brand }}</td>
+        <td align="center">{{ $product->productcategory->name }}</td>
         @php 
           $quantity = 0;
           $current_quantity = 0;

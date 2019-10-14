@@ -32,7 +32,7 @@
                   <button type="button" class="btn btn-primary btn-sm" @click="addModal" v-tooltip="'নতুন পণ্য ক্রয় করুন'">
                       <i class="fa fa-cart-plus"></i>
                   </button>
-                  </div>
+                </div>
               </div>
               <!-- /.card-header -->
               
@@ -86,9 +86,9 @@
                         <a :href="'/pdf/purchase/' + purchase.id" class="btn btn-primary btn-sm" v-tooltip="'ডাউনলোড করুন'">
                             <i class="fa fa-download"></i>
                         </a>
-                        <button @click="printPurchase(purchase.id, purchase.code)" class="btn btn-success btn-sm" v-tooltip="'প্রিন্ট করুন'">
+                        <!-- <button @click="printPurchase(purchase.id, purchase.code)" class="btn btn-success btn-sm" v-tooltip="'প্রিন্ট করুন'">
                             <i class="fa fa-print"></i>
-                        </button>
+                        </button> -->
                         <!-- <button @click="deletePurchase(purchase.id)" class="btn btn-danger btn-sm" v-tooltip="'পণ্য ডিলেট করুন'">
                             <i class="fa fa-trash"></i>
                         </button> -->
@@ -512,10 +512,10 @@
           Fire.$on('AfterPurchaseCreatedOrUpdated', () => {
               this.loadPurchases();
           });
-          Fire.$on('purchaseFromNavOpenModal', () => {
-            this.nativemodal = false;
-            setTimeout(() => this.addModal(), 500);
-          });
+          // Fire.$on('purchaseFromNavOpenModal', () => {
+          //   this.nativemodal = false;
+          //   setTimeout(() => this.addModal(), 500);
+          // });
 
           Fire.$on('searching', () => {
               let query = this.$parent.$parent.search;

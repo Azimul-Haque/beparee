@@ -53,8 +53,8 @@
                     <th>পণ্য</th>
                     <th>ধরণ</th>
                     <th>ডিলার/ ভেন্ডর</th>
-                    <th>বর্তমান স্টক</th>
-                    <th width="20%">ক্রিয়াকলাপ</th>
+                    <th width="15%">বর্তমান স্টক</th>
+                    <th width="15%">ক্রিয়াকলাপ</th>
                   </tr>
                  </thead>
                  <tbody>
@@ -126,11 +126,7 @@
                  </thead>
                  <tbody>
                   <tr v-for="category in categories" :key="category.id">
-                    <!-- <td>{{ store.id }}</td> -->
-                    <td>
-                      <!-- <router-link :to="{ name: 'singleStore', params: { token: store.token, code: store.code }}">
-                        
-                      </router-link> -->
+                    <td @click="editProductModal(product)">
                       {{ category.name }}
                     </td>
                     <td>
@@ -249,8 +245,8 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label>নতুন স্টকের পরিমাণ</label>
-                          <input v-model="form.quantity" type="number" step="any" name="quantity" placeholder="নতুন স্টকের পরিমাণ" 
+                          <label>স্টকের পরিমাণ</label>
+                          <input v-model="form.quantity" type="number" step="any" name="quantity" placeholder="স্টকের পরিমাণ" 
                             class="form-control" :class="{ 'is-invalid': form.errors.has('quantity') }">
                           <has-error :form="form" field="quantity"></has-error>
                         </div>
@@ -426,7 +422,7 @@
               }
               let unique = [...new Set(vendors)];
               unique.map(function(value, key) {
-                markup += '<span class="badge badge-pill badge-info"> '+ value +' </span>'
+                markup += '<small><span class="badge badge-pill badge-info"> '+ value +' </span></small>'
               });
               return markup;
             },
@@ -529,6 +525,12 @@
                     this.$Progress.fail();
                     // swal('Failed!', 'There was something wrong', 'warning');
                 })
+            },
+            loadCategoriyWise() {
+                if(this.$gate.isAdminOrAssociated('product-page', this.$route.params.code)){
+                  // axios.get('/api/product/category/' + this.$route.params.code).then(({ data }) => (this.categories = data));
+                  console.log('works');  
+                }
             },
         },
         computed: {

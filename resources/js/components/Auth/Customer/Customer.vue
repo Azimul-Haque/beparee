@@ -80,7 +80,7 @@
                                 <span>
                                   <big v-if="customerdue.transaction_type == 0" class="text-red"><b>বকেয়া</b></big> 
                                   <big v-else class="text-green"><b>পরিশোধ</b></big> 
-                                  | পরিমাণঃ {{ customerdue.amount }} ৳
+                                  | পরিমাণঃ {{ customerdue.amount }} ৳ <small v-if="customerdue.remark">({{ customerdue.remark }})</small>
                                 </span>
                                 <a :href="'/pdf/customer/due/payment/report/' + customerdue.id +'/' + code" v-if="customerdue.transaction_type == 1" class="btn btn-warning btn-sm" style="float: right;" v-tooltip="'রশিদ ডাউনলোড করুন'"><i class="fa fa-download"></i></a>
                                 <br/>
@@ -231,6 +231,12 @@
                     class="form-control" :class="{ 'is-invalid': formedit.errors.has('nid') }" onkeypress="if(this.value.length==17) return false;">
                   <has-error :form="formedit" field="nid"></has-error>
                 </div>
+                <div class="form-group">
+                  <label>পূর্বের বাকী (যদি থাকে)</label>
+                  <input v-model="formedit.ldue" type="number" name="ldue" placeholder="পূর্বের বাকী" 
+                    class="form-control" :class="{ 'is-invalid': formedit.errors.has('ldue') }">
+                  <has-error :form="formedit" field="ldue"></has-error>
+                </div>
                 <input type="hidden" v-model="formedit.code" name="code">
               </div>
               <!-- Modal footer -->
@@ -264,6 +270,7 @@
                 address: '',
                 mobile: '',
                 nid: '',
+                ldue: '',
                 code: this.$route.params.code,
               }),
               form: new Form({

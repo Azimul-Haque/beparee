@@ -139,8 +139,7 @@ const app = new Vue({
           })
         } else {
           var storecodenow = urlnow.substr(urlnow.length - 10);
-          this.$router.push({name: 'purchasesPage', params: { code: storecodenow }});
-          Fire.$emit('purchaseFromNavOpenModal');
+          this.$router.push({name: 'purchasePage', params: { code: storecodenow }});
         }
       },
       saleFromNavBtn() {
@@ -152,8 +151,7 @@ const app = new Vue({
           })
         } else {
           var storecodenow = urlnow.substr(urlnow.length - 10);
-          this.$router.push({name: 'salesPage', params: { code: storecodenow }});
-          Fire.$emit('saleFromNavOpenModal');
+          this.$router.push({name: 'salePage', params: { code: storecodenow }});
         }
       },
       dailyDebitCredit() {

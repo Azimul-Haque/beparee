@@ -19,8 +19,10 @@ export const routes = [
   { path: '/product/:id/:code', component: require('./components/Auth/Product/Product.vue').default, meta: { title: 'পণ্য | দোকান খাতা (Dokan Khata)'}, name: 'singleProduct'},
   
   { path: '/purchases/:code', component: require('./components/Auth/Purchase/Purchases.vue').default, meta: { title: 'ক্রয়ের তালিকা | দোকান খাতা (Dokan Khata)'}, name: 'purchasesPage'},
+  { path: '/purchase/new/:code', component: require('./components/Auth/Purchase/Purchase.vue').default, meta: { title: 'পণ্য ক্রয়ের করুন | দোকান খাতা (Dokan Khata)'}, name: 'purchasePage'},
   
   { path: '/sales/:code', component: require('./components/Auth/Sales/Sales.vue').default, meta: { title: 'বিক্রয়ের তালিকা | দোকান খাতা (Dokan Khata)'}, name: 'salesPage'},
+  { path: '/sale/new/:code', component: require('./components/Auth/Sales/Sale.vue').default, meta: { title: 'পণ্য বিক্রয় করুন | দোকান খাতা (Dokan Khata)'}, name: 'salePage'},
 
   { path: '/vendors/:code', component: require('./components/Auth/Vendor/Vendors.vue').default, meta: { title: 'ডিলার/ ভেন্ডরের তালিকা | দোকান খাতা (Dokan Khata)'}, name: 'vendorsPage'},
   { path: '/vendor/:id/:code', component: require('./components/Auth/Vendor/Vendor.vue').default, meta: { title: 'ডিলার/ ভেন্ডর | দোকান খাতা (Dokan Khata)'}, name: 'singleVendor'},

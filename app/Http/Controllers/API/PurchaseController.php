@@ -23,7 +23,7 @@ class PurchaseController extends Controller
     public function loadPurchases($code)
     {
         $store = Store::where('code', $code)->first();
-        $purchases = Purchase::where('store_id', $store->id)->orderBy('id', 'desc')->paginate(5);
+        $purchases = Purchase::where('store_id', $store->id)->orderBy('id', 'desc')->paginate(7);
         $purchases->load('stocks');
         $purchases->load('stocks')->load('stocks.product', 'stocks.vendor');
 

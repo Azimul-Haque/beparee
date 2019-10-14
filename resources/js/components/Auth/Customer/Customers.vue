@@ -125,6 +125,12 @@
                       class="form-control" :class="{ 'is-invalid': form.errors.has('nid') }" onkeypress="if(this.value.length==17) return false;">
                     <has-error :form="form" field="nid"></has-error>
                   </div>
+                  <div class="form-group">
+                    <label>পূর্বের বাকী (যদি থাকে)</label>
+                    <input v-model="form.ldue" type="number" name="ldue" placeholder="পূর্বের বাকী" 
+                      class="form-control" :class="{ 'is-invalid': form.errors.has('ldue') }">
+                    <has-error :form="form" field="ldue"></has-error>
+                  </div>
                   <input type="hidden" v-model="form.code" name="code">
                 </div>
                 <!-- Modal footer -->
@@ -158,6 +164,7 @@
                 address: '',
                 mobile: '',
                 nid: '',
+                ldue: '',
                 code: this.$route.params.code,
               }),
               editmode: false

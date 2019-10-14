@@ -16,7 +16,7 @@ class CustomerController extends Controller
     {
         $store = Store::where('code', $code)->first();
 
-        $customers = Customer::where('store_id', $store->id)->paginate(5);
+        $customers = Customer::where('store_id', $store->id)->paginate(10);
 
         return response()->json($customers);
     }
@@ -28,7 +28,8 @@ class CustomerController extends Controller
             'name'                   => 'required|max:191',
             'address'                => 'required',
             'mobile'                 => 'required',
-            'nid'                    => 'sometimes'
+            'nid'                    => 'sometimes',
+            'ldue'                   => 'sometimes'
         ));
 
         $customer = new Customer;
@@ -40,7 +41,20 @@ class CustomerController extends Controller
         $customer->address = $request->address;
         $customer->mobile = $request->mobile;
         $customer->nid = $request->nid;
+        if($request->ldue != '' && $request->ldue > 0) {
+            $customer->current_due = $request->ldue;
+            $customer->total_due = $request->ldue;
+        }
         $customer->save();
+
+        if($request->ldue != '' && $request->ldue > 0) {
+            $customerdue = new Customerdue;
+            $customerdue->customer_id = $customer->id;
+            $customerdue->transaction_type = 0; // 0 is due, 1 is due_paid
+            $customerdue->amount = $request->ldue;
+            $customerdue->remark = 'পূর্বের বকেয়া';
+            $customerdue->save();
+        }
 
         return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];
     }
@@ -51,14 +65,40 @@ class CustomerController extends Controller
             'name'                   => 'required|max:191',
             'address'                => 'required',
             'mobile'                 => 'required',
-            'nid'                    => 'sometimes'
+            'nid'                    => 'sometimes',
+            'ldue'                   => 'sometimes'
         ));
 
-        $customer = Customer::findOrFail($id);;
+        $customer = Customer::findOrFail($id);
         $customer->name = $request->name;
         $customer->address = $request->address;
         $customer->mobile = $request->mobile;
         $customer->nid = $request->nid;
+        
+
+        $customerdue = Customerdue::where('customer_id', $customer->id)->where('remark', 'পূর্বের বকেয়া')->first();
+        if($customerdue) {
+            if($customerdue->amount != $request->ldue) {
+                // aage update, then change
+                $customer->current_due = $customer->current_due - $customerdue->amount + $request->ldue;
+                $customer->total_due = $customer->total_due - $customerdue->amount + $request->ldue;
+
+                $customerdue->amount = $request->ldue;
+                $customerdue->save();
+            }
+        } else {
+            $customerdue = new Customerdue;
+            $customerdue->customer_id = $customer->id;
+            $customerdue->transaction_type = 0; // 0 is due, 1 is due_paid
+            $customerdue->amount = $request->ldue;
+            $customerdue->remark = 'পূর্বের বকেয়া';
+            $customerdue->save();
+
+            $customer->current_due = $customer->current_due + $request->ldue;
+            $customer->total_due = $customer->total_due + $request->ldue;
+        }
+
+        // customer current_due and total_due update/ new er jonno eta niche...
         $customer->save();
 
         return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];

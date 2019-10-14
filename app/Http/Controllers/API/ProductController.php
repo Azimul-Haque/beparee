@@ -39,7 +39,7 @@ class ProductController extends Controller
     public function loadProducts($code)
     {
         $store = Store::where('code', $code)->first();
-        $products = Product::where('store_id', $store->id)->paginate(5);
+        $products = Product::where('store_id', $store->id)->paginate(10);
 
         $products->load('productcategory');
         $products->load('stocks')->load('stocks.vendor');
