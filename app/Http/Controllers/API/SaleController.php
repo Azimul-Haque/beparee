@@ -78,7 +78,7 @@ class SaleController extends Controller
 
         $sale->store_id = $store->id;
 
-        $sale->code = random_string(8);
+        $sale->code = 'S'.date('dmyhis').$store->id;
         $sale->total_cost = number_format($request->total_cost, 2, '.', '');
         $sale->total_price = number_format($request->total_price, 2, '.', '');
         $sale->discount_unit = $request->discount_unit;
