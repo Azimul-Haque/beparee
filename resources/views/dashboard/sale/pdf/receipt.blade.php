@@ -30,23 +30,29 @@
   </style>
 </head>
 <body>
-  <h2 align="center">
+  <p align="center">
     @if($anysinglesaleitem->product->store->monogram != null)
       @if(file_exists( public_path() . '/images/stores/' . $anysinglesaleitem->product->store->monogram))
-        <img src="{{ public_path('images/stores/'. $anysinglesaleitem->product->store->monogram) }}" style="height: 80px; width: auto;">
+        <img src="{{ public_path('images/stores/'. $anysinglesaleitem->product->store->monogram) }}" style="height: 65px; width: auto;">
       @else
-        <img src="{{ public_path('images/default_store.png') }}" style="height: 80px; width: auto;">
+        <img src="{{ public_path('images/default_store.png') }}" style="height: 65px; width: auto;">
       @endif
     @else
-      <img src="{{ public_path('images/default_store.png') }}" style="height: 80px; width: auto;">
+      <img src="{{ public_path('images/default_store.png') }}" style="height: 65px; width: auto;">
     @endif
     <br/>
     {{ $anysinglesaleitem->product->store->name }}<br/>
     <small>{{ $anysinglesaleitem->product->store->address }}, {{ $anysinglesaleitem->product->store->upazilla }}, {{ $anysinglesaleitem->product->store->district }}</small>
-  </h2>
-  <h2 align="center" style="color: #397736; border-bottom: 1px solid #397736;">
-    বিক্রয় রশিদ
-  </h2>
+    <br/>
+    @if($anysinglesaleitem->product->store->slogan)
+      <small style="color: #525659;">** {{ $anysinglesaleitem->product->store->slogan }} **</small>
+    @endif
+    <br/>
+    <span align="center" style="color: #397736; border-bottom: 1px solid #397736;">
+      বিক্রয় রশিদ
+    </span>
+  </p>
+
 
   <table>
     <tr>
@@ -118,7 +124,7 @@
     <table>
       <tr>
         <td width="70%" align="left">
-          <span style="font-size: 11px; color: #525659;">{{ $store->receipt_footer }}</span>
+          <span style="font-size: 11px; color: #525659;">{{ $anysinglesaleitem->product->store->receipt_footer }}</span>
         </td>
         <td align="right">
           <small style="font-family: Calibri; font-size: 11px; color: #3f51b5;">Powered by: http://dokankhata.com<br/>(01515297658)</span>
