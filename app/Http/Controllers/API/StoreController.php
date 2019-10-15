@@ -60,8 +60,9 @@ class StoreController extends Controller
             'payment_status'         => 'required',
             'monogram'               => 'sometimes',
             'slogan'                 => 'sometimes',
-            'receipt_footer'        => 'sometimes|max:255',
-            'users'                 => 'required'
+            'proprietor'             => 'sometimes',
+            'receipt_footer'         => 'sometimes|max:255',
+            'users'                  => 'required'
         ));
 
         $store = new Store;
@@ -86,6 +87,7 @@ class StoreController extends Controller
             $store->monogram = $filename;
         }
         $store->slogan = $request->slogan;
+        $store->proprietor = $request->proprietor;
         $store->receipt_footer = $request->receipt_footer;
 
         $store->save();
@@ -130,8 +132,9 @@ class StoreController extends Controller
             'payment_status'         => 'required',
             'monogram'               => 'sometimes',
             'slogan'                 => 'sometimes',
+            'proprietor'             => 'sometimes',
             'receipt_footer'         => 'sometimes|max:255',
-            'users'                 => 'required'
+            'users'                  => 'required'
         ));
 
         $store = Store::findOrFail($id);
@@ -154,6 +157,7 @@ class StoreController extends Controller
             $store->monogram = $filename;
         }
         $store->slogan = $request->slogan;
+        $store->proprietor = $request->proprietor;
         $store->receipt_footer = $request->receipt_footer;
 
         $store->save();
@@ -220,6 +224,7 @@ class StoreController extends Controller
             'address'                => 'required',
             'monogram'               => 'sometimes',
             'slogan'                 => 'sometimes',
+            'proprietor'             => 'sometimes',
             'receipt_footer'         => 'sometimes|max:255'
         ));
 
@@ -239,6 +244,7 @@ class StoreController extends Controller
             $store->monogram = $filename;
         }
         $store->slogan = $request->slogan;
+        $store->proprietor = $request->proprietor;
         $store->receipt_footer = $request->receipt_footer;
         
         $store->save();

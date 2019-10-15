@@ -30,15 +30,15 @@
   </style>
 </head>
 <body>
-  <p align="center">
+  <p align="center" style="line-height: 1.2;">
     @if($anysinglesaleitem->product->store->monogram != null)
       @if(file_exists( public_path() . '/images/stores/' . $anysinglesaleitem->product->store->monogram))
-        <img src="{{ public_path('images/stores/'. $anysinglesaleitem->product->store->monogram) }}" style="height: 65px; width: auto;">
+        <img src="{{ public_path('images/stores/'. $anysinglesaleitem->product->store->monogram) }}" style="height: 60px; width: auto;">
       @else
-        <img src="{{ public_path('images/default_store.png') }}" style="height: 65px; width: auto;">
+        <img src="{{ public_path('images/default_store.png') }}" style="height: 60px; width: auto;">
       @endif
     @else
-      <img src="{{ public_path('images/default_store.png') }}" style="height: 65px; width: auto;">
+      <img src="{{ public_path('images/default_store.png') }}" style="height: 60px; width: auto;">
     @endif
     <br/>
     {{ $anysinglesaleitem->product->store->name }}<br/>
@@ -46,6 +46,10 @@
     <br/>
     @if($anysinglesaleitem->product->store->slogan)
       <small style="color: #525659;">** {{ $anysinglesaleitem->product->store->slogan }} **</small>
+    @endif
+    <br/>
+    @if($anysinglesaleitem->product->store->proprietor)
+      <small>প্রোঃ {{ $anysinglesaleitem->product->store->proprietor }}</small>
     @endif
     <br/>
     <span align="center" style="color: #397736; border-bottom: 1px solid #397736;">

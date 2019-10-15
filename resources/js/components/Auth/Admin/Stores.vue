@@ -205,6 +205,12 @@
                   </div>
 
                   <div class="form-group">
+                    <input v-model="form.proprietor" type="text" name="proprietor" placeholder="প্রোপ্রাইটর এর নাম" 
+                      class="form-control" :class="{ 'is-invalid': form.errors.has('proprietor') }">
+                    <has-error :form="form" field="proprietor"></has-error>
+                  </div>
+
+                  <div class="form-group">
                     <textarea v-model="form.receipt_footer" type="text" name="receipt_footer" placeholder="রশিদের ফুটনোট (সর্বোচ্চ ২৫৫ অক্ষর)" 
                       class="form-control" :class="{ 'is-invalid': form.errors.has('receipt_footer') }" onkeypress="if(this.value.length==255) return false;"></textarea>
                     
@@ -270,6 +276,7 @@
                 // smsrate: '',
                 monogram: '',
                 slogan: '',
+                proprietor: '',
                 receipt_footer: '',
                 users: []
               }),

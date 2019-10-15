@@ -130,6 +130,12 @@
                       <has-error :form="form" field="slogan"></has-error>
                     </div>
                     <div class="form-group">
+                      <label>প্রোপ্রাইটর এর নাম</label>
+                      <input v-model="form.proprietor" type="text" name="proprietor" placeholder="প্রোপ্রাইটর এর নাম" 
+                        class="form-control" :class="{ 'is-invalid': form.errors.has('proprietor') }">
+                      <has-error :form="form" field="proprietor"></has-error>
+                    </div>
+                    <div class="form-group">
                       <label>রশিদের ফুটনোট (দোকানের তথ্য, মোবাইল নম্বর ইত্যাদি) [সর্বোচ্চ ২৫৫ অক্ষর]</label>
                       <textarea v-model="form.receipt_footer" type="text" name="receipt_footer" placeholder="রশিদের ফুটনোট (দোকানের তথ্য, মোবাইল নম্বর ইত্যাদি) [সর্বোচ্চ ২৫৫ অক্ষর]" 
                         class="form-control" :class="{ 'is-invalid': form.errors.has('receipt_footer') }" onkeypress="if(this.value.length==255) return false;"></textarea>
@@ -150,7 +156,7 @@
                       </div>
                       <div class="col-md-6">
                         <center>
-                          <img :src="getMonogramOnEditCard()" class="img-responsive" style="max-height: 150px; width: auto;">
+                          <img :src="getMonogramOnEditCard()" class="img-responsive" style="max-height: 100px; width: auto;">
                         </center>
                       </div>
                     </div>
@@ -183,6 +189,7 @@
             address: '',
             monogram: '',
             slogan: '',
+            proprietor: '',
             receipt_footer: '',
           }),
         }

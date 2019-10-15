@@ -36,7 +36,7 @@
   </style>
 </head>
 <body>
-  <p align="center">
+  <p align="center" style="line-height: 1.2;">
     @if($store->monogram != null)
       @if(file_exists( public_path() . '/images/stores/' . $store->monogram))
         <img src="{{ public_path('images/stores/'. $store->monogram) }}" style="height: 65px; width: auto;">
@@ -52,6 +52,10 @@
     <br/>
     @if($store->slogan)
       <small style="color: #525659;">** {{ $store->slogan }} **</small>
+    @endif
+    <br/>
+    @if($store->proprietor)
+      <small>প্রোঃ {{ $store->proprietor }}</small>
     @endif
     <br/>
     <span align="center" style="color: #397736; border-bottom: 1px solid #397736;">

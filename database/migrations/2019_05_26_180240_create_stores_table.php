@@ -29,6 +29,7 @@ class CreateStoresTable extends Migration
             $table->string('smsrate')->default('0.35');
             $table->string('monogram')->nullable();
             $table->string('slogan')->nullable();
+            $table->string('proprietor')->nullable();
             $table->string('receipt_footer', 255)->nullable();
             $table->date('paid_till')->default('2019-10-01');
             $table->timestamps();
