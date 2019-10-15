@@ -96,7 +96,7 @@
               <a href="#" class="nav-link {{-- active --}}" {{-- @click="menuselected = 2" --}}>
                 <i class="nav-icon fa fa-university"></i>
                 <p>
-                  <i class="right fa fa-angle-left"></i><span id="changeNavStoreName{{ $stores_for_nav->id }}"><small>{{ $stores_for_nav->name }}</small></span>
+                  <i class="right fa fa-angle-left"></i><small><span id="changeNavStoreName{{ $stores_for_nav->id }}">{{ $stores_for_nav->name }}</span></small>
                 </p>
               </a>
               <ul class="nav nav-treeview">
