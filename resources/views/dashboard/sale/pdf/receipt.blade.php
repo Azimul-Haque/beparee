@@ -19,6 +19,12 @@
   .bordertable td, th {
       border: 1px solid #A8A8A8;
   }
+  .storeWaterMark {
+    text-align: center;
+    font-size: 30px;
+    color: #b8cee3;
+    opacity: 0.1 !important;
+  }
   @page {
     header: page-header;
     footer: page-footer;
@@ -43,10 +49,6 @@
     <br/>
     {{ $anysinglesaleitem->product->store->name }}<br/>
     <small>{{ $anysinglesaleitem->product->store->address }}, {{ $anysinglesaleitem->product->store->upazilla }}, {{ $anysinglesaleitem->product->store->district }}</small>
-    <br/>
-    @if($anysinglesaleitem->product->store->slogan)
-      <small style="color: #525659;">** {{ $anysinglesaleitem->product->store->slogan }} **</small>
-    @endif
     <br/>
     @if($anysinglesaleitem->product->store->proprietor)
       <small>প্রোঃ {{ $anysinglesaleitem->product->store->proprietor }}</small>
@@ -125,6 +127,12 @@
 
 
   <htmlpagefooter name="page-footer">
+    <div class="storeWaterMark" style="opacity: 0.1;">
+      <big>{{ $anysinglesaleitem->product->store->name }}</big>
+      @if($anysinglesaleitem->product->store->slogan)
+        <br/>** {{ $anysinglesaleitem->product->store->slogan }} ** 
+      @endif
+    </div><br/>
     <table>
       <tr>
         <td width="70%" align="left">
