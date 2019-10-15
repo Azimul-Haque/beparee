@@ -193,20 +193,34 @@ class SaleController extends Controller
         $sales = Sale::where(function($search) use ($query) {
                         $search->where('code', 'LIKE', '%'.$query.'%')
                                ->orWhere('total_price', 'LIKE', '%'.$query.'%');
-                     })->where('store_id', $code)->paginate(7);
-
-        $customerlikes = Customer::where("name", 'LIKE', '%' . $query . '%')
-                                 ->orWhere("mobile", 'LIKE', '%' . $query . '%')
-                                 ->orWhere("nid", 'LIKE', '%' . $query . '%')
-                                 ->orWhere("nid", 'LIKE', '%' . $query . '%')
-                                 ->where('store_id', $code)
-                                 ->get();
-
+                     })->where('store_id', $store->id)->get();
         $sales->load('saleitems');
         $sales->load('saleitems')->load('saleitems.product');
         $sales->load('customer');
 
-        return response()->json($sales);
+        $customerlikes = Customer::where("name", 'LIKE', '%' . $query . '%')
+                                 ->orWhere("mobile", 'LIKE', '%' . $query . '%')
+                                 ->orWhere("nid", 'LIKE', '%' . $query . '%')
+                                 ->where('store_id', $store->id)
+                                 ->get();
+        $customerlikesalesbl = collect();
+        foreach($customerlikes as $customer) {
+            $customerlikesale = Sale::orderBy('created_at', 'desc')
+                                    ->where('customer_id', $customer->id)
+                                    ->where('store_id', $store->id)
+                                    ->get();
+            $customerlikesale->load('saleitems');
+            $customerlikesale->load('saleitems')->load('saleitems.product');
+            $customerlikesale->load('customer');
+
+            $customerlikesalesbl = $customerlikesalesbl->merge($customerlikesale);
+        }
+        $customerlikesalesbl = $customerlikesalesbl->merge($sales);
+        
+        $customerlikesalesbl = $customerlikesalesbl->unique()->values()->all();
+        $customerlikesalesbl = collect($customerlikesalesbl);
+
+        return response()->json($customerlikesalesbl); // go to the Fire.$on('searching'.... and remove the extra .data
     }
 
     public function show($id)

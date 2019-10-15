@@ -222,4 +222,39 @@ class CustomerController extends Controller
         $customerdues->load('customer');
         return response()->json($customerdues);
     }
+
+    public function searchCustomerDue($query, $code)
+    {
+        $store = Store::where('code', $code)->first();
+
+        // $customerlikes = Customer::where("name", 'LIKE', '%' . $query . '%')
+        //                          ->orWhere("mobile", 'LIKE', '%' . $query . '%')
+        //                          ->orWhere("nid", 'LIKE', '%' . $query . '%')
+        //                          ->where('store_id', $store->id)
+        //                          ->get();
+        // $customerlikesalesbl = collect();
+        // foreach($customerlikes as $customer) {
+        //     $customerlikesale = Sale::orderBy('created_at', 'desc')
+        //                             ->where('customer_id', $customer->id)
+        //                             ->where('store_id', $store->id)
+        //                             ->get();
+        //     $customerlikesale->load('saleitems');
+        //     $customerlikesale->load('saleitems')->load('saleitems.product');
+        //     $customerlikesale->load('customer');
+
+        //     $customerlikesalesbl = $customerlikesalesbl->merge($customerlikesale);
+        // }
+        // $customerlikesalesbl = $customerlikesalesbl->merge($sales);
+        
+        // $customerlikesalesbl = $customerlikesalesbl->unique()->values()->all();
+        // $customerlikesalesbl = collect($customerlikesalesbl);
+        $customers = Customer::where("name", 'LIKE', '%' . $query . '%')
+                             ->orWhere("mobile", 'LIKE', '%' . $query . '%')
+                             ->orWhere("nid", 'LIKE', '%' . $query . '%')
+                             ->where('store_id', $store->id)
+                             ->where('total_due', '>', 0)
+                             ->get();
+
+        return response()->json($customers); // go to the Fire.$on('searching'.... and remove the extra .data
+    }
 }

@@ -294,21 +294,21 @@
                 this.loadCustomerDues();
             });
 
-            // Fire.$on('searching', () => {
-            //     let query = this.$parent.$parent.search;
-            //     if(query != '') {
-            //       axios.get('/api/searchvendor/' + query)
-            //       .then((data) => {
-            //         this.customers = data.data;
-            //       })
-            //       .catch(() => {
+            Fire.$on('searching', () => {
+                let query = this.$parent.$parent.search;
+                if(query != '') {
+                  axios.get('/api/searchcustomerdue/' + query + '/' + this.$route.params.code)
+                  .then((data) => {
+                    this.customers = data;
+                  })
+                  .catch(() => {
 
-            //       })
-            //     } else {
-            //       this.loadDues();
-            //     }
+                  })
+                } else {
+                  this.loadDues();
+                }
                 
-            // });
+            });
         },
         beforeDestroy() {
           Fire.$off('AfterCusstomderDueUpdated')

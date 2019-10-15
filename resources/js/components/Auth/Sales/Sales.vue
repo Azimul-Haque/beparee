@@ -570,11 +570,13 @@
               if(query != '') {
                 axios.get('/api/searchsale/' + query + '/' + this.$route.params.code)
                 .then((data) => {
-                  this.sales = data.data;
+                  this.sales = data
                 })
                 .catch(() => {
 
                 })
+              } else if(query == '' || query.length == 0) {
+                this.loadSales();
               } else {
                 this.loadSales();
               }
