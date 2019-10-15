@@ -88,7 +88,7 @@ class ReportController extends Controller
     public function loadAllTransactionsToday($code)
     {
         $store = Store::where('code', $code)->first();
-        $date = date('2019-10-11');
+        $date = date('2019-10-11'); // change to today Y-m-d
         $purchases = Purchase::where('store_id', $store->id)
                              ->whereBetween('created_at', [date('Y-m-d 00:00:00', strtotime($date)), date('Y-m-d 23:59:59', strtotime($date . '+1 day'))])
                              ->get();

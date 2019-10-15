@@ -111,7 +111,6 @@
             <td colspan="2">মন্তব্যঃ  {{ $transaction->remark }}</td>
           </tr>
         @endif
-        
       @endforeach
     </tbody>
   </table>
