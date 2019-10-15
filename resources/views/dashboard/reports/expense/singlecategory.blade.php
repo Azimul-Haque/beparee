@@ -64,12 +64,13 @@
     <thead>
       <tr>
         @if($category->id == 1)
-          <th width="40%">কর্মচারী</th>
-          <th width="30%">তারিখ</th>
+          <th width="35%">কর্মচারী</th>
+          <th width="25%">তারিখ</th>
         @else
-          <th width="50%">তারিখ</th>
+          <th width="35%">তারিখ</th>
         @endif
         <th>খরচের পরিমাণ</th>
+        <th>মন্তব্য</th>
       </tr>
     </thead>
     <tbody>
@@ -83,6 +84,7 @@
 
         <td align="center">{{ bangla(date('F d, Y', strtotime($expense->created_at))) }}</td>
         <td align="right">{{ $expense->amount }} ৳</td>
+        <td align="center">{{ $expense->remark }}</td>
       </tr>
       @endforeach
       <tr>
@@ -91,6 +93,7 @@
         @endif
         <td align="right">মোট</td>
         <td align="right">{{ number_format(($expenses->sum('amount')), 2, '.', '') }} ৳</td>
+        <td></td>
       </tr>
     </tbody>
   </table>

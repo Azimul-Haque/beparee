@@ -12,6 +12,7 @@ use App\Product;
 use App\Stock;
 use App\Purchase;
 use App\Duehistory;
+use App\Expense;
 
 class PurchaseController extends Controller
 {
@@ -51,12 +52,14 @@ class PurchaseController extends Controller
             // 'buying_price'         => 'required|max:191',
             // 'selling_price'        => 'required|max:191',
 
-            'total'                => 'required',
-            'discount_unit'        => 'required',
-            'discount'             => 'required',
-            'payable'              => 'required',
-            'paid'                 => 'required',
-            'due'                  => 'sometimes'            
+            'total'                     => 'required',
+            'discount_unit'             => 'required',
+            'discount'                  => 'required',
+            'payable'                   => 'required',
+            'paid'                      => 'required',
+            'due'                       => 'sometimes',           
+            'extraexpensecategory_id'   => 'sometimes',           
+            'extraexpenseamount'        => 'sometimes'           
         ));
 
         $purchase = new Purchase;
@@ -74,6 +77,19 @@ class PurchaseController extends Controller
 
         $purchase->save();
 
+        // save the extra expense
+        if($request->extraexpenseamount > 0) {
+            $extraexpense = new Expense;
+            $extraexpense->store_id = $store->id;
+            if($request->extraexpensecategory_id != '') {
+                $extraexpense->expensecategory_id = $request->extraexpensecategory_id;
+            } else {
+                $extraexpense->expensecategory_id = 8; // if accidentally not selected!
+            }
+            $extraexpense->amount = $request->extraexpenseamount;
+            $extraexpense->remark = $purchase->code . '-নম্বর রশিদের ক্রয় বাবদ খরচ';
+            $extraexpense->save();
+        }
         // save the dues and others...
         $vendor = Vendor::findOrFail($request->vendor['id']);
         $vendor->total_purchase = $vendor->total_purchase + 1;
