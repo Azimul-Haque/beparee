@@ -130,8 +130,8 @@
                       <has-error :form="form" field="slogan"></has-error>
                     </div>
                     <div class="form-group">
-                      <label>প্রোপ্রাইটর এর নাম</label>
-                      <input v-model="form.proprietor" type="text" name="proprietor" placeholder="প্রোপ্রাইটর এর নাম" 
+                      <label>প্রোপ্রাইটরের নাম</label>
+                      <input v-model="form.proprietor" type="text" name="proprietor" placeholder="প্রোপ্রাইটরের নাম" 
                         class="form-control" :class="{ 'is-invalid': form.errors.has('proprietor') }">
                       <has-error :form="form" field="proprietor"></has-error>
                     </div>
