@@ -33,12 +33,12 @@
   <p align="center" style="line-height: 1.2;">
     @if($store->monogram != null)
       @if(file_exists( public_path() . '/images/stores/' . $store->monogram))
-        <img src="{{ public_path('images/stores/'. $store->monogram) }}" style="height: 65px; width: auto;">
+        <img src="{{ public_path('images/stores/'. $store->monogram) }}" style="height: 60px; width: auto;">
       @else
-        <img src="{{ public_path('images/default_store.png') }}" style="height: 65px; width: auto;">
+        <img src="{{ public_path('images/default_store.png') }}" style="height: 60px; width: auto;">
       @endif
     @else
-      <img src="{{ public_path('images/default_store.png') }}" style="height: 65px; width: auto;">
+      <img src="{{ public_path('images/default_store.png') }}" style="height: 60px; width: auto;">
     @endif
     <br/>
     {{ $store->name }}<br/>
