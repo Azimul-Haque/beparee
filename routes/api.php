@@ -130,17 +130,17 @@ Route::get('load/all/transactions/today/{code}', 'API\ReportController@loadAllTr
 // each search function has a big bug, it does not filters user's stores!!!
 // each search function has a big bug, it does not filters user's stores!!!
 // each search function has a big bug, it does not filters user's stores!!!
-// see searchSale, it has been being tried to resolve
-// see searchSale, it has been being tried to resolve
-// see searchSale, it has been being tried to resolve
-// see searchSale, it has been being tried to resolve
+// see searchSale, searchCustomerDue, it has been being resolved!
+// see searchSale, searchCustomerDue, it has been being resolved!
+// see searchSale, searchCustomerDue, it has been being resolved!
+// see searchSale, searchCustomerDue, it has been being resolved!
 Route::get('searchuser/{query}', 'API\UserController@searchUser'); 
 Route::get('searchrole/{query}', 'API\UserController@searchRole');
 Route::get('searchstore/{query}', 'API\StoreController@searchStore');
 Route::get('searchproduct/{query}', 'API\ProductController@searchProduct');
 Route::get('searchpurchase/{query}', 'API\PurchaseController@searchPurchase');
-Route::get('searchsale/{query}/{code}', 'API\SaleController@searchSale');
-Route::get('searchcustomerdue/{query}/{code}', 'API\CustomerController@searchCustomerDue');
+Route::get('searchsale/{query}/{code}', 'API\SaleController@searchSale');                           // resolved!
+Route::get('searchcustomerdue/{query}/{code}', 'API\CustomerController@searchCustomerDue');         // resolved!
 Route::get('searchvendor/{query}', 'API\VendorController@searchVendor');
 Route::get('searchstaff/{query}', 'API\StaffController@searchStaff');
 Route::get('searchcustomer/{query}', 'API\CustomerController@searchCustomer');
