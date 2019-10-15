@@ -260,6 +260,37 @@
                       </div>
                     </div>
                   </div>
+
+                  <hr/>
+
+                  <div class="row">
+                    <div class="col-md-12">
+                      <big>অতিরিক্ত খরচঃ (যদি থাকে)</big>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label>খাত</label>
+                        <select class="form-control" v-model="form.extraexpensecategory_id" name="extraexpensecategory_id"
+                         :class="{ 'is-invalid': form.errors.has('extraexpensecategory_id') }">
+                          <option value="" selected="" disabled="">খাত নির্ধারণ করুন</option>   
+                          <option value="4">পণ্য পরিবহন খরচ</option>   
+                          <option value="8">অন্যান্য</option>   
+                        </select>
+                        <has-error :form="form" field="extraexpensecategory_id"></has-error>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <label>অতিরিক্ত খরচের পরিমাণ</label>
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">৳</span>
+                        </div>
+                        <input v-model="form.extraexpenseamount" type="number" step="any" name="extraexpenseamount" placeholder="পরিশোধ"
+                          class="form-control" :class="{ 'is-invalid': form.errors.has('extraexpenseamount') }">
+                        <has-error :form="form" field="extraexpenseamount"></has-error>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
@@ -301,6 +332,8 @@
               payable: '',
               paid: '',
               due: '',
+              extraexpensecategory_id: '',
+              extraexpenseamount: '',
             }),
             productunit: [],
             addformrange: [0],
