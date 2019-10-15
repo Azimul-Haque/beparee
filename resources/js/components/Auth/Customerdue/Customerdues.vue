@@ -72,7 +72,7 @@
                     <td><span class="badge badge-warning">{{ customer.total_due }} ৳</span></td>
                     <td><span class="badge badge-primary">{{ customer.total_due_paid }} ৳</span></td>
                     <td>
-                      <button type="button" class="btn btn-success btn-sm" @click="editModal(customer)" v-tooltip="'পরিশোধ করুন'">
+                      <button type="button" class="btn btn-success btn-sm" @click="editModal(customer)" v-tooltip="'পরিশোধ'">
                           <i class="fa fa-handshake-o"></i>
                       </button>
                     </td>
@@ -153,7 +153,7 @@
             <div class="modal-content">
               <!-- Modal Header -->
               <div class="modal-header">
-                <h4 class="modal-title" id="addModalLabel">বকেয়া পরিশোধ করুন</h4>
+                <h4 class="modal-title" id="addModalLabel">বকেয়া পরিশোধ</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
               </div>
               <form @submit.prevent="updateCustomerDue()" @keydown="form.onKeydown($event)">

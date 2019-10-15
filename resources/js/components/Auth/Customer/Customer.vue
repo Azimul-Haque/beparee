@@ -43,7 +43,7 @@
                   <button type="button" class="btn btn-primary btn-sm" @click="editCustomerModal(customer)" v-tooltip="'তথ্য হালনাগাদ করুন'">
                       <i class="fa fa-edit"></i>
                   </button>
-                  <button type="button" class="btn btn-success btn-sm" @click="editModal(customer)" v-tooltip="'বকেয়া পরিশোধ করুন'" :disabled="customer.current_due <= 0">
+                  <button type="button" class="btn btn-success btn-sm" @click="editModal(customer)" v-tooltip="'বকেয়া পরিশোধ'" :disabled="customer.current_due <= 0">
                       <i class="fa fa-handshake-o"></i>
                   </button>
                 </center>
@@ -118,9 +118,6 @@
                             <a :href="'/pdf/sale/' + sale.id" class="btn btn-primary btn-sm" v-tooltip="'রশিদ ডাউনলোড করুন'">
                               <i class="fa fa-download text-light"></i>
                             </a>
-                            <button class="btn btn-success btn-sm" style="margin-left: 5px;" v-tooltip="'রশিদ প্রিন্ট করুন'">
-                              <i class="fa fa-print"></i>
-                            </button>
                           </div>
                         </div>
                         <small class="text-muted" style="border-top: 1px solid #DDD;"><i class="fa fa-calendar"></i> {{ sale.created_at | datetime }}</small>
