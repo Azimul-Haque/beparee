@@ -75,7 +75,6 @@ class CustomerController extends Controller
         $customer->mobile = $request->mobile;
         $customer->nid = $request->nid;
         
-
         $customerdue = Customerdue::where('customer_id', $customer->id)->where('remark', 'পূর্বের বকেয়া')->first();
         if($customerdue) {
             if($customerdue->amount != $request->ldue) {

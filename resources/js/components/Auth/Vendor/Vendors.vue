@@ -127,6 +127,12 @@
                       class="form-control" :class="{ 'is-invalid': form.errors.has('address') }">
                     <has-error :form="form" field="address"></has-error>
                   </div>
+                  <div class="form-group">
+                    <label>পূর্বের দেনা (যদি থাকে)</label>
+                    <input v-model="form.ldue" type="number" name="ldue" placeholder="পূর্বের দেনা" 
+                      class="form-control" :class="{ 'is-invalid': form.errors.has('ldue') }">
+                    <has-error :form="form" field="ldue"></has-error>
+                  </div>
                   <input type="hidden" v-model="form.code" name="code">
                 </div>
                 <!-- Modal footer -->
@@ -159,6 +165,7 @@
                 name: '',
                 address: '',
                 mobile: '',
+                ldue: '',
                 code: this.$route.params.code,
               }),
               editmode: false
