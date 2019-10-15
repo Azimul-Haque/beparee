@@ -105,7 +105,7 @@ class ProductController extends Controller
         $this->validate($request,array(
             'code'                 => 'required',
             'productcategory'      => 'required',
-            'name'                 => 'required|max:191',
+            'name'                 => 'required|max:191|unique:products,name',
             'brand'                => 'sometimes|max:191',
             'unit'                 => 'required|max:191',
             'sku'                  => 'sometimes|max:191',
@@ -184,16 +184,17 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
+        $product = Product::findOrFail($id);
+
         $this->validate($request,array(
             'productcategory'      => 'required',
-            'name'                 => 'required|max:191',
+            'name'                 => 'required|max:191|unique:products,name,'. $product->id,
             'brand'                => 'sometimes|max:191',
             'unit'                 => 'required|max:191',
             'sku'                  => 'sometimes|max:191',
             'stock_alert'          => 'sometimes|max:191',
         ));
 
-        $product = Product::findOrFail($id);
         $product->name = $request->name;
         $product->brand = $request->brand;
         $product->unit = $request->unit;
