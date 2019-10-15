@@ -160,12 +160,13 @@ const app = new Vue({
           toast.fire({
             type: 'warning',
             title: 'দোকানের যে কোন পাতায় যান!'
-          })
+          });
+          this.alltransactionstoday = '';
         } else {
           var storecodenow = urlnow.substr(urlnow.length - 10);
           axios.get('/api/load/all/transactions/today/' + storecodenow).then(({ data }) => (this.alltransactionstoday = data));
           // $('#dailyDebitCreditText').html(this.alltransactionstoday);
-          console.log(this.alltransactionstoday);
+          // console.log(this.alltransactionstoday);
         }
       },
       dailyDebitCreditText(transactions) {

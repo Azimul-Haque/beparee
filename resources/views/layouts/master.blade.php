@@ -91,9 +91,12 @@
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
     <div class="p-3">
-      <h5>সারাদিনের জমা খরচ</h5>
+      <center>
+        <h5>সারাদিনের জমা খরচ</h5>
+        <p>{{ bangla(date('F d, Y')) }}</p>
+      </center>
       
-      <p v-html="dailyDebitCreditText(this.alltransactionstoday)"></p>
+      <p v-html="dailyDebitCreditText(this.alltransactionstoday)" style="height: 650px; overflow-y: auto; display: block;"></p>
       {{-- <p>ক্রয়ঃ 220 ৳ | <small>08:46 PM</small></p>
       <p>বিক্রয়ঃ 570 ৳ | <small>08:46 PM</small></p>
       <p>খরচঃ 230 ৳ | <small>08:46 PM</small></p>

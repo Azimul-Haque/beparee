@@ -88,7 +88,7 @@ class ReportController extends Controller
     public function loadAllTransactionsToday($code)
     {
         $store = Store::where('code', $code)->first();
-        $date = date('2019-10-11'); // change to today Y-m-d
+        $date = date('Y-m-d'); // change to today Y-m-d
         $purchases = Purchase::where('store_id', $store->id)
                              ->whereBetween('created_at', [date('Y-m-d 00:00:00', strtotime($date)), date('Y-m-d 23:59:59', strtotime($date . '+1 day'))])
                              ->get();
@@ -113,8 +113,16 @@ class ReportController extends Controller
         $alltransactions = $purchases->merge($sales)->merge($expenses)->sortBy('created_at');
 
         $markup = '';
-        foreach($alltransactions as $transacetion) {
-            $markup .= '<span>Rifat</span><br>';
+        foreach($alltransactions as $transaction) {
+            if($transaction->transaction_type == 'purchase') 
+            {
+              $markup .= '<p style="font-size: 12px; border-bottom: 1px solid #c2c7d0; width: 100%; "><a href="/purchases/'. $store->code .'"><i class="fa fa-cart-plus"></i> ক্রয়<br/> মোটঃ '. $transaction->total .' ৳ | '. date('h:i A', strtotime($transaction->created_at)).'</a></p>';
+            } elseif($transaction->transaction_type == 'sale') 
+            {
+                $markup .= '<p style="font-size: 12px; border-bottom: 1px solid #c2c7d0; width: 100%; "><a href="/sales/'. $store->code .'"><i class="fa fa-balance-scale"></i> বিক্রয়<br/> মোটঃ '. $transaction->total_price .' ৳ | '. date('h:i A', strtotime($transaction->created_at)).'</a></p>';
+            } elseif($transaction->transaction_type == 'expense') {
+                $markup .= '<p style="font-size: 12px; border-bottom: 1px solid #c2c7d0; width: 100%; "><a href="/expenses/'. $store->code .'"><i class="fa fa-cogs"></i> খরচ ('. $transaction->expensecategory->name .')<br/> মোটঃ '. $transaction->amount .' ৳ | '. date('h:i A', strtotime($transaction->created_at)).'</a></p>';
+            }
         }
         return $markup;
     }
