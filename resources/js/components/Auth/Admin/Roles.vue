@@ -54,7 +54,7 @@
                     <td>{{ role.display_name }}</td>
                     <td>{{ role.description }}</td>
                     <td>
-                      <span v-for="permission in role.permissions" :key="permission.id" class="badge badge-success" style="margin-left: 5px;">{{ permission.display_name }}</span>
+                      <span v-for="permission in role.permissions" :key="permission.id" class="badge badge-primary" style="margin-left: 5px;">{{ permission.display_name }}</span>
                     </td>
                     <!-- <td>{{ role.created_at | date }}</td> -->
                     <td>
