@@ -133,7 +133,9 @@
                   </tr>
                   <tr v-for="category in categories" :key="category.id">
                     <td>
-                      <a href="#!" @click="loadCategoriyWise(category.id)" v-tooltip="category.name +' এর মালামাল দেখুন'">{{ category.name }}</a>
+                      <a href="#!" @click="loadCategoriyWise(category.id, category.products)" v-tooltip="category.name +' এর মালামাল দেখুন'">
+                        {{ category.name }} ({{ category.products | totalproductsundercategory }})
+                      </a>
                     </td>
                     <td>
                         <button type="button" class="btn btn-success btn-sm" @click="editCategoryModal(category)" v-tooltip="'ধরণ সম্পাদনা করুন'">
@@ -533,10 +535,20 @@
                     // swal('Failed!', 'There was something wrong', 'warning');
                 })
             },
-            loadCategoriyWise(productcategory_id) {
+            loadCategoriyWise(productcategory_id, products) {
                 if(this.$gate.isAdminOrAssociated('product-page', this.$route.params.code)){
                   axios.get('/api/load/product/category/wise/' + productcategory_id + '/' + this.$route.params.code).then(({ data }) => (this.products = data));
                   this.showAllProductsTr = true;
+                  var totalproductsundercategory = 0;
+                  if(products) {
+                    for(var i=0; i<products.length; i++) {
+                      totalproductsundercategory = totalproductsundercategory + 1;
+                    }
+                  }
+                  toast.fire({
+                    type: 'success',
+                    title: totalproductsundercategory +'-টি পণ্য পাওয়া গেছে!'
+                  })
                 }
             },
             loadAllProducts() {

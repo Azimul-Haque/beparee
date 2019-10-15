@@ -35,6 +35,16 @@ Vue.filter('totalquantity', function(data) {
   return totalquantity;
 })
 
+Vue.filter('totalproductsundercategory', function(data) {
+  var totalproductsundercategory = 0;
+  if(data) {
+    for(var i=0; i<data.length; i++) {
+      totalproductsundercategory = totalproductsundercategory + 1;
+    }
+  }
+  return totalproductsundercategory;
+})
+
 Vue.filter('reverse', function(array) {
 	return array.slice().reverse()
 })

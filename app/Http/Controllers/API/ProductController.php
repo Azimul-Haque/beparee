@@ -52,7 +52,7 @@ class ProductController extends Controller
         $store = Store::where('code', $code)->first();
         $products = Product::where('store_id', $store->id)
                            ->where('productcategory_id', $productcategory_id)
-                           ->paginate(25);
+                           ->paginate(20);
 
         $products->load('productcategory');
         $products->load('stocks')->load('stocks.vendor');
@@ -64,7 +64,7 @@ class ProductController extends Controller
     {
         $store = Store::where('code', $code)->first();
         $categories = Productcategory::where('store_id', $store->id)->get();
-
+        $categories->load('products');
         return response()->json($categories);
     }
 
