@@ -93,8 +93,8 @@
                         <!-- <button @click="printSale(sale.id, sale.code)" class="btn btn-success btn-sm" v-tooltip="'প্রিন্ট করুন'">
                             <i class="fa fa-print"></i>
                         </button> -->
-                        <button @click="deleteSale(sale.id)" class="btn btn-danger btn-sm" v-tooltip="'বিক্রয় ডিলেট করুন'" >
-                            <i class="fa fa-trash"></i>{{ dateExpireCheck(sale.created_at) }}
+                        <button @click="deleteSale(sale.id)" class="btn btn-danger btn-sm" v-tooltip="'বিক্রয় ডিলেট করুন'" v-if="dateExpireCheck(sale.created_at)">
+                            <i class="fa fa-trash"></i>
                         </button>
                         <!-- delete kora jaabe na -->
                     </td>
@@ -510,9 +510,9 @@
             var today = moment().format("YYYY-MM-DD");
             var delete_expired_check = Math.abs(date.diff(today, 'days'));
             if(delete_expired_check > 3) {
-              return delete_expired_check;
+              return false;
             } else {
-              return delete_expired_check;
+              return true;
             }
           },
           deleteSale(id) {
