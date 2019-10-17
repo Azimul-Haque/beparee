@@ -93,9 +93,9 @@
                         <!-- <button @click="printSale(sale.id, sale.code)" class="btn btn-success btn-sm" v-tooltip="'প্রিন্ট করুন'">
                             <i class="fa fa-print"></i>
                         </button> -->
-                        <!-- <button @click="deleteSale(sale.id)" class="btn btn-danger btn-sm" v-tooltip="'পণ্য ডিলেট করুন'">
+                        <button @click="deleteSale(sale.id)" class="btn btn-danger btn-sm" v-tooltip="'পণ্য ডিলেট করুন'">
                             <i class="fa fa-trash"></i>
-                        </button> -->
+                        </button>
                         <!-- delete kora jaabe na -->
                     </td>
                   </tr>
@@ -507,7 +507,7 @@
           deleteSale(id) {
             swal.fire({
               title: 'আপনি কি নিশ্চিত?',
-              text: "ডিলেট করলে আর ফেরত পাওয়া যাবে না!",
+              html: "ডিলেট করলে আর ফেরত পাওয়া যাবে না!",
               type: 'warning',
               showCancelButton: true,
               confirmButtonColor: '#3085d6',

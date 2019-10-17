@@ -15,7 +15,10 @@
           <img {{-- :src="getUserProfilePhotoOnNav(1)" --}} {{-- @mounted="getUserProfilePhotoOnNav()" --}} :src="profileNavImageLink"  class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="{{ url('/profile') }}" class="d-block"><span id="profileNavName">{{ Auth::user()->name }}</span></a>
+          <a href="{{ url('/profile') }}" class="d-block">
+            <span id="profileNavName">{{ Auth::user()->name }}</span><br/>
+          </a>
+          <small id="networkStatus" style="color: #C2C7D0;"><i class="fa fa-circle" style="color: #42B72A;"></i> অনলাইন</small>
         </div>
       </div>
 

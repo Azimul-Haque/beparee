@@ -67,7 +67,7 @@
         যোগাযোগঃ {{ $sale->customer->mobile }}
       </td>
       <td align="right">
-        <big>ক্রয় রশিদ নম্বরঃ {{ $sale->code }}</big> <br/>
+        <big>বিক্রয় রশিদ নম্বরঃ {{ $sale->code }}</big> <br/>
         তারিখঃ {{ date('F d, Y h:i A', strtotime($sale->created_at)) }}
       </td>
     </tr>

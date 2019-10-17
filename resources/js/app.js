@@ -105,8 +105,39 @@ const app = new Vue({
       menuselected: undefined,
       profileNavImageLink: '/images/profile.png',
       alltransactionstoday: '',
+      onLine: navigator.onLine,
+      showBackOnline: false,
     },
     methods: {
+      updateOnlineStatus(e) {
+        const { type } = e;
+        this.onLine = type === 'online';
+        if(this.onLine == true) {
+          $('#networkStatus').html('<i class="fa fa-circle" style="color: #42B72A;"></i> অনলাইন');
+          toast.fire({
+            type: 'success',
+            title: 'ইন্টারনেট সংযোগ চালু হয়েছে!'
+          });
+        } else {
+          $('#networkStatus').html('<i class="fa fa-circle blink" style="color: red;"></i> অফলাইন');
+          toast.fire({
+            type: 'warning',
+            title: 'ইন্টারনেট সংযোগ বিচ্ছিন্ন হয়েছে!'
+          });
+        }
+        // if(this.showBackOnline == false) {
+        //   toast.fire({
+        //     type: 'warning',
+        //     title: 'ইন্টারনেট সংযোগ বিচ্ছিন্ন হয়েছে!'
+        //   });
+        // } else {
+        //   toast.fire({
+        //     type: 'success',
+        //     title: 'ইন্টারনেট সংযোগ চালু হয়েছে!'
+        //   });
+        // }
+
+      },
       searchIt: _.debounce(() => {
         Fire.$emit('searching');
         // console.log('fired');
@@ -173,12 +204,26 @@ const app = new Vue({
         return transactions;
       },
     },
-
+    watch: {
+      onLine(v) {
+        if(v) {
+          this.showBackOnline = true;
+          setTimeout(()=>{ this.showBackOnline = false; }, 1000);
+        }
+      }
+    },
     created() {
+      window.addEventListener('online',  this.updateOnlineStatus);
+      window.addEventListener('offline', this.updateOnlineStatus);
+      
       this.getUserProfilePhotoOnNav();
 
       Fire.$on('updateuserdpinnav', () => {
         this.getUserProfilePhotoOnNav();
       });
-    }
+    },
+    beforeDestroy() {
+      window.removeEventListener('online',  this.updateOnlineStatus);
+      window.removeEventListener('offline', this.updateOnlineStatus);
+    },
 });

@@ -58,7 +58,7 @@
                       <a class="nav-link active" id="one-tab" data-toggle="tab" href="#one" role="tab" aria-controls="One" aria-selected="true">বকেয়া তালিকা</a>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link" id="two-tab" data-toggle="tab" href="#two" role="tab" aria-controls="Two" aria-selected="false">ক্রয় তালিকা</a>
+                      <a class="nav-link" id="two-tab" data-toggle="tab" href="#two" role="tab" aria-controls="Two" aria-selected="false">বিক্রয় তালিকা</a>
                   </li>
                 </ul>
               </div>
@@ -103,7 +103,7 @@
                           <div class="col-md-10">
                             <div class="row">
                               <div class="col-md-6">
-                                <i class="fa fa-ticket text-blue"></i> ক্রয় রশিদ নম্বরঃ <b>{{ sale.code }}</b><br/>
+                                <i class="fa fa-ticket text-blue"></i> বিক্রয় রশিদ নম্বরঃ <b>{{ sale.code }}</b><br/>
                                 <i class="fa fa-calculator text-green"></i> মোট প্রদেয়ঃ <b>{{ sale.total_price }}</b><br/>
                                 <i class="fa fa-tag text-orange"></i> ডিসকাউন্টঃ <b>{{ sale.discount }} {{ sale.discount_unit }}</b>
                               </div>
