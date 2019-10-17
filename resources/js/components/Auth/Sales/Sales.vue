@@ -508,7 +508,7 @@
           dateExpireCheck(date) {
             var date  = moment(date, "YYYY-MM-DD");
             var today = moment().format("YYYY-MM-DD");
-            var delete_expired_check = date.diff(today, 'days');
+            var delete_expired_check = Math.abs(date.diff(today, 'days'));
             if(delete_expired_check > 3) {
               return delete_expired_check;
             } else {
