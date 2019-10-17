@@ -277,7 +277,9 @@ class SaleController extends Controller
         $customerdue = Customerdue::where('created_at', $sale->created_at)
                                   ->where('customer_id', $sale->customer_id)
                                   ->first();
-        $customerdue->delete();
+        if($customerdue) {
+            $customerdue->delete();
+        }
 
         // now delete the sale...!
         $sale->delete();

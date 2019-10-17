@@ -93,8 +93,8 @@
                         <!-- <button @click="printSale(sale.id, sale.code)" class="btn btn-success btn-sm" v-tooltip="'প্রিন্ট করুন'">
                             <i class="fa fa-print"></i>
                         </button> -->
-                        <button @click="deleteSale(sale.id)" class="btn btn-danger btn-sm" v-tooltip="'বিক্রয় ডিলেট করুন'">
-                            <i class="fa fa-trash"></i>
+                        <button @click="deleteSale(sale.id)" class="btn btn-danger btn-sm" v-tooltip="'বিক্রয় ডিলেট করুন'" >
+                            <i class="fa fa-trash"></i>{{ dateExpireCheck(sale.created_at) }}
                         </button>
                         <!-- delete kora jaabe na -->
                     </td>
@@ -296,6 +296,7 @@
 </template>
 
 <script>
+  import moment from 'moment'
   export default {
       data () {
           return {
@@ -503,6 +504,16 @@
                 due = 0;
             }
             this.form.due =  due.toFixed(2);
+          },
+          dateExpireCheck(date) {
+            var date  = moment(date, "YYYY-MM-DD");
+            var today = moment().format("YYYY-MM-DD");
+            var delete_expired_check = date.diff(today, 'days');
+            if(delete_expired_check > 3) {
+              return delete_expired_check;
+            } else {
+              return delete_expired_check;
+            }
           },
           deleteSale(id) {
             swal.fire({
