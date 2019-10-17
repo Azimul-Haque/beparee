@@ -69,27 +69,30 @@ class VendorController extends Controller
         $vendor->address = $request->address;
         $vendor->mobile = $request->mobile;
 
-        $duehistory = Duehistory::where('vendor_id', $vendor->id)->where('remark', 'পূর্বের দেনা')->first();
-        if($duehistory) {
-            if($duehistory->amount != $request->ldue) {
-                // aage update, then change
-                $vendor->current_due = $vendor->current_due - $duehistory->amount + $request->ldue;
-                $vendor->total_due = $vendor->total_due - $duehistory->amount + $request->ldue;
+        if($request->ldue != '' && $request->ldue > 0) {
+            $duehistory = Duehistory::where('vendor_id', $vendor->id)->where('remark', 'পূর্বের দেনা')->first();
+            if($duehistory) {
+                if($duehistory->amount != $request->ldue) {
+                    // aage update, then change
+                    $vendor->current_due = $vendor->current_due - $duehistory->amount + $request->ldue;
+                    $vendor->total_due = $vendor->total_due - $duehistory->amount + $request->ldue;
 
+                    $duehistory->amount = $request->ldue;
+                    $duehistory->save();
+                }
+            } else {
+                $duehistory = new Duehistory;
+                $duehistory->vendor_id = $vendor->id;
+                $duehistory->transaction_type = 0; // 0 is due, 1 is due_paid
                 $duehistory->amount = $request->ldue;
+                $duehistory->remark = 'পূর্বের দেনা';
                 $duehistory->save();
-            }
-        } else {
-            $duehistory = new Duehistory;
-            $duehistory->vendor_id = $vendor->id;
-            $duehistory->transaction_type = 0; // 0 is due, 1 is due_paid
-            $duehistory->amount = $request->ldue;
-            $duehistory->remark = 'পূর্বের দেনা';
-            $duehistory->save();
 
-            $vendor->current_due = $vendor->current_due + $request->ldue;
-            $vendor->total_due = $vendor->total_due + $request->ldue;
+                $vendor->current_due = $vendor->current_due + $request->ldue;
+                $vendor->total_due = $vendor->total_due + $request->ldue;
+            }
         }
+        
         // vendor current_due and total_due update/ new er jonno eta niche...
         $vendor->save();
         return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];

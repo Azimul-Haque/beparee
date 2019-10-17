@@ -93,9 +93,12 @@
                         <!-- <button @click="printSale(sale.id, sale.code)" class="btn btn-success btn-sm" v-tooltip="'প্রিন্ট করুন'">
                             <i class="fa fa-print"></i>
                         </button> -->
-                        <button @click="deleteSale(sale.id)" class="btn btn-danger btn-sm" v-tooltip="'বিক্রয় ডিলেট করুন'" v-if="dateExpireCheck(sale.created_at)">
-                            <i class="fa fa-trash"></i>
-                        </button>
+                        <span v-if="$gate.isAdminOrAssociated('sale-page', code)">
+                          <button @click="deleteSale(sale.id)" class="btn btn-danger btn-sm" v-tooltip="'বিক্রয় ডিলেট করুন'" v-if="dateExpireCheck(sale.created_at)">
+                              <i class="fa fa-trash"></i>
+                          </button>
+                        </span>
+                        
                         <!-- delete kora jaabe na -->
                     </td>
                   </tr>
