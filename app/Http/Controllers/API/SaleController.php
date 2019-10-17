@@ -240,6 +240,48 @@ class SaleController extends Controller
 
     public function destroy($id)
     {
-        //
+        $sale = Sale::findOrFail($id);
+
+        // delete sale items
+        foreach ($sale->saleitems as $item) {
+            // first revert the stocks to previous state
+            $sold_quantity = $item->quantity;
+            $stocks = Stock::where('product_id', $item->product_id)
+                           ->orWhere('quantity', '>', 'current_quantity')
+                           ->orderBy('id', 'desc') // desc to get the fraction stocks, then 0 stocks
+                           ->get();
+
+            foreach ($stocks as $stock) {
+                if(($stock->quantity - $stock->current_quantity) > $sold_quantity) {
+                    $stock->current_quantity = $stock->current_quantity + $sold_quantity;
+                    $stock->save();
+                    break;
+                } else {
+                    $sold_quantity = $sold_quantity - ($stock->quantity - $stock->current_quantity);
+                    $stock->current_quantity = $stock->quantity;
+                    $stock->save();
+                }
+            }
+
+            // now delete the sale item
+            $item->delete();
+        }
+
+        // revert the customer due total from customers table
+        $customer = Customer::findOrFail($sale->customer_id);
+        $customer->current_due = number_format(($customer->current_due - $sale->due), 2, '.', '');
+        $customer->total_due = number_format(($customer->total_due - $sale->due), 2, '.', '');
+        $customer->save();
+
+        // remove the customer's due row from customerdue table
+        $customerdue = Customerdue::where('created_at', $sale->created_at)
+                                  ->where('customer_id', $sale->customer_id)
+                                  ->first();
+        $customerdue->delete();
+
+        // now delete the sale...!
+        $sale->delete();
+
+        return ['message' => 'সফলভাবে ডিলেট করা হয়েছে!'];
     }
 }

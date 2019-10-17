@@ -93,7 +93,7 @@
                         <!-- <button @click="printSale(sale.id, sale.code)" class="btn btn-success btn-sm" v-tooltip="'প্রিন্ট করুন'">
                             <i class="fa fa-print"></i>
                         </button> -->
-                        <button @click="deleteSale(sale.id)" class="btn btn-danger btn-sm" v-tooltip="'পণ্য ডিলেট করুন'">
+                        <button @click="deleteSale(sale.id)" class="btn btn-danger btn-sm" v-tooltip="'বিক্রয় ডিলেট করুন'">
                             <i class="fa fa-trash"></i>
                         </button>
                         <!-- delete kora jaabe na -->
@@ -507,7 +507,7 @@
           deleteSale(id) {
             swal.fire({
               title: 'আপনি কি নিশ্চিত?',
-              html: "ডিলেট করলে আর ফেরত পাওয়া যাবে না!",
+              html: "ডিলেট করলে আর ফেরত পাওয়া যাবে না!<br/> এই বিক্রয় সম্পর্কিত **বকেয়া ডিলেট হয়ে যাবে**, বিক্রয়কৃত **পণ্য পূর্বের তালিকায় স্টকে যোগ হবে**। <br/>আপনি কি নিশ্চিত?",
               type: 'warning',
               showCancelButton: true,
               confirmButtonColor: '#3085d6',
@@ -516,7 +516,7 @@
               cancelButtonText: 'ফিরে যান'
             }).then((result) => {
                 if (result.value) {
-                   this.form.delete('/api/purchase/'+ id).then(() => {
+                   this.form.delete('/api/sale/'+ id).then(() => {
                      swal.fire(
                       'ডিলেট',
                       'ডিলেট সফল হয়েছে!',
