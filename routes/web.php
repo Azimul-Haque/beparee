@@ -19,6 +19,8 @@ Route::get('/demo', ['as'=>'index.demo','uses'=>'IndexController@demo']);
 Route::get('/register', ['as'=>'index.register','uses'=>'IndexController@register ']);
 Route::post('/send/message/from/site', ['as'=>'send.message.from.site','uses'=>'IndexController@sendMessageFromSite']);
 
+Route::get('/seo', ['as'=>'clear','uses'=>'IndexController@getSEO']);
+
 // Report Generation Controller... without API
 Route::get('pdf/purchase/{id}', 'PDFController@singlePurchaseReceiptPDF');
 Route::get('pdf/sale/{id}', 'PDFController@singleSaleReceiptPDF');

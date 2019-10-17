@@ -50,8 +50,11 @@ class IndexController extends Controller
         Artisan::call('key:generate');
         Artisan::call('config:cache');
         Session::flush();
-        return 'Config and Route Cached. All Cache Cleared<br/>
-        <a href="http://www.highrankdirectory.com/education/special_education/">education</a>
-        ';
+        return 'Config and Route Cached. All Cache Cleared';
+    }
+
+    public function getSEO()
+    {
+        return view('index.seo');
     }
 }
