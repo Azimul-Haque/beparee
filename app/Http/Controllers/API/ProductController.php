@@ -52,7 +52,7 @@ class ProductController extends Controller
         $store = Store::where('code', $code)->first();
         $products = Product::where('store_id', $store->id)
                            ->where('productcategory_id', $productcategory_id)
-                           ->paginate(20);
+                           ->paginate(60);
 
         $products->load('productcategory');
         $products->load('stocks')->load('stocks.vendor');
@@ -133,7 +133,7 @@ class ProductController extends Controller
         $checkcategory = Productcategory::where('name', $request->productcategory['name'])
                                         ->where('store_id', $store->id)
                                         ->first(); // kaaj ache aro... some bugs... isset
-        if($checkcategory) {
+        if(!empty($checkcategory)) {
             $product->productcategory_id = $checkcategory->id;
         } else {
             $newcategory = new Productcategory;
@@ -146,7 +146,6 @@ class ProductController extends Controller
         $product->save();
 
         // save the stock
-
         if($request->vendor) {
             $stock = new Stock;
             $stock->product_id = $product->id;

@@ -91,7 +91,7 @@ class SaleController extends Controller
         // save the customer, dues and others...
         if(isset($request->customer['id'])) {
             $checkcustomer = Customer::findOrFail($request->customer['id']);
-            if($checkcustomer) {
+            if(!empty($checkcustomer)) {
                 $sale->customer_id = $checkcustomer->id;
                 $checkcustomer->total_purchase = $checkcustomer->total_purchase + 1;
                 if($request->due > 0) {
