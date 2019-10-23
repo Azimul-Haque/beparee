@@ -12,6 +12,8 @@ use App\Stock;
 use App\Vendor;
 use App\Sale;
 use App\Saleitem;
+use App\Purchase;
+use App\Duehistory;
 
 use Auth;
 
@@ -116,11 +118,12 @@ class ProductController extends Controller
             'quantity'             => 'sometimes|max:191',
             'buying_price'         => 'sometimes|max:191',
             'selling_price'        => 'sometimes|max:191',
-            'total'        => 'sometimes|max:191',
+            'total'                => 'sometimes|max:191',
             'discount_unit'        => 'sometimes|max:191',
-            'discount_unit'        => 'sometimes|max:191',
-            'discount'        => 'sometimes|max:191',
-            'payable'        => 'sometimes|max:191',
+            'discount'             => 'sometimes|max:191',
+            'payable'              => 'sometimes|max:191',
+            'paid'                 => 'sometimes|max:191',
+            'due'                  => 'sometimes|max:191',
         ));
 
         $product = new Product;
@@ -150,17 +153,36 @@ class ProductController extends Controller
         }
         $product->save();
 
-        // save the stock
+        // save the stock, if there is...
         if($request->vendor) {
+            // save the purchase, new by Raju
+            $purchase = new Purchase;
+            $store = Store::where('code', $request->code)->first();
+
+            $purchase->store_id = $store->id;
+            $purchase->code = 'P'.date('dmyhis').$store->id;
+            $purchase->total = number_format($request->total, 2, '.', '');
+            $purchase->discount_unit = $request->discount_unit;
+            $purchase->discount = number_format($request->discount, 2, '.', '');
+            $purchase->payable = number_format($request->payable, 2, '.', '');
+            $purchase->paid = number_format($request->paid, 2, '.', '');
+            $purchase->due = number_format($request->due, 2, '.', '');
+
+            $purchase->save();
+
+            // save the stock now
             $stock = new Stock;
             $stock->product_id = $product->id;
+            $stock->purchase_id = $purchase->id;
             $stock->expiry_date = $request->expiry_date;
             $stock->quantity = $request->quantity;
             $stock->current_quantity = $request->quantity;
             $stock->buying_price = number_format($request->buying_price, 2, '.', '');
             $stock->selling_price = number_format($request->selling_price, 2, '.', '');
-            $checkvendor = Vendor::where('name', $request->vendor['name'])->where('store_id', $store->id)->first(); // kaaj ache aro... some bugs... isset
-            if($checkvendor) {
+            $checkvendor = Vendor::where('name', $request->vendor['name'])->where('store_id', $store->id)->first(); 
+            // kaaj ache aro... some bugs... isset isset, solved with !empty()
+            
+            if(!empty($checkvendor)) {
                 $stock->vendor_id = $checkvendor->id;
             } else {
                 $newvendor = new Vendor;
@@ -171,53 +193,26 @@ class ProductController extends Controller
             }
             $stock->save();
 
-            // $purchase = new Purchase;
+            
 
-            // $store = Store::where('code', $request->code)->first();
+            // save the dues and others...
+            $vendor = Vendor::findOrFail($stock->vendor_id);
+            $vendor->total_purchase = $vendor->total_purchase + 1;
+            if($request->due > 0) {
+                $vendor->current_due = number_format(($vendor->current_due + $request->due), 2, '.', '');
+                $vendor->total_due = number_format(($vendor->total_due + $request->due), 2, '.', '');
+            }
+            $vendor->save();
 
-            // $purchase->store_id = $store->id;
-            // $purchase->code = 'P'.date('dmyhis').$store->id;
-            // $purchase->total = number_format($request->total, 2, '.', '');
-            // $purchase->discount_unit = $request->discount_unit;
-            // $purchase->discount = number_format($request->discount, 2, '.', '');
-            // $purchase->payable = number_format($request->payable, 2, '.', '');
-            // $purchase->paid = number_format($request->paid, 2, '.', '');
-            // $purchase->due = number_format($request->due, 2, '.', '');
-
-            // $purchase->save();
-
-            // // save the extra expense
-            // if($request->extraexpenseamount > 0) {
-            //     $extraexpense = new Expense;
-            //     $extraexpense->store_id = $store->id;
-            //     if($request->extraexpensecategory_id != '') {
-            //         $extraexpense->expensecategory_id = $request->extraexpensecategory_id;
-            //     } else {
-            //         $extraexpense->expensecategory_id = 8; // if accidentally not selected!
-            //     }
-            //     $extraexpense->amount = $request->extraexpenseamount;
-            //     $extraexpense->remark = $purchase->code . '-নম্বর রশিদের ক্রয় বাবদ খরচ';
-            //     $extraexpense->save();
-            // }
-            // // save the dues and others...
-            // $vendor = Vendor::findOrFail($request->vendor['id']);
-            // $vendor->total_purchase = $vendor->total_purchase + 1;
-            // if($request->due > 0) {
-            //     $vendor->current_due = number_format(($vendor->current_due + $request->due), 2, '.', '');
-            //     $vendor->total_due = number_format(($vendor->total_due + $request->due), 2, '.', '');
-            // }
-            // $vendor->save();
-
-            // // save the dues HISTORY if due is greater than 0
-            // if($request->due > 0) {
-            //     $duehistory = new Duehistory;
-            //     $duehistory->vendor_id = $request->vendor['id'];
-            //     $duehistory->transaction_type = 0; // 0 is due, 1 is due_paid
-            //     $duehistory->amount = number_format($request->due, 2, '.', '');
-            //     $duehistory->save();
-            // }
+            // save the dues HISTORY if due is greater than 0
+            if($request->due > 0) {
+                $duehistory = new Duehistory;
+                $duehistory->vendor_id = $stock->vendor_id;
+                $duehistory->transaction_type = 0; // 0 is due, 1 is due_paid
+                $duehistory->amount = number_format($request->due, 2, '.', '');
+                $duehistory->save();
+            }
         }
-
 
 
         return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];
