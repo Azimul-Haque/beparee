@@ -157,7 +157,7 @@
 
         <!-- The Modal -->
         <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg">
+          <div class="modal-dialog modal-xl">
             <div class="modal-content">
               <!-- Modal Header -->
               <div class="modal-header">
@@ -245,34 +245,32 @@
                     <hr/>
                     <p>বিদ্যমান স্টক প্রবেশ করাতে চাইলে</p>
                     <div class="row">
-                      <div class="col-md-6">
+                      <div class="col-md-3">
                         <div class="form-group">
-                          <label>ডিলার/ভেন্ডর নির্ধারণ (অপশনে না থাকলে লিখুন)</label>
+                          <label>ডিলার/ভেন্ডর নির্ধারণ <small>(অপশনে না থাকলে লিখুন)</small></label>
                           <v-select placeholder="ডিলার/ভেন্ডর নির্ধারণ (অপশনে না থাকলে লিখুন)" :options="vendors" label="name" v-model="form.vendor" taggable ref='vendorSelect'></v-select>
                         </div>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-3">
                         <div class="form-group">
                           <label>স্টকের পরিমাণ</label>
                           <input v-model="form.quantity" type="number" step="any" name="quantity" placeholder="স্টকের পরিমাণ" 
-                            class="form-control" :class="{ 'is-invalid': form.errors.has('quantity') }">
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('quantity') }" @change="calculatePurchase">
                           <has-error :form="form" field="quantity"></has-error>
                         </div>
                       </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
+                      <div class="col-md-3">
                         <label>ইউনিট প্রতি ক্রয়মূল্য</label>
                         <div class="input-group mb-3">
                           <div class="input-group-prepend">
                             <span class="input-group-text">৳</span>
                           </div>
                           <input v-model="form.buying_price" type="number" step="any" name="buying_price" placeholder="ইউনিট প্রতি ক্রয়মূল্য" 
-                            class="form-control" :class="{ 'is-invalid': form.errors.has('buying_price') }">
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('buying_price') }" @change="calculatePurchase">
                           <has-error :form="form" field="buying_price"></has-error>
                         </div>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-3">
                         <label>ইউনিট প্রতি বিক্রয়মূল্য</label>
                         <div class="input-group mb-3">
                           <div class="input-group-prepend">
@@ -281,6 +279,64 @@
                           <input v-model="form.selling_price" type="number" step="any" name="selling_price" placeholder="ইউনিট প্রতি বিক্রয়মূল্য"
                             class="form-control" :class="{ 'is-invalid': form.errors.has('selling_price') }">
                           <has-error :form="form" field="selling_price"></has-error>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3">
+                        <label>সর্বমোট মূল্য</label>
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">৳</span>
+                          </div>
+                          <input v-model="form.total" type="number" step="any" name="total" placeholder="সর্বমোট মূল্য" 
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('total') }" @change="calculatePayable">
+                          <has-error :form="form" field="total"></has-error>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <label>ডিসকাউন্ট</label>
+                        <div class="input-group mb-3">
+                          <input v-model="form.discount" type="number" step="any" name="discount" placeholder="ডিসকাউন্ট"
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('discount') }" autocomplete="off" style="width: 60%" @change="calculatePayable">
+                          <select class="form-control input-group-append" v-model="form.discount_unit" name="discount_unit" @change="calculatePayable">
+                            <option value="%">%</option>
+                            <option value="৳">৳</option>
+                          </select>
+                          <has-error :form="form" field="discount"></has-error>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <label>পরিশোধনীয় মূল্য</label>
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">৳</span>
+                          </div>
+                          <input v-model="form.payable" type="number" step="any" name="payable" placeholder="পরিশোধনীয় মূল্য" 
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('payable') }" readonly="">
+                          <has-error :form="form" field="payable"></has-error>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <label>পরিশোধ</label>
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">৳</span>
+                          </div>
+                          <input v-model="form.paid" type="number" step="any" name="paid" placeholder="পরিশোধ"
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('paid') }" @change="calculatePayable" :max="maxpaid">
+                          <has-error :form="form" field="paid"></has-error>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <label>দেনা/ পরিশোধনীয়</label>
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">৳</span>
+                          </div>
+                          <input v-model="form.due" type="number" step="any" name="due" placeholder="দেনা/ পরিশোধনীয়"
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('due') }" readonly="">
+                          <has-error :form="form" field="due"></has-error>
                         </div>
                       </div>
                     </div>
@@ -359,7 +415,13 @@
                 stock_alert: '',
                 quantity: '',
                 buying_price: '',
-                selling_price: ''
+                selling_price: '',
+                total: '',
+                discount_unit: '%',
+                discount: '',
+                payable: '',
+                paid: '',
+                due: '',
               }),
               // Create a category form instance
               categoryform: new Form({
@@ -370,6 +432,7 @@
               editmode: false,
               categoryeditmode: false,
               showAllProductsTr: false,
+              maxpaid: 0,
             }
         },
         methods: {
@@ -434,6 +497,69 @@
                 markup += '<span class="badge badge-pill badge-info"> '+ value +' </span>'
               });
               return markup;
+            },
+            calculatePurchase() {
+              var total = parseFloat(0.00);
+              var discounted_total = parseFloat(0.00);
+              var quantity = parseFloat(0.00);
+              var buying_price = parseFloat(0.00);
+              quantity = parseFloat(this.form.quantity) || 0;
+              buying_price = parseFloat(this.form.buying_price) || 0;
+              var per_total =  quantity * buying_price;
+              total = parseFloat(total) + parseFloat(per_total);
+              var discount_unit = this.form.discount_unit;
+              var discount = parseFloat(this.form.discount) || 0;
+              
+              var discount_amount = parseFloat(0);
+
+              if(discount > 0){
+                  if(discount_unit == '%'){
+                      discount_amount = (discount * total) / 100;
+                  }else if(discount_unit == '৳'){
+                      discount_amount = discount;
+                  }
+              }
+              discounted_total = total - discount_amount;
+
+              if(total > 0){
+                this.form.total =  total.toFixed(2);
+                this.form.payable =  discounted_total.toFixed(2);
+              } else {
+                this.form.total =  0;
+                this.form.payable =  0;
+              }
+
+              // call the below function to change the value of payable and due...
+              this.calculatePayable();
+            },
+            calculatePayable() {
+              var total = parseFloat(this.form.total) || 0;
+              var paid = parseFloat(this.form.paid) || 0;
+
+              var discount_unit = this.form.discount_unit;
+              var discount = parseFloat(this.form.discount) || 0;
+              var discount_amount = parseFloat(0);
+
+              var discounted_total = total;
+
+              if(discount > 0){
+                  if(discount_unit == '%'){
+                      discount_amount = (discount * total) / 100;
+                  }else if(discount_unit == '৳'){
+                      discount_amount = discount;
+                  }
+              }
+              discounted_total = total - discount_amount;
+
+              this.form.payable =  discounted_total.toFixed(2);
+              this.maxpaid = discounted_total.toFixed(2);
+
+              var due = parseFloat(discounted_total) - parseFloat(paid);
+
+              if(due < 0){
+                  due = 0;
+              }
+              this.form.due =  due.toFixed(2);
             },
             createProduct() {
                 this.$Progress.start();

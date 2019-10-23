@@ -116,6 +116,11 @@ class ProductController extends Controller
             'quantity'             => 'sometimes|max:191',
             'buying_price'         => 'sometimes|max:191',
             'selling_price'        => 'sometimes|max:191',
+            'total'        => 'sometimes|max:191',
+            'discount_unit'        => 'sometimes|max:191',
+            'discount_unit'        => 'sometimes|max:191',
+            'discount'        => 'sometimes|max:191',
+            'payable'        => 'sometimes|max:191',
         ));
 
         $product = new Product;
@@ -132,7 +137,7 @@ class ProductController extends Controller
         // jehetu data alada table e store korar bepar tai ei duita niche
         $checkcategory = Productcategory::where('name', $request->productcategory['name'])
                                         ->where('store_id', $store->id)
-                                        ->first(); // kaaj ache aro... some bugs... isset
+                                        ->first(); // kaaj ache aro... some bugs... isset, solved with !empty()
         if(!empty($checkcategory)) {
             $product->productcategory_id = $checkcategory->id;
         } else {
@@ -165,7 +170,55 @@ class ProductController extends Controller
                 $stock->vendor_id = $newvendor->id;
             }
             $stock->save();
+
+            // $purchase = new Purchase;
+
+            // $store = Store::where('code', $request->code)->first();
+
+            // $purchase->store_id = $store->id;
+            // $purchase->code = 'P'.date('dmyhis').$store->id;
+            // $purchase->total = number_format($request->total, 2, '.', '');
+            // $purchase->discount_unit = $request->discount_unit;
+            // $purchase->discount = number_format($request->discount, 2, '.', '');
+            // $purchase->payable = number_format($request->payable, 2, '.', '');
+            // $purchase->paid = number_format($request->paid, 2, '.', '');
+            // $purchase->due = number_format($request->due, 2, '.', '');
+
+            // $purchase->save();
+
+            // // save the extra expense
+            // if($request->extraexpenseamount > 0) {
+            //     $extraexpense = new Expense;
+            //     $extraexpense->store_id = $store->id;
+            //     if($request->extraexpensecategory_id != '') {
+            //         $extraexpense->expensecategory_id = $request->extraexpensecategory_id;
+            //     } else {
+            //         $extraexpense->expensecategory_id = 8; // if accidentally not selected!
+            //     }
+            //     $extraexpense->amount = $request->extraexpenseamount;
+            //     $extraexpense->remark = $purchase->code . '-নম্বর রশিদের ক্রয় বাবদ খরচ';
+            //     $extraexpense->save();
+            // }
+            // // save the dues and others...
+            // $vendor = Vendor::findOrFail($request->vendor['id']);
+            // $vendor->total_purchase = $vendor->total_purchase + 1;
+            // if($request->due > 0) {
+            //     $vendor->current_due = number_format(($vendor->current_due + $request->due), 2, '.', '');
+            //     $vendor->total_due = number_format(($vendor->total_due + $request->due), 2, '.', '');
+            // }
+            // $vendor->save();
+
+            // // save the dues HISTORY if due is greater than 0
+            // if($request->due > 0) {
+            //     $duehistory = new Duehistory;
+            //     $duehistory->vendor_id = $request->vendor['id'];
+            //     $duehistory->transaction_type = 0; // 0 is due, 1 is due_paid
+            //     $duehistory->amount = number_format($request->due, 2, '.', '');
+            //     $duehistory->save();
+            // }
         }
+
+
 
         return ['message' => 'সফলভাবে সংরক্ষণ করা হয়েছে!'];
     }
