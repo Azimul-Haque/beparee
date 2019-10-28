@@ -53,8 +53,8 @@
                       <div class="col-md-2">
                         <div class="form-group">
                           <label>পরিমাণ <span v-html="productunit[index]"></span></label>
-                          <input v-model="form.quantity[index]" type="number" step="any" name="quantity" placeholder="স্টকের পরিমাণ" 
-                            class="form-control" :class="{ 'is-invalid': form.errors.has('quantity') }" @change="calculatePurchase" required="" oninvalid="this.setCustomValidity('স্টকের পরিমাণ লিখুন')" oninput="setCustomValidity('')">
+                          <input v-model="form.quantity[index]" type="text" name="quantity" placeholder="স্টকের পরিমাণ"
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('quantity') }" @change="calculatePurchase" @keyup="convertQuantityNum(form.quantity[index], index)" required="" oninvalid="this.setCustomValidity('স্টকের পরিমাণ লিখুন')" oninput="setCustomValidity('')">
                           <has-error :form="form" field="quantity"></has-error>
                         </div>
                       </div>
@@ -303,6 +303,29 @@
                 this.$Progress.fail();
             })
           },
+          convertQuantityNum(input, index) {
+            var bn = ['১','২','৩','৪','৫','৬','৭','৮','৯','০'];
+            var en = [1,2,3,4,5,6,7,8,9,0];
+            for(var i=0; i<10; i++) {
+              input = input.replace(new RegExp(bn[i], 'g'), en[i]);
+            }
+            this.form.quantity[index] = input;
+            console.log(input);
+          },
+          // convertQuantityNum: function(e, model) {
+          //   var bn = ['১','২','৩','৪','৫','৬','৭','৮','৯','০'];
+          //   var en = [1,2,3,4,5,6,7,8,9,0];
+          //   // var tempValue = e.target.value;
+          //   // var changedValue;
+          //   // for(var i=0; i<10; i++) {
+          //   //   changedValue = tempValue.replace(new RegExp(bn[i], 'g'), en[i]);
+          //   //   tempValue = changedValue;
+          //   //   model = changedValue;
+          //   // }
+          //   model = e.target.value.replace(new RegExp('১', 'g'), 1);
+          //   // model = e.target.value;
+          //   console.log(model);
+          // },
           calculatePurchase() {
             var total = parseFloat(0.00);
             var discounted_total = parseFloat(0.00);

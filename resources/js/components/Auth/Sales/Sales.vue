@@ -90,16 +90,11 @@
                         <a :href="'/pdf/sale/' + sale.id" class="btn btn-primary btn-sm" v-tooltip="'ডাউনলোড করুন'">
                             <i class="fa fa-download"></i>
                         </a>
-                        <!-- <button @click="printSale(sale.id, sale.code)" class="btn btn-success btn-sm" v-tooltip="'প্রিন্ট করুন'">
-                            <i class="fa fa-print"></i>
-                        </button> -->
                         <span v-if="$gate.isAdminOrAssociated('sale-page', code)">
                           <button @click="deleteSale(sale.id)" class="btn btn-danger btn-sm" v-tooltip="'বিক্রয় ডিলেট করুন'" v-if="dateExpireCheck(sale.created_at)">
                               <i class="fa fa-trash"></i>
                           </button>
                         </span>
-                        
-                        <!-- delete kora jaabe na -->
                     </td>
                   </tr>
                  </tbody>
@@ -530,7 +525,7 @@
               cancelButtonText: 'ফিরে যান'
             }).then((result) => {
                 if (result.value) {
-                   this.form.delete('/api/sale/'+ id).then(() => {
+                   this.form.get('/api/sale/delete/'+ id).then(() => {
                      swal.fire(
                       'ডিলেট',
                       'ডিলেট সফল হয়েছে!',

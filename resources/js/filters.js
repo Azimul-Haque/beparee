@@ -46,5 +46,5 @@ Vue.filter('totalproductsundercategory', function(data) {
 })
 
 Vue.filter('reverse', function(array) {
-	return array.slice().reverse()
+  return array.slice().reverse()
 })

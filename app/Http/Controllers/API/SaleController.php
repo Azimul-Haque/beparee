@@ -238,7 +238,7 @@ class SaleController extends Controller
         //
     }
 
-    public function destroy($id)
+    public function deleteSale($id)
     {
         $sale = Sale::findOrFail($id);
 
