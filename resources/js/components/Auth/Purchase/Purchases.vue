@@ -29,9 +29,12 @@
                   <!-- <button type="button" class="btn btn-success btn-sm" @click="addModal" v-tooltip="'প্রি-অর্ডার করুন'">
                       <i class="fa fa-user-plus"></i>
                   </button> -->
-                  <button type="button" class="btn btn-primary btn-sm" @click="addModal" v-tooltip="'নতুন পণ্য ক্রয় করুন'">
+                  <!-- <button type="button" class="btn btn-primary btn-sm" @click="addModal" v-tooltip="'নতুন পণ্য ক্রয় করুন'">
                       <i class="fa fa-cart-plus"></i>
-                  </button>
+                  </button> -->
+                  <router-link :to="{ name: 'purchasePage', params: { code: code }}" class="btn btn-primary btn-sm" v-tooltip="'নতুন পণ্য ক্রয় করুন'">
+                    <i class="fa fa-cart-plus"></i>
+                  </router-link>
                 </div>
               </div>
               <!-- /.card-header -->

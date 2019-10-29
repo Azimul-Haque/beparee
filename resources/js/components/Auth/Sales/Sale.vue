@@ -33,6 +33,23 @@
                 <!-- /.card-header -->
 
                 <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label>বিক্রয়ের তারিখ</label>
+                        <vc-date-picker
+                          v-model="form.created_at"
+                          :input-props='{
+                            placeholder: "বিক্রয়ের তারিখ নির্ধারণ করুন",
+                            readonly: true
+                          }'
+                          :masks='{ input: "MMMM DD, YYYY" }'
+                          :class="{ 'form-control is-invalid': form.errors.has('created_at') }"
+                        />
+                        <has-error :form="form" field="created_at"></has-error>
+                      </div>
+                    </div>
+                  </div>
                   <div v-for="(range, index) in addformrange">
                     <div class="row" v-bind:id="range">
                       <div class="col-md-4">
@@ -213,6 +230,7 @@
             form: new Form({
               id: '',
               code: this.$route.params.code,
+              created_at: new Date(),
               product: [],
               customer: '',
               expire_date: [],
@@ -222,7 +240,7 @@
               total_cost: '',
               total_price: '',
               discount_unit: '%',
-              payment_method: '',
+              payment_method: '0',
               discount: '',
               payable: '',
               paid: '',

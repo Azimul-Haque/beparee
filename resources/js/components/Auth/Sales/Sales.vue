@@ -29,9 +29,12 @@
                   <!-- <button type="button" class="btn btn-success btn-sm" @click="addModal" v-tooltip="'প্রি-অর্ডার করুন'">
                       <i class="fa fa-user-plus"></i>
                   </button> -->
-                  <button type="button" class="btn btn-primary btn-sm" @click="addModal" v-tooltip="'বিক্রয় করুন'">
+                  <!-- <button type="button" class="btn btn-primary btn-sm" @click="addModal" v-tooltip="'বিক্রয় করুন'">
                       <i class="fa fa-balance-scale"></i>
-                  </button>
+                  </button> -->
+                  <router-link :to="{ name: 'salePage', params: { code: code }}" class="btn btn-primary btn-sm" v-tooltip="'বিক্রয় করুন'">
+                    <i class="fa fa-balance-scale"></i>
+                  </router-link>
                 </div>
               </div>
               <!-- /.card-header -->
@@ -121,6 +124,23 @@
               <form @submit.prevent="createSale()" @keydown="form.onKeydown($event)">
                 <!-- Modal body -->
                 <div class="modal-body">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label>বিক্রয়ের তারিখ</label>
+                        <vc-date-picker
+                          v-model="form.created_at"
+                          :input-props='{
+                            placeholder: "বিক্রয়ের তারিখ নির্ধারণ করুন",
+                            readonly: true
+                          }'
+                          :masks='{ input: "MMMM DD, YYYY" }'
+                          :class="{ 'form-control is-invalid': form.errors.has('created_at') }"
+                        />
+                        <has-error :form="form" field="created_at"></has-error>
+                      </div>
+                    </div>
+                  </div>
                   <div v-for="(range, index) in addformrange">
                     <div class="row" v-bind:id="range">
                       <div class="col-md-4">
@@ -306,6 +326,7 @@
             form: new Form({
               id: '',
               code: this.$route.params.code,
+              created_at: new Date(),
               product: [],
               customer: '',
               expire_date: [],

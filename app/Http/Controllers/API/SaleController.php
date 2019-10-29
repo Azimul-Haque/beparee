@@ -27,7 +27,7 @@ class SaleController extends Controller
     public function loadSales($code)
     {
         $store = Store::where('code', $code)->first();
-        $sales = Sale::where('store_id', $store->id)->orderBy('id', 'desc')->paginate(7);
+        $sales = Sale::where('store_id', $store->id)->orderBy('created_at', 'desc')->paginate(7);
         $sales->load('saleitems');
         $sales->load('saleitems')->load('saleitems.product');
         $sales->load('customer');
@@ -87,6 +87,7 @@ class SaleController extends Controller
         $sale->payable = number_format($request->payable, 2, '.', '');
         $sale->paid = number_format($request->paid, 2, '.', '');
         $sale->due = number_format($request->due, 2, '.', '');
+        $sale->created_at = date('Y-m-d H:i:s', strtotime($request->created_at));
 
         // save the customer, dues and others...
         if(isset($request->customer['id'])) {
