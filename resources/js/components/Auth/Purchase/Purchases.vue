@@ -32,7 +32,7 @@
                   <!-- <button type="button" class="btn btn-primary btn-sm" @click="addModal" v-tooltip="'নতুন পণ্য ক্রয় করুন'">
                       <i class="fa fa-cart-plus"></i>
                   </button> -->
-                  <router-link :to="{ name: 'purchasePage', params: { code: code }}" class="btn btn-primary btn-sm" v-tooltip="'নতুন পণ্য ক্রয় করুন'">
+                  <router-link :to="{ name: 'purchasePage', params: { code: this.$route.params.code }}" class="btn btn-primary btn-sm" v-tooltip="'নতুন পণ্য ক্রয় করুন'">
                     <i class="fa fa-cart-plus"></i>
                   </router-link>
                 </div>
