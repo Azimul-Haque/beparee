@@ -87,6 +87,7 @@ class SaleController extends Controller
         $sale->payable = number_format($request->payable, 2, '.', '');
         $sale->paid = number_format($request->paid, 2, '.', '');
         $sale->due = number_format($request->due, 2, '.', '');
+        
         $sale->created_at = date('Y-m-d H:i:s', strtotime($request->created_at));
 
         // save the customer, dues and others...

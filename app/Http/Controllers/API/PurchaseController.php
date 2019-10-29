@@ -75,6 +75,8 @@ class PurchaseController extends Controller
         $purchase->paid = number_format($request->paid, 2, '.', '');
         $purchase->due = number_format($request->due, 2, '.', '');
 
+        $purchase->created_at = date('Y-m-d H:i:s', strtotime($request->created_at));
+
         $purchase->save();
 
         // save the extra expense
