@@ -132,7 +132,12 @@ class ProductController extends Controller
         
         $product->store_id = $store->id;
         $product->name = $request->name;
-        $product->brand = $request->brand;
+        if($request->brand == '' || $request->brand == null) {
+            $product->brand = 'N/A';
+        } else {
+            $product->brand = $request->brand;
+        }
+        
         $product->unit = $request->unit;
         $product->sku = $request->sku;
         $product->stock_alert = $request->stock_alert;

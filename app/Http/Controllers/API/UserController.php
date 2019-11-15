@@ -56,7 +56,7 @@ class UserController extends Controller
         if($request->email != '') {
             $user->email = htmlspecialchars(preg_replace("/\s+/", " ", $request->email));
         } else {
-            $user->email = htmlspecialchars(preg_replace("/\s+/", " ", $request->mobile)) . '@beparee.com';
+            $user->email = htmlspecialchars(preg_replace("/\s+/", " ", $request->mobile)) . '@dokankhata.com';
         }
         $user->mobile = $request->mobile;
         $user->address = $request->address;
