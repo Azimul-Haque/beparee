@@ -76,7 +76,7 @@ class CustomerController extends Controller
         $customer->nid = $request->nid;
         
         $customerdue = Customerdue::where('customer_id', $customer->id)->where('remark', 'পূর্বের বকেয়া')->first();
-        if(!empty($customerdue)) {
+        if($request->ldue && !empty($customerdue)) {
             if($customerdue->amount != $request->ldue) {
                 // aage update, then change
                 $oldamount = 0;
