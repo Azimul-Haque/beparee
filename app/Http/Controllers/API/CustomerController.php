@@ -47,7 +47,7 @@ class CustomerController extends Controller
         }
         $customer->save();
 
-        if(($request->ldue != '') && ($request->ldue > 0) && ($request->ldue != null)) {
+        if(!empty($request->ldue)) {
             $customerdue = new Customerdue;
             $customerdue->customer_id = $customer->id;
             $customerdue->transaction_type = 0; // 0 is due, 1 is due_paid
@@ -76,7 +76,7 @@ class CustomerController extends Controller
         $customer->nid = $request->nid;
         
         $customerdue = Customerdue::where('customer_id', $customer->id)->where('remark', 'পূর্বের বকেয়া')->first();
-        if($request->ldue && !empty($customerdue)) {
+        if(!empty($request->ldue) && !empty($customerdue)) {
             if($customerdue->amount != $request->ldue) {
                 // aage update, then change
                 $oldamount = 0;
