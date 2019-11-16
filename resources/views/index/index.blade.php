@@ -305,7 +305,7 @@
 
    					<div class="heading-block title-center nobottomborder">
    						<h2>পছন্দ হয়েছে?</h2>
-   						<span>আপনাকে সহায়তা করতে দোকানখাতা টীম সর্বদা প্রস্তুত</span>
+   						<span>আপনাকে সহায়তা করতে দোকানখাতা টিম সর্বদা প্রস্তুত</span>
    					</div>
 
    					<div class="center">
