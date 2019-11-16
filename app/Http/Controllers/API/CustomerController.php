@@ -84,7 +84,7 @@ class CustomerController extends Controller
                     $oldamount = $customerdue->amount;
                 }
                 $customer->current_due = $customer->current_due - $oldamount + $request->ldue;
-                $customer->total_due = $customer->total_due - $customerdue->amount + $request->ldue;
+                $customer->total_due = $customer->total_due - $oldamount + $request->ldue;
 
                 $customerdue->amount = $request->ldue;
                 $customerdue->save();
