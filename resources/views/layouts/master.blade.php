@@ -118,7 +118,7 @@
   <footer class="main-footer">
     <!-- To the right -->
     <div class="float-right d-none d-sm-inline">
-      <small>যে কোন সমসসায় কল করুনঃ <b>01751******</b></small> Version: <b>2.0.0</b>
+      <small>যে কোন সমসসায় কল করুনঃ <b><a href="tel:+8801312540450">01312540450</a></b></small> Version: <b>2.0.0</b>
     </div>
     <!-- Default to the left -->
     <strong>Copyright &copy; {{ date('Y') }} <a href="{{ url('/') }}">দোকান খাতা</a>.</strong> All rights reserved.
