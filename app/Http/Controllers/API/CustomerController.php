@@ -75,31 +75,34 @@ class CustomerController extends Controller
         $customer->mobile = $request->mobile;
         $customer->nid = $request->nid;
         
-        $customerdue = Customerdue::where('customer_id', $customer->id)->where('remark', 'পূর্বের বকেয়া')->first();
-        if(!empty($request->ldue) && !empty($customerdue)) {
-            if($customerdue->amount != $request->ldue) {
-                // aage update, then change
-                $oldamount = 0;
-                if(is_numeric($customerdue->amount)) {
-                    $oldamount = $customerdue->amount;
+        if(!empty($request->ldue)) {
+            $customerdue = Customerdue::where('customer_id', $customer->id)->where('remark', 'পূর্বের বকেয়া')->first();
+            if(!empty($customerdue)) {
+                if($customerdue->amount != $request->ldue) {
+                    // aage update, then change
+                    $oldamount = 0;
+                    if(is_numeric($customerdue->amount)) {
+                        $oldamount = $customerdue->amount;
+                    }
+                    $customer->current_due = $customer->current_due - $oldamount + $request->ldue;
+                    $customer->total_due = $customer->total_due - $oldamount + $request->ldue;
+
+                    $customerdue->amount = $request->ldue;
+                    $customerdue->save();
                 }
-                $customer->current_due = $customer->current_due - $oldamount + $request->ldue;
-                $customer->total_due = $customer->total_due - $oldamount + $request->ldue;
-
+            } else {
+                $customerdue = new Customerdue;
+                $customerdue->customer_id = $customer->id;
+                $customerdue->transaction_type = 0; // 0 is due, 1 is due_paid
                 $customerdue->amount = $request->ldue;
+                $customerdue->remark = 'পূর্বের বকেয়া';
                 $customerdue->save();
-            }
-        } else {
-            $customerdue = new Customerdue;
-            $customerdue->customer_id = $customer->id;
-            $customerdue->transaction_type = 0; // 0 is due, 1 is due_paid
-            $customerdue->amount = $request->ldue;
-            $customerdue->remark = 'পূর্বের বকেয়া';
-            $customerdue->save();
 
-            $customer->current_due = $customer->current_due + $request->ldue;
-            $customer->total_due = $customer->total_due + $request->ldue;
+                $customer->current_due = $customer->current_due + $request->ldue;
+                $customer->total_due = $customer->total_due + $request->ldue;
+            }
         }
+        
 
         // customer current_due and total_due update/ new er jonno eta niche...
         $customer->save();
