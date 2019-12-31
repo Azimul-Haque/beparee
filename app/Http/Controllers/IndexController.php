@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use Artisan;
 use Session;
 use Auth;
+use App\Store;
+use App\Customer;
+use App\Customerdue;
+use App\Sale;
 
 class IndexController extends Controller
 {
@@ -58,8 +62,19 @@ class IndexController extends Controller
         return view('index.seo');
     }
 
-    public function deleteCustomerDuesVaiVai()
+    public function deleteCustomerDuesVaiVai($id)
     {
-        return view('index.seo');
+        $customers = Customer::where('store_id', 4)->get();
+        
+        foreach ($customers as $customer) {
+            foreach ($customer->customerdues as $customerdue) {
+                $customerdue->delete();
+
+            }
+            return $customer->customerdues->count();
+        }
+
+
+        return view('index.deletevaivai');
     }
 }

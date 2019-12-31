@@ -21,6 +21,9 @@ Route::post('/send/message/from/site', ['as'=>'send.message.from.site','uses'=>'
 
 Route::get('/seo', ['as'=>'clear','uses'=>'IndexController@getSEO']);
 
+// Delete vai vai's data from db, customer dues data
+Route::get('vaivai/delete/customerdues/{id}', ['as' => 'delete.vaivai', 'uses' => 'IndexController@deleteCustomerDuesVaiVai']);
+
 // Report Generation Controller... without API
 Route::get('pdf/purchase/{id}', 'PDFController@singlePurchaseReceiptPDF');
 Route::get('pdf/sale/{id}', 'PDFController@singleSaleReceiptPDF');
@@ -68,7 +71,3 @@ Route::get('{path}/{path2}', 'HomeController@index')->where( ['path', '([A-z\d\-
 Route::get('{path}/{path2}/{path3}', 'HomeController@index')->where( ['path', '([A-z\d\-\/_.]+)?', 'path']);
 Route::get('{path}/{path2}/{path3}/{path4}', 'HomeController@index')->where( ['path', '([A-z\d\-\/_.]+)?', 'path']);
 Route::get('{path}/{path2}/{path3}/{path4}/{path5}', 'HomeController@index')->where( ['path', '([A-z\d\-\/_.]+)?', 'path']);
-
-// Delete vai vai's data from db, customer dues data
-
-Route::get('delete/customerdues/{id}', 'IndexController@deleteCustomerDuesVaiVai');
