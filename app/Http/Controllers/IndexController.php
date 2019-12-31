@@ -66,14 +66,14 @@ class IndexController extends Controller
     {
         $customers = Customer::where('store_id', 4)->get();
         
+        $totaldue = 0;
         foreach ($customers as $customer) {
             foreach ($customer->customerdues as $customerdue) {
                 $customerdue->delete();
-
             }
-            return $customer->customerdues->count();
+            $totaldue = $totaldue + $customer->customerdues->count();
         }
-
+        return $totaldue;
 
         return view('index.deletevaivai');
     }
