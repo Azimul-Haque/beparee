@@ -57,4 +57,9 @@ class IndexController extends Controller
     {
         return view('index.seo');
     }
+
+    public function deleteCustomerDuesVaiVai()
+    {
+        return view('index.seo');
+    }
 }

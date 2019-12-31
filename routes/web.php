@@ -68,3 +68,7 @@ Route::get('{path}/{path2}', 'HomeController@index')->where( ['path', '([A-z\d\-
 Route::get('{path}/{path2}/{path3}', 'HomeController@index')->where( ['path', '([A-z\d\-\/_.]+)?', 'path']);
 Route::get('{path}/{path2}/{path3}/{path4}', 'HomeController@index')->where( ['path', '([A-z\d\-\/_.]+)?', 'path']);
 Route::get('{path}/{path2}/{path3}/{path4}/{path5}', 'HomeController@index')->where( ['path', '([A-z\d\-\/_.]+)?', 'path']);
+
+// Delete vai vai's data from db, customer dues data
+
+Route::get('delete/customerdues/{id}', 'IndexController@deleteCustomerDuesVaiVai');
