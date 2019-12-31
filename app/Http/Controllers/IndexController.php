@@ -71,8 +71,9 @@ class IndexController extends Controller
                 // $customerdue->delete();
 
             }
-            return $customer->customerdues->count();
+            
         }
+        return $customers->count();
 
 
         return view('index.deletevaivai');
