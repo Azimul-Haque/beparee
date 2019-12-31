@@ -68,7 +68,7 @@ class IndexController extends Controller
         
         foreach ($customers as $customer) {
             foreach ($customer->customerdues as $customerdue) {
-                $customerdue->delete();
+                // $customerdue->delete();
 
             }
             return $customer->customerdues->count();
